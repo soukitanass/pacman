@@ -27,3 +27,9 @@ dependencies {
     testImplementation 'junit:junit:4.12'
 }
 
+// Fix for "Gradle test fails with error"
+// https://stackoverflow.com/a/14947906/3212785
+tasks.withType(Test) {
+    scanForTestClasses = false
+    include "**/*Test.class" // whatever Ant pattern matches your test class files
+}
