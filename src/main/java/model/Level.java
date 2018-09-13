@@ -15,6 +15,9 @@ public class Level {
 	@SerializedName("height")
 	@Expose
 	private Integer height;
+	@SerializedName("super_pac_gum")
+	@Expose
+	private SuperPacGum superPacGum;
 	@SerializedName("pac-man")
 	@Expose
 	private PacMan pacMan;
@@ -47,6 +50,14 @@ public class Level {
 
 	public void setHeight(Integer height) {
 		this.height = height;
+	}
+
+	public SuperPacGum getSuperPacGum() {
+		return superPacGum;
+	}
+
+	public void setSuperPacGum(SuperPacGum superPacGum) {
+		this.superPacGum = superPacGum;
 	}
 
 	public PacMan getPacMan() {

@@ -10,9 +10,10 @@ import com.google.gson.Gson;
 
 public class GameModel implements IGameModel {
 	private final String LEVELS_PATH = "src\\main\\java\\resources\\Levels.json";
-
+	private static Level levels;
+	
 	public void update() {
-		this.loadLevels();
+
 	}
 
 	public void loadLevels() {
@@ -20,7 +21,7 @@ public class GameModel implements IGameModel {
 		BufferedReader br = null;
 		try {
 			br = new BufferedReader(new FileReader(LEVELS_PATH));
-			Level levels = gson.fromJson(br, Level.class);
+			levels = gson.fromJson(br, Level.class);
 			// TODO Faire quelque chose avec!
 		} catch (FileNotFoundException e) {
 			e.printStackTrace();
