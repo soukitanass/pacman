@@ -1,20 +1,15 @@
 package view;
 
-import java.awt.event.KeyEvent;
-import java.awt.event.KeyListener;
-import java.util.List;
-
-import javax.swing.JFrame;
-import javax.swing.JPanel;
-
-import model.Direction;
 import model.IGameModel;
-import model.Level;
+
+import java.awt.event.KeyListener;
 
 public class GameView implements IGameView {
 	private final String LEVEL_SPRITES = "level_sprite";
 	private final int LEVEL_TILE_SIZE = 8;
 	private final IGameModel model;
+    private KeyListener keyListener;
+    private GameCanvas canvas;
 
 	public GameView(IGameModel model) {
 		this.model = model;
@@ -47,33 +42,14 @@ public class GameView implements IGameView {
 
 	}
 
-	@SuppressWarnings("serial")
-	private static class GamePanel extends JPanel implements KeyListener {
-		public GamePanel() {
-			this.addKeyListener(this);
-			this.setFocusable(true);
-			this.requestFocusInWindow();
-		}
+    @Override
+    public void addKeyListener(KeyListener keyListener) {
+        this.keyListener = keyListener;
+    }
 
-		@Override
-		public void keyPressed(KeyEvent e) {
-			if (e.getKeyCode() == KeyEvent.VK_RIGHT) {
-				System.out.println(Direction.RIGHT);
-			} else if (e.getKeyCode() == KeyEvent.VK_LEFT) {
-				System.out.println(Direction.LEFT);
-			} else if (e.getKeyCode() == KeyEvent.VK_UP) {
-				System.out.println(Direction.UP);
-			} else if (e.getKeyCode() == KeyEvent.VK_DOWN) {
-				System.out.println(Direction.DOWN);
-			}
-		}
-
-		@Override
-		public void keyTyped(KeyEvent e) {
-		}
-
-		@Override
-		public void keyReleased(KeyEvent e) {
-		}
-	}
+    @Override
+    public void display() {
+        this.canvas = new GameCanvas();
+        canvas.addKeyListener(keyListener);
+    }
 }

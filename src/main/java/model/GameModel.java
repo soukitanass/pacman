@@ -1,23 +1,57 @@
 package model;
 
+import com.google.gson.Gson;
+
 import java.io.BufferedReader;
-import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
-import java.net.URL;
 import java.util.List;
-
-import com.google.gson.Gson;
 
 public class GameModel implements IGameModel {
 	private final String LEVELS_PATH = "src\\main\\res\\Levels.json";
 	private Levels levelsList;
-	
-	public void update() {
 
-	}
-	
+    private int currentGameFrame = 0;
+    private boolean isPaused;
+
+    @Override
+    public void update() {
+        if (isPaused()) {
+            return;
+        }
+        ++currentGameFrame;
+    }
+
+    @Override
+    public int getCurrentGameFrame() {
+        return currentGameFrame;
+    }
+
+    @Override
+    public void pause() {
+        isPaused = true;
+    }
+
+    @Override
+    public void unpause() {
+        isPaused = false;
+    }
+
+    @Override
+    public boolean isPaused() {
+        return isPaused;
+    }
+
+    @Override
+    public void togglePause() {
+        if (isPaused()) {
+            unpause();
+        } else {
+            pause();
+        }
+    }
+
 	public Level getCurrentLevel()
 	{
 		final int currentLevel = this.levelsList.getCurrentLevel();

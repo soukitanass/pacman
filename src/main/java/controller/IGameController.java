@@ -1,5 +1,7 @@
 package controller;
 
-public interface IGameController {
+import java.awt.event.KeyListener;
+
+public interface IGameController extends KeyListener {
     void update();
 }
