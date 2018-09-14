@@ -20,10 +20,9 @@ public class SoundPlayer implements ISoundPlayer {
 
     @Override
     public void toggleSound() {
-        if(isMuted()) {
+        if (isMuted()) {
             unmute();
-        }
-        else {
+        } else {
             mute();
         }
     }
