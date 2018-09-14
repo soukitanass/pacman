@@ -15,10 +15,24 @@ public class GameModel implements IGameModel {
   private boolean isPaused;
   private boolean isRunning;
 
-  @Override
-  public void update() {
-    if (isPaused()) {
-      return;
+    private void updatePacmanPosition() {
+    	Level level = this.getCurrentLevel();
+    	if (level == null) {
+    	    return;
+    	}
+    	PacMan pacman = level.getPacMan();
+    	int width = level.getWidth();
+    	int height = level.getHeight();
+    	pacman.updatePosition(width, height);
+    }
+
+    @Override
+    public void update() {
+        if (isPaused()) {
+            return;
+        }
+        ++currentGameFrame;
+        updatePacmanPosition();
     }
     ++currentGameFrame;
   }
