@@ -1,3 +1,7 @@
+plugins {
+    id "com.diffplug.gradle.spotless" version "3.14.0"
+}
+
 apply plugin: 'application'
 
 mainClassName = "Game"
@@ -19,6 +23,12 @@ dependencies {
     // https://mvnrepository.com/artifact/org.mockito/mockito-core
     testCompile group: 'org.mockito', name: 'mockito-core', version: '2.22.0'
 
+    // Google code style
+    spotless {
+        java {
+            eclipseFormatFile 'spotless_resources/eclipse-java-google-style.xml'
+        }
+    }
 }
 
 // Fix for "Gradle test fails with error"
