@@ -58,11 +58,7 @@ public class GameController implements IGameController {
 
     private void setPacmanDirection(Direction direction) {
         System.out.println(direction);
-    	Level level = this.model.getCurrentLevel();
-    	if (level == null) {
-    		return;
-    	}
-    	PacMan pacman = level.getPacMan();
+    	PacMan pacman = model.getPacman();
         pacman.setDirection(direction);
     }
 }

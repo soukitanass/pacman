@@ -1,6 +1,7 @@
 package view;
 
 import javax.swing.*;
+import model.IGameModel;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -22,10 +23,10 @@ public class GameCanvas extends JPanel {
 
     private JFrame window = new JFrame(TEXTFULL);
     
-    GameCanvas() {
+    GameCanvas(IGameModel model) {
         super();
-        pacmanView = new PacManView();
-
+        pacmanView = new PacManView(model);
+        
         // Setting the frame parameters
         window.setSize(FRAMEWIDTH, FRAMEHEIGHT);
         window.setResizable(false);

@@ -22,4 +22,6 @@ public interface IGameModel {
   boolean isRunning();
 
   void setRunning(boolean isRunning);
+
+  PacMan getPacman();
 }

@@ -90,17 +90,9 @@ public class GameModel implements IGameModel {
     return levels.get(currentLevel);
   }
 
-  public void loadLevels() {
-    Gson gson = new Gson();
-    BufferedReader br = null;
-    try {
-      br = new BufferedReader(new FileReader(LEVELS_PATH));
-      this.levelsList = gson.fromJson(br, Levels.class);
-      // TODO Faire quelque chose avec!
-    } catch (FileNotFoundException e) {
-      e.printStackTrace();
-    } finally {
-      if (br != null) {
+    public void loadLevels() {
+        Gson gson = new Gson();
+        BufferedReader br = null;
         try {
           br.close();
         } catch (IOException e) {
