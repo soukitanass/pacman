@@ -7,21 +7,19 @@ import java.io.IOException;
 import javax.imageio.ImageIO;
 
 public class Sprite {
+	private BufferedImage spriteSheet;
+	private int tileSize = 32;
 
-	private static BufferedImage spriteSheet;
-
-	private static final int TILE_SIZE = 32;
-
-	public Sprite(String file) {
+	public Sprite(String file, int tileSize) {
 		this.spriteSheet = this.loadSprite(file);
+		this.tileSize = tileSize;
 	}
 
 	public BufferedImage getSprite(int xGrid, int yGrid) {
-		return this.spriteSheet.getSubimage(xGrid * TILE_SIZE, yGrid * TILE_SIZE, TILE_SIZE, TILE_SIZE);
+		return this.spriteSheet.getSubimage(xGrid * this.tileSize, yGrid * this.tileSize, this.tileSize, this.tileSize);
 	}
 
 	private BufferedImage loadSprite(String file) {
-
 		BufferedImage sprite = null;
 
 		try {
@@ -29,7 +27,6 @@ public class Sprite {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-
 		return sprite;
 	}
 
