@@ -1,57 +1,69 @@
+package view;
 import java.awt.BorderLayout;
-import java.awt.Canvas;
-import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
-import javax.swing.JMenu;
-import javax.swing.JMenuBar;
-import javax.swing.JPanel;
 import javax.swing.JToolBar;
 
 public class GameCanvas extends JFrame {
 	
-	private JToolBar jb;
-	private final JButton full;
+	//Toolbar variables
+	private JToolBar toolbar;
+	private final JButton fullScr;
+	
+	//Constant variables
+	private final int FrameWidth = 800;
+	private final int FrameHeight = 800;
+	private String GameTitle = "Pac-Man";
+	private String TextFull = "FullScreen";
+	private String TextReduce = "Reduce";
 	
 	GameCanvas(){
 		super();
-	    setTitle("Pac-Man");
-	    setSize(800, 600);
+		//Setting the frame parameters
+	    setTitle(GameTitle);
+	    setSize(FrameWidth, FrameHeight);
 	    setResizable(false);
 	    setLocationRelativeTo(null);
 	    setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-	    jb = new JToolBar();
-	    full = new JButton("FullScreen");
-	    full.addActionListener(new ActionListener() {
+	    
+	    //Creating a toolbar for fullscreen option
+	    toolbar = new JToolBar();
+	    fullScr = new JButton(TextFull);
+	    
+	    //Adding a listener to the fullScreen button
+	    fullScr.addActionListener(new ActionListener() {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				if(getWidth() == 800) {
+				if(getWidth() == FrameWidth) {
+					
 					setExtendedState(JFrame.MAXIMIZED_BOTH);
-					full.setText("Reduce");
+					fullScr.setText(TextReduce);
+					
 				}else {
-					full.setText("FullScreen");
-					setSize(800, 600);
+					
+					fullScr.setText(TextFull);
+					setSize(FrameWidth, FrameHeight);
 					
 				}
 				
 			}
 	    	
 	    });
-	    jb.add(full);
-	    jb.setFloatable(false);
-	    add(jb,BorderLayout.NORTH);
+	    toolbar.add(fullScr);
+	    toolbar.setFloatable(false);
+	    add(toolbar,BorderLayout.NORTH);
 	    
+	    //Add the frame content
 	    addLabyrinth();
+	 
 	    setVisible(true);
     }   
 	
-	/*public static void main(String [ ] args) {
-		new GameCanvas();
-	}*/
+	
 	public void addLabyrinth() {
 		
 	}
