@@ -37,6 +37,7 @@ public class Game implements IGame {
         IGameModel model = new GameModel();
         IGameView view = new GameView(model);
         IGameController controller = new GameController(model, view);
+        view.addKeyListener(controller);
         final int gameUpdatesPerSecond = 30;
         final int frameUpdatesPerSecond = 30;
         final int gameUpdatePeriodMilliseconds = (int) (1000.0 / gameUpdatesPerSecond);
@@ -49,6 +50,7 @@ public class Game implements IGame {
                 frameUpdatePeriodMilliseconds,
                 System.currentTimeMillis()
         );
+        view.display();
         while (true) {
             game.update(System.currentTimeMillis());
         }
