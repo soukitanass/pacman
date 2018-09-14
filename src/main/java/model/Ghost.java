@@ -13,7 +13,7 @@ public class Ghost {
     private Integer speed;
     @SerializedName("start_pos")
     @Expose
-    private StartPos startPos;
+    private Position startPos;
 
     public Integer getId() {
         return id;
@@ -31,11 +31,11 @@ public class Ghost {
         this.speed = speed;
     }
 
-    public StartPos getStartPos() {
+    public Position getStartPos() {
         return startPos;
     }
 
-    public void setStartPos(StartPos startPos) {
+    public void setStartPos(Position startPos) {
         this.startPos = startPos;
     }
 
