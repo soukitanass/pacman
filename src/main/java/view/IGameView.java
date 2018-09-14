@@ -3,11 +3,11 @@ package view;
 import java.awt.event.KeyListener;
 
 public interface IGameView {
-    void update();
+  void update();
 
-    void addKeyListener(KeyListener keyListener);
+  void addKeyListener(KeyListener keyListener);
 
-    void display();
+  void display();
 
-    void close();
+  void close();
 }

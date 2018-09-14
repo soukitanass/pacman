@@ -1,11 +1,11 @@
 package model;
 
 public interface ISoundModel {
-    boolean isMuted();
+  boolean isMuted();
 
-    void unmute();
+  void unmute();
 
-    void mute();
+  void mute();
 
-    void toggleSound();
+  void toggleSound();
 }

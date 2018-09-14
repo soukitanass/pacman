@@ -1,7 +1,7 @@
 interface IGame {
-    void update(long currentTime);
+  void update(long currentTime);
 
-    boolean isRunning();
+  boolean isRunning();
 
-    void setRunning(boolean isRunning);
+  void setRunning(boolean isRunning);
 }
