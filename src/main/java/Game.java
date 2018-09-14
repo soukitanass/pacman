@@ -2,13 +2,15 @@ import controller.GameController;
 import controller.IGameController;
 import model.GameModel;
 import model.IGameModel;
+import sound.ISoundPlayer;
+import sound.SoundController;
+import sound.SoundPlayer;
 import view.GameView;
 import view.IGameView;
 
 public class Game implements IGame {
     private final long modelUpdatePeriod;
     private final long viewUpdatePeriod;
-    private final long initialTime;
     private long lastModelUpdateTime;
     private long lastViewUpdateTime;
     private IGameModel model;
@@ -28,16 +30,14 @@ public class Game implements IGame {
         this.controller = controller;
         this.modelUpdatePeriod = modelUpdatePeriod;
         this.viewUpdatePeriod = viewUpdatePeriod;
-        this.initialTime = initialTime;
-        this.lastModelUpdateTime = this.initialTime;
-        this.lastViewUpdateTime = this.initialTime;
+        this.lastModelUpdateTime = initialTime;
+        this.lastViewUpdateTime = initialTime;
     }
 
     public static void main(String[] args) {
         IGameModel model = new GameModel();
         IGameView view = new GameView(model);
         IGameController controller = new GameController(model, view);
-        view.addKeyListener(controller);
         final int gameUpdatesPerSecond = 30;
         final int frameUpdatesPerSecond = 30;
         final int gameUpdatePeriodMilliseconds = (int) (1000.0 / gameUpdatesPerSecond);
@@ -50,6 +50,10 @@ public class Game implements IGame {
                 frameUpdatePeriodMilliseconds,
                 System.currentTimeMillis()
         );
+        ISoundPlayer soundPlayer = new SoundPlayer();
+        SoundController soundController = new SoundController(soundPlayer);
+        view.addKeyListener(controller);
+        view.addKeyListener(soundController);
         view.display();
         while (true) {
             game.update(System.currentTimeMillis());

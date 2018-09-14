@@ -3,15 +3,16 @@ package view;
 import model.IGameModel;
 
 import java.awt.event.KeyListener;
+import java.util.ArrayList;
 
 public class GameView implements IGameView {
 	private final String LEVEL_SPRITES = "level_sprite";
 	private final int LEVEL_TILE_SIZE = 8;
 	private final IGameModel model;
-    private KeyListener keyListener;
     private GameCanvas canvas;
+    private ArrayList<KeyListener> keyListeners = new ArrayList<>();
 
-	public GameView(IGameModel model) {
+    public GameView(IGameModel model) {
 		this.model = model;
 	}
 
@@ -44,12 +45,14 @@ public class GameView implements IGameView {
 
     @Override
     public void addKeyListener(KeyListener keyListener) {
-        this.keyListener = keyListener;
+        keyListeners.add(keyListener);
     }
 
     @Override
     public void display() {
         this.canvas = new GameCanvas();
-        canvas.addKeyListener(keyListener);
+        for(KeyListener keyListener : keyListeners) {
+            canvas.addKeyListener(keyListener);
+        }
     }
 }

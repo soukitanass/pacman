@@ -56,6 +56,13 @@ public class GameCanvas extends JFrame {
 		setVisible(true);
 	}
 
+	@Override
+    public void addKeyListener(KeyListener keyListener) {
+        super.addKeyListener(keyListener);
+        toolbar.addKeyListener(keyListener);
+        fullScr.addKeyListener(keyListener);
+    }
+
 	public void addLabyrinth() {
 
 	}
