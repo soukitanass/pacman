@@ -6,22 +6,31 @@ import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 import java.net.URL;
+import java.util.List;
+
 import com.google.gson.Gson;
 
 public class GameModel implements IGameModel {
-	private final String LEVELS_PATH = "src\\main\\java\\resources\\Levels.json";
-	private static Level levels;
+	private final String LEVELS_PATH = "src\\main\\java\\res\\Levels.json";
+	private Levels levelsList;
 	
 	public void update() {
 
 	}
-
+	
+	public Level getCurrentLevel()
+	{
+		final int currentLevel = this.levelsList.getCurrentLevel();
+		final List<Level> levels = this.levelsList.getLevels();
+		return levels.get(currentLevel);
+	}
+	
 	public void loadLevels() {
 		Gson gson = new Gson();
 		BufferedReader br = null;
 		try {
 			br = new BufferedReader(new FileReader(LEVELS_PATH));
-			levels = gson.fromJson(br, Level.class);
+			this.levelsList = gson.fromJson(br, Levels.class);
 			// TODO Faire quelque chose avec!
 		} catch (FileNotFoundException e) {
 			e.printStackTrace();
