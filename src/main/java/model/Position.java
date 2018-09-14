@@ -3,7 +3,7 @@ package model;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
-public class StartPos {
+public class Position {
 
     @SerializedName("x")
     @Expose
@@ -12,6 +12,11 @@ public class StartPos {
     @Expose
     private Integer y;
 
+    public Position(int x, int y) {
+    	this.x = x;
+    	this.y = y;
+    }
+    
     public Integer getX() {
         return x;
     }

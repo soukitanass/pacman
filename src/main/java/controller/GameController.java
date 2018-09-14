@@ -2,6 +2,8 @@ package controller;
 
 import model.Direction;
 import model.IGameModel;
+import model.Level;
+import model.PacMan;
 import view.IGameView;
 
 import java.awt.event.KeyEvent;
@@ -33,16 +35,16 @@ public class GameController implements IGameController {
                 model.togglePause();
                 break;
             case KeyEvent.VK_RIGHT:
-                System.out.println(Direction.RIGHT);
+            	setPacmanDirection(Direction.RIGHT);
                 break;
             case KeyEvent.VK_LEFT:
-                System.out.println(Direction.LEFT);
+            	setPacmanDirection(Direction.LEFT);
                 break;
             case KeyEvent.VK_UP:
-                System.out.println(Direction.UP);
+            	setPacmanDirection(Direction.UP);
                 break;
             case KeyEvent.VK_DOWN:
-                System.out.println(Direction.DOWN);
+            	setPacmanDirection(Direction.DOWN);
                 break;
             default:
                 break;
@@ -52,5 +54,15 @@ public class GameController implements IGameController {
     @Override
     public void keyReleased(KeyEvent e) {
 
+    }
+
+    private void setPacmanDirection(Direction direction) {
+        System.out.println(direction);
+    	Level level = this.model.getCurrentLevel();
+    	if (level == null) {
+    		return;
+    	}
+    	PacMan pacman = level.getPacMan();
+        pacman.setDirection(direction);
     }
 }
