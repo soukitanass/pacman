@@ -11,7 +11,7 @@ import java.util.List;
 import com.google.gson.Gson;
 
 public class GameModel implements IGameModel {
-	private final String LEVELS_PATH = "src\\main\\java\\res\\Levels.json";
+	private final String LEVELS_PATH = "src\\main\\res\\Levels.json";
 	private Levels levelsList;
 	
 	public void update() {
