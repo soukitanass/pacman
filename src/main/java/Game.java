@@ -16,6 +16,7 @@ public class Game implements IGame {
     private IGameModel model;
     private IGameView view;
     private IGameController controller;
+    private boolean isRunning = false;
 
     public Game(
             IGameModel model,
@@ -55,9 +56,11 @@ public class Game implements IGame {
         view.addKeyListener(controller);
         view.addKeyListener(soundController);
         view.display();
-        while (true) {
+        game.setRunning(true);
+        while (game.isRunning()) {
             game.update(System.currentTimeMillis());
         }
+        view.close();
     }
 
     public void update(long currentTime) {
@@ -70,5 +73,15 @@ public class Game implements IGame {
             this.lastViewUpdateTime = currentTime;
             this.view.update();
         }
+    }
+
+    @Override
+    public boolean isRunning() {
+        return model.isRunning();
+    }
+
+    @Override
+    public void setRunning(boolean isRunning) {
+        model.setRunning(isRunning);
     }
 }

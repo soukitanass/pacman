@@ -8,4 +8,6 @@ public interface IGameView {
     void addKeyListener(KeyListener keyListener);
 
     void display();
+
+    void close();
 }

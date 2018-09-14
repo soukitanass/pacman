@@ -54,4 +54,13 @@ public class GameModelTest {
         model.togglePause();
         assertFalse(model.isPaused());
     }
+
+    @Test
+    public void isRunning() {
+        assertFalse(model.isRunning());
+        model.setRunning(true);
+        assertTrue(model.isRunning());
+        model.setRunning(false);
+        assertFalse(model.isRunning());
+    }
 }

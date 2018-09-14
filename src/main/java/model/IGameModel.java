@@ -16,4 +16,10 @@ public interface IGameModel {
     boolean isPaused();
 
     void togglePause();
+
+    void quit();
+
+    boolean isRunning();
+
+    void setRunning(boolean isRunning);
 }
