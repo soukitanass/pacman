@@ -1,25 +1,25 @@
 package model;
 
 public interface IGameModel {
-    void update();
+  void update();
 
-    void loadLevels();
+  void loadLevels();
 
-    Level getCurrentLevel();
+  Level getCurrentLevel();
 
-    int getCurrentGameFrame();
+  int getCurrentGameFrame();
 
-    void pause();
+  void pause();
 
-    void unpause();
+  void unpause();
 
-    boolean isPaused();
+  boolean isPaused();
 
-    void togglePause();
+  void togglePause();
 
-    void quit();
+  void quit();
 
-    boolean isRunning();
+  boolean isRunning();
 
-    void setRunning(boolean isRunning);
+  void setRunning(boolean isRunning);
 }
