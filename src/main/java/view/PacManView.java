@@ -1,9 +1,12 @@
 package view;
 
 import java.awt.Graphics;
+import java.awt.Image;
 import javax.swing.ImageIcon;
+import javax.swing.JFrame;
 import model.Direction;
 import model.IGameModel;
+import model.Level;
 import model.PacMan;
 
 public class PacManView {
@@ -13,29 +16,84 @@ public class PacManView {
   private ImageIcon leftPacman = new ImageIcon("src\\main\\res\\pacman_left.png");
   private ImageIcon upPacman = new ImageIcon("src\\main\\res\\pacman_up.png");
   private ImageIcon downPacman = new ImageIcon("src\\main\\res\\pacman_down.png");
-  
+
   public PacManView(IGameModel model) {
     this.model = model;
   }
 
-  public void paint(Graphics graphic) {
+  public void paint(Graphics graphic, JFrame window) {
     PacMan pacman = model.getPacman();
-    
-    if (pacman == null) {
+    Level level = model.getCurrentLevel();
+
+    if (pacman == null || level == null) {
       return;
     }
-    
-    int x = pacman.getPosition().getX();
-    int y = pacman.getPosition().getY();
-    
+
     if (pacman.getDirection() == Direction.RIGHT) {
-      graphic.drawImage(rightPacman.getImage(), x, y, null);
+      drawRightPacman(graphic, window, pacman, level);
     } else if (pacman.getDirection() == Direction.LEFT) {
-      graphic.drawImage(leftPacman.getImage(), x, y, null);
+      drawLeftPacman(graphic, window, pacman, level);
     } else if (pacman.getDirection() == Direction.UP) {
-      graphic.drawImage(upPacman.getImage(), x, y, null);
+      drawUpPacman(graphic, window, pacman, level);
     } else if (pacman.getDirection() == Direction.DOWN) {
-      graphic.drawImage(downPacman.getImage(), x, y, null);
+      drawDownPacman(graphic, window, pacman, level);
     }
   }
+  
+  private void drawRightPacman(Graphics graphic, JFrame window, PacMan pacman, Level level) {
+    Image image = rightPacman.getImage();
+    int xLevelPosition = pacman.getPosition().getX();
+    int yLevelPosition = pacman.getPosition().getY();
+    int levelWidth = level.getWidth();
+    int levelHeight = level.getHeight();
+    int windowWidth = window.getWidth() - image.getWidth(null);
+    int windowHeight = window.getHeight() - image.getHeight(null);
+    int x = (int) xLevelPosition * windowWidth / levelWidth;
+    int y = (int) yLevelPosition * windowHeight / levelHeight;
+
+    graphic.drawImage(image, x, y, null);
+  }
+  
+  private void drawLeftPacman(Graphics graphic, JFrame window, PacMan pacman, Level level) {
+    Image image = leftPacman.getImage();
+    int xLevelPosition = pacman.getPosition().getX();
+    int yLevelPosition = pacman.getPosition().getY();
+    int levelWidth = level.getWidth();
+    int levelHeight = level.getHeight();
+    int windowWidth = window.getWidth() - image.getWidth(null);
+    int windowHeight = window.getHeight() - image.getHeight(null);
+    int x = (int) xLevelPosition * windowWidth / levelWidth;
+    int y = (int) yLevelPosition * windowHeight / levelHeight;
+    
+    graphic.drawImage(image, x, y, null);
+  }
+  
+  private void drawUpPacman(Graphics graphic, JFrame window, PacMan pacman, Level level) {
+    Image image = upPacman.getImage();
+    int xLevelPosition = pacman.getPosition().getX();
+    int yLevelPosition = pacman.getPosition().getY();
+    int levelWidth = level.getWidth();
+    int levelHeight = level.getHeight();
+    int windowWidth = window.getWidth() - image.getWidth(null);
+    int windowHeight = window.getHeight() - image.getHeight(null);
+    int x = (int) xLevelPosition * windowWidth / levelWidth;
+    int y = (int) yLevelPosition * windowHeight / levelHeight;
+    
+    graphic.drawImage(image, x, y, null);
+  }
+  
+  private void drawDownPacman(Graphics graphic, JFrame window, PacMan pacman, Level level) {
+    Image image = downPacman.getImage();
+    int xLevelPosition = pacman.getPosition().getX();
+    int yLevelPosition = pacman.getPosition().getY();
+    int levelWidth = level.getWidth();
+    int levelHeight = level.getHeight();
+    int windowWidth = window.getWidth() - image.getWidth(null);
+    int windowHeight = window.getHeight() - image.getHeight(null);
+    int x = (int) xLevelPosition * windowWidth / levelWidth;
+    int y = (int) yLevelPosition * windowHeight / levelHeight;
+    
+    graphic.drawImage(image, x, y, null);
+  }
+  
 }

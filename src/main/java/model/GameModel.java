@@ -15,26 +15,24 @@ public class GameModel implements IGameModel {
   private boolean isPaused;
   private boolean isRunning;
 
-    private void updatePacmanPosition() {
-    	Level level = this.getCurrentLevel();
-    	if (level == null) {
-    	    return;
-    	}
-    	PacMan pacman = level.getPacMan();
-    	int width = level.getWidth();
-    	int height = level.getHeight();
-    	pacman.updatePosition(width, height);
+  private void updatePacmanPosition() {
+    Level level = this.getCurrentLevel();
+    if (level == null) {
+      return;
     }
+    PacMan pacman = level.getPacMan();
+    int width = level.getWidth();
+    int height = level.getHeight();
+    pacman.updatePosition(width, height);
+  }
 
-    @Override
-    public void update() {
-        if (isPaused()) {
-            return;
-        }
-        ++currentGameFrame;
-        updatePacmanPosition();
+  @Override
+  public void update() {
+    if (isPaused()) {
+      return;
     }
     ++currentGameFrame;
+    updatePacmanPosition();
   }
 
   @Override
@@ -90,9 +88,16 @@ public class GameModel implements IGameModel {
     return levels.get(currentLevel);
   }
 
-    public void loadLevels() {
-        Gson gson = new Gson();
-        BufferedReader br = null;
+  public void loadLevels() {
+    Gson gson = new Gson();
+    BufferedReader br = null;
+    try {
+      br = new BufferedReader(new FileReader(LEVELS_PATH));
+      this.levelsList = gson.fromJson(br, Levels.class);
+    } catch (FileNotFoundException e) {
+      e.printStackTrace();
+    } finally {
+      if (br != null) {
         try {
           br.close();
         } catch (IOException e) {
@@ -101,5 +106,15 @@ public class GameModel implements IGameModel {
         }
       }
     }
+  }
+
+  @Override
+  public PacMan getPacman() {
+    Level level = getCurrentLevel();
+    if (level == null) {
+      return null;
+    }
+    PacMan pacman = level.getPacMan();
+    return pacman;
   }
 }

@@ -9,58 +9,58 @@ import java.awt.event.KeyListener;
 
 public class GameCanvas extends JPanel {
 
-    // Toolbar variables
-    private JToolBar toolbar;
-    private JButton fullScr;
-    private PacManView pacmanView;
-    
-    // Constant variables
-    public static final int FRAMEWIDTH = 800;
-    public static final int FRAMEHEIGHT = 800;
-    public static final String GAMETITLE = "Pac-Man";
-    public static final String TEXTFULL = "FullScreen";
-    public static final String TEXTREDUCE = "Reduce";
+  // Toolbar variables
+  private JToolBar toolbar;
+  private JButton fullScr;
+  private PacManView pacmanView;
 
-    private JFrame window = new JFrame(TEXTFULL);
-    
-    GameCanvas(IGameModel model) {
-        super();
-        pacmanView = new PacManView(model);
-        
-        // Setting the frame parameters
-        window.setSize(FRAMEWIDTH, FRAMEHEIGHT);
-        window.setResizable(false);
-        window.setLocationRelativeTo(null);
-        window.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+  // Constant variables
+  public static final int FRAMEWIDTH = 800;
+  public static final int FRAMEHEIGHT = 800;
+  public static final String GAMETITLE = "Pac-Man";
+  public static final String TEXTFULL = "FullScreen";
+  public static final String TEXTREDUCE = "Reduce";
 
-        // Creating a toolbar for fullscreen option
-        toolbar = new JToolBar();
-        fullScr = new JButton(TEXTFULL);
+  private JFrame window = new JFrame(GAMETITLE);
 
-        // Adding a listener to the fullScreen button
-        fullScr.addActionListener(action -> new ActionListener() {
+  GameCanvas(IGameModel model) {
+    super();
+    pacmanView = new PacManView(model);
 
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                if (window.getWidth() == FRAMEWIDTH) {
-                    window.setExtendedState(JFrame.MAXIMIZED_BOTH);
-                    fullScr.setText(TEXTREDUCE);
-                } else {
-                    fullScr.setText(TEXTFULL);
-                    window.setSize(FRAMEWIDTH, FRAMEHEIGHT);
-                }
-            }
+    // Setting the frame parameters
+    window.setSize(FRAMEWIDTH, FRAMEHEIGHT);
+    window.setResizable(false);
+    window.setLocationRelativeTo(null);
+    window.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
-        });
-        toolbar.add(fullScr);
-        toolbar.setFloatable(false);
-        window.add(this);
-        window.add(toolbar, BorderLayout.NORTH);
+    // Creating a toolbar for fullscreen option
+    toolbar = new JToolBar();
+    fullScr = new JButton(TEXTFULL);
 
-        // Add the frame content
-        addLabyrinth();
-        window.setVisible(true);
-    }
+    // Adding a listener to the fullScreen button
+    fullScr.addActionListener(action -> new ActionListener() {
+
+      @Override
+      public void actionPerformed(ActionEvent e) {
+        if (window.getWidth() == FRAMEWIDTH) {
+          window.setExtendedState(JFrame.MAXIMIZED_BOTH);
+          fullScr.setText(TEXTREDUCE);
+        } else {
+          fullScr.setText(TEXTFULL);
+          window.setSize(FRAMEWIDTH, FRAMEHEIGHT);
+        }
+      }
+
+    });
+    toolbar.add(fullScr);
+    toolbar.setFloatable(false);
+    window.add(this);
+    window.add(toolbar, BorderLayout.NORTH);
+
+    // Add the frame content
+    addLabyrinth();
+    window.setVisible(true);
+  }
 
   @Override
   public void addKeyListener(KeyListener keyListener) {
@@ -69,12 +69,14 @@ public class GameCanvas extends JPanel {
     fullScr.addKeyListener(keyListener);
   }
 
-    public void paint(Graphics graphic)
-    {
-        super.paint(graphic);
-        pacmanView.paint(graphic);
-    }
+  public void paint(Graphics graphic) {
+    super.paint(graphic);
+    pacmanView.paint(graphic, window);
+  }
 
-    //Le chargement du labyrinthe
-    public void addLabyrinth() { }
+  public void addLabyrinth() {}
+
+  public void dispose() {
+    window.dispose();
+  }
 }
