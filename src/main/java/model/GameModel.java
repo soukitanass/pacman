@@ -82,6 +82,9 @@ public class GameModel implements IGameModel {
   }
 
   public Level getCurrentLevel() {
+    if (this.levelsList == null) {
+      return null;
+    }
     final int currentLevel = this.levelsList.getCurrentLevel();
     final List<Level> levels = this.levelsList.getLevels();
     return levels.get(currentLevel);
