@@ -18,17 +18,8 @@ public class GameView implements IGameView {
 
 	public GameView(IGameModel model) {
 		this.model = model;
-		this.display();
 	}
 
-	private void display() {
-		JFrame jFrame = new JFrame("PacMan");
-		jFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		jFrame.pack();
-		jFrame.add(new GamePanel());
-		jFrame.setLocationRelativeTo(null);
-		jFrame.setVisible(true);
-	}
 /*
 	public void displayLevel() {
 		final Level level = this.model.getCurrentLevel();
