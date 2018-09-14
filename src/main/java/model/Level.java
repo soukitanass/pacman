@@ -84,4 +84,8 @@ public class Level {
     this.map = map;
   }
 
+  public boolean isWall(Position position) {
+    // TODO
+    return true;
+  }
 }
