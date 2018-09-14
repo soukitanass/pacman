@@ -7,6 +7,7 @@ import view.IGameView;
 import java.awt.event.KeyEvent;
 
 import static java.awt.event.KeyEvent.VK_P;
+import static java.awt.event.KeyEvent.VK_Q;
 
 public class GameController implements IGameController {
     private final IGameModel model;
@@ -31,6 +32,9 @@ public class GameController implements IGameController {
         switch (e.getKeyCode()) {
             case VK_P:
                 model.togglePause();
+                break;
+            case VK_Q:
+                model.quit();
                 break;
             case KeyEvent.VK_RIGHT:
                 System.out.println(Direction.RIGHT);

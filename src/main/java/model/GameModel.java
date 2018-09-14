@@ -14,6 +14,7 @@ public class GameModel implements IGameModel {
 
     private int currentGameFrame = 0;
     private boolean isPaused;
+    private boolean isRunning;
 
     @Override
     public void update() {
@@ -50,6 +51,21 @@ public class GameModel implements IGameModel {
         } else {
             pause();
         }
+    }
+
+    @Override
+    public void quit() {
+        setRunning(false);
+    }
+
+    @Override
+    public boolean isRunning() {
+        return isRunning;
+    }
+
+    @Override
+    public void setRunning(boolean isRunning) {
+        this.isRunning = isRunning;
     }
 
     public Level getCurrentLevel() {

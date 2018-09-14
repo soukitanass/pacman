@@ -55,4 +55,9 @@ public class GameView implements IGameView {
             canvas.addKeyListener(keyListener);
         }
     }
+
+    @Override
+    public void close() {
+        canvas.dispose();
+    }
 }

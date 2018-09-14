@@ -4,6 +4,8 @@ import org.junit.Before;
 import org.junit.Test;
 import view.IGameView;
 
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
 import static org.mockito.Mockito.*;
 
 public class MainLoopTest {
@@ -109,5 +111,13 @@ public class MainLoopTest {
 
         game.update(7);
         verify(mockController, times(8)).update();
+    }
+
+    @Test
+    public void isRunning() {
+        game.setRunning(true);
+        verify(mockModel, times(1)).setRunning(true);
+        game.setRunning(false);
+        verify(mockModel, times(1)).setRunning(false);
     }
 }
