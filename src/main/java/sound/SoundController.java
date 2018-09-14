@@ -20,7 +20,7 @@ public class SoundController implements KeyListener {
 
     @Override
     public void keyPressed(KeyEvent e) {
-        if(VK_M == e.getKeyCode()) {
+        if (VK_M == e.getKeyCode()) {
             soundPlayer.toggleSound();
         }
     }
