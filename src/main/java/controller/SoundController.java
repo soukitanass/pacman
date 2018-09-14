@@ -1,15 +1,16 @@
-package sound;
+package controller;
+
+import model.ISoundModel;
 
 import java.awt.event.KeyEvent;
-import java.awt.event.KeyListener;
 
 import static java.awt.event.KeyEvent.VK_M;
 
-public class SoundController implements KeyListener {
+public class SoundController implements ISoundController {
 
-    private ISoundPlayer soundPlayer;
+    private ISoundModel soundPlayer;
 
-    public SoundController(ISoundPlayer soundPlayer) {
+    public SoundController(ISoundModel soundPlayer) {
         this.soundPlayer = soundPlayer;
     }
 

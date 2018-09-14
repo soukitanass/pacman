@@ -8,15 +8,15 @@ import java.awt.event.KeyListener;
 
 public class GameCanvas extends JFrame {
 
-    // Toolbar variables
-    private JToolBar toolbar;
-    private JButton fullScr;
     // Constant variables
     public static final int FRAMEWIDTH = 800;
     public static final int FRAMEHEIGHT = 800;
     public static final String GAMETITLE = "Pac-Man";
     public static final String TEXTFULL = "FullScreen";
     public static final String TEXTREDUCE = "Reduce";
+    // Toolbar variables
+    private JToolBar toolbar;
+    private JButton fullScr;
 
     GameCanvas() {
         super();
@@ -62,8 +62,7 @@ public class GameCanvas extends JFrame {
         fullScr.addKeyListener(keyListener);
     }
 
-    //Le chargement du labyrinthe
     public void addLabyrinth() {
-    	//Chargement du labyrinthe
+        // TODO: Load labyrinth
     }
 }
