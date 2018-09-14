@@ -1,6 +1,6 @@
-package sound;
+package model;
 
-public interface ISoundPlayer {
+public interface ISoundModel {
     boolean isMuted();
 
     void unmute();

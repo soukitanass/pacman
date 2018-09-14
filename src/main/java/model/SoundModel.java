@@ -1,6 +1,6 @@
-package sound;
+package model;
 
-public class SoundPlayer implements ISoundPlayer {
+public class SoundModel implements ISoundModel {
     private boolean isMuted;
 
     @Override
