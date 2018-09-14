@@ -16,4 +16,6 @@ public interface IGameModel {
     boolean isPaused();
 
     void togglePause();
+    
+    PacMan getPacman();
 }

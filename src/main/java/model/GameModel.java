@@ -73,6 +73,16 @@ public class GameModel implements IGameModel {
         return levels.get(currentLevel);
     }
 
+    @Override
+    public PacMan getPacman() {
+      Level level = getCurrentLevel();
+      if (level == null) {
+        return null;
+      }
+      PacMan pacman =  level.getPacMan();
+      return pacman;
+    }
+
     public void loadLevels() {
         Gson gson = new Gson();
         BufferedReader br = null;

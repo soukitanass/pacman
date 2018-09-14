@@ -52,7 +52,7 @@ public class GameView implements IGameView {
 
     @Override
     public void display() {
-        this.canvas = new GameCanvas();
+        this.canvas = new GameCanvas(model);
         this.canvas.repaint();
         for (KeyListener keyListener : keyListeners) {
             canvas.addKeyListener(keyListener);

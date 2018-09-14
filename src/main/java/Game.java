@@ -52,6 +52,7 @@ public class Game implements IGame {
         );
         ISoundPlayer soundPlayer = new SoundPlayer();
         SoundController soundController = new SoundController(soundPlayer);
+        model.loadLevels();
         view.addKeyListener(controller);
         view.addKeyListener(soundController);
         view.display();

@@ -16,6 +16,9 @@ public class PacMan {
     private Position position;
     private Direction direction;
     
+    public PacMan() {
+      this.direction = Direction.RIGHT;
+    }
     
     public Integer getId() {
         return id;
