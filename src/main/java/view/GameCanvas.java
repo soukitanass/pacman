@@ -6,11 +6,13 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyListener;
 
-public class GameCanvas extends JFrame {
+public class GameCanvas extends JPanel {
 
     // Toolbar variables
     private JToolBar toolbar;
     private JButton fullScr;
+    private PacManView pacmanView;
+    
     // Constant variables
     public static final int FRAMEWIDTH = 800;
     public static final int FRAMEHEIGHT = 800;
@@ -18,14 +20,17 @@ public class GameCanvas extends JFrame {
     public static final String TEXTFULL = "FullScreen";
     public static final String TEXTREDUCE = "Reduce";
 
+    private JFrame window = new JFrame(TEXTFULL);
+    
     GameCanvas() {
         super();
+        pacmanView = new PacManView();
+
         // Setting the frame parameters
-        setTitle(GAMETITLE);
-        setSize(FRAMEWIDTH, FRAMEHEIGHT);
-        setResizable(false);
-        setLocationRelativeTo(null);
-        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        window.setSize(FRAMEWIDTH, FRAMEHEIGHT);
+        window.setResizable(false);
+        window.setLocationRelativeTo(null);
+        window.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
         // Creating a toolbar for fullscreen option
         toolbar = new JToolBar();
@@ -36,23 +41,24 @@ public class GameCanvas extends JFrame {
 
             @Override
             public void actionPerformed(ActionEvent e) {
-                if (getWidth() == FRAMEWIDTH) {
-                    setExtendedState(JFrame.MAXIMIZED_BOTH);
+                if (window.getWidth() == FRAMEWIDTH) {
+                    window.setExtendedState(JFrame.MAXIMIZED_BOTH);
                     fullScr.setText(TEXTREDUCE);
                 } else {
                     fullScr.setText(TEXTFULL);
-                    setSize(FRAMEWIDTH, FRAMEHEIGHT);
+                    window.setSize(FRAMEWIDTH, FRAMEHEIGHT);
                 }
             }
 
         });
         toolbar.add(fullScr);
         toolbar.setFloatable(false);
-        add(toolbar, BorderLayout.NORTH);
+        window.add(this);
+        window.add(toolbar, BorderLayout.NORTH);
 
         // Add the frame content
         addLabyrinth();
-        setVisible(true);
+        window.setVisible(true);
     }
 
     @Override
@@ -60,6 +66,12 @@ public class GameCanvas extends JFrame {
         super.addKeyListener(keyListener);
         toolbar.addKeyListener(keyListener);
         fullScr.addKeyListener(keyListener);
+    }
+
+    public void paint(Graphics graphic)
+    {
+        super.paint(graphic);
+        pacmanView.paint(graphic);
     }
 
     //Le chargement du labyrinthe
