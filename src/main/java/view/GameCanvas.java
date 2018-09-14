@@ -12,36 +12,36 @@ public class GameCanvas extends JFrame {
     private JToolBar toolbar;
     private JButton fullScr;
     // Constant variables
-    private final int frameWidth = 800;
-    private final int frameHeight = 800;
-    private final String gameTitle = "Pac-Man";
-    private final String textFull = "FullScreen";
-    private final String textReduce = "Reduce";
+    public static final int FRAMEWIDTH = 800;
+    public static final int FRAMEHEIGHT = 800;
+    public static final String GAMETITLE = "Pac-Man";
+    public static final String TEXTFULL = "FullScreen";
+    public static final String TEXTREDUCE = "Reduce";
 
     GameCanvas() {
         super();
         // Setting the frame parameters
-        setTitle(gameTitle);
-        setSize(frameWidth, frameHeight);
+        setTitle(GAMETITLE);
+        setSize(FRAMEWIDTH, FRAMEHEIGHT);
         setResizable(false);
         setLocationRelativeTo(null);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
         // Creating a toolbar for fullscreen option
         toolbar = new JToolBar();
-        fullScr = new JButton(textFull);
+        fullScr = new JButton(TEXTFULL);
 
         // Adding a listener to the fullScreen button
-        fullScr.addActionListener(new ActionListener() {
+        fullScr.addActionListener(action -> new ActionListener() {
 
             @Override
             public void actionPerformed(ActionEvent e) {
-                if (getWidth() == frameWidth) {
+                if (getWidth() == FRAMEWIDTH) {
                     setExtendedState(JFrame.MAXIMIZED_BOTH);
-                    fullScr.setText(textReduce);
+                    fullScr.setText(TEXTREDUCE);
                 } else {
-                    fullScr.setText(textFull);
-                    setSize(frameWidth, frameHeight);
+                    fullScr.setText(TEXTFULL);
+                    setSize(FRAMEWIDTH, FRAMEHEIGHT);
                 }
             }
 
@@ -62,7 +62,8 @@ public class GameCanvas extends JFrame {
         fullScr.addKeyListener(keyListener);
     }
 
+    //Le chargement du labyrinthe
     public void addLabyrinth() {
-
+    	//Chargement du labyrinthe
     }
 }
