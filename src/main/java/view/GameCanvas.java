@@ -14,39 +14,39 @@ public class GameCanvas extends JFrame {
 	private final JButton fullScr;
 	
 	//Constant variables
-	private final int FrameWidth = 800;
-	private final int FrameHeight = 800;
-	private String GameTitle = "Pac-Man";
-	private String TextFull = "FullScreen";
-	private String TextReduce = "Reduce";
+	private final int frameWidth = 800;
+	private final int frameHeight = 800;
+	private final String gameTitle = "Pac-Man";
+	private final String textFull = "FullScreen";
+	private final String textReduce = "Reduce";
 	
 	GameCanvas(){
 		super();
 		//Setting the frame parameters
-	    setTitle(GameTitle);
-	    setSize(FrameWidth, FrameHeight);
+	    setTitle(gameTitle);
+	    setSize(frameWidth, frameHeight);
 	    setResizable(false);
 	    setLocationRelativeTo(null);
 	    setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 	    
 	    //Creating a toolbar for fullscreen option
 	    toolbar = new JToolBar();
-	    fullScr = new JButton(TextFull);
+	    fullScr = new JButton(textFull);
 	    
 	    //Adding a listener to the fullScreen button
 	    fullScr.addActionListener(new ActionListener() {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				if(getWidth() == FrameWidth) {
+				if(getWidth() == frameWidth) {
 					
 					setExtendedState(JFrame.MAXIMIZED_BOTH);
-					fullScr.setText(TextReduce);
+					fullScr.setText(textReduce);
 					
 				}else {
 					
-					fullScr.setText(TextFull);
-					setSize(FrameWidth, FrameHeight);
+					fullScr.setText(textFull);
+					setSize(frameWidth, frameHeight);
 					
 				}
 				
