@@ -31,7 +31,9 @@ public class GameView implements IGameView {
    * width, frameY + height, this); }
    */
   public void update() {
-
+    if (this.canvas != null) {
+      this.canvas.repaint();
+    }
   }
 
   @Override
@@ -41,7 +43,8 @@ public class GameView implements IGameView {
 
   @Override
   public void display() {
-    this.canvas = new GameCanvas();
+    this.canvas = new GameCanvas(model);
+    this.canvas.repaint();
     for (KeyListener keyListener : keyListeners) {
       canvas.addKeyListener(keyListener);
     }

@@ -41,6 +41,7 @@ public class Game implements IGame {
         frameUpdatePeriodMilliseconds, System.currentTimeMillis());
     ISoundModel soundPlayer = new SoundModel();
     SoundController soundController = new SoundController(soundPlayer);
+    model.loadLevels();
     view.addKeyListener(controller);
     view.addKeyListener(soundController);
     view.display();
