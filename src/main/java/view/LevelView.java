@@ -12,32 +12,24 @@ public class LevelView {
   private final String LEVEL_SPRITES = "level_sprite";
   private final int LEVEL_TILE_SIZE = 8;
   private IGameModel model;
+  private int pixelRatio;
 
-  public LevelView(IGameModel model) {
+  public LevelView(IGameModel model, int pixelRatio) {
     this.model = model;
+    this.pixelRatio = pixelRatio;
   }
 
   public void paint(Graphics graphic, JFrame window) {
-    int pixelRatio;
     final Level level = this.model.getCurrentLevel();
-    final float widthRatio = window.getWidth() / level.getWidth();
-    final float heightRatio = window.getHeight() / level.getHeight();
-
-    if (widthRatio < heightRatio) {
-      pixelRatio = (int) Math.floor(widthRatio);
-    } else {
-      pixelRatio = (int) Math.floor(heightRatio);
-    }
-
     final Sprite sprite = new Sprite(LEVEL_SPRITES, LEVEL_TILE_SIZE);
     List<List<Integer>> map = level.getMap();
+    
     for (int i = 0; i < map.size(); i++) {
       List<Integer> row = map.get(i);
       for (int j = 0; j < row.size(); j++) {
         BufferedImage image = sprite.getSprite(row.get(j), 0);
-        int iPos = i * pixelRatio;
-        int yPos = j * pixelRatio;
-
+        int iPos = j * pixelRatio;
+        int yPos = i * pixelRatio;
         drawLevel(image, graphic, iPos, yPos, pixelRatio, pixelRatio);
       }
     }

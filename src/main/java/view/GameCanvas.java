@@ -2,6 +2,7 @@ package view;
 
 import javax.swing.*;
 import model.IGameModel;
+import model.Level;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -26,8 +27,6 @@ public class GameCanvas extends JPanel {
 
   GameCanvas(IGameModel model) {
     super();
-    pacmanView = new PacManView(model);
-    levelView = new LevelView(model);
 
     // Setting the frame parameters
     window.setSize(FRAME_WIDTH, FRAME_HEIGHT);
@@ -58,9 +57,12 @@ public class GameCanvas extends JPanel {
     toolbar.setFloatable(false);
     window.add(this);
     window.add(toolbar, BorderLayout.NORTH);
-
+    
+    final int pixelRatio = getPixelRatio(model);
+    pacmanView = new PacManView(model);
+    levelView = new LevelView(model, pixelRatio);
+    
     // Add the frame content
-    addLabyrinth();
     window.setVisible(true);
   }
 
@@ -77,9 +79,21 @@ public class GameCanvas extends JPanel {
     pacmanView.paint(graphic, window);
   }
 
-  public void addLabyrinth() {}
-
   public void dispose() {
     window.dispose();
+  }
+
+  public int getPixelRatio(IGameModel model) {
+    int pixelRatio;
+    final Level level = model.getCurrentLevel();
+    final float widthRatio = window.getWidth() / level.getWidth();
+    final float heightRatio = window.getHeight() / level.getHeight();
+    
+    if (widthRatio < heightRatio) {
+      pixelRatio = (int) Math.floor(widthRatio);
+    } else {
+      pixelRatio = (int) Math.floor(heightRatio);
+    }
+    return pixelRatio;
   }
 }
