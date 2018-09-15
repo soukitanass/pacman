@@ -15,6 +15,7 @@ public class PacMan {
   @Expose
   private Position position;
   private Direction direction;
+  private IMoveValidator moveValidator;
 
   public PacMan() {
     this.direction = Direction.RIGHT;
@@ -52,42 +53,7 @@ public class PacMan {
     return this.direction;
   }
 
-  public void updatePosition(int levelWidth, int levelHeight) {
-    int x = position.getX();
-    int y = position.getY();
-
-    switch (this.direction) {
-      case RIGHT:
-        if (x < levelWidth) {
-          x++;
-        } else {
-          x = 0;
-        }
-        break;
-      case LEFT:
-        if (x > 0) {
-          x--;
-        } else {
-          x = levelWidth;
-        }
-        break;
-      case UP:
-        if (y > 0) {
-          y--;
-        } else {
-          y = levelHeight;
-        }
-        break;
-      case DOWN:
-        if (y < levelHeight) {
-          y++;
-        } else {
-          y = 0;
-        }
-        break;
-      default:
-        break;
-    }
-    this.setPosition(new Position(x, y));
+  public void setMoveValidator(IMoveValidator moveValidator) {
+    this.moveValidator = moveValidator;
   }
 }
