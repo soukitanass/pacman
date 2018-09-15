@@ -1,16 +1,13 @@
 package model;
 
-import org.junit.Before;
-import org.junit.Test;
+import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
+import org.junit.Test;
 
 public class MoveValidatorTest {
-
-  @Before
-  public void setUp() {}
 
   @Test
   public void movesToEmptySpacesAreValid() {
@@ -19,7 +16,7 @@ public class MoveValidatorTest {
     IMoveRequest moveLeft = new MoveRequest(new Position(1, 0), Direction.LEFT);
     IMoveRequest moveRight = new MoveRequest(new Position(0, 0), Direction.RIGHT);
     IMoveRequest moveUp = new MoveRequest(new Position(0, 1), Direction.UP);
-    IMoveRequest moveDown = new MoveRequest(new Position(0, 1), Direction.DOWN);
+    IMoveRequest moveDown = new MoveRequest(new Position(0, 0), Direction.DOWN);
     assertTrue(moveValidator.isValid(moveLeft));
     assertTrue(moveValidator.isValid(moveRight));
     assertTrue(moveValidator.isValid(moveUp));
@@ -33,7 +30,7 @@ public class MoveValidatorTest {
     IMoveRequest moveLeft = new MoveRequest(new Position(1, 0), Direction.LEFT);
     IMoveRequest moveRight = new MoveRequest(new Position(0, 0), Direction.RIGHT);
     IMoveRequest moveUp = new MoveRequest(new Position(0, 1), Direction.UP);
-    IMoveRequest moveDown = new MoveRequest(new Position(0, 1), Direction.DOWN);
+    IMoveRequest moveDown = new MoveRequest(new Position(0, 0), Direction.DOWN);
     assertFalse(moveValidator.isValid(moveLeft));
     assertFalse(moveValidator.isValid(moveRight));
     assertFalse(moveValidator.isValid(moveUp));
@@ -41,8 +38,8 @@ public class MoveValidatorTest {
   }
 
   @Test
-  public void movesIntoLevelEdgesAreValid() {
-    Level mockLevel = getMockLevelSingleWall();
+  public void movesIntoLevelEdgesAreValidIfEmptyOnTheOtherSide() {
+    Level mockLevel = getMockLevelSingleEmpty();
     IMoveValidator moveValidator = new MoveValidator(mockLevel);
     IMoveRequest moveLeft = new MoveRequest(new Position(0, 0), Direction.LEFT);
     IMoveRequest moveRight = new MoveRequest(new Position(0, 0), Direction.RIGHT);
@@ -54,6 +51,48 @@ public class MoveValidatorTest {
     assertTrue(moveValidator.isValid(moveDown));
   }
 
+  @Test
+  public void movesIntoLevelEdgesAreInvalidIfWallIsOnTheOtherSide() {
+    Level mockLevel = getMockLevelSingleWall();
+    IMoveValidator moveValidator = new MoveValidator(mockLevel);
+    IMoveRequest moveLeft = new MoveRequest(new Position(0, 0), Direction.LEFT);
+    IMoveRequest moveRight = new MoveRequest(new Position(0, 0), Direction.RIGHT);
+    IMoveRequest moveUp = new MoveRequest(new Position(0, 0), Direction.UP);
+    IMoveRequest moveDown = new MoveRequest(new Position(0, 0), Direction.DOWN);
+    assertFalse(moveValidator.isValid(moveLeft));
+    assertFalse(moveValidator.isValid(moveRight));
+    assertFalse(moveValidator.isValid(moveUp));
+    assertFalse(moveValidator.isValid(moveDown));
+  }
+
+  @Test
+  public void getTargetPositionNoWrapAround() {
+    Level mockLevel = getMockLevelTwoByTwoEmpty();
+    IMoveValidator moveValidator = new MoveValidator(mockLevel);
+    IMoveRequest moveLeft = new MoveRequest(new Position(1, 0), Direction.LEFT);
+    IMoveRequest moveRight = new MoveRequest(new Position(0, 0), Direction.RIGHT);
+    IMoveRequest moveUp = new MoveRequest(new Position(0, 1), Direction.UP);
+    IMoveRequest moveDown = new MoveRequest(new Position(0, 0), Direction.DOWN);
+    assertEquals(new Position(0, 0), moveValidator.getTargetPosition(moveLeft));
+    assertEquals(new Position(1, 0), moveValidator.getTargetPosition(moveRight));
+    assertEquals(new Position(0, 0), moveValidator.getTargetPosition(moveUp));
+    assertEquals(new Position(0, 1), moveValidator.getTargetPosition(moveDown));
+  }
+
+  @Test
+  public void getTargetPositionWithWrapAround() {
+    Level mockLevel = getMockLevelTwoByTwoEmpty();
+    IMoveValidator moveValidator = new MoveValidator(mockLevel);
+    IMoveRequest moveLeft = new MoveRequest(new Position(0, 0), Direction.LEFT);
+    IMoveRequest moveRight = new MoveRequest(new Position(1, 0), Direction.RIGHT);
+    IMoveRequest moveUp = new MoveRequest(new Position(0, 0), Direction.UP);
+    IMoveRequest moveDown = new MoveRequest(new Position(0, 1), Direction.DOWN);
+    assertEquals(new Position(1, 0), moveValidator.getTargetPosition(moveLeft));
+    assertEquals(new Position(0, 0), moveValidator.getTargetPosition(moveRight));
+    assertEquals(new Position(0, 1), moveValidator.getTargetPosition(moveUp));
+    assertEquals(new Position(0, 0), moveValidator.getTargetPosition(moveDown));
+  }
+
   // E = Empty
   // W = Wall
   //
@@ -62,10 +101,23 @@ public class MoveValidatorTest {
   // -----
   private Level getMockLevelSingleWall() {
     Level mockLevel = mock(Level.class);
-    when(mockLevel.isWall(new Position(-1, 0))).thenReturn(false);
-    when(mockLevel.isWall(new Position(1, 0))).thenReturn(false);
-    when(mockLevel.isWall(new Position(0, -1))).thenReturn(false);
-    when(mockLevel.isWall(new Position(1, 1))).thenReturn(false);
+    when(mockLevel.getWidth()).thenReturn(1);
+    when(mockLevel.getHeight()).thenReturn(1);
+    when(mockLevel.isWall(new Position(0, 0))).thenReturn(true);
+    return mockLevel;
+  }
+
+  // E = Empty
+  // W = Wall
+  //
+  // -----
+  // | E |
+  // -----
+  private Level getMockLevelSingleEmpty() {
+    Level mockLevel = mock(Level.class);
+    when(mockLevel.getWidth()).thenReturn(1);
+    when(mockLevel.getHeight()).thenReturn(1);
+    when(mockLevel.isWall(new Position(0, 0))).thenReturn(false);
     return mockLevel;
   }
 
@@ -77,6 +129,8 @@ public class MoveValidatorTest {
   // E | E
   private Level getMockLevelTwoByTwoEmpty() {
     Level mockLevel = mock(Level.class);
+    when(mockLevel.getWidth()).thenReturn(2);
+    when(mockLevel.getHeight()).thenReturn(2);
     when(mockLevel.isWall(new Position(0, 0))).thenReturn(false);
     when(mockLevel.isWall(new Position(1, 0))).thenReturn(false);
     when(mockLevel.isWall(new Position(0, 1))).thenReturn(false);
@@ -92,6 +146,8 @@ public class MoveValidatorTest {
   // W | W
   private Level getMockLevelTwoByTwoWalls() {
     Level mockLevel = mock(Level.class);
+    when(mockLevel.getWidth()).thenReturn(2);
+    when(mockLevel.getHeight()).thenReturn(2);
     when(mockLevel.isWall(new Position(0, 0))).thenReturn(true);
     when(mockLevel.isWall(new Position(1, 0))).thenReturn(true);
     when(mockLevel.isWall(new Position(0, 1))).thenReturn(true);
