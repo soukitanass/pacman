@@ -7,7 +7,7 @@ import java.io.IOException;
 
 public class Sprite {
   private BufferedImage spriteSheet;
-  private int tileSize = 32;
+  private int tileSize;
 
   public Sprite(String file, int tileSize) {
     this.spriteSheet = this.loadSprite(file);
@@ -15,15 +15,14 @@ public class Sprite {
   }
 
   public BufferedImage getSprite(int xGrid, int yGrid) {
-    return this.spriteSheet.getSubimage(xGrid * this.tileSize, yGrid * this.tileSize, this.tileSize,
-        this.tileSize);
+    return spriteSheet.getSubimage(xGrid * tileSize, yGrid * tileSize, tileSize, tileSize);
   }
 
   private BufferedImage loadSprite(String file) {
     BufferedImage sprite = null;
 
     try {
-      sprite = ImageIO.read(new File("res/" + file + ".png"));
+      sprite = ImageIO.read(new File("src/main/res/" + file + ".png"));
     } catch (IOException e) {
       e.printStackTrace();
     }

@@ -13,13 +13,13 @@ public class GameCanvas extends JPanel {
   private JToolBar toolbar;
   private JButton fullScreen;
   private PacManView pacmanView;
-  private LevelView	levelView;
-  
+  private LevelView levelView;
+
   // Constant variables
   public static final int FRAME_WIDTH = 800;
   public static final int FRAME_HEIGHT = 800;
   public static final String GAME_TITLE = "Pac-Man";
-  public static final String TEXT_FULL = "fullScreeneen";
+  public static final String TEXT_FULL = "Full Screen";
   public static final String TEXT_REDUCE = "Reduce";
 
   private JFrame window = new JFrame(GAME_TITLE);
@@ -28,7 +28,7 @@ public class GameCanvas extends JPanel {
     super();
     pacmanView = new PacManView(model);
     levelView = new LevelView(model);
-    
+
     // Setting the frame parameters
     window.setSize(FRAME_WIDTH, FRAME_HEIGHT);
     window.setResizable(false);
