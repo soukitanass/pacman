@@ -10,7 +10,12 @@ public class PacMan {
   private Integer id;
   @SerializedName("start_pos")
   @Expose
-  private StartPos startPos;
+  private Position position;
+  private Direction direction;
+
+  public PacMan() {
+    this.direction = Direction.LEFT;
+  }
 
   public Integer getId() {
     return id;
@@ -20,12 +25,58 @@ public class PacMan {
     this.id = id;
   }
 
-  public StartPos getStartPos() {
-    return startPos;
+  public void setPosition(Position position) {
+    this.position = position;
   }
 
-  public void setStartPos(StartPos startPos) {
-    this.startPos = startPos;
+  public Position getPosition() {
+    return this.position;
   }
 
+  public void setDirection(Direction direction) {
+    this.direction = direction;
+  }
+
+  public Direction getDirection() {
+    return this.direction;
+  }
+
+  public void updatePosition(int levelWidth, int levelHeight) {
+    int x = position.getX();
+    int y = position.getY();
+
+    switch (this.direction) {
+      case RIGHT:
+        if (x < levelWidth) {
+          x++;
+        } else {
+          x = 0;
+        }
+        break;
+      case LEFT:
+        if (x > 0) {
+          x--;
+        } else {
+          x = levelWidth;
+        }
+        break;
+      case UP:
+        if (y > 0) {
+          y--;
+        } else {
+          y = levelHeight;
+        }
+        break;
+      case DOWN:
+        if (y < levelHeight) {
+          y++;
+        } else {
+          y = 0;
+        }
+        break;
+      default:
+        break;
+    }
+    this.setPosition(new Position(x, y));
+  }
 }
