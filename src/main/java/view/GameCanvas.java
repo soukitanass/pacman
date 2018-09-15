@@ -9,44 +9,44 @@ import java.awt.event.KeyListener;
 public class GameCanvas extends JFrame {
 
   // Constant variables
-  public static final int FRAMEWIDTH = 800;
-  public static final int FRAMEHEIGHT = 800;
-  public static final String GAMETITLE = "Pac-Man";
-  public static final String TEXTFULL = "FullScreen";
-  public static final String TEXTREDUCE = "Reduce";
+  public static final int FRAME_WIDTH = 800;
+  public static final int FRAME_HEIGHT = 800;
+  public static final String GAME_TITLE = "Pac-Man";
+  public static final String TEXT_FULL = "fullScreeneen";
+  public static final String TEXT_REDUCE = "Reduce";
   // Toolbar variables
   private JToolBar toolbar;
-  private JButton fullScr;
+  private JButton fullScreen;
 
   GameCanvas() {
     super();
     // Setting the frame parameters
-    setTitle(GAMETITLE);
-    setSize(FRAMEWIDTH, FRAMEHEIGHT);
+    setTitle(GAME_TITLE);
+    setSize(FRAME_WIDTH, FRAME_HEIGHT);
     setResizable(false);
     setLocationRelativeTo(null);
     setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
-    // Creating a toolbar for fullscreen option
+    // Creating a toolbar for fullScreeneen option
     toolbar = new JToolBar();
-    fullScr = new JButton(TEXTFULL);
+    fullScreen = new JButton(TEXT_FULL);
 
-    // Adding a listener to the fullScreen button
-    fullScr.addActionListener(action -> new ActionListener() {
+    // Adding a listener to the fullScreeneen button
+    fullScreen.addActionListener(action -> new ActionListener() {
 
       @Override
       public void actionPerformed(ActionEvent e) {
-        if (getWidth() == FRAMEWIDTH) {
+        if (getWidth() == FRAME_WIDTH) {
           setExtendedState(JFrame.MAXIMIZED_BOTH);
-          fullScr.setText(TEXTREDUCE);
+          fullScreen.setText(TEXT_REDUCE);
         } else {
-          fullScr.setText(TEXTFULL);
-          setSize(FRAMEWIDTH, FRAMEHEIGHT);
+          fullScreen.setText(TEXT_FULL);
+          setSize(FRAME_WIDTH, FRAME_HEIGHT);
         }
       }
 
     });
-    toolbar.add(fullScr);
+    toolbar.add(fullScreen);
     toolbar.setFloatable(false);
     add(toolbar, BorderLayout.NORTH);
 
@@ -59,7 +59,7 @@ public class GameCanvas extends JFrame {
   public void addKeyListener(KeyListener keyListener) {
     super.addKeyListener(keyListener);
     toolbar.addKeyListener(keyListener);
-    fullScr.addKeyListener(keyListener);
+    fullScreen.addKeyListener(keyListener);
   }
 
   public void addLabyrinth() {

@@ -9,7 +9,6 @@
             },
             "pac-man": {
                 "id": 1,
-                "speed": 10,
                 "start_pos": {
                     "x": 0,
                     "y": 0
