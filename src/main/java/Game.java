@@ -16,7 +16,6 @@ public class Game implements IGame {
   private IGameModel model;
   private IGameView view;
   private IGameController controller;
-  private boolean isRunning = false;
 
   public Game(IGameModel model, IGameView view, IGameController controller, long modelUpdatePeriod,
       long viewUpdatePeriod, long initialTime) {
@@ -30,6 +29,7 @@ public class Game implements IGame {
   }
 
   public static void main(String[] args) {
+    final String LEVELS_PATH = "src\\main\\res\\Levels.json";
     IGameModel model = new GameModel();
     IGameView view = new GameView(model);
     IGameController controller = new GameController(model, view);
@@ -41,7 +41,7 @@ public class Game implements IGame {
         frameUpdatePeriodMilliseconds, System.currentTimeMillis());
     ISoundModel soundPlayer = new SoundModel();
     SoundController soundController = new SoundController(soundPlayer);
-    model.loadLevels();
+    model.loadLevels(LEVELS_PATH);
     view.addKeyListener(controller);
     view.addKeyListener(soundController);
     view.display();

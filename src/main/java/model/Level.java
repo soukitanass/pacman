@@ -5,6 +5,7 @@ import com.google.gson.annotations.SerializedName;
 import java.util.List;
 
 public class Level {
+  private static final int WALL_CODE = 0;
 
   @SerializedName("id")
   @Expose
@@ -81,11 +82,14 @@ public class Level {
   }
 
   public void setMap(List<List<Integer>> map) {
+    setWidth(map.get(0).size());
+    setHeight(map.size());
     this.map = map;
   }
 
   public boolean isWall(Position position) {
-    // TODO
-    return true;
+    final int row = position.getY();
+    final int column = position.getX();
+    return WALL_CODE != map.get(row).get(column);
   }
 }
