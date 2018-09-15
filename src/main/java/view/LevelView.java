@@ -23,7 +23,7 @@ public class LevelView {
     final Level level = this.model.getCurrentLevel();
     final Sprite sprite = new Sprite(LEVEL_SPRITES, LEVEL_TILE_SIZE);
     List<List<Integer>> map = level.getMap();
-    
+
     for (int i = 0; i < map.size(); i++) {
       List<Integer> row = map.get(i);
       for (int j = 0; j < row.size(); j++) {

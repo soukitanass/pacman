@@ -17,7 +17,7 @@ public class GameCanvas extends JPanel {
   private LevelView levelView;
 
   // Constant variables
-  public static final int FRAME_WIDTH = 800;
+  public static final int FRAME_WIDTH = 600;
   public static final int FRAME_HEIGHT = 800;
   public static final String GAME_TITLE = "Pac-Man";
   public static final String TEXT_FULL = "Full Screen";
@@ -34,11 +34,11 @@ public class GameCanvas extends JPanel {
     window.setLocationRelativeTo(null);
     window.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
-    // Creating a toolbar for fullScreeneen option
+    // Creating a toolbar for fullscreen option
     toolbar = new JToolBar();
     fullScreen = new JButton(TEXT_FULL);
 
-    // Adding a listener to the fullScreeneen button
+    // Adding a listener to the fullscreen button
     fullScreen.addActionListener(action -> new ActionListener() {
 
       @Override
@@ -57,11 +57,11 @@ public class GameCanvas extends JPanel {
     toolbar.setFloatable(false);
     window.add(this);
     window.add(toolbar, BorderLayout.NORTH);
-    
-    final int pixelRatio = getPixelRatio(model);
+
+    final int pixelRatio = getPixelTileSize(model);
     pacmanView = new PacManView(model);
     levelView = new LevelView(model, pixelRatio);
-    
+
     // Add the frame content
     window.setVisible(true);
   }
@@ -83,17 +83,10 @@ public class GameCanvas extends JPanel {
     window.dispose();
   }
 
-  public int getPixelRatio(IGameModel model) {
-    int pixelRatio;
+  public int getPixelTileSize(IGameModel model) {
     final Level level = model.getCurrentLevel();
     final float widthRatio = window.getWidth() / level.getWidth();
     final float heightRatio = window.getHeight() / level.getHeight();
-    
-    if (widthRatio < heightRatio) {
-      pixelRatio = (int) Math.floor(widthRatio);
-    } else {
-      pixelRatio = (int) Math.floor(heightRatio);
-    }
-    return pixelRatio;
+    return (int) Math.min(Math.floor(widthRatio), Math.floor(heightRatio));
   }
 }
