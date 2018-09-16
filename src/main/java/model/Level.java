@@ -5,7 +5,11 @@ import com.google.gson.annotations.SerializedName;
 import java.util.List;
 
 public class Level {
-  private static final int WALL_CODE = 0;
+  private static final int EMPTY_CODE = 0;
+  private static final int PACGUM_CODE = 42;
+  private static final int SUPER_PACGUM_CODE = 43;
+  private static final int WALL_CODE_MIN = 1;
+  private static final int WALL_CODE_MAX = 41;
 
   @SerializedName("id")
   @Expose
@@ -18,7 +22,7 @@ public class Level {
   private Integer height;
   @SerializedName("super_pac_gum")
   @Expose
-  private SuperPacGum superPacGum;
+  private SuperPacgum superPacgum;
   @SerializedName("pac-man")
   @Expose
   private PacMan pacMan;
@@ -53,12 +57,12 @@ public class Level {
     this.height = height;
   }
 
-  public SuperPacGum getSuperPacGum() {
-    return superPacGum;
+  public SuperPacgum getSuperPacgum() {
+    return superPacgum;
   }
 
-  public void setSuperPacGum(SuperPacGum superPacGum) {
-    this.superPacGum = superPacGum;
+  public void setSuperPacgum(SuperPacgum superPacgum) {
+    this.superPacgum = superPacgum;
   }
 
   public PacMan getPacMan() {
@@ -88,8 +92,27 @@ public class Level {
   }
 
   public boolean isWall(Position position) {
+    final int code = getCodeAtPosition(position);
+    return WALL_CODE_MIN <= code && code <= WALL_CODE_MAX;
+  }
+
+  public boolean isPacgum(Position position) {
+    return PACGUM_CODE == getCodeAtPosition(position);
+  }
+
+  private int getCodeAtPosition(Position position) {
     final int row = position.getY();
     final int column = position.getX();
-    return WALL_CODE != map.get(row).get(column);
+    return map.get(row).get(column);
+  }
+
+  public void setEmptyMapTile(Position position) {
+    final int row = position.getY();
+    final int column = position.getX();
+    map.get(row).set(column, EMPTY_CODE);
+  }
+
+  public boolean isSuperPacgum(Position position) {
+    return SUPER_PACGUM_CODE == getCodeAtPosition(position);
   }
 }
