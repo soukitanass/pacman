@@ -5,21 +5,23 @@ import java.awt.Image;
 import java.awt.image.BufferedImage;
 import java.util.List;
 import javax.swing.JFrame;
+import javax.swing.JPanel;
 import model.IGameModel;
 import model.Level;
 
-public class LevelView {
+public class LevelPanel extends JPanel {
   private final String LEVEL_SPRITES = "level_sprite";
   private final int LEVEL_TILE_SIZE = 8;
   private IGameModel model;
   private int pixelTileSize;
 
-  public LevelView(IGameModel model, int pixelTileSize) {
+  public LevelPanel(IGameModel model, int pixelTileSize) {
     this.model = model;
     this.pixelTileSize = pixelTileSize;
   }
 
-  public void paint(Graphics graphic, JFrame window) {
+  public void paint(Graphics graphic) {
+    super.paint(graphic);
     final Level level = this.model.getCurrentLevel();
     final Sprite sprite = new Sprite(LEVEL_SPRITES, LEVEL_TILE_SIZE);
     List<List<Integer>> map = level.getMap();
