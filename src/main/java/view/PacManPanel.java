@@ -2,22 +2,25 @@ package view;
 
 import java.awt.Color;
 import java.awt.Graphics;
+import javax.swing.JPanel;
 import model.Direction;
 import model.IGameModel;
 import model.Level;
 import model.PacMan;
 
-public class PacManView {
+public class PacManPanel extends JPanel {
 
   private IGameModel model;
   private int pixelTileSize;
 
-  public PacManView(IGameModel model, int pixelTileSize) {
+  public PacManPanel(IGameModel model, int pixelTileSize) {
     this.model = model;
     this.pixelTileSize = pixelTileSize;
   }
 
+  @Override
   public void paint(Graphics graphic) {
+    super.paint(graphic);
     PacMan pacman = model.getPacman();
     Level level = model.getCurrentLevel();
 
