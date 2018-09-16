@@ -33,7 +33,7 @@ public class Game implements IGame {
     IGameModel model = new GameModel();
     IGameView view = new GameView(model);
     IGameController controller = new GameController(model, view);
-    final int gameUpdatesPerSecond = 30;
+    final int gameUpdatesPerSecond = 7;
     final int frameUpdatesPerSecond = 30;
     final int gameUpdatePeriodMilliseconds = (int) (1000.0 / gameUpdatesPerSecond);
     final int frameUpdatePeriodMilliseconds = (int) (1000.0 / frameUpdatesPerSecond);
