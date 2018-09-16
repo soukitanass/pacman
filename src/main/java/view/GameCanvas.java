@@ -22,16 +22,16 @@ public class GameCanvas extends JPanel {
   private final String GAME_TITLE = "Pac-Man";
   private final String TEXT_FULL = "Full Screen";
   private final String TEXT_REDUCE = "Reduce";
-
+  
+  private final FlowLayout layoutCenter = new FlowLayout(FlowLayout.CENTER);
+  private JLayeredPane layeredPane = new JLayeredPane();
   private JFrame window = new JFrame(GAME_TITLE);
-  private JLayeredPane layeredPane;
 
   GameCanvas(IGameModel model) {
     super();
 
-    final int pixelRatio = getPixelTileSize(model);
-
     // Setting the frame parameters
+    
     window.setSize(FRAME_WIDTH, FRAME_HEIGHT);
     window.setResizable(false);
     window.setLocationRelativeTo(null);
@@ -54,28 +54,29 @@ public class GameCanvas extends JPanel {
           window.setSize(FRAME_WIDTH, FRAME_HEIGHT);
         }
       }
-
     });
     toolbar.add(fullScreen);
     toolbar.setFloatable(false);
-    window.add(this);
     window.add(toolbar, BorderLayout.NORTH);
 
-    layeredPane = new JLayeredPane();
+    final int pixelRatio = getPixelTileSize(model);
 
     // Add level panel
     levelPanel = new LevelPanel(model, pixelRatio);
     levelPanel.setBounds(0, 0, FRAME_WIDTH, FRAME_HEIGHT);
+    levelPanel.setLayout(layoutCenter);
     layeredPane.add(levelPanel, JLayeredPane.DEFAULT_LAYER);
 
     // Add Pac-Man panel
     pacmanPanel = new PacManPanel(model, pixelRatio);
     pacmanPanel.setBounds(0, 0, FRAME_WIDTH, FRAME_HEIGHT);
+    pacmanPanel.setLayout(layoutCenter);
     pacmanPanel.setOpaque(false);
     layeredPane.add(pacmanPanel, Integer.valueOf(1));
-
+    
     // Add the frame content
     window.add(layeredPane);
+    window.add(this);
     window.setVisible(true);
   }
 
