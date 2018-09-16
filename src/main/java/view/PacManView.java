@@ -2,7 +2,6 @@ package view;
 
 import java.awt.Color;
 import java.awt.Graphics;
-import javax.swing.JFrame;
 import model.Direction;
 import model.IGameModel;
 import model.Level;
@@ -18,7 +17,7 @@ public class PacManView {
     this.pixelTileSize = pixelTileSize;
   }
 
-  public void paint(Graphics graphic, JFrame window) {
+  public void paint(Graphics graphic) {
     PacMan pacman = model.getPacman();
     Level level = model.getCurrentLevel();
 

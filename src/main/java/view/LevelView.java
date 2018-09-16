@@ -4,13 +4,12 @@ import java.awt.Graphics;
 import java.awt.Image;
 import java.awt.image.BufferedImage;
 import java.util.List;
-import javax.swing.JFrame;
 import model.IGameModel;
 import model.Level;
 
 public class LevelView {
-  private final String LEVEL_SPRITES = "level_sprite";
-  private final int LEVEL_TILE_SIZE = 8;
+  private static final String LEVEL_SPRITES = "level_sprite";
+  private static final int LEVEL_TILE_SIZE = 8;
   private IGameModel model;
   private int pixelTileSize;
 
@@ -19,7 +18,7 @@ public class LevelView {
     this.pixelTileSize = pixelTileSize;
   }
 
-  public void paint(Graphics graphic, JFrame window) {
+  public void paint(Graphics graphic) {
     final Level level = this.model.getCurrentLevel();
     final Sprite sprite = new Sprite(LEVEL_SPRITES, LEVEL_TILE_SIZE);
     List<List<Integer>> map = level.getMap();

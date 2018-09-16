@@ -34,7 +34,7 @@ public class GameModel implements IGameModel {
     pacman = new PacMan();
     pacman.setPosition(new Position(5, 5));
     IMoveValidator moveValidator = new MoveValidator(level);
-    movementManager = new MovementManager(level, pacman, moveValidator);
+    movementManager = new MovementManager(pacman, moveValidator);
     isGameStarted = true;
   }
 
@@ -95,21 +95,20 @@ public class GameModel implements IGameModel {
     return levels.get(currentLevel);
   }
 
-  public void loadLevels(String LEVELS_PATH) {
+  public void loadLevels(String levelsPath) {
     Gson gson = new Gson();
     BufferedReader br = null;
     try {
-      br = new BufferedReader(new FileReader(LEVELS_PATH));
+      br = new BufferedReader(new FileReader(levelsPath));
       this.levelsList = gson.fromJson(br, Levels.class);
     } catch (FileNotFoundException e) {
-      e.printStackTrace();
+      System.out.println(e.toString());
     } finally {
       if (br != null) {
         try {
           br.close();
         } catch (IOException e) {
-          // TODO Auto-generated catch block
-          e.printStackTrace();
+          System.out.println(e.toString());
         }
       }
     }

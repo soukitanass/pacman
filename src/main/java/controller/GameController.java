@@ -2,8 +2,6 @@ package controller;
 
 import model.Direction;
 import model.IGameModel;
-import model.Level;
-import model.PacMan;
 import view.IGameView;
 import java.awt.event.KeyEvent;
 import static java.awt.event.KeyEvent.VK_P;
@@ -19,9 +17,7 @@ public class GameController implements IGameController {
   }
 
   @Override
-  public void update() {
-
-  }
+  public void update() {}
 
   @Override
   public void keyTyped(KeyEvent e) {}
@@ -53,7 +49,5 @@ public class GameController implements IGameController {
   }
 
   @Override
-  public void keyReleased(KeyEvent e) {
-
-  }
+  public void keyReleased(KeyEvent e) {}
 }

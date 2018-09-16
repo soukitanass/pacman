@@ -10,8 +10,7 @@ public class MoveValidator implements IMoveValidator {
   @Override
   public boolean isValid(IMoveRequest moveRequest) {
     final Position targetPosition = getTargetPosition(moveRequest);
-    final boolean isEmptySpace = !level.isWall(targetPosition);
-    return isEmptySpace;
+    return !level.isWall(targetPosition);
   }
 
   public Position getTargetPosition(IMoveRequest moveRequest) {
