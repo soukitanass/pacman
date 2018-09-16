@@ -13,15 +13,23 @@ public class MovementManager {
   }
 
   public void updatePacmanPosition() {
-    MoveRequest moveRequest = new MoveRequest(pacman.getPosition(), pacman.getDirection());
-    if (!moveValidator.isValid(moveRequest)) {
+    MoveRequest desiredMoveRequest =
+        new MoveRequest(pacman.getPosition(), pacman.getDesiredDirection());
+    if (moveValidator.isValid(desiredMoveRequest)) {
+      pacman.setPosition(moveValidator.getTargetPosition(desiredMoveRequest));
       return;
     }
-    final Position targetPosition = moveValidator.getTargetPosition(moveRequest);
-    pacman.setPosition(targetPosition);
+
+    MoveRequest fallbackMoveRequest = new MoveRequest(pacman.getPosition(), pacman.getDirection());
+    if (moveValidator.isValid(fallbackMoveRequest)) {
+      pacman.setPosition(moveValidator.getTargetPosition(fallbackMoveRequest));
+    }
+
+    setPacmanDirection(pacman.getDesiredDirection());
   }
 
   public void setPacmanDirection(Direction direction) {
+    pacman.setDesiredDirection(direction);
     MoveRequest moveRequest = new MoveRequest(pacman.getPosition(), direction);
     if (!moveValidator.isValid(moveRequest)) {
       return;
