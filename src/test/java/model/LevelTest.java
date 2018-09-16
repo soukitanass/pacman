@@ -39,4 +39,21 @@ public class LevelTest {
     assertTrue(level.isWall(new Position(0, 2)));
     assertTrue(level.isWall(new Position(1, 2)));
   }
+
+  @Test
+  public void isWallFromCode1To41() {
+    List<List<Integer>> map = Arrays.asList(Arrays.asList(-1, 0, 1, 2, 39, 40, 41, 42, 43, 44));
+    level.setMap(map);
+
+    assertFalse(level.isWall(new Position(0, 0)));
+    assertFalse(level.isWall(new Position(1, 0)));
+    assertTrue(level.isWall(new Position(2, 0)));
+    assertTrue(level.isWall(new Position(3, 0)));
+    assertTrue(level.isWall(new Position(4, 0)));
+    assertTrue(level.isWall(new Position(5, 0)));
+    assertTrue(level.isWall(new Position(6, 0)));
+    assertFalse(level.isWall(new Position(7, 0)));
+    assertFalse(level.isWall(new Position(8, 0)));
+    assertFalse(level.isWall(new Position(9, 0)));
+  }
 }

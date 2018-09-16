@@ -16,6 +16,8 @@ public class GameModel implements IGameModel {
   private MovementManager movementManager;
   private boolean isGameStarted = false;
   private PacMan pacman;
+  private PacmanPacgumCollisionManager pacmanPacgumCollisionManager;
+  private PacmanSuperPacgumCollisionManager pacmanSuperPacgumCollisionManager;
 
   @Override
   public void update() {
@@ -26,6 +28,8 @@ public class GameModel implements IGameModel {
     if (!isGameStarted()) {
       startGame();
     }
+    pacmanPacgumCollisionManager.update();
+    pacmanSuperPacgumCollisionManager.update();
     movementManager.updatePacmanPosition();
   }
 
@@ -35,6 +39,8 @@ public class GameModel implements IGameModel {
     pacman.setPosition(new Position(5, 5));
     IMoveValidator moveValidator = new MoveValidator(level);
     movementManager = new MovementManager(pacman, moveValidator);
+    pacmanPacgumCollisionManager = new PacmanPacgumCollisionManager(pacman, level);
+    pacmanSuperPacgumCollisionManager = new PacmanSuperPacgumCollisionManager(pacman, level);
     isGameStarted = true;
   }
 
