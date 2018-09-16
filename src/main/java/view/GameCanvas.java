@@ -59,7 +59,7 @@ public class GameCanvas extends JPanel {
     window.add(toolbar, BorderLayout.NORTH);
 
     final int pixelRatio = getPixelTileSize(model);
-    pacmanView = new PacManView(model);
+    pacmanView = new PacManView(model, pixelRatio);
     levelView = new LevelView(model, pixelRatio);
 
     // Add the frame content

@@ -11,11 +11,11 @@ import model.PacMan;
 public class PacManView {
 
   private IGameModel model;
+  private int pixelTileSize;
 
-  public static final int PACMAN_RADIUS = 50;
-
-  public PacManView(IGameModel model) {
+  public PacManView(IGameModel model, int pixelTileSize) {
     this.model = model;
+    this.pixelTileSize = pixelTileSize;
   }
 
   public void paint(Graphics graphic, JFrame window) {
@@ -26,14 +26,8 @@ public class PacManView {
       return;
     }
 
-    int xLevelPosition = pacman.getPosition().getX();
-    int yLevelPosition = pacman.getPosition().getY();
-    int levelWidth = level.getWidth();
-    int levelHeight = level.getHeight();
-    int windowWidth = window.getWidth() - PACMAN_RADIUS;
-    int windowHeight = window.getHeight() - PACMAN_RADIUS;
-    int x = (int) xLevelPosition * windowWidth / levelWidth;
-    int y = (int) yLevelPosition * windowHeight / levelHeight;
+    final int x = pacman.getPosition().getX() * pixelTileSize;
+    final int y = pacman.getPosition().getY() * pixelTileSize;
 
     if (pacman.getDirection() == Direction.RIGHT) {
       drawPacmanRight(graphic, x, y);
@@ -47,30 +41,30 @@ public class PacManView {
   }
 
   private void drawPacmanRight(Graphics graphic, int x, int y) {
-    int angle = (int) (20 * (Math.sin((x + y) * 2 * Math.PI / PACMAN_RADIUS) + 1));
+    int angle = (int) (20 * (Math.sin((x + y) * 2 * Math.PI / pixelTileSize) + 1));
     graphic.setColor(Color.YELLOW);
-    graphic.fillArc(x, y, PACMAN_RADIUS, PACMAN_RADIUS, angle / 2, 360 - angle);
+    graphic.fillArc(x, y, pixelTileSize, pixelTileSize, angle / 2, 360 - angle);
   }
 
   private void drawPacmanLeft(Graphics graphic, int x, int y) {
     int direction = 180;
-    int angle = (int) (20 * (Math.sin((x + y) * 2 * Math.PI / PACMAN_RADIUS) + 1));
+    int angle = (int) (20 * (Math.sin((x + y) * 2 * Math.PI / pixelTileSize) + 1));
     graphic.setColor(Color.YELLOW);
-    graphic.fillArc(x, y, PACMAN_RADIUS, PACMAN_RADIUS, angle / 2 + direction, 360 - angle);
+    graphic.fillArc(x, y, pixelTileSize, pixelTileSize, angle / 2 + direction, 360 - angle);
   }
 
   private void drawPacmanUp(Graphics graphic, int x, int y) {
     int direction = 90;
-    int angle = (int) (20 * (Math.sin((x + y) * 2 * Math.PI / PACMAN_RADIUS) + 1));
+    int angle = (int) (20 * (Math.sin((x + y) * 2 * Math.PI / pixelTileSize) + 1));
     graphic.setColor(Color.YELLOW);
-    graphic.fillArc(x, y, PACMAN_RADIUS, PACMAN_RADIUS, angle / 2 + direction, 360 - angle);
+    graphic.fillArc(x, y, pixelTileSize, pixelTileSize, angle / 2 + direction, 360 - angle);
   }
 
   private void drawPacmanDown(Graphics graphic, int x, int y) {
     int direction = 270;
-    int angle = (int) (20 * (Math.sin((x + y) * 2 * Math.PI / PACMAN_RADIUS) + 1));
+    int angle = (int) (20 * (Math.sin((x + y) * 2 * Math.PI / pixelTileSize) + 1));
     graphic.setColor(Color.YELLOW);
-    graphic.fillArc(x, y, PACMAN_RADIUS, PACMAN_RADIUS, angle / 2 + direction, 360 - angle);
+    graphic.fillArc(x, y, pixelTileSize, pixelTileSize, angle / 2 + direction, 360 - angle);
   }
 
 }
