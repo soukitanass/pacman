@@ -196,6 +196,6 @@ public class MovementManagerTest {
   private void initializeMovementManager(List<List<Integer>> map) {
     level.setMap(map);
     IMoveValidator moveValidator = new MoveValidator(level);
-    movementManager = new MovementManager(level, pacman, moveValidator);
+    movementManager = new MovementManager(pacman, moveValidator);
   }
 }

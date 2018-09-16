@@ -17,14 +17,15 @@ public class GameCanvas extends JPanel {
   private LevelPanel levelPanel;
 
   // Constant variables
-  private final int FRAME_WIDTH = 600;
-  private final int FRAME_HEIGHT = 800;
-  private final String GAME_TITLE = "Pac-Man";
-  private final String TEXT_FULL = "Full Screen";
-  private final String TEXT_REDUCE = "Reduce";
+  private static final int FRAME_WIDTH = 600;
+  private static final int FRAME_HEIGHT = 800;
+  private static final String GAME_TITLE = "Pac-Man";
+  private static final String TEXT_FULL = "Full Screen";
+  private static final String TEXT_REDUCE = "Reduce";
 
   private final FlowLayout layoutCenter = new FlowLayout(FlowLayout.CENTER);
   private JLayeredPane layeredPane = new JLayeredPane();
+
   private JFrame window = new JFrame(GAME_TITLE);
 
   GameCanvas(IGameModel model) {
@@ -87,6 +88,7 @@ public class GameCanvas extends JPanel {
     fullScreen.addKeyListener(keyListener);
   }
 
+  @Override
   public void paint(Graphics graphic) {
     super.paint(graphic);
     levelPanel.paint(graphic);

@@ -18,6 +18,7 @@ public class PacManPanel extends JPanel {
     this.pixelTileSize = pixelTileSize;
   }
 
+  @Override
   public void paint(Graphics graphic) {
     super.paint(graphic);
     PacMan pacman = model.getPacman();

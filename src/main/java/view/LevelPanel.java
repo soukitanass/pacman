@@ -9,8 +9,8 @@ import model.IGameModel;
 import model.Level;
 
 public class LevelPanel extends JPanel {
-  private final String LEVEL_SPRITES = "level_sprite";
-  private final int LEVEL_TILE_SIZE = 8;
+  private static final String LEVEL_SPRITES = "level_sprite";
+  private static final int LEVEL_TILE_SIZE = 8;
   private IGameModel model;
   private int pixelTileSize;
 
@@ -19,6 +19,7 @@ public class LevelPanel extends JPanel {
     this.pixelTileSize = pixelTileSize;
   }
 
+  @Override
   public void paint(Graphics graphic) {
     super.paint(graphic);
     final Level level = this.model.getCurrentLevel();

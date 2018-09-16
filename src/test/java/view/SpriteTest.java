@@ -6,12 +6,11 @@ import org.junit.Test;
 
 
 public class SpriteTest {
-  private final String LEVEL_SPRITES = "level_sprite";
-  private final int LEVEL_TILE_SIZE = 8;
-
   @Test
   public void getSprite() {
     // Assign
+    final String LEVEL_SPRITES = "level_sprite";
+    final int LEVEL_TILE_SIZE = 8;
     final Sprite sprite = new Sprite(LEVEL_SPRITES, LEVEL_TILE_SIZE);
 
     // Act
