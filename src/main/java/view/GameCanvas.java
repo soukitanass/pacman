@@ -17,11 +17,11 @@ public class GameCanvas extends JPanel {
   private LevelView levelView;
 
   // Constant variables
-  public static final int FRAME_WIDTH = 600;
-  public static final int FRAME_HEIGHT = 800;
-  public static final String GAME_TITLE = "Pac-Man";
-  public static final String TEXT_FULL = "Full Screen";
-  public static final String TEXT_REDUCE = "Reduce";
+  private static final int FRAME_WIDTH = 600;
+  private static final int FRAME_HEIGHT = 800;
+  private static final String GAME_TITLE = "Pac-Man";
+  private static final String TEXT_FULL = "Full Screen";
+  private static final String TEXT_REDUCE = "Reduce";
 
   private JFrame window = new JFrame(GAME_TITLE);
 
@@ -73,10 +73,11 @@ public class GameCanvas extends JPanel {
     fullScreen.addKeyListener(keyListener);
   }
 
+  @Override
   public void paint(Graphics graphic) {
     super.paint(graphic);
-    levelView.paint(graphic, window);
-    pacmanView.paint(graphic, window);
+    levelView.paint(graphic);
+    pacmanView.paint(graphic);
   }
 
   public void dispose() {

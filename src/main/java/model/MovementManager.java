@@ -2,12 +2,10 @@ package model;
 
 public class MovementManager {
 
-  private final Level level;
   private final PacMan pacman;
   private IMoveValidator moveValidator;
 
-  public MovementManager(Level level, PacMan pacman, IMoveValidator moveValidator) {
-    this.level = level;
+  public MovementManager(PacMan pacman, IMoveValidator moveValidator) {
     this.pacman = pacman;
     this.moveValidator = moveValidator;
   }

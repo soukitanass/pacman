@@ -11,7 +11,7 @@ public class Levels {
   private Integer currentLevel;
   @SerializedName("levels")
   @Expose
-  private List<Level> levels = null;
+  private List<Level> levelsList = null;
 
   public Integer getCurrentLevel() {
     return currentLevel;
@@ -22,11 +22,11 @@ public class Levels {
   }
 
   public List<Level> getLevels() {
-    return levels;
+    return levelsList;
   }
 
   public void setLevels(List<Level> levels) {
-    this.levels = levels;
+    this.levelsList = levels;
   }
 
 }

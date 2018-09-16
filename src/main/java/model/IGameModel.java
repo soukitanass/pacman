@@ -3,7 +3,7 @@ package model;
 public interface IGameModel {
   void update();
 
-  void loadLevels(String LEVELS_PATH);
+  void loadLevels(String levelsPath);
 
   Level getCurrentLevel();
 
