@@ -3,7 +3,7 @@ package model;
 public interface IGameModel {
   void update();
 
-  void loadLevels();
+  void loadLevels(String LEVELS_PATH);
 
   Level getCurrentLevel();
 
@@ -24,4 +24,6 @@ public interface IGameModel {
   void setRunning(boolean isRunning);
 
   PacMan getPacman();
+
+  void setPacmanDirection(Direction direction);
 }

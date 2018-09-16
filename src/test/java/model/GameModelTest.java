@@ -1,15 +1,20 @@
 package model;
 
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
+
 import org.junit.Before;
 import org.junit.Test;
-import static org.junit.Assert.*;
 
 public class GameModelTest {
   private IGameModel model;
 
   @Before
   public void setUp() {
+    final String LEVELS_PATH = "src\\test\\res\\Levels.json";
     model = new GameModel();
+    model.loadLevels(LEVELS_PATH);
   }
 
   @Test

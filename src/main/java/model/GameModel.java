@@ -8,23 +8,14 @@ import java.io.IOException;
 import java.util.List;
 
 public class GameModel implements IGameModel {
-  private final String LEVELS_PATH = "src\\main\\res\\Levels.json";
   private Levels levelsList;
 
   private int currentGameFrame = 0;
   private boolean isPaused;
   private boolean isRunning;
-
-  private void updatePacmanPosition() {
-    Level level = this.getCurrentLevel();
-    if (level == null) {
-      return;
-    }
-    PacMan pacman = level.getPacMan();
-    int width = level.getWidth();
-    int height = level.getHeight();
-    pacman.updatePosition(width, height);
-  }
+  private MovementManager movementManager;
+  private boolean isGameStarted = false;
+  private PacMan pacman;
 
   @Override
   public void update() {
@@ -32,7 +23,23 @@ public class GameModel implements IGameModel {
       return;
     }
     ++currentGameFrame;
-    updatePacmanPosition();
+    if(!isGameStarted()) {
+      startGame();
+    }
+    movementManager.updatePacmanPosition();
+  }
+
+  private void startGame() {
+    Level level = getCurrentLevel();
+    pacman = new PacMan();
+    pacman.setPosition(new Position(5, 5));
+    IMoveValidator moveValidator = new MoveValidator(level);
+    movementManager = new MovementManager(level, pacman, moveValidator);
+    isGameStarted = true;
+  }
+
+  private boolean isGameStarted() {
+    return isGameStarted;
   }
 
   @Override
@@ -88,7 +95,7 @@ public class GameModel implements IGameModel {
     return levels.get(currentLevel);
   }
 
-  public void loadLevels() {
+  public void loadLevels(String LEVELS_PATH) {
     Gson gson = new Gson();
     BufferedReader br = null;
     try {
@@ -110,11 +117,11 @@ public class GameModel implements IGameModel {
 
   @Override
   public PacMan getPacman() {
-    Level level = getCurrentLevel();
-    if (level == null) {
-      return null;
-    }
-    PacMan pacman = level.getPacMan();
     return pacman;
+  }
+
+  @Override
+  public void setPacmanDirection(Direction direction) {
+    movementManager.setPacmanDirection(direction);
   }
 }

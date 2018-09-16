@@ -36,16 +36,16 @@ public class GameController implements IGameController {
         model.quit();
         break;
       case KeyEvent.VK_RIGHT:
-        setPacmanDirection(Direction.RIGHT);
+        model.setPacmanDirection(Direction.RIGHT);
         break;
       case KeyEvent.VK_LEFT:
-        setPacmanDirection(Direction.LEFT);
+        model.setPacmanDirection(Direction.LEFT);
         break;
       case KeyEvent.VK_UP:
-        setPacmanDirection(Direction.UP);
+        model.setPacmanDirection(Direction.UP);
         break;
       case KeyEvent.VK_DOWN:
-        setPacmanDirection(Direction.DOWN);
+        model.setPacmanDirection(Direction.DOWN);
         break;
       default:
         break;
@@ -55,11 +55,5 @@ public class GameController implements IGameController {
   @Override
   public void keyReleased(KeyEvent e) {
 
-  }
-
-  private void setPacmanDirection(Direction direction) {
-    System.out.println(direction);
-    PacMan pacman = model.getPacman();
-    pacman.setDirection(direction);
   }
 }
