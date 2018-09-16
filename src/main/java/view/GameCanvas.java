@@ -22,7 +22,7 @@ public class GameCanvas extends JPanel {
   private final String GAME_TITLE = "Pac-Man";
   private final String TEXT_FULL = "Full Screen";
   private final String TEXT_REDUCE = "Reduce";
-  
+
   private final FlowLayout layoutCenter = new FlowLayout(FlowLayout.CENTER);
   private JLayeredPane layeredPane = new JLayeredPane();
   private JFrame window = new JFrame(GAME_TITLE);
@@ -31,7 +31,7 @@ public class GameCanvas extends JPanel {
     super();
 
     // Setting the frame parameters
-    
+
     window.setSize(FRAME_WIDTH, FRAME_HEIGHT);
     window.setResizable(false);
     window.setLocationRelativeTo(null);
@@ -73,7 +73,7 @@ public class GameCanvas extends JPanel {
     pacmanPanel.setLayout(layoutCenter);
     pacmanPanel.setOpaque(false);
     layeredPane.add(pacmanPanel, Integer.valueOf(1));
-    
+
     // Add the frame content
     window.add(layeredPane);
     window.add(this);
