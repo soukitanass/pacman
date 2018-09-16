@@ -62,7 +62,7 @@ logiciel à l'université de Sherbrooke - Faculté de Génie
 - Generate the UML text file: `robinbird -r ~/Desktop/pacman/src/main/ > ~/Desktop/pacman_uml.txt`
 - Generate the UML picture: `java -jar plantuml.jar -verbose ~/Desktop/pacman_uml.txt`
 
-### Setup for Travis CI
+## Setup for Travis CI
 - Go to https://travis-ci.com/
 - Sign in with your GitHub account.
 - Add the project's repository.
