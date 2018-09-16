@@ -61,3 +61,12 @@ logiciel à l'université de Sherbrooke - Faculté de Génie
 ### Generate UML class diagram
 - Generate the UML text file: `robinbird -r ~/Desktop/pacman/src/main/ > ~/Desktop/pacman_uml.txt`
 - Generate the UML picture: `java -jar plantuml.jar -verbose ~/Desktop/pacman_uml.txt`
+
+### Setup for Travis CI
+- Go to https://travis-ci.com/
+- Sign in with your GitHub account.
+- Add the project's repository.
+- Activate the owner permissions.
+- Create a file .travis.yml on your repository and commit it.
+- Add the language to .travis.yml
+- Build your project.
