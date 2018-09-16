@@ -8,9 +8,6 @@ public class PacMan {
   @SerializedName("id")
   @Expose
   private Integer id;
-  @SerializedName("speed")
-  @Expose
-  private Integer speed;
   @SerializedName("start_pos")
   @Expose
   private Position position;
@@ -18,7 +15,7 @@ public class PacMan {
   private IMoveValidator moveValidator;
 
   public PacMan() {
-    this.direction = Direction.RIGHT;
+    this.direction = Direction.LEFT;
   }
 
   public Integer getId() {
@@ -27,14 +24,6 @@ public class PacMan {
 
   public void setId(Integer id) {
     this.id = id;
-  }
-
-  public Integer getSpeed() {
-    return speed;
-  }
-
-  public void setSpeed(Integer speed) {
-    this.speed = speed;
   }
 
   public void setPosition(Position position) {
