@@ -1,4 +1,4 @@
-# pacman
+# Pac-Man
 Programmation du jeu Pac-Man dans le cadre de l'APP GEI 799 - Architecture et construction d’un
 logiciel à l'université de Sherbrooke - Faculté de Génie
 
@@ -40,6 +40,43 @@ logiciel à l'université de Sherbrooke - Faculté de Génie
 - Set tasks: run
 - (Optional) Create another run configuration for unit tests with Gradle task `test`
 - Run > Run Game
+## Setup for Travis CI
+- Go to https://travis-ci.com/
+- Sign in with your GitHub account.
+- Add the project's repository.
+- Activate the owner permissions.
+- Create a file .travis.yml on your repository and commit it.
+- Add the language to .travis.yml
+- Build your project.
+## Setup for SonarQube
+- Go to https://docs.sonarqube.org/Analyzing+with+SonarQube+Scanner.
+- Download SonarQubeScanner
+- Add the path of SonarQubeScanner's floder to your variable PATH.
+- Check out if the command sonar-scanner work.
+- Modify the file sonar-scanner.properties in the repertoire
+ "~/sonar-scanner/conf/"
+    - Change the sonar.host.url to http://zeus.gel.usherbrooke.ca:9000
+    - Change the sonar.sourceEncoding to UTF-8
+- Save changes
+- In the root of your project create a file sonar-scanner.properties
+    -`# must be unique in a given SonarQube instance
+        sonar.projectKey=agilea18bKey
+        # this is the name displayed in the SonarQube UI
+        sonar.projectName=agilea18b
+        sonar.projectVersion=1.0
+        # Path is relative to the sonar-project.properties file. Replace "\" by "/" on Windows.
+        # Since SonarQube 4.2, this property is optional if sonar.modules is set.
+        # If not set, SonarQube starts looking for source code from the directory containing
+        # the sonar-project.properties file.
+        sonar.sources=./
+        sonar.java.binaries=./bin
+        # Encoding of the source code. Default is default system encoding
+        #sonar.sourceEncoding=UTF-8
+        sonar.scm.disabled=true`
+ - Change the sonar.projectName to agilea18b
+ - Change the sonar.projectKey to agilea18bKey
+ - Launch the commend sonar-scanner 
+ - Check out the result on http://zeus.gel.usherbrooke.ca:9000/
 
 ## Generate UML class diagrams with robinbird
 
@@ -62,11 +99,4 @@ logiciel à l'université de Sherbrooke - Faculté de Génie
 - Generate the UML text file: `robinbird -r ~/Desktop/pacman/src/main/ > ~/Desktop/pacman_uml.txt`
 - Generate the UML picture: `java -jar plantuml.jar -verbose ~/Desktop/pacman_uml.txt`
 
-## Setup for Travis CI
-- Go to https://travis-ci.com/
-- Sign in with your GitHub account.
-- Add the project's repository.
-- Activate the owner permissions.
-- Create a file .travis.yml on your repository and commit it.
-- Add the language to .travis.yml
-- Build your project.
+
