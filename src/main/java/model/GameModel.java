@@ -23,7 +23,7 @@ public class GameModel implements IGameModel {
       return;
     }
     ++currentGameFrame;
-    if(!isGameStarted()) {
+    if (!isGameStarted()) {
       startGame();
     }
     movementManager.updatePacmanPosition();
