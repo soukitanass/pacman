@@ -160,6 +160,39 @@ public class MovementManagerTest {
     assertEquals(new Position(1, 1), pacman.getPosition());
   }
 
+  @Test
+  public void turnTowardsDesiredDirectionAsSoonAsThereIsNoWall() {
+    List<List<Integer>> map =
+        Arrays.asList(Arrays.asList(0, 0, 0), Arrays.asList(0, 1, 0), Arrays.asList(0, 0, 0));
+    initializeMovementManager(map);
+    pacman.setPosition(new Position(0, 0));
+    movementManager.setPacmanDirection(Direction.RIGHT);
+
+    movementManager.updatePacmanPosition();
+    movementManager.setPacmanDirection(Direction.DOWN);
+    assertEquals(Direction.RIGHT, pacman.getDirection());
+    movementManager.updatePacmanPosition();
+    assertEquals(Direction.DOWN, pacman.getDirection());
+
+    movementManager.updatePacmanPosition();
+    movementManager.setPacmanDirection(Direction.LEFT);
+    assertEquals(Direction.DOWN, pacman.getDirection());
+    movementManager.updatePacmanPosition();
+    assertEquals(Direction.LEFT, pacman.getDirection());
+
+    movementManager.updatePacmanPosition();
+    movementManager.setPacmanDirection(Direction.UP);
+    assertEquals(Direction.LEFT, pacman.getDirection());
+    movementManager.updatePacmanPosition();
+    assertEquals(Direction.UP, pacman.getDirection());
+
+    movementManager.updatePacmanPosition();
+    movementManager.setPacmanDirection(Direction.RIGHT);
+    assertEquals(Direction.UP, pacman.getDirection());
+    movementManager.updatePacmanPosition();
+    assertEquals(Direction.RIGHT, pacman.getDirection());
+  }
+
   private void initializeMovementManager(List<List<Integer>> map) {
     level.setMap(map);
     IMoveValidator moveValidator = new MoveValidator(level);

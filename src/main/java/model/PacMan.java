@@ -12,10 +12,11 @@ public class PacMan {
   @Expose
   private Position position;
   private Direction direction;
-  private IMoveValidator moveValidator;
+
+  private Direction desiredDirection;
 
   public PacMan() {
-    this.direction = Direction.LEFT;
+    setDirection(Direction.LEFT);
   }
 
   public Integer getId() {
@@ -36,13 +37,18 @@ public class PacMan {
 
   public void setDirection(Direction direction) {
     this.direction = direction;
+    setDesiredDirection(direction);
   }
 
   public Direction getDirection() {
     return this.direction;
   }
 
-  public void setMoveValidator(IMoveValidator moveValidator) {
-    this.moveValidator = moveValidator;
+  public void setDesiredDirection(Direction direction) {
+    desiredDirection = direction;
+  }
+
+  public Direction getDesiredDirection() {
+    return desiredDirection;
   }
 }
