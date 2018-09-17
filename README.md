@@ -88,7 +88,7 @@ logiciel à l'université de Sherbrooke - Faculté de Génie
 - Install GraphViz: https://graphviz.gitlab.io/download/
 - Download plantuml.jar: http://plantuml.com/download
     - Move the plantuml.jar to where you want to keep it: E.g.: `~/plantuml/plantuml.jar`
-- Test PlantUML setup with: `java -jar plantuml.jar -testdot`
+- Test PlantUML setup with: `java -jar ~/plantuml/plantuml.jar -testdot`
 - Install robinbird: https://github.com/SeokhyunKim/robinbird#how-to-compile-and-install
     - Precisions for after building robinbird:
         - extract "robinbird\build\distributions\robinbird.zip" somewhere, e.g.: To "C:\Users\Username\robinbird\"
@@ -97,6 +97,6 @@ logiciel à l'université de Sherbrooke - Faculté de Génie
 
 ### Generate UML class diagram
 - Generate the UML text file: `robinbird -r ~/Desktop/pacman/src/main/ > ~/Desktop/pacman_uml.txt`
-- Generate the UML picture: `java -jar plantuml.jar -verbose ~/Desktop/pacman_uml.txt`
+- Generate the UML picture: `java -jar ~/plantuml/plantuml.jar -verbose ~/Desktop/pacman_uml.txt`
 
 
