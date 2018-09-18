@@ -3,6 +3,7 @@ package model;
 public class PacmanSuperPacgumCollisionManager {
   private final PacMan pacman;
   private final Level level;
+  private static final int POINT = 50;
 
   public PacmanSuperPacgumCollisionManager(PacMan pacman, Level level) {
     this.pacman = pacman;
@@ -14,6 +15,7 @@ public class PacmanSuperPacgumCollisionManager {
     if (!level.isSuperPacgum(position)) {
       return;
     }
+    level.setScore(level.getScore() + POINT);
     level.setEmptyMapTile(position);
   }
 }

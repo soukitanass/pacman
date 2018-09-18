@@ -4,6 +4,7 @@ public class PacmanPacgumCollisionManager {
 
   private final PacMan pacman;
   private final Level level;
+  private static final Integer POINT = 10;
 
   public PacmanPacgumCollisionManager(PacMan pacman, Level level) {
     this.pacman = pacman;
@@ -15,6 +16,7 @@ public class PacmanPacgumCollisionManager {
     if (!level.isPacgum(position)) {
       return;
     }
+    level.setScore(level.getScore() + POINT);
     level.setEmptyMapTile(position);
   }
 }

@@ -15,6 +15,7 @@ public class GameCanvas extends JPanel {
   private JButton fullScreen;
   private PacManPanel pacmanPanel;
   private LevelPanel levelPanel;
+  private ScorePanel scorePanel;
 
   // Constant variables
   private static final int FRAME_WIDTH = 600;
@@ -22,6 +23,8 @@ public class GameCanvas extends JPanel {
   private static final String GAME_TITLE = "Pac-Man";
   private static final String TEXT_FULL = "Full Screen";
   private static final String TEXT_REDUCE = "Reduce";
+  private static final double SCORE_PANEL_PERCENTAGE = 0.2;
+  private static final double LEVEL_PANEL_PERCENTAGE = 0.8;
 
   private final FlowLayout layoutCenter = new FlowLayout(FlowLayout.CENTER);
   private JLayeredPane layeredPane = new JLayeredPane();
@@ -64,16 +67,25 @@ public class GameCanvas extends JPanel {
 
     // Add level panel
     levelPanel = new LevelPanel(model, pixelRatio);
-    levelPanel.setBounds(0, 0, FRAME_WIDTH, FRAME_HEIGHT);
+    levelPanel.setBounds(0, 0, FRAME_WIDTH, (int) (FRAME_HEIGHT * LEVEL_PANEL_PERCENTAGE));
     levelPanel.setLayout(layoutCenter);
     layeredPane.add(levelPanel, JLayeredPane.DEFAULT_LAYER);
 
+    // Add score panel
+    scorePanel = new ScorePanel(model);
+    scorePanel.setBounds(0, (int) (FRAME_HEIGHT * LEVEL_PANEL_PERCENTAGE), FRAME_WIDTH,
+        (int) (FRAME_HEIGHT * SCORE_PANEL_PERCENTAGE));
+    scorePanel.setLayout(layoutCenter);
+    layeredPane.add(scorePanel, JLayeredPane.DEFAULT_LAYER);
+
     // Add Pac-Man panel
     pacmanPanel = new PacManPanel(model, pixelRatio);
-    pacmanPanel.setBounds(0, 0, FRAME_WIDTH, FRAME_HEIGHT);
+    pacmanPanel.setBounds(0, 0, FRAME_WIDTH, (int) (FRAME_HEIGHT * LEVEL_PANEL_PERCENTAGE));
     pacmanPanel.setLayout(layoutCenter);
     pacmanPanel.setOpaque(false);
     layeredPane.add(pacmanPanel, Integer.valueOf(1));
+
+
 
     // Add the frame content
     window.add(layeredPane);

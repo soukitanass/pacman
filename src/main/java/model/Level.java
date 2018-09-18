@@ -11,6 +11,7 @@ public class Level {
   private static final int WALL_CODE_MIN = 1;
   private static final int WALL_CODE_MAX = 41;
 
+  private Integer score = 0;
   @SerializedName("id")
   @Expose
   private Integer id;
@@ -114,5 +115,13 @@ public class Level {
 
   public boolean isSuperPacgum(Position position) {
     return SUPER_PACGUM_CODE == getCodeAtPosition(position);
+  }
+
+  public Integer getScore() {
+    return score;
+  }
+
+  public void setScore(Integer score) {
+    this.score = score;
   }
 }
