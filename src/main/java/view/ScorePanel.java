@@ -5,6 +5,7 @@ import javax.swing.JPanel;
 import model.IGameModel;
 import model.Level;
 
+@SuppressWarnings("serial")
 public class ScorePanel extends JPanel {
   private IGameModel model;
 
