@@ -84,8 +84,8 @@ public class GameCanvas extends JPanel {
 
   public int getPixelTileSize() {
     final Level level = model.getCurrentLevel();
-    final float widthRatio = window.getWidth() / level.getWidth();
-    final float heightRatio = window.getHeight() / level.getHeight();
+    final float widthRatio = getWidth() / level.getWidth();
+    final float heightRatio = getHeight() / level.getHeight();
     return (int) Math.min(Math.floor(widthRatio), Math.floor(heightRatio));
   }
 }
