@@ -1,7 +1,9 @@
 package model;
 
-public interface IMoveValidator {
-  boolean isValid(IMoveRequest moveRequest);
+import model.exceptions.InvalidDirectionException;
 
-  Position getTargetPosition(IMoveRequest moveRequest);
+public interface IMoveValidator {
+  boolean isValid(IMoveRequest moveRequest) throws InvalidDirectionException;
+
+  Position getTargetPosition(IMoveRequest moveRequest) throws InvalidDirectionException;
 }

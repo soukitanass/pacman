@@ -9,6 +9,13 @@ import model.Direction;
 import model.GhostState;
 import model.PacGumState;
 import model.PacManState;
+import model.exceptions.InvalidColorException;
+import model.exceptions.InvalidDirectionException;
+import model.exceptions.InvalidLetterException;
+import model.exceptions.InvalidNumberException;
+import model.exceptions.InvalidScoreException;
+import model.exceptions.InvalidStateException;
+import model.exceptions.InvalidWallCodeException;
 
 public class SpriteFacadeTest {
 
@@ -29,7 +36,7 @@ public class SpriteFacadeTest {
   }
 
   @Test
-  public void getWallTest() throws Exception {
+  public void getWallTest() throws InvalidWallCodeException {
     BufferedImage image1;
     BufferedImage image2;
     for (int j = 0; j < 2; j++) {
@@ -46,12 +53,12 @@ public class SpriteFacadeTest {
     try {
       spriteFacade.getWall(50);
     } catch (Exception exception) {
-      assertEquals(exception.getMessage(), "Invalid wall code");
+      assertEquals(exception.getMessage(), "Invalid wall code: 50");
     }
   }
 
   @Test
-  public void getRightPacManTest() throws Exception {
+  public void getRightPacManTest() throws InvalidStateException, InvalidDirectionException {
     BufferedImage image1;
     BufferedImage image2;
 
@@ -77,7 +84,7 @@ public class SpriteFacadeTest {
   }
 
   @Test
-  public void getLeftPacManTest() throws Exception {
+  public void getLeftPacManTest() throws InvalidStateException, InvalidDirectionException {
     BufferedImage image1;
     BufferedImage image2;
 
@@ -103,7 +110,7 @@ public class SpriteFacadeTest {
   }
 
   @Test
-  public void getDownPacManTest() throws Exception {
+  public void getDownPacManTest() throws InvalidStateException, InvalidDirectionException {
     BufferedImage image1;
     BufferedImage image2;
 
@@ -129,7 +136,7 @@ public class SpriteFacadeTest {
   }
 
   @Test
-  public void getUpPacManTest() throws Exception {
+  public void getUpPacManTest() throws InvalidStateException, InvalidDirectionException {
     BufferedImage image1;
     BufferedImage image2;
 
@@ -164,7 +171,8 @@ public class SpriteFacadeTest {
   }
 
   @Test
-  public void getRedGhostTest() throws Exception {
+  public void getRedGhostTest()
+      throws InvalidColorException, InvalidDirectionException, InvalidStateException {
     BufferedImage image1;
     BufferedImage image2;
 
@@ -202,7 +210,8 @@ public class SpriteFacadeTest {
   }
 
   @Test
-  public void getOrangeGhostTest() throws Exception {
+  public void getOrangeGhostTest()
+      throws InvalidColorException, InvalidDirectionException, InvalidStateException {
     BufferedImage image1;
     BufferedImage image2;
 
@@ -240,7 +249,8 @@ public class SpriteFacadeTest {
   }
 
   @Test
-  public void getPinkGhostTest() throws Exception {
+  public void getPinkGhostTest()
+      throws InvalidColorException, InvalidDirectionException, InvalidStateException {
     BufferedImage image1;
     BufferedImage image2;
 
@@ -278,7 +288,8 @@ public class SpriteFacadeTest {
   }
 
   @Test
-  public void getTurquoiseGhostTest() throws Exception {
+  public void getTurquoiseGhostTest()
+      throws InvalidColorException, InvalidDirectionException, InvalidStateException {
     BufferedImage image1;
     BufferedImage image2;
 
@@ -316,7 +327,7 @@ public class SpriteFacadeTest {
   }
 
   @Test
-  public void getScoreTest() throws Exception {
+  public void getScoreTest() throws InvalidScoreException {
     BufferedImage image1;
     BufferedImage image2;
 
@@ -346,7 +357,7 @@ public class SpriteFacadeTest {
   }
 
   @Test
-  public void getWhiteLetterTest() throws Exception {
+  public void getWhiteLetterTest() throws InvalidLetterException, InvalidColorException {
     BufferedImage image1;
     BufferedImage image2;
     String alphabet = "abcdefghijklmnopqrstuvwxyz";
@@ -365,7 +376,7 @@ public class SpriteFacadeTest {
   }
 
   @Test
-  public void getPinkLetterTest() throws Exception {
+  public void getPinkLetterTest() throws InvalidLetterException, InvalidColorException {
     BufferedImage image1;
     BufferedImage image2;
     String alphabet = "abcdefghijklmnopqrstuvwxyz";
@@ -384,7 +395,7 @@ public class SpriteFacadeTest {
   }
 
   @Test
-  public void getOrangeLetterTest() throws Exception {
+  public void getOrangeLetterTest() throws InvalidLetterException, InvalidColorException {
     BufferedImage image1;
     BufferedImage image2;
     String alphabet = "abcdefghijklmnopqrstuvwxyz";
@@ -403,7 +414,7 @@ public class SpriteFacadeTest {
   }
 
   @Test
-  public void getRedLetterTest() throws Exception {
+  public void getRedLetterTest() throws InvalidLetterException, InvalidColorException {
     BufferedImage image1;
     BufferedImage image2;
     String alphabet = "abcdefghijklmnopqrstuvwxyz";
@@ -422,7 +433,7 @@ public class SpriteFacadeTest {
   }
 
   @Test
-  public void getTurquoiseLetterTest() throws Exception {
+  public void getTurquoiseLetterTest() throws InvalidLetterException, InvalidColorException {
     BufferedImage image1;
     BufferedImage image2;
     String alphabet = "abcdefghijklmnopqrstuvwxyz";
@@ -441,61 +452,61 @@ public class SpriteFacadeTest {
   }
 
   @Test
-  public void getWhiteNumberTest() throws Exception {
+  public void getWhiteNumberTest() throws InvalidColorException, InvalidNumberException {
     BufferedImage image1;
     BufferedImage image2;
 
     for (int i = 0; i < 10; i++) {
       image1 = sprite.getSprite(8 + i, 8);
-      image2 = spriteFacade.getNumber(i, Color.WHITE);
+      image2 = spriteFacade.getDigit(i, Color.WHITE);
       assertTrue(compareImages(image1, image2));
     }
   }
 
   @Test
-  public void getPinkNumberTest() throws Exception {
+  public void getPinkNumberTest() throws InvalidColorException, InvalidNumberException {
     BufferedImage image1;
     BufferedImage image2;
 
     for (int i = 0; i < 10; i++) {
       image1 = sprite.getSprite(8 + i, 10);
-      image2 = spriteFacade.getNumber(i, Color.PINK);
+      image2 = spriteFacade.getDigit(i, Color.PINK);
       assertTrue(compareImages(image1, image2));
     }
   }
 
   @Test
-  public void getOrangeNumberTest() throws Exception {
+  public void getOrangeNumberTest() throws InvalidColorException, InvalidNumberException {
     BufferedImage image1;
     BufferedImage image2;
 
     for (int i = 0; i < 10; i++) {
       image1 = sprite.getSprite(8 + i, 12);
-      image2 = spriteFacade.getNumber(i, Color.ORANGE);
+      image2 = spriteFacade.getDigit(i, Color.ORANGE);
       assertTrue(compareImages(image1, image2));
     }
   }
 
   @Test
-  public void getRedNumberTest() throws Exception {
+  public void getRedNumberTest() throws InvalidColorException, InvalidNumberException {
     BufferedImage image1;
     BufferedImage image2;
 
     for (int i = 0; i < 10; i++) {
       image1 = sprite.getSprite(8 + i, 14);
-      image2 = spriteFacade.getNumber(i, Color.RED);
+      image2 = spriteFacade.getDigit(i, Color.RED);
       assertTrue(compareImages(image1, image2));
     }
   }
 
   @Test
-  public void getTurquoiseNumberTest() throws Exception {
+  public void getTurquoiseNumberTest() throws InvalidColorException, InvalidNumberException {
     BufferedImage image1;
     BufferedImage image2;
 
     for (int i = 0; i < 10; i++) {
       image1 = sprite.getSprite(8 + i, 16);
-      image2 = spriteFacade.getNumber(i, Color.TURQUOISE);
+      image2 = spriteFacade.getDigit(i, Color.TURQUOISE);
       assertTrue(compareImages(image1, image2));
     }
   }
@@ -503,14 +514,14 @@ public class SpriteFacadeTest {
   @Test
   public void getInvalidNumberThrow() {
     try {
-      spriteFacade.getNumber(18, Color.TURQUOISE);
+      spriteFacade.getDigit(18, Color.TURQUOISE);
     } catch (Exception exception) {
-      assertEquals(exception.getMessage(), "Invalid number");
+      assertEquals(exception.getMessage(), "Invalid digit: 18");
     }
   }
 
   @Test
-  public void getPacGumTest() throws Exception {
+  public void getPacGumTest() throws InvalidStateException {
     BufferedImage image1;
     BufferedImage image2;
 

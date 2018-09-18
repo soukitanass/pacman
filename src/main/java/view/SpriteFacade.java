@@ -8,7 +8,11 @@ import model.PacGumState;
 import model.PacManState;
 import model.exceptions.InvalidColorException;
 import model.exceptions.InvalidDirectionException;
+import model.exceptions.InvalidLetterException;
+import model.exceptions.InvalidNumberException;
+import model.exceptions.InvalidScoreException;
 import model.exceptions.InvalidStateException;
+import model.exceptions.InvalidWallCodeException;
 
 /*
  * Uses the Facade Pattern to hide the complexity of the system by proving an interface to the
@@ -25,7 +29,7 @@ public class SpriteFacade {
     sprite = new Sprite(FILE_NAME, TILE_SIZE);
   }
 
-  public BufferedImage getWall(int code) throws Exception {
+  public BufferedImage getWall(int code) throws InvalidWallCodeException {
     final int y = 0;
     final int numberOfColumns = 19;
 
@@ -34,11 +38,12 @@ public class SpriteFacade {
     } else if (code < 2 * numberOfColumns) {
       return sprite.getSprite(code % numberOfColumns, y + 1);
     } else {
-      throw new Exception("Invalid wall code");
+      throw new InvalidWallCodeException("Invalid wall code: " + code);
     }
   }
 
-  public BufferedImage getPacman(Direction direction, PacManState state) throws Exception {
+  public BufferedImage getPacman(Direction direction, PacManState state)
+      throws InvalidStateException, InvalidDirectionException {
     final int fullPacManX = 16;
     final int y = 3;
     int directionXOffset;
@@ -77,13 +82,13 @@ public class SpriteFacade {
         directionXOffset = 8;
         break;
       default:
-        throw new InvalidDirectionException("Invalid pacman direction");
+        throw new InvalidDirectionException("Invalid Pac-Man direction");
     }
     return sprite.getSprite(stateXOffset + directionXOffset, y);
   }
 
   public BufferedImage getGhost(Direction direction, Color color, GhostState state)
-      throws Exception {
+      throws InvalidColorException, InvalidDirectionException, InvalidStateException {
     int colorXOffset = 0;
     int directionXOffset = 0;
     int stateXOffset = 0;
@@ -138,7 +143,7 @@ public class SpriteFacade {
     return sprite.getSprite(stateXOffset + directionXOffset + colorXOffset, y);
   }
 
-  public BufferedImage getScore(int score) throws Exception {
+  public BufferedImage getScore(int score) throws InvalidScoreException {
     final int y = 2;
     final int x = 15;
 
@@ -151,11 +156,12 @@ public class SpriteFacade {
     } else if (score == 1600) {
       return sprite.getSprite(x + 3, y);
     } else {
-      throw new Exception("Invalid score");
+      throw new InvalidScoreException("Invalid score:" + score);
     }
   }
 
-  public BufferedImage getLetter(char letter, Color color) throws Exception {
+  public BufferedImage getLetter(char letter, Color color)
+      throws InvalidLetterException, InvalidColorException {
     int y;
     final int numberOfColumns = 19;
     final int letterPosition = Character.toUpperCase(letter) - 65;
@@ -186,16 +192,17 @@ public class SpriteFacade {
     } else if (letterPosition < numberOfLetters) {
       return sprite.getSprite(letterPosition % numberOfColumns, y + 1);
     } else {
-      throw new Exception("Invalid letter");
+      throw new InvalidLetterException("Invalid letter:" + letter);
     }
   }
 
-  public BufferedImage getNumber(int number, Color color) throws Exception {
+  public BufferedImage getDigit(int digit, Color color)
+      throws InvalidColorException, InvalidNumberException {
     int y;
     final int xOffset = 8;
 
-    if (number < 0 || number > 9) {
-      throw new Exception("Invalid number");
+    if (digit < 0 || digit > 9) {
+      throw new InvalidNumberException("Invalid digit: " + digit);
     }
 
     switch (color) {
@@ -215,13 +222,13 @@ public class SpriteFacade {
         y = 16;
         break;
       default:
-        throw new InvalidColorException("Invalid number color");
+        throw new InvalidColorException("Invalid digit color");
     }
 
-    return sprite.getSprite(number + xOffset, y);
+    return sprite.getSprite(digit + xOffset, y);
   }
 
-  public BufferedImage getPacGum(PacGumState state) throws Exception {
+  public BufferedImage getPacGum(PacGumState state) throws InvalidStateException {
     final int y = 2;
     int x;
 

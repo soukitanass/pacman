@@ -8,6 +8,7 @@ import model.IGameModel;
 import model.Level;
 import model.PacMan;
 
+@SuppressWarnings("serial")
 public class PacManPanel extends JPanel {
 
   private IGameModel model;
