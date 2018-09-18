@@ -20,6 +20,7 @@ public class ScorePanel extends JPanel{
 	  public void paint(Graphics graphic) {
 	    super.paint(graphic);
 	    final Level level = this.model.getCurrentLevel();
-	    //draw the sprite
+	    //draw the fix text and the score
+	    
 	  }
 }
