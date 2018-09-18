@@ -1,11 +1,13 @@
 package view;
 
+import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 import java.awt.image.BufferedImage;
 import org.junit.Test;
 import model.Color;
 import model.Direction;
 import model.GhostState;
+import model.PacGumState;
 import model.PacManState;
 
 public class SpriteFacadeTest {
@@ -16,10 +18,8 @@ public class SpriteFacadeTest {
   private Sprite sprite = new Sprite(FILE, TILE_SIZE);
 
   private boolean compareImages(BufferedImage image1, BufferedImage image2) {
-    for (int i = 0; i < image1.getWidth(); i++)
-    {
-      for (int j = 0; j < image1.getHeight(); j++)
-      {
+    for (int i = 0; i < image1.getWidth(); i++) {
+      for (int j = 0; j < image1.getHeight(); j++) {
         if (image1.getRGB(i, j) != image2.getRGB(i, j)) {
           return false;
         }
@@ -27,7 +27,7 @@ public class SpriteFacadeTest {
     }
     return true;
   }
-  
+
   @Test
   public void getWallTest() throws Exception {
     BufferedImage image1;
@@ -40,24 +40,33 @@ public class SpriteFacadeTest {
       }
     }
   }
-  
+
+  @Test
+  public void getWallWithInvalidCodeThrow() {
+    try {
+      spriteFacade.getWall(50);
+    } catch (Exception exception) {
+      assertEquals(exception.getMessage(), "Invalid wall code");
+    }
+  }
+
   @Test
   public void getRightPacManTest() throws Exception {
     BufferedImage image1;
     BufferedImage image2;
-    
+
     image1 = sprite.getSprite(0, 3);
     image2 = spriteFacade.getPacman(Direction.RIGHT, PacManState.STATE5);
     assertTrue(compareImages(image1, image2));
-    
+
     image1 = sprite.getSprite(1, 3);
     image2 = spriteFacade.getPacman(Direction.RIGHT, PacManState.STATE4);
     assertTrue(compareImages(image1, image2));
-    
+
     image1 = sprite.getSprite(2, 3);
     image2 = spriteFacade.getPacman(Direction.RIGHT, PacManState.STATE3);
     assertTrue(compareImages(image1, image2));
-    
+
     image1 = sprite.getSprite(3, 3);
     image2 = spriteFacade.getPacman(Direction.RIGHT, PacManState.STATE2);
     assertTrue(compareImages(image1, image2));
@@ -71,19 +80,19 @@ public class SpriteFacadeTest {
   public void getLeftPacManTest() throws Exception {
     BufferedImage image1;
     BufferedImage image2;
-    
+
     image1 = sprite.getSprite(4, 3);
     image2 = spriteFacade.getPacman(Direction.LEFT, PacManState.STATE5);
     assertTrue(compareImages(image1, image2));
-    
+
     image1 = sprite.getSprite(5, 3);
     image2 = spriteFacade.getPacman(Direction.LEFT, PacManState.STATE4);
     assertTrue(compareImages(image1, image2));
-    
+
     image1 = sprite.getSprite(6, 3);
     image2 = spriteFacade.getPacman(Direction.LEFT, PacManState.STATE3);
     assertTrue(compareImages(image1, image2));
-    
+
     image1 = sprite.getSprite(7, 3);
     image2 = spriteFacade.getPacman(Direction.LEFT, PacManState.STATE2);
     assertTrue(compareImages(image1, image2));
@@ -97,19 +106,19 @@ public class SpriteFacadeTest {
   public void getDownPacManTest() throws Exception {
     BufferedImage image1;
     BufferedImage image2;
-    
+
     image1 = sprite.getSprite(8, 3);
     image2 = spriteFacade.getPacman(Direction.DOWN, PacManState.STATE5);
     assertTrue(compareImages(image1, image2));
-    
+
     image1 = sprite.getSprite(9, 3);
     image2 = spriteFacade.getPacman(Direction.DOWN, PacManState.STATE4);
     assertTrue(compareImages(image1, image2));
-    
+
     image1 = sprite.getSprite(10, 3);
     image2 = spriteFacade.getPacman(Direction.DOWN, PacManState.STATE3);
     assertTrue(compareImages(image1, image2));
-    
+
     image1 = sprite.getSprite(11, 3);
     image2 = spriteFacade.getPacman(Direction.DOWN, PacManState.STATE2);
     assertTrue(compareImages(image1, image2));
@@ -123,19 +132,19 @@ public class SpriteFacadeTest {
   public void getUpPacManTest() throws Exception {
     BufferedImage image1;
     BufferedImage image2;
-    
+
     image1 = sprite.getSprite(12, 3);
     image2 = spriteFacade.getPacman(Direction.UP, PacManState.STATE5);
     assertTrue(compareImages(image1, image2));
-    
+
     image1 = sprite.getSprite(13, 3);
     image2 = spriteFacade.getPacman(Direction.UP, PacManState.STATE4);
     assertTrue(compareImages(image1, image2));
-    
+
     image1 = sprite.getSprite(14, 3);
     image2 = spriteFacade.getPacman(Direction.UP, PacManState.STATE3);
     assertTrue(compareImages(image1, image2));
-    
+
     image1 = sprite.getSprite(15, 3);
     image2 = spriteFacade.getPacman(Direction.UP, PacManState.STATE2);
     assertTrue(compareImages(image1, image2));
@@ -146,38 +155,47 @@ public class SpriteFacadeTest {
   }
 
   @Test
+  public void getPacManWithInvalidDirectionThrow() {
+    try {
+      spriteFacade.getPacman(null, PacManState.STATE1);
+    } catch (Exception exception) {
+      assertEquals(exception.getMessage(), "Invalid direction");
+    }
+  }
+
+  @Test
   public void getRedGhostTest() throws Exception {
     BufferedImage image1;
     BufferedImage image2;
-    
+
     image1 = sprite.getSprite(0, 4);
     image2 = spriteFacade.getGhost(Direction.UP, Color.RED, GhostState.STATE1);
     assertTrue(compareImages(image1, image2));
-    
+
     image1 = sprite.getSprite(1, 4);
     image2 = spriteFacade.getGhost(Direction.UP, Color.RED, GhostState.STATE2);
     assertTrue(compareImages(image1, image2));
-    
+
     image1 = sprite.getSprite(2, 4);
     image2 = spriteFacade.getGhost(Direction.LEFT, Color.RED, GhostState.STATE1);
     assertTrue(compareImages(image1, image2));
-    
+
     image1 = sprite.getSprite(3, 4);
     image2 = spriteFacade.getGhost(Direction.LEFT, Color.RED, GhostState.STATE2);
     assertTrue(compareImages(image1, image2));
-    
+
     image1 = sprite.getSprite(4, 4);
     image2 = spriteFacade.getGhost(Direction.DOWN, Color.RED, GhostState.STATE1);
     assertTrue(compareImages(image1, image2));
-    
+
     image1 = sprite.getSprite(5, 4);
     image2 = spriteFacade.getGhost(Direction.DOWN, Color.RED, GhostState.STATE2);
     assertTrue(compareImages(image1, image2));
-    
+
     image1 = sprite.getSprite(6, 4);
     image2 = spriteFacade.getGhost(Direction.RIGHT, Color.RED, GhostState.STATE1);
     assertTrue(compareImages(image1, image2));
-    
+
     image1 = sprite.getSprite(7, 4);
     image2 = spriteFacade.getGhost(Direction.RIGHT, Color.RED, GhostState.STATE2);
     assertTrue(compareImages(image1, image2));
@@ -187,37 +205,316 @@ public class SpriteFacadeTest {
   public void getOrangeGhostTest() throws Exception {
     BufferedImage image1;
     BufferedImage image2;
-    
+
     image1 = sprite.getSprite(8, 4);
     image2 = spriteFacade.getGhost(Direction.UP, Color.ORANGE, GhostState.STATE1);
     assertTrue(compareImages(image1, image2));
-    
+
     image1 = sprite.getSprite(9, 4);
     image2 = spriteFacade.getGhost(Direction.UP, Color.ORANGE, GhostState.STATE2);
     assertTrue(compareImages(image1, image2));
-    
+
     image1 = sprite.getSprite(10, 4);
     image2 = spriteFacade.getGhost(Direction.LEFT, Color.ORANGE, GhostState.STATE1);
     assertTrue(compareImages(image1, image2));
-    
+
     image1 = sprite.getSprite(11, 4);
     image2 = spriteFacade.getGhost(Direction.LEFT, Color.ORANGE, GhostState.STATE2);
     assertTrue(compareImages(image1, image2));
-    
+
     image1 = sprite.getSprite(12, 4);
     image2 = spriteFacade.getGhost(Direction.DOWN, Color.ORANGE, GhostState.STATE1);
     assertTrue(compareImages(image1, image2));
-    
+
     image1 = sprite.getSprite(13, 4);
     image2 = spriteFacade.getGhost(Direction.DOWN, Color.ORANGE, GhostState.STATE2);
     assertTrue(compareImages(image1, image2));
-    
+
     image1 = sprite.getSprite(14, 4);
     image2 = spriteFacade.getGhost(Direction.RIGHT, Color.ORANGE, GhostState.STATE1);
     assertTrue(compareImages(image1, image2));
-    
+
     image1 = sprite.getSprite(15, 4);
     image2 = spriteFacade.getGhost(Direction.RIGHT, Color.ORANGE, GhostState.STATE2);
+    assertTrue(compareImages(image1, image2));
+  }
+
+  @Test
+  public void getPinkGhostTest() throws Exception {
+    BufferedImage image1;
+    BufferedImage image2;
+
+    image1 = sprite.getSprite(0, 5);
+    image2 = spriteFacade.getGhost(Direction.UP, Color.PINK, GhostState.STATE1);
+    assertTrue(compareImages(image1, image2));
+
+    image1 = sprite.getSprite(1, 5);
+    image2 = spriteFacade.getGhost(Direction.UP, Color.PINK, GhostState.STATE2);
+    assertTrue(compareImages(image1, image2));
+
+    image1 = sprite.getSprite(2, 5);
+    image2 = spriteFacade.getGhost(Direction.LEFT, Color.PINK, GhostState.STATE1);
+    assertTrue(compareImages(image1, image2));
+
+    image1 = sprite.getSprite(3, 5);
+    image2 = spriteFacade.getGhost(Direction.LEFT, Color.PINK, GhostState.STATE2);
+    assertTrue(compareImages(image1, image2));
+
+    image1 = sprite.getSprite(4, 5);
+    image2 = spriteFacade.getGhost(Direction.DOWN, Color.PINK, GhostState.STATE1);
+    assertTrue(compareImages(image1, image2));
+
+    image1 = sprite.getSprite(5, 5);
+    image2 = spriteFacade.getGhost(Direction.DOWN, Color.PINK, GhostState.STATE2);
+    assertTrue(compareImages(image1, image2));
+
+    image1 = sprite.getSprite(6, 5);
+    image2 = spriteFacade.getGhost(Direction.RIGHT, Color.PINK, GhostState.STATE1);
+    assertTrue(compareImages(image1, image2));
+
+    image1 = sprite.getSprite(7, 5);
+    image2 = spriteFacade.getGhost(Direction.RIGHT, Color.PINK, GhostState.STATE2);
+    assertTrue(compareImages(image1, image2));
+  }
+
+  @Test
+  public void getTurquoiseGhostTest() throws Exception {
+    BufferedImage image1;
+    BufferedImage image2;
+
+    image1 = sprite.getSprite(8, 5);
+    image2 = spriteFacade.getGhost(Direction.UP, Color.TURQUOISE, GhostState.STATE1);
+    assertTrue(compareImages(image1, image2));
+
+    image1 = sprite.getSprite(9, 5);
+    image2 = spriteFacade.getGhost(Direction.UP, Color.TURQUOISE, GhostState.STATE2);
+    assertTrue(compareImages(image1, image2));
+
+    image1 = sprite.getSprite(10, 5);
+    image2 = spriteFacade.getGhost(Direction.LEFT, Color.TURQUOISE, GhostState.STATE1);
+    assertTrue(compareImages(image1, image2));
+
+    image1 = sprite.getSprite(11, 5);
+    image2 = spriteFacade.getGhost(Direction.LEFT, Color.TURQUOISE, GhostState.STATE2);
+    assertTrue(compareImages(image1, image2));
+
+    image1 = sprite.getSprite(12, 5);
+    image2 = spriteFacade.getGhost(Direction.DOWN, Color.TURQUOISE, GhostState.STATE1);
+    assertTrue(compareImages(image1, image2));
+
+    image1 = sprite.getSprite(13, 5);
+    image2 = spriteFacade.getGhost(Direction.DOWN, Color.TURQUOISE, GhostState.STATE2);
+    assertTrue(compareImages(image1, image2));
+
+    image1 = sprite.getSprite(14, 5);
+    image2 = spriteFacade.getGhost(Direction.RIGHT, Color.TURQUOISE, GhostState.STATE1);
+    assertTrue(compareImages(image1, image2));
+
+    image1 = sprite.getSprite(15, 5);
+    image2 = spriteFacade.getGhost(Direction.RIGHT, Color.TURQUOISE, GhostState.STATE2);
+    assertTrue(compareImages(image1, image2));
+  }
+
+  @Test
+  public void getScoreTest() throws Exception {
+    BufferedImage image1;
+    BufferedImage image2;
+
+    image1 = sprite.getSprite(15, 2);
+    image2 = spriteFacade.getScore(200);
+    assertTrue(compareImages(image1, image2));
+
+    image1 = sprite.getSprite(16, 2);
+    image2 = spriteFacade.getScore(400);
+    assertTrue(compareImages(image1, image2));
+
+    image1 = sprite.getSprite(17, 2);
+    image2 = spriteFacade.getScore(800);
+    assertTrue(compareImages(image1, image2));
+
+    image1 = sprite.getSprite(18, 2);
+    image2 = spriteFacade.getScore(1600);
+    assertTrue(compareImages(image1, image2));
+  }
+
+  @Test
+  public void getWhiteLetterTest() throws Exception {
+    BufferedImage image1;
+    BufferedImage image2;
+    String alphabet = "abcdefghijklmnopqrstuvwxyz";
+    char[] chars = alphabet.toCharArray();
+
+    for (int i = 0; i < 19; i++) {
+      image1 = sprite.getSprite(i, 7);
+      image2 = spriteFacade.getLetter(chars[i], Color.WHITE);
+      assertTrue(compareImages(image1, image2));
+    }
+    for (int i = 19; i < chars.length; i++) {
+      image1 = sprite.getSprite(i % 19, 8);
+      image2 = spriteFacade.getLetter(chars[i], Color.WHITE);
+      assertTrue(compareImages(image1, image2));
+    }
+  }
+
+  @Test
+  public void getPinkLetterTest() throws Exception {
+    BufferedImage image1;
+    BufferedImage image2;
+    String alphabet = "abcdefghijklmnopqrstuvwxyz";
+    char[] chars = alphabet.toCharArray();
+
+    for (int i = 0; i < 19; i++) {
+      image1 = sprite.getSprite(i, 9);
+      image2 = spriteFacade.getLetter(chars[i], Color.PINK);
+      assertTrue(compareImages(image1, image2));
+    }
+    for (int i = 19; i < chars.length; i++) {
+      image1 = sprite.getSprite(i % 19, 10);
+      image2 = spriteFacade.getLetter(chars[i], Color.PINK);
+      assertTrue(compareImages(image1, image2));
+    }
+  }
+
+  @Test
+  public void getOrangeLetterTest() throws Exception {
+    BufferedImage image1;
+    BufferedImage image2;
+    String alphabet = "abcdefghijklmnopqrstuvwxyz";
+    char[] chars = alphabet.toCharArray();
+
+    for (int i = 0; i < 19; i++) {
+      image1 = sprite.getSprite(i, 11);
+      image2 = spriteFacade.getLetter(chars[i], Color.ORANGE);
+      assertTrue(compareImages(image1, image2));
+    }
+    for (int i = 19; i < chars.length; i++) {
+      image1 = sprite.getSprite(i % 19, 12);
+      image2 = spriteFacade.getLetter(chars[i], Color.ORANGE);
+      assertTrue(compareImages(image1, image2));
+    }
+  }
+
+  @Test
+  public void getRedLetterTest() throws Exception {
+    BufferedImage image1;
+    BufferedImage image2;
+    String alphabet = "abcdefghijklmnopqrstuvwxyz";
+    char[] chars = alphabet.toCharArray();
+
+    for (int i = 0; i < 19; i++) {
+      image1 = sprite.getSprite(i, 13);
+      image2 = spriteFacade.getLetter(chars[i], Color.RED);
+      assertTrue(compareImages(image1, image2));
+    }
+    for (int i = 19; i < chars.length; i++) {
+      image1 = sprite.getSprite(i % 19, 14);
+      image2 = spriteFacade.getLetter(chars[i], Color.RED);
+      assertTrue(compareImages(image1, image2));
+    }
+  }
+
+  @Test
+  public void getTurquoiseLetterTest() throws Exception {
+    BufferedImage image1;
+    BufferedImage image2;
+    String alphabet = "abcdefghijklmnopqrstuvwxyz";
+    char[] chars = alphabet.toCharArray();
+
+    for (int i = 0; i < 19; i++) {
+      image1 = sprite.getSprite(i, 15);
+      image2 = spriteFacade.getLetter(chars[i], Color.TURQUOISE);
+      assertTrue(compareImages(image1, image2));
+    }
+    for (int i = 19; i < chars.length; i++) {
+      image1 = sprite.getSprite(i % 19, 16);
+      image2 = spriteFacade.getLetter(chars[i], Color.TURQUOISE);
+      assertTrue(compareImages(image1, image2));
+    }
+  }
+
+  @Test
+  public void getWhiteNumberTest() throws Exception {
+    BufferedImage image1;
+    BufferedImage image2;
+
+    for (int i = 0; i < 10; i++) {
+      image1 = sprite.getSprite(8 + i, 8);
+      image2 = spriteFacade.getNumber(i, Color.WHITE);
+      assertTrue(compareImages(image1, image2));
+    }
+  }
+
+  @Test
+  public void getPinkNumberTest() throws Exception {
+    BufferedImage image1;
+    BufferedImage image2;
+
+    for (int i = 0; i < 10; i++) {
+      image1 = sprite.getSprite(8 + i, 10);
+      image2 = spriteFacade.getNumber(i, Color.PINK);
+      assertTrue(compareImages(image1, image2));
+    }
+  }
+
+  @Test
+  public void getOrangeNumberTest() throws Exception {
+    BufferedImage image1;
+    BufferedImage image2;
+
+    for (int i = 0; i < 10; i++) {
+      image1 = sprite.getSprite(8 + i, 12);
+      image2 = spriteFacade.getNumber(i, Color.ORANGE);
+      assertTrue(compareImages(image1, image2));
+    }
+  }
+
+  @Test
+  public void getRedNumberTest() throws Exception {
+    BufferedImage image1;
+    BufferedImage image2;
+
+    for (int i = 0; i < 10; i++) {
+      image1 = sprite.getSprite(8 + i, 14);
+      image2 = spriteFacade.getNumber(i, Color.RED);
+      assertTrue(compareImages(image1, image2));
+    }
+  }
+
+  @Test
+  public void getTurquoiseNumberTest() throws Exception {
+    BufferedImage image1;
+    BufferedImage image2;
+
+    for (int i = 0; i < 10; i++) {
+      image1 = sprite.getSprite(8 + i, 16);
+      image2 = spriteFacade.getNumber(i, Color.TURQUOISE);
+      assertTrue(compareImages(image1, image2));
+    }
+  }
+
+  @Test
+  public void getPacGumTest() throws Exception {
+    BufferedImage image1;
+    BufferedImage image2;
+
+    image1 = sprite.getSprite(0, 2);
+    image2 = spriteFacade.getPacGum(PacGumState.STATE5);
+    assertTrue(compareImages(image1, image2));
+
+    image1 = sprite.getSprite(1, 2);
+    image2 = spriteFacade.getPacGum(PacGumState.STATE4);
+    assertTrue(compareImages(image1, image2));
+
+    image1 = sprite.getSprite(2, 2);
+    image2 = spriteFacade.getPacGum(PacGumState.STATE3);
+    assertTrue(compareImages(image1, image2));
+
+    image1 = sprite.getSprite(3, 2);
+    image2 = spriteFacade.getPacGum(PacGumState.STATE2);
+    assertTrue(compareImages(image1, image2));
+
+    image1 = sprite.getSprite(4, 2);
+    image2 = spriteFacade.getPacGum(PacGumState.STATE1);
     assertTrue(compareImages(image1, image2));
   }
 }
