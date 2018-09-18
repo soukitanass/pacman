@@ -1,15 +1,20 @@
 package view;
 
-import javax.swing.*;
+import java.awt.BorderLayout;
+import java.awt.FlowLayout;
+import java.awt.Graphics;
+import java.awt.event.KeyListener;
+import javax.swing.JButton;
+import javax.swing.JFrame;
+import javax.swing.JLayeredPane;
+import javax.swing.JPanel;
+import javax.swing.JToolBar;
 import model.IGameModel;
 import model.Level;
-import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.awt.event.KeyListener;
 
 public class GameCanvas extends JPanel {
 
+  private final IGameModel model;
   // Toolbar variables
   private JToolBar toolbar;
   private JButton fullScreen;
@@ -22,7 +27,6 @@ public class GameCanvas extends JPanel {
   private static final int FRAME_HEIGHT = 800;
   private static final String GAME_TITLE = "Pac-Man";
   private static final String TEXT_FULL = "Full Screen";
-  private static final String TEXT_REDUCE = "Reduce";
   private static final double SCORE_PANEL_PERCENTAGE = 0.2;
   private static final double LEVEL_PANEL_PERCENTAGE = 0.8;
 
@@ -33,11 +37,10 @@ public class GameCanvas extends JPanel {
 
   GameCanvas(IGameModel model) {
     super();
-
+    this.model = model;
     // Setting the frame parameters
 
     window.setSize(FRAME_WIDTH, FRAME_HEIGHT);
-    window.setResizable(false);
     window.setLocationRelativeTo(null);
     window.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
@@ -45,28 +48,12 @@ public class GameCanvas extends JPanel {
     toolbar = new JToolBar();
     fullScreen = new JButton(TEXT_FULL);
 
-    // Adding a listener to the fullscreen button
-    fullScreen.addActionListener(action -> new ActionListener() {
-
-      @Override
-      public void actionPerformed(ActionEvent e) {
-        if (window.getWidth() == FRAME_WIDTH) {
-          window.setExtendedState(JFrame.MAXIMIZED_BOTH);
-          fullScreen.setText(TEXT_REDUCE);
-        } else {
-          fullScreen.setText(TEXT_FULL);
-          window.setSize(FRAME_WIDTH, FRAME_HEIGHT);
-        }
-      }
-    });
     toolbar.add(fullScreen);
     toolbar.setFloatable(false);
     window.add(toolbar, BorderLayout.NORTH);
 
-    final int pixelRatio = getPixelTileSize(model);
-
     // Add level panel
-    levelPanel = new LevelPanel(model, pixelRatio);
+    levelPanel = new LevelPanel(model);
     levelPanel.setBounds(0, 0, FRAME_WIDTH, (int) (FRAME_HEIGHT * LEVEL_PANEL_PERCENTAGE));
     levelPanel.setLayout(layoutCenter);
     layeredPane.add(levelPanel, JLayeredPane.DEFAULT_LAYER);
@@ -79,7 +66,7 @@ public class GameCanvas extends JPanel {
     layeredPane.add(scorePanel, JLayeredPane.DEFAULT_LAYER);
 
     // Add Pac-Man panel
-    pacmanPanel = new PacManPanel(model, pixelRatio);
+        pacmanPanel = new PacManPanel(model);
     pacmanPanel.setBounds(0, 0, FRAME_WIDTH, (int) (FRAME_HEIGHT * LEVEL_PANEL_PERCENTAGE));
     pacmanPanel.setLayout(layoutCenter);
     pacmanPanel.setOpaque(false);
@@ -95,15 +82,15 @@ public class GameCanvas extends JPanel {
 
   @Override
   public void addKeyListener(KeyListener keyListener) {
-    super.addKeyListener(keyListener);
-    toolbar.addKeyListener(keyListener);
     fullScreen.addKeyListener(keyListener);
   }
 
   @Override
   public void paint(Graphics graphic) {
-    super.paint(graphic);
+    final int pixelTileSize = getPixelTileSize();
+    levelPanel.setPixelTileSize(pixelTileSize);
     levelPanel.paint(graphic);
+    pacmanPanel.setPixelTileSize(pixelTileSize);
     pacmanPanel.paint(graphic);
   }
 
@@ -111,7 +98,7 @@ public class GameCanvas extends JPanel {
     window.dispose();
   }
 
-  public int getPixelTileSize(IGameModel model) {
+  public int getPixelTileSize() {
     final Level level = model.getCurrentLevel();
     final float widthRatio = window.getWidth() / level.getWidth();
     final float heightRatio = window.getHeight() / level.getHeight();

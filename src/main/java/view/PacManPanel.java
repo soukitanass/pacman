@@ -13,20 +13,15 @@ public class PacManPanel extends JPanel {
   private IGameModel model;
   private int pixelTileSize;
 
-  public PacManPanel(IGameModel model, int pixelTileSize) {
+  public PacManPanel(IGameModel model) {
     this.model = model;
-    this.pixelTileSize = pixelTileSize;
   }
 
   @Override
   public void paint(Graphics graphic) {
     super.paint(graphic);
     PacMan pacman = model.getPacman();
-    Level level = model.getCurrentLevel();
 
-    if (pacman == null || level == null) {
-      return;
-    }
     final int x = pacman.getPosition().getX() * pixelTileSize;
     final int y = pacman.getPosition().getY() * pixelTileSize;
 
@@ -69,4 +64,7 @@ public class PacManPanel extends JPanel {
     graphic.fillArc(x, y, pixelTileSize, pixelTileSize, angle / 2 + direction, 360 - angle);
   }
 
+  public void setPixelTileSize(int pixelTileSize) {
+    this.pixelTileSize = pixelTileSize;
+  }
 }

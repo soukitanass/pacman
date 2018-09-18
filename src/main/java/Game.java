@@ -31,6 +31,7 @@ public class Game implements IGame {
   public static void main(String[] args) {
     final String LEVELS_PATH = "src\\main\\res\\Levels.json";
     IGameModel model = new GameModel();
+    model.loadLevels(LEVELS_PATH);
     IGameView view = new GameView(model);
     IGameController controller = new GameController(model, view);
     final int gameUpdatesPerSecond = 7;
@@ -41,10 +42,8 @@ public class Game implements IGame {
         frameUpdatePeriodMilliseconds, System.currentTimeMillis());
     ISoundModel soundPlayer = new SoundModel();
     SoundController soundController = new SoundController(soundPlayer);
-    model.loadLevels(LEVELS_PATH);
     view.addKeyListener(controller);
     view.addKeyListener(soundController);
-    view.display();
     game.setRunning(true);
     while (game.isRunning()) {
       game.update(System.currentTimeMillis());
