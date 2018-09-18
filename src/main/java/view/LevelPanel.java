@@ -7,12 +7,12 @@ import java.util.List;
 import javax.swing.JPanel;
 import model.IGameModel;
 import model.Level;
+import model.PacGumState;
 
 public class LevelPanel extends JPanel {
-  private static final String LEVEL_SPRITES = "level_sprite";
-  private static final int LEVEL_TILE_SIZE = 8;
   private IGameModel model;
   private int pixelTileSize;
+  private SpriteFacade spriteFacade = new SpriteFacade();
 
   public LevelPanel(IGameModel model, int pixelTileSize) {
     this.model = model;
@@ -23,13 +23,25 @@ public class LevelPanel extends JPanel {
   public void paint(Graphics graphic) {
     super.paint(graphic);
     final Level level = this.model.getCurrentLevel();
-    final Sprite sprite = new Sprite(LEVEL_SPRITES, LEVEL_TILE_SIZE);
     List<List<Integer>> map = level.getMap();
 
     for (int i = 0; i < map.size(); i++) {
       List<Integer> row = map.get(i);
       for (int j = 0; j < row.size(); j++) {
-        BufferedImage image = sprite.getSprite(row.get(j), 0);
+
+        BufferedImage image = null;
+        try {
+        	int code = row.get(j);
+        	if (code == 39) {
+        		image = spriteFacade.getPacGum(PacGumState.STATE1);
+        	}else if(code == 40) {
+        		image = spriteFacade.getPacGum(PacGumState.STATE5);
+        	}else {
+        		image = spriteFacade.getWall(code);
+        	}
+        } catch (Exception e) {
+          System.out.println(e.toString());
+        }
         int iPos = j * pixelTileSize;
         int yPos = i * pixelTileSize;
         drawLevel(image, graphic, iPos, yPos, pixelTileSize, pixelTileSize);
@@ -38,7 +50,7 @@ public class LevelPanel extends JPanel {
   }
 
   private void drawLevel(Image source, Graphics graphics, int x, int y, int width, int height) {
-    graphics.drawImage(source, x, y, x + width, y + height, 0, 0, LEVEL_TILE_SIZE, LEVEL_TILE_SIZE,
-        null);
+    final int tileSize = spriteFacade.getTileSize();
+    graphics.drawImage(source, x, y, x + width, y + height, 0, 0, tileSize, tileSize, null);
   }
 }
