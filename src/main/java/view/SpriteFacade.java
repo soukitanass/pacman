@@ -18,7 +18,7 @@ import model.exceptions.InvalidStateException;
 public class SpriteFacade {
 
   private static final String FILE_NAME = "sprites";
-  private static final int TILE_SIZE = 8;
+  private static final int TILE_SIZE = 16;
   private Sprite sprite;
 
   public SpriteFacade() {
@@ -31,7 +31,7 @@ public class SpriteFacade {
 
     if (code < numberOfColumns) {
       return sprite.getSprite(code, y);
-    } else if (code >= numberOfColumns && code < 2 * numberOfColumns - 1) {
+    } else if (code < 2 * numberOfColumns) {
       return sprite.getSprite(code % numberOfColumns, y + 1);
     } else {
       throw new Exception("Invalid wall code");
@@ -183,7 +183,7 @@ public class SpriteFacade {
 
     if (letterPosition < numberOfColumns) {
       return sprite.getSprite(letterPosition, y);
-    } else if (letterPosition >= numberOfColumns && letterPosition < numberOfLetters) {
+    } else if (letterPosition < numberOfLetters) {
       return sprite.getSprite(letterPosition % numberOfColumns, y + 1);
     } else {
       throw new Exception("Invalid letter");
@@ -245,5 +245,9 @@ public class SpriteFacade {
         throw new InvalidStateException("Invalid pacgum state");
     }
     return sprite.getSprite(x, y);
+  }
+
+  public int getTileSize() {
+    return TILE_SIZE;
   }
 }
