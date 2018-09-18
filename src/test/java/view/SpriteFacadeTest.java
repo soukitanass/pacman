@@ -337,6 +337,14 @@ public class SpriteFacadeTest {
     assertTrue(compareImages(image1, image2));
   }
 
+  public void getInvalidScoreThrow() {
+    try {
+      spriteFacade.getScore(200);
+    } catch (Exception exception) {
+      assertEquals(exception.getMessage(), "Invalid score");
+    }
+  }
+
   @Test
   public void getWhiteLetterTest() throws Exception {
     BufferedImage image1;
@@ -489,6 +497,15 @@ public class SpriteFacadeTest {
       image1 = sprite.getSprite(8 + i, 16);
       image2 = spriteFacade.getNumber(i, Color.TURQUOISE);
       assertTrue(compareImages(image1, image2));
+    }
+  }
+
+  @Test
+  public void getInvalidNumberThrow() {
+    try {
+      spriteFacade.getNumber(18, Color.TURQUOISE);
+    } catch (Exception exception) {
+      assertEquals(exception.getMessage(), "Invalid number");
     }
   }
 

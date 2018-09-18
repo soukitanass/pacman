@@ -10,6 +10,11 @@ import model.exceptions.InvalidColorException;
 import model.exceptions.InvalidDirectionException;
 import model.exceptions.InvalidStateException;
 
+/*
+ * Uses the Facade Pattern to hide the complexity of the system by proving an interface to the
+ * client
+ */
+
 public class SpriteFacade {
 
   private static final String FILE_NAME = "sprites";
@@ -26,7 +31,7 @@ public class SpriteFacade {
 
     if (code < numberOfColumns) {
       return sprite.getSprite(code, y);
-    } else if (code >= numberOfColumns && code <= 2 * numberOfColumns - 1) {
+    } else if (code >= numberOfColumns && code < 2 * numberOfColumns) {
       return sprite.getSprite(code % numberOfColumns, y + 1);
     } else {
       throw new Exception("Invalid wall code");
@@ -189,6 +194,10 @@ public class SpriteFacade {
     int y;
     final int xOffset = 8;
 
+    if (number < 0 || number > 9) {
+      throw new Exception("Invalid number");
+    }
+
     switch (color) {
       case WHITE:
         y = 8;
@@ -207,10 +216,6 @@ public class SpriteFacade {
         break;
       default:
         throw new InvalidColorException("Invalid number color");
-    }
-
-    if (number < 0 || number > 9) {
-      throw new Exception("Invalid number");
     }
 
     return sprite.getSprite(number + xOffset, y);
@@ -240,9 +245,5 @@ public class SpriteFacade {
         throw new InvalidStateException("Invalid pacgum state");
     }
     return sprite.getSprite(x, y);
-  }
-
-  public int getTileSize() {
-    return TILE_SIZE;
   }
 }
