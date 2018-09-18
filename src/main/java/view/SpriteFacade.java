@@ -9,7 +9,7 @@ import model.PacManState;
 import model.exceptions.InvalidColorException;
 import model.exceptions.InvalidDirectionException;
 import model.exceptions.InvalidLetterException;
-import model.exceptions.InvalidNumberException;
+import model.exceptions.InvalidDigitException;
 import model.exceptions.InvalidScoreException;
 import model.exceptions.InvalidStateException;
 import model.exceptions.InvalidWallCodeException;
@@ -197,12 +197,12 @@ public class SpriteFacade {
   }
 
   public BufferedImage getDigit(int digit, Color color)
-      throws InvalidColorException, InvalidNumberException {
+      throws InvalidColorException, InvalidDigitException {
     int y;
     final int xOffset = 8;
 
     if (digit < 0 || digit > 9) {
-      throw new InvalidNumberException("Invalid digit: " + digit);
+      throw new InvalidDigitException("Invalid digit: " + digit);
     }
 
     switch (color) {

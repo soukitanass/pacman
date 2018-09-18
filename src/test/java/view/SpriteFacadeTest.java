@@ -12,7 +12,7 @@ import model.PacManState;
 import model.exceptions.InvalidColorException;
 import model.exceptions.InvalidDirectionException;
 import model.exceptions.InvalidLetterException;
-import model.exceptions.InvalidNumberException;
+import model.exceptions.InvalidDigitException;
 import model.exceptions.InvalidScoreException;
 import model.exceptions.InvalidStateException;
 import model.exceptions.InvalidWallCodeException;
@@ -452,7 +452,7 @@ public class SpriteFacadeTest {
   }
 
   @Test
-  public void getWhiteNumberTest() throws InvalidColorException, InvalidNumberException {
+  public void getWhiteNumberTest() throws InvalidColorException, InvalidDigitException {
     BufferedImage image1;
     BufferedImage image2;
 
@@ -464,7 +464,7 @@ public class SpriteFacadeTest {
   }
 
   @Test
-  public void getPinkNumberTest() throws InvalidColorException, InvalidNumberException {
+  public void getPinkNumberTest() throws InvalidColorException, InvalidDigitException {
     BufferedImage image1;
     BufferedImage image2;
 
@@ -476,7 +476,7 @@ public class SpriteFacadeTest {
   }
 
   @Test
-  public void getOrangeNumberTest() throws InvalidColorException, InvalidNumberException {
+  public void getOrangeNumberTest() throws InvalidColorException, InvalidDigitException {
     BufferedImage image1;
     BufferedImage image2;
 
@@ -488,7 +488,7 @@ public class SpriteFacadeTest {
   }
 
   @Test
-  public void getRedNumberTest() throws InvalidColorException, InvalidNumberException {
+  public void getRedNumberTest() throws InvalidColorException, InvalidDigitException {
     BufferedImage image1;
     BufferedImage image2;
 
@@ -500,7 +500,7 @@ public class SpriteFacadeTest {
   }
 
   @Test
-  public void getTurquoiseNumberTest() throws InvalidColorException, InvalidNumberException {
+  public void getTurquoiseNumberTest() throws InvalidColorException, InvalidDigitException {
     BufferedImage image1;
     BufferedImage image2;
 
