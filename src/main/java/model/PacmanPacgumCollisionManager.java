@@ -17,7 +17,6 @@ public class PacmanPacgumCollisionManager {
       return;
     }
     level.setScore(level.getScore() + POINT);
-    //System.out.println("Score = "+level.getScore());
     level.setEmptyMapTile(position);
   }
 }

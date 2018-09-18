@@ -35,8 +35,7 @@ public class GameModel implements IGameModel {
 
   private void startGame() {
     Level level = getCurrentLevel();
-    pacman = new PacMan();
-    pacman.setPosition(new Position(13, 23));
+    pacman = level.getPacMan();
     IMoveValidator moveValidator = new MoveValidator(level);
     movementManager = new MovementManager(pacman, moveValidator);
     pacmanPacgumCollisionManager = new PacmanPacgumCollisionManager(pacman, level);
@@ -120,6 +119,7 @@ public class GameModel implements IGameModel {
     }
   }
 
+  
   @Override
   public PacMan getPacman() {
     return pacman;
