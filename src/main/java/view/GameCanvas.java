@@ -1,23 +1,17 @@
 package view;
 
-import java.awt.BorderLayout;
 import java.awt.FlowLayout;
 import java.awt.Graphics;
 import java.awt.event.KeyListener;
-import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLayeredPane;
 import javax.swing.JPanel;
-import javax.swing.JToolBar;
 import model.IGameModel;
 import model.Level;
 
 public class GameCanvas extends JPanel {
 
   private final IGameModel model;
-  // Toolbar variables
-  private JToolBar toolbar;
-  private JButton fullScreen;
   private PacManPanel pacmanPanel;
   private LevelPanel levelPanel;
   private ScorePanel scorePanel;
@@ -26,7 +20,6 @@ public class GameCanvas extends JPanel {
   private static final int FRAME_WIDTH = 600;
   private static final int FRAME_HEIGHT = 800;
   private static final String GAME_TITLE = "Pac-Man";
-  private static final String TEXT_FULL = "Full Screen";
   private static final double SCORE_PANEL_PERCENTAGE = 0.2;
   private static final double LEVEL_PANEL_PERCENTAGE = 0.8;
 
@@ -36,21 +29,12 @@ public class GameCanvas extends JPanel {
   private JFrame window = new JFrame(GAME_TITLE);
 
   GameCanvas(IGameModel model) {
-    super();
     this.model = model;
-    // Setting the frame parameters
 
+    // Setting the frame parameters
     window.setSize(FRAME_WIDTH, FRAME_HEIGHT);
     window.setLocationRelativeTo(null);
     window.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-
-    // Creating a toolbar for fullscreen option
-    toolbar = new JToolBar();
-    fullScreen = new JButton(TEXT_FULL);
-
-    toolbar.add(fullScreen);
-    toolbar.setFloatable(false);
-    window.add(toolbar, BorderLayout.NORTH);
 
     // Add level panel
     levelPanel = new LevelPanel(model);
@@ -82,7 +66,7 @@ public class GameCanvas extends JPanel {
 
   @Override
   public void addKeyListener(KeyListener keyListener) {
-    fullScreen.addKeyListener(keyListener);
+    levelPanel.addKeyListener(keyListener);
   }
 
   @Override

@@ -20,6 +20,7 @@ public class LevelPanel extends JPanel {
 
   public LevelPanel(IGameModel model) {
     this.model = model;
+    setFocusable(true);
   }
 
   @Override
