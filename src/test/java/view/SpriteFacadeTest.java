@@ -13,7 +13,7 @@ import model.PacManState;
 public class SpriteFacadeTest {
 
   private static final String FILE = "sprites";
-  private static final int TILE_SIZE = 8;
+  private static final int TILE_SIZE = 16;
   private SpriteFacade spriteFacade = new SpriteFacade();
   private Sprite sprite = new Sprite(FILE, TILE_SIZE);
 
