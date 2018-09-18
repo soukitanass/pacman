@@ -25,7 +25,6 @@ public class PacManPanel extends JPanel {
     final int x = pacman.getPosition().getX() * pixelTileSize;
     final int y = pacman.getPosition().getY() * pixelTileSize;
 
-
     if (pacman.getDirection() == Direction.RIGHT) {
       drawPacmanRight(graphic, x, y);
     } else if (pacman.getDirection() == Direction.LEFT) {
