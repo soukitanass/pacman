@@ -31,14 +31,14 @@ public class LevelPanel extends JPanel {
 
         BufferedImage image = null;
         try {
-        	int code = row.get(j);
-        	if (code == 39) {
-        		image = spriteFacade.getPacGum(PacGumState.STATE1);
-        	}else if(code == 40) {
-        		image = spriteFacade.getPacGum(PacGumState.STATE5);
-        	}else {
-        		image = spriteFacade.getWall(code);
-        	}
+          int code = row.get(j);
+          if (code == 39) {
+            image = spriteFacade.getPacGum(PacGumState.STATE1);
+          } else if (code == 40) {
+            image = spriteFacade.getPacGum(PacGumState.STATE5);
+          } else {
+            image = spriteFacade.getWall(code);
+          }
         } catch (Exception e) {
           System.out.println(e.toString());
         }

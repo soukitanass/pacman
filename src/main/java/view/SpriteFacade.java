@@ -246,4 +246,8 @@ public class SpriteFacade {
     }
     return sprite.getSprite(x, y);
   }
+
+  public int getTileSize() {
+    return TILE_SIZE;
+  }
 }
