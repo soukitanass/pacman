@@ -22,20 +22,22 @@ public class GameModel implements IGameModel {
   private PacmanPacgumCollisionManager pacmanPacgumCollisionManager;
   private PacmanSuperPacgumCollisionManager pacmanSuperPacgumCollisionManager;
   private List<Observer> observers = new ArrayList<Observer>();
-  private Sound sound;
-
-  public void playSound(Sound sound) {
-    this.sound = sound;
-    notifyAllObservers();
-  }
 
   public void attach(Observer observer) {
     observers.add(observer);
   }
 
-  public void notifyAllObservers() {
+  @Override
+  public void consumingPacGums() {
     for (Observer observer : observers) {
-      observer.update(sound);
+      observer.consumingPacGums();
+    }
+  }
+
+  @Override
+  public void movingToEmptySpace() {
+    for (Observer observer : observers) {
+      observer.movingToEmptySpace();
     }
   }
 
@@ -49,7 +51,9 @@ public class GameModel implements IGameModel {
       startGame();
     }
     if (pacmanPacgumCollisionManager.isPacgumConsumed()) {
-      playSound(Sound.CHOMP_SOUND);
+      consumingPacGums();
+    } else {
+      movingToEmptySpace();
     }
     pacmanSuperPacgumCollisionManager.update();
     movementManager.updatePacmanPosition();

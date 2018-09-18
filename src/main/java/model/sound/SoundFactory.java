@@ -19,6 +19,10 @@ public class SoundFactory {
         return new File("src/main/res/sounds/pacman_extrapac.wav");
       case INTERMISSION:
         return new File("src/main/res/sounds/pacman_intermission.wav");
+      case WAKA_WAKA:
+        return new File("src/main/res/sounds/pacman_waka.wav");
+      case SIREN:
+        return new File("src/main/res/sounds/pacman_siren.wav");
       default:
         throw new Exception("Invalid sound");
     }

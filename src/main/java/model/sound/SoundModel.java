@@ -4,13 +4,15 @@ import java.io.File;
 import model.IGameModel;
 
 public class SoundModel extends Observer implements ISoundModel {
-  private ISoundPlayer soundPlayer;
+  private ISoundPlayer actionSoundPlayer = new SoundPlayer();
+  private ISoundPlayer backgroundSoundPlayer = new SoundPlayer();
   private SoundFactory soundFactory = new SoundFactory();
   private boolean isMuted;
 
   public SoundModel(IGameModel subject) {
     this.subject = subject;
     this.subject.attach(this);
+    playSound(backgroundSoundPlayer, Sound.SIREN, true);
   }
 
   @Override
@@ -21,11 +23,14 @@ public class SoundModel extends Observer implements ISoundModel {
   @Override
   public void unmute() {
     isMuted = false;
+    playSound(backgroundSoundPlayer, Sound.SIREN, true);
   }
 
   @Override
   public void mute() {
     isMuted = true;
+    actionSoundPlayer.stop();
+    backgroundSoundPlayer.stop();
   }
 
   @Override
@@ -38,18 +43,55 @@ public class SoundModel extends Observer implements ISoundModel {
   }
 
   @Override
-  public void update(Sound sound) {
+  public void consumingPacGums() {
     if (isMuted) {
       return;
     }
 
+    playSound(actionSoundPlayer, Sound.CHOMP_SOUND, true);
+  }
+
+  @Override
+  public void consumingGhost() {
+    if (isMuted) {
+      return;
+    }
+
+    playSound(actionSoundPlayer, Sound.EAT_GHOST_SOUND, false);
+  }
+
+  @Override
+  public void consumingFruit() {
+    if (isMuted) {
+      return;
+    }
+
+    playSound(actionSoundPlayer, Sound.EAT_FRUIT_SOUND, false);
+  }
+
+  @Override
+  public void movingToEmptySpace() {
+    if (actionSoundPlayer.isPlaying()) {
+      actionSoundPlayer.stop();
+    }
+  }
+
+  private void playSound(ISoundPlayer soundPlayer, Sound sound, boolean looping) {
     File soundFile;
     try {
       soundFile = soundFactory.getFile(sound);
-      soundPlayer = new SoundPlayer(soundFile);
-      soundPlayer.play();
-    } catch (Exception exception) {
-      exception.printStackTrace();
+      if (soundPlayer.isPlaying()) {
+        return;
+      }
+      soundPlayer.setClip(soundFile);
+      if (looping) {
+        soundPlayer.loop();
+      } else {
+        soundPlayer.play();
+      }
+    } catch (Exception e) {
+      e.printStackTrace();
     }
   }
+
 }
