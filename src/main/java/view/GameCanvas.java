@@ -50,7 +50,7 @@ public class GameCanvas extends JPanel {
     layeredPane.add(scorePanel, JLayeredPane.DEFAULT_LAYER);
 
     // Add Pac-Man panel
-        pacmanPanel = new PacManPanel(model);
+    pacmanPanel = new PacManPanel(model);
     pacmanPanel.setBounds(0, 0, FRAME_WIDTH, (int) (FRAME_HEIGHT * LEVEL_PANEL_PERCENTAGE));
     pacmanPanel.setLayout(layoutCenter);
     pacmanPanel.setOpaque(false);

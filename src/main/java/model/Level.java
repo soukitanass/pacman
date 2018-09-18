@@ -6,10 +6,10 @@ import java.util.List;
 
 public class Level {
   private static final int EMPTY_CODE = 0;
-  private static final int PACGUM_CODE = 42;
-  private static final int SUPER_PACGUM_CODE = 43;
+  private static final int PACGUM_CODE = 39;
+  private static final int SUPER_PACGUM_CODE = 40;
   private static final int WALL_CODE_MIN = 1;
-  private static final int WALL_CODE_MAX = 41;
+  private static final int WALL_CODE_MAX = 38;
 
   private Integer score = 0;
   @SerializedName("id")
