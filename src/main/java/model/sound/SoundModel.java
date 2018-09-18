@@ -48,8 +48,8 @@ public class SoundModel extends Observer implements ISoundModel {
       soundFile = soundFactory.getFile(sound);
       soundPlayer = new SoundPlayer(soundFile);
       soundPlayer.play();
-    } catch (Exception e) {
-      e.printStackTrace();
+    } catch (Exception exception) {
+      exception.printStackTrace();
     }
   }
 }

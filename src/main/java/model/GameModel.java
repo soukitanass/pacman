@@ -48,7 +48,9 @@ public class GameModel implements IGameModel {
     if (!isGameStarted()) {
       startGame();
     }
-    pacmanPacgumCollisionManager.update();
+    if (pacmanPacgumCollisionManager.isPacgumConsumed()) {
+      playSound(Sound.CHOMP_SOUND);
+    }
     pacmanSuperPacgumCollisionManager.update();
     movementManager.updatePacmanPosition();
   }
