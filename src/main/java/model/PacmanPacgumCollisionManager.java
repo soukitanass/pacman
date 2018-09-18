@@ -4,7 +4,7 @@ public class PacmanPacgumCollisionManager {
 
   private final PacMan pacman;
   private final Level level;
-  private static final int POINT = 10;
+  private static final Integer POINT = 10;
 
   public PacmanPacgumCollisionManager(PacMan pacman, Level level) {
     this.pacman = pacman;

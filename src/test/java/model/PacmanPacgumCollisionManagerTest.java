@@ -1,5 +1,6 @@
 package model;
 
+import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 import java.util.Arrays;
@@ -29,6 +30,7 @@ public class PacmanPacgumCollisionManagerTest {
     assertTrue(level.isPacgum(new Position(0, 0)));
     assertTrue(level.isPacgum(new Position(1, 0)));
     pacmanPacgumCollisionManager.update();
+    assertEquals(new Integer(10), level.getScore());
     assertFalse(level.isPacgum(new Position(0, 0)));
     assertTrue(level.isPacgum(new Position(1, 0)));
   }
