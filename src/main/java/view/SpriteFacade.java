@@ -31,7 +31,7 @@ public class SpriteFacade {
 
     if (code < numberOfColumns) {
       return sprite.getSprite(code, y);
-    } else if (code >= numberOfColumns && code < 2 * numberOfColumns) {
+    } else if (code < 2 * numberOfColumns) {
       return sprite.getSprite(code % numberOfColumns, y + 1);
     } else {
       throw new Exception("Invalid wall code");
@@ -183,7 +183,7 @@ public class SpriteFacade {
 
     if (letterPosition < numberOfColumns) {
       return sprite.getSprite(letterPosition, y);
-    } else if (letterPosition >= numberOfColumns && letterPosition < numberOfLetters) {
+    } else if (letterPosition < numberOfLetters) {
       return sprite.getSprite(letterPosition % numberOfColumns, y + 1);
     } else {
       throw new Exception("Invalid letter");
