@@ -1,5 +1,2 @@
-sudo: required
-
-services:
-  - docker
+language:java
 
