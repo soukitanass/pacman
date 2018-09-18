@@ -6,21 +6,24 @@ import model.Direction;
 import model.GhostState;
 import model.PacGumState;
 import model.PacManState;
+import model.exceptions.InvalidColorException;
+import model.exceptions.InvalidDirectionException;
+import model.exceptions.InvalidStateException;
 
 public class SpriteFacade {
-  
-  private static final String LEVEL_SPRITES = "sprites";
-  private static final int LEVEL_TILE_SIZE = 8;
+
+  private static final String FILE_NAME = "sprites";
+  private static final int TILE_SIZE = 8;
   private Sprite sprite;
 
   public SpriteFacade() {
-    sprite = new Sprite(LEVEL_SPRITES, LEVEL_TILE_SIZE);
+    sprite = new Sprite(FILE_NAME, TILE_SIZE);
   }
-  
+
   public BufferedImage getWall(int code) throws Exception {
     final int y = 0;
     final int numberOfColumns = 19;
-    
+
     if (code < numberOfColumns) {
       return sprite.getSprite(code, y);
     } else if (code >= numberOfColumns && code < 2 * numberOfColumns - 1) {
@@ -51,10 +54,10 @@ public class SpriteFacade {
       case STATE5:
         stateXOffset = 0;
         break;
-     default:
-       throw new Exception("Invalid pacman state");
+      default:
+        throw new InvalidStateException("Invalid pacman state");
     }
-    
+
     switch (direction) {
       case LEFT:
         directionXOffset = 4;
@@ -69,12 +72,13 @@ public class SpriteFacade {
         directionXOffset = 8;
         break;
       default:
-        throw new Exception("Invalid direction");
+        throw new InvalidDirectionException("Invalid pacman direction");
     }
-    return sprite.getSprite(stateXOffset + directionXOffset, y); 
+    return sprite.getSprite(stateXOffset + directionXOffset, y);
   }
-  
-  public BufferedImage getGhost(Direction direction, Color color, GhostState state) throws Exception {
+
+  public BufferedImage getGhost(Direction direction, Color color, GhostState state)
+      throws Exception {
     int colorXOffset = 0;
     int directionXOffset = 0;
     int stateXOffset = 0;
@@ -96,9 +100,9 @@ public class SpriteFacade {
         colorXOffset = 8;
         break;
       default:
-        throw new Exception("Invalid color");
+        throw new InvalidColorException("Invalid ghost color");
     }
-    
+
     switch (direction) {
       case LEFT:
         directionXOffset = 2;
@@ -113,7 +117,7 @@ public class SpriteFacade {
         directionXOffset = 4;
         break;
       default:
-        throw new Exception("Invalid direction");       
+        throw new InvalidDirectionException("Invalid ghost direction");
     }
 
     switch (state) {
@@ -124,28 +128,28 @@ public class SpriteFacade {
         stateXOffset = 1;
         break;
       default:
-        throw new Exception("Invalid ghost state");       
+        throw new InvalidStateException("Invalid ghost state");
     }
-    return sprite.getSprite(stateXOffset + directionXOffset + colorXOffset, y); 
+    return sprite.getSprite(stateXOffset + directionXOffset + colorXOffset, y);
   }
 
   public BufferedImage getScore(int score) throws Exception {
-     final int y = 2;
-     final int x = 15;
-     
-     if (score == 200) {
-        return sprite.getSprite(x, y); 
-     } else if (score == 400) {
-       return sprite.getSprite(x + 1, y); 
-     } else if (score == 800) {
-       return sprite.getSprite(x + 2, y); 
-     } else if (score == 1600) {
-       return sprite.getSprite(x + 3, y); 
-     } else {
-       throw new Exception("Invalid score");
-     }
+    final int y = 2;
+    final int x = 15;
+
+    if (score == 200) {
+      return sprite.getSprite(x, y);
+    } else if (score == 400) {
+      return sprite.getSprite(x + 1, y);
+    } else if (score == 800) {
+      return sprite.getSprite(x + 2, y);
+    } else if (score == 1600) {
+      return sprite.getSprite(x + 3, y);
+    } else {
+      throw new Exception("Invalid score");
+    }
   }
-  
+
   public BufferedImage getLetter(char letter, Color color) throws Exception {
     int y;
     final int numberOfColumns = 19;
@@ -169,7 +173,7 @@ public class SpriteFacade {
         y = 15;
         break;
       default:
-        throw new Exception("Invalid color");
+        throw new InvalidColorException("Invalid letter color");
     }
 
     if (letterPosition < numberOfColumns) {
@@ -202,7 +206,7 @@ public class SpriteFacade {
         y = 16;
         break;
       default:
-        throw new Exception("Invalid color");
+        throw new InvalidColorException("Invalid number color");
     }
 
     if (number < 0 || number > 9) {
@@ -233,7 +237,7 @@ public class SpriteFacade {
         x = 0;
         break;
       default:
-        throw new Exception("Invalid pacgum state");
+        throw new InvalidStateException("Invalid pacgum state");
     }
     return sprite.getSprite(x, y);
   }
