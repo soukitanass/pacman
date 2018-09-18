@@ -1,10 +1,13 @@
 package model;
 
 import com.google.gson.Gson;
+import model.sound.Observer;
+import model.sound.Sound;
 import java.io.BufferedReader;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 
 public class GameModel implements IGameModel {
@@ -18,6 +21,23 @@ public class GameModel implements IGameModel {
   private PacMan pacman;
   private PacmanPacgumCollisionManager pacmanPacgumCollisionManager;
   private PacmanSuperPacgumCollisionManager pacmanSuperPacgumCollisionManager;
+  private List<Observer> observers = new ArrayList<Observer>();
+  private Sound sound;
+
+  public void playSound(Sound sound) {
+    this.sound = sound;
+    notifyAllObservers();
+  }
+
+  public void attach(Observer observer) {
+    observers.add(observer);
+  }
+
+  public void notifyAllObservers() {
+    for (Observer observer : observers) {
+      observer.update(sound);
+    }
+  }
 
   @Override
   public void update() {
