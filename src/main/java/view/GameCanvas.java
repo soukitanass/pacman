@@ -67,24 +67,25 @@ public class GameCanvas extends JPanel {
 
     // Add level panel
     levelPanel = new LevelPanel(model, pixelRatio);
-    levelPanel.setBounds(0, 0, FRAME_WIDTH, (int) (FRAME_HEIGHT*LEVEL_PANEL_PERCENTAGE));
+    levelPanel.setBounds(0, 0, FRAME_WIDTH, (int) (FRAME_HEIGHT * LEVEL_PANEL_PERCENTAGE));
     levelPanel.setLayout(layoutCenter);
     layeredPane.add(levelPanel, JLayeredPane.DEFAULT_LAYER);
-    
+
     // Add score panel
     scorePanel = new ScorePanel(model);
-    scorePanel.setBounds(0, (int) (FRAME_HEIGHT*LEVEL_PANEL_PERCENTAGE), FRAME_WIDTH, (int) (FRAME_HEIGHT*SCORE_PANEL_PERCENTAGE));
+    scorePanel.setBounds(0, (int) (FRAME_HEIGHT * LEVEL_PANEL_PERCENTAGE), FRAME_WIDTH,
+        (int) (FRAME_HEIGHT * SCORE_PANEL_PERCENTAGE));
     scorePanel.setLayout(layoutCenter);
-    layeredPane.add(scorePanel,JLayeredPane.DEFAULT_LAYER);
+    layeredPane.add(scorePanel, JLayeredPane.DEFAULT_LAYER);
 
     // Add Pac-Man panel
     pacmanPanel = new PacManPanel(model, pixelRatio);
-    pacmanPanel.setBounds(0, 0, FRAME_WIDTH,  (int) (FRAME_HEIGHT*LEVEL_PANEL_PERCENTAGE));
+    pacmanPanel.setBounds(0, 0, FRAME_WIDTH, (int) (FRAME_HEIGHT * LEVEL_PANEL_PERCENTAGE));
     pacmanPanel.setLayout(layoutCenter);
     pacmanPanel.setOpaque(false);
     layeredPane.add(pacmanPanel, Integer.valueOf(1));
-    
-   
+
+
 
     // Add the frame content
     window.add(layeredPane);

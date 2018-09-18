@@ -13,12 +13,12 @@ public class Position {
   @Expose
   private Integer y;
 
-  
-  public Position() {
-	
-}
 
-public Position(int x, int y) {
+  public Position() {
+
+  }
+
+  public Position(int x, int y) {
     this.x = x;
     this.y = y;
   }

@@ -119,7 +119,7 @@ public class GameModel implements IGameModel {
     }
   }
 
-  
+
   @Override
   public PacMan getPacman() {
     return pacman;

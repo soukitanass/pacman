@@ -2,7 +2,6 @@ package model;
 
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
-
 import java.util.List;
 
 public class Level {
@@ -118,11 +117,11 @@ public class Level {
     return SUPER_PACGUM_CODE == getCodeAtPosition(position);
   }
 
-public Integer getScore() {
-	return score;
-}
+  public Integer getScore() {
+    return score;
+  }
 
-public void setScore(Integer score) {
-	this.score = score;
-}
+  public void setScore(Integer score) {
+    this.score = score;
+  }
 }
