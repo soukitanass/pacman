@@ -12,12 +12,12 @@ import model.exceptions.InvalidStateException;
 
 public class SpriteFacade {
 
-  private static final String LEVEL_SPRITES = "sprites";
-  private static final int LEVEL_TILE_SIZE = 8;
+  private static final String FILE_NAME = "sprites";
+  private static final int TILE_SIZE = 8;
   private Sprite sprite;
 
   public SpriteFacade() {
-    sprite = new Sprite(LEVEL_SPRITES, LEVEL_TILE_SIZE);
+    sprite = new Sprite(FILE_NAME, TILE_SIZE);
   }
 
   public BufferedImage getWall(int code) throws Exception {
