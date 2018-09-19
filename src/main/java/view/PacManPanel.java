@@ -19,9 +19,13 @@ public class PacManPanel extends JPanel {
 
   @Override
   public void paint(Graphics graphic) {
+
     super.paint(graphic);
     PacMan pacman = model.getPacman();
 
+    if (pacman == null) {
+      return;
+    }
     final int x = pacman.getPosition().getX() * pixelTileSize;
     final int y = pacman.getPosition().getY() * pixelTileSize;
 
@@ -34,6 +38,7 @@ public class PacManPanel extends JPanel {
     } else if (pacman.getDirection() == Direction.DOWN) {
       drawPacmanDown(graphic, x, y);
     }
+
   }
 
   private void drawPacmanRight(Graphics graphic, int x, int y) {
