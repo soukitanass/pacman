@@ -8,6 +8,7 @@ import javax.swing.JPanel;
 import model.IGameModel;
 import model.Level;
 import model.PacGumState;
+import view.utilities.WarningDialog;
 
 @SuppressWarnings("serial")
 public class LevelPanel extends JPanel {
@@ -44,8 +45,8 @@ public class LevelPanel extends JPanel {
           } else {
             image = spriteFacade.getWall(code);
           }
-        } catch (Exception e) {
-          System.out.println(e.toString());
+        } catch (Exception exception) {
+          WarningDialog.display("Error while painting the level. ", exception);
         }
         int iPos = j * pixelTileSize;
         int yPos = i * pixelTileSize;

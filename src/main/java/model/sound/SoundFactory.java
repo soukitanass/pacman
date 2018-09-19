@@ -1,9 +1,10 @@
 package model.sound;
 
 import java.io.File;
+import model.exceptions.InvalidSoundException;
 
 public class SoundFactory {
-  public File getFile(Sound sound) throws Exception {
+  public File getFile(Sound sound) throws InvalidSoundException {
     switch (sound) {
       case BEGINNING_SOUND:
         return new File(SoundFactory.class.getClassLoader()
@@ -20,7 +21,7 @@ public class SoundFactory {
       case EAT_GHOST_SOUND:
         return new File(SoundFactory.class.getClassLoader()
             .getResource("sounds/pacman_eatghost.wav").getFile());
-      case EXTRA__PAC:
+      case EXTRA_PAC:
         return new File(SoundFactory.class.getClassLoader()
             .getResource("sounds/pacman_extrapac.wav").getFile());
       case INTERMISSION:
@@ -33,7 +34,7 @@ public class SoundFactory {
         return new File(
             SoundFactory.class.getClassLoader().getResource("sounds/pacman_siren.wav").getFile());
       default:
-        throw new Exception("Invalid sound");
+        throw new InvalidSoundException("Invalid sound");
     }
   }
 }
