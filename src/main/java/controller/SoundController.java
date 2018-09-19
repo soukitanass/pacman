@@ -14,7 +14,7 @@ public class SoundController implements ISoundController {
 
   @Override
   public void keyTyped(KeyEvent e) {
-
+    // Do not remove!
   }
 
   @Override
@@ -26,6 +26,6 @@ public class SoundController implements ISoundController {
 
   @Override
   public void keyReleased(KeyEvent e) {
-
+    // Do not remove!
   }
 }

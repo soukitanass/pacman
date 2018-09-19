@@ -43,6 +43,7 @@ public class SpriteFacade {
     }
   }
 
+  @SuppressWarnings("squid:RedundantThrowsDeclarationCheck")
   public BufferedImage getPacman(Direction direction, PacManState state)
       throws InvalidStateException, InvalidDirectionException {
     final int fullPacManX = 16;
@@ -88,6 +89,7 @@ public class SpriteFacade {
     return sprite.getSprite(stateXOffset + directionXOffset, y);
   }
 
+  @SuppressWarnings("squid:RedundantThrowsDeclarationCheck")
   public BufferedImage getGhost(Direction direction, Color color, GhostState state)
       throws InvalidColorException, InvalidDirectionException, InvalidStateException {
     int colorXOffset = 0;
@@ -161,6 +163,7 @@ public class SpriteFacade {
     }
   }
 
+  @SuppressWarnings("squid:RedundantThrowsDeclarationCheck")
   public BufferedImage getLetter(char letter, Color color)
       throws InvalidLetterException, InvalidColorException {
     int y;
@@ -200,6 +203,7 @@ public class SpriteFacade {
     }
   }
 
+  @SuppressWarnings("squid:RedundantThrowsDeclarationCheck")
   public BufferedImage getDigit(int digit, Color color)
       throws InvalidColorException, InvalidDigitException {
     int y;

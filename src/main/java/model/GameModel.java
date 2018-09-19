@@ -4,7 +4,6 @@ import com.google.gson.Gson;
 import model.sound.Observer;
 import view.utilities.WarningDialog;
 import java.io.BufferedReader;
-import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.List;
@@ -127,21 +126,12 @@ public class GameModel implements IGameModel {
 
   public void loadLevels(String levelsPath) {
     Gson gson = new Gson();
-    BufferedReader br = null;
-    try {
-      br = new BufferedReader(
-          new InputStreamReader(this.getClass().getResourceAsStream("/" + levelsPath)));
+
+    try (BufferedReader br = new BufferedReader(
+        new InputStreamReader(this.getClass().getResourceAsStream("/" + levelsPath)));) {
       this.levelsList = gson.fromJson(br, Levels.class);
     } catch (Exception exception) {
       WarningDialog.display("Error while opening level file. ", exception);
-    } finally {
-      if (br != null) {
-        try {
-          br.close();
-        } catch (IOException exception) {
-          WarningDialog.display("Error while closing level file. ", exception);
-        }
-      }
     }
   }
 
