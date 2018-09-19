@@ -3,7 +3,7 @@ package view;
 import java.awt.Color;
 import java.awt.Graphics;
 import javax.swing.JPanel;
-import model.Direction;
+import view.Direction;
 import model.IGameModel;
 import model.PacMan;
 

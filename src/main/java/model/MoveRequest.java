@@ -1,5 +1,7 @@
 package model;
 
+import view.Direction;
+
 public class MoveRequest implements IMoveRequest {
   private final Direction direction;
   private final Position position;

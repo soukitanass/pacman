@@ -1,6 +1,7 @@
 package model;
 
 import model.sound.Observer;
+import view.Direction;
 
 public interface IGameModel {
   void update();
