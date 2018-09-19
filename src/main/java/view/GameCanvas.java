@@ -22,7 +22,7 @@ public class GameCanvas extends JPanel {
   private static final int FRAME_WIDTH = 600;
   private static final int FRAME_HEIGHT = 800;
   private static final String GAME_TITLE = "Pac-Man";
- 
+
 
   private final FlowLayout layoutCenter = new FlowLayout(FlowLayout.CENTER);
   private JLayeredPane layeredPane = new JLayeredPane();
