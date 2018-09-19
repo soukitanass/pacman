@@ -183,6 +183,9 @@ public class SpriteFacade {
       case TURQUOISE:
         y = 15;
         break;
+      case YELLOW:
+        y = 17;
+        break;
       default:
         throw new InvalidColorException("Invalid letter color");
     }
@@ -220,6 +223,9 @@ public class SpriteFacade {
         break;
       case TURQUOISE:
         y = 16;
+        break;
+      case YELLOW:
+        y = 18;
         break;
       default:
         throw new InvalidColorException("Invalid digit color");
