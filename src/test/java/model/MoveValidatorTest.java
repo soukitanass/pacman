@@ -6,11 +6,12 @@ import static org.junit.Assert.assertTrue;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 import org.junit.Test;
+import model.exceptions.InvalidDirectionException;
 
 public class MoveValidatorTest {
 
   @Test
-  public void movesToEmptySpacesAreValid() {
+  public void movesToEmptySpacesAreValid() throws InvalidDirectionException {
     Level mockLevel = getMockLevelTwoByTwoEmpty();
     IMoveValidator moveValidator = new MoveValidator(mockLevel);
     IMoveRequest moveLeft = new MoveRequest(new Position(1, 0), Direction.LEFT);
@@ -24,7 +25,7 @@ public class MoveValidatorTest {
   }
 
   @Test
-  public void movesIntoAWallAreInvalid() {
+  public void movesIntoAWallAreInvalid() throws InvalidDirectionException {
     Level mockLevel = getMockLevelTwoByTwoWalls();
     IMoveValidator moveValidator = new MoveValidator(mockLevel);
     IMoveRequest moveLeft = new MoveRequest(new Position(1, 0), Direction.LEFT);
@@ -38,7 +39,7 @@ public class MoveValidatorTest {
   }
 
   @Test
-  public void movesIntoLevelEdgesAreValidIfEmptyOnTheOtherSide() {
+  public void movesIntoLevelEdgesAreValidIfEmptyOnTheOtherSide() throws InvalidDirectionException {
     Level mockLevel = getMockLevelSingleEmpty();
     IMoveValidator moveValidator = new MoveValidator(mockLevel);
     IMoveRequest moveLeft = new MoveRequest(new Position(0, 0), Direction.LEFT);
@@ -52,7 +53,8 @@ public class MoveValidatorTest {
   }
 
   @Test
-  public void movesIntoLevelEdgesAreInvalidIfWallIsOnTheOtherSide() {
+  public void movesIntoLevelEdgesAreInvalidIfWallIsOnTheOtherSide()
+      throws InvalidDirectionException {
     Level mockLevel = getMockLevelSingleWall();
     IMoveValidator moveValidator = new MoveValidator(mockLevel);
     IMoveRequest moveLeft = new MoveRequest(new Position(0, 0), Direction.LEFT);
@@ -66,7 +68,7 @@ public class MoveValidatorTest {
   }
 
   @Test
-  public void getTargetPositionNoWrapAround() {
+  public void getTargetPositionNoWrapAround() throws InvalidDirectionException {
     Level mockLevel = getMockLevelTwoByTwoEmpty();
     IMoveValidator moveValidator = new MoveValidator(mockLevel);
     IMoveRequest moveLeft = new MoveRequest(new Position(1, 0), Direction.LEFT);
@@ -80,7 +82,7 @@ public class MoveValidatorTest {
   }
 
   @Test
-  public void getTargetPositionWithWrapAround() {
+  public void getTargetPositionWithWrapAround() throws InvalidDirectionException {
     Level mockLevel = getMockLevelTwoByTwoEmpty();
     IMoveValidator moveValidator = new MoveValidator(mockLevel);
     IMoveRequest moveLeft = new MoveRequest(new Position(0, 0), Direction.LEFT);

@@ -1,5 +1,6 @@
 package view;
 
+import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.Graphics;
 import java.awt.event.KeyListener;
@@ -9,6 +10,7 @@ import javax.swing.JPanel;
 import model.IGameModel;
 import model.Level;
 
+@SuppressWarnings("serial")
 public class GameCanvas extends JPanel {
 
   private final IGameModel model;
@@ -33,6 +35,7 @@ public class GameCanvas extends JPanel {
 
     // Setting the frame parameters
     window.setSize(FRAME_WIDTH, FRAME_HEIGHT);
+    window.setMinimumSize(new Dimension(FRAME_WIDTH, FRAME_HEIGHT));
     window.setLocationRelativeTo(null);
     window.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
@@ -55,8 +58,6 @@ public class GameCanvas extends JPanel {
     pacmanPanel.setLayout(layoutCenter);
     pacmanPanel.setOpaque(false);
     layeredPane.add(pacmanPanel, Integer.valueOf(1));
-
-
 
     // Add the frame content
     window.add(layeredPane);

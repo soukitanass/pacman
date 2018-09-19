@@ -30,7 +30,7 @@ public class PacmanPacgumCollisionManagerTest {
     assertTrue(level.isPacgum(new Position(0, 0)));
     assertTrue(level.isPacgum(new Position(1, 0)));
     pacmanPacgumCollisionManager.isPacgumConsumed();
-    assertEquals(new Integer(10), level.getScore());
+    assertEquals(Integer.valueOf(10), level.getScore());
     assertFalse(level.isPacgum(new Position(0, 0)));
     assertTrue(level.isPacgum(new Position(1, 0)));
   }

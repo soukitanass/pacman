@@ -1,5 +1,7 @@
 package model;
 
+import model.exceptions.InvalidDirectionException;
+
 public class MovementManager {
 
   private final PacMan pacman;
@@ -13,14 +15,22 @@ public class MovementManager {
   public void updatePacmanPosition() {
     MoveRequest desiredMoveRequest =
         new MoveRequest(pacman.getPosition(), pacman.getDesiredDirection());
-    if (moveValidator.isValid(desiredMoveRequest)) {
-      pacman.setPosition(moveValidator.getTargetPosition(desiredMoveRequest));
-      return;
+    try {
+      if (moveValidator.isValid(desiredMoveRequest)) {
+        pacman.setPosition(moveValidator.getTargetPosition(desiredMoveRequest));
+        return;
+      }
+    } catch (InvalidDirectionException e) {
+      System.out.println(e.toString());
     }
 
     MoveRequest fallbackMoveRequest = new MoveRequest(pacman.getPosition(), pacman.getDirection());
-    if (moveValidator.isValid(fallbackMoveRequest)) {
-      pacman.setPosition(moveValidator.getTargetPosition(fallbackMoveRequest));
+    try {
+      if (moveValidator.isValid(fallbackMoveRequest)) {
+        pacman.setPosition(moveValidator.getTargetPosition(fallbackMoveRequest));
+      }
+    } catch (InvalidDirectionException e) {
+      System.out.println(e.toString());
     }
 
     setPacmanDirection(pacman.getDesiredDirection());
@@ -29,8 +39,12 @@ public class MovementManager {
   public void setPacmanDirection(Direction direction) {
     pacman.setDesiredDirection(direction);
     MoveRequest moveRequest = new MoveRequest(pacman.getPosition(), direction);
-    if (!moveValidator.isValid(moveRequest)) {
-      return;
+    try {
+      if (!moveValidator.isValid(moveRequest)) {
+        return;
+      }
+    } catch (InvalidDirectionException e) {
+      System.out.println(e.toString());
     }
     pacman.setDirection(direction);
   }

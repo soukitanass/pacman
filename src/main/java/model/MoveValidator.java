@@ -1,5 +1,7 @@
 package model;
 
+import model.exceptions.InvalidDirectionException;
+
 public class MoveValidator implements IMoveValidator {
   private final Level level;
 
@@ -8,12 +10,12 @@ public class MoveValidator implements IMoveValidator {
   }
 
   @Override
-  public boolean isValid(IMoveRequest moveRequest) {
+  public boolean isValid(IMoveRequest moveRequest) throws InvalidDirectionException {
     final Position targetPosition = getTargetPosition(moveRequest);
     return !level.isWall(targetPosition);
   }
 
-  public Position getTargetPosition(IMoveRequest moveRequest) {
+  public Position getTargetPosition(IMoveRequest moveRequest) throws InvalidDirectionException {
     int targetX = moveRequest.getPosition().getX();
     int targetY = moveRequest.getPosition().getY();
     switch (moveRequest.getDirection()) {
@@ -29,6 +31,8 @@ public class MoveValidator implements IMoveValidator {
       case DOWN:
         ++targetY;
         break;
+      default:
+        throw new InvalidDirectionException("Invalid Pac-Man direction.");
     }
     Integer levelWidth = level.getWidth();
     Integer levelHeight = level.getHeight();

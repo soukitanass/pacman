@@ -9,6 +9,7 @@ import model.IGameModel;
 import model.Level;
 import model.PacGumState;
 
+@SuppressWarnings("serial")
 public class LevelPanel extends JPanel {
   private IGameModel model;
   private int pixelTileSize;
