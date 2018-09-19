@@ -75,12 +75,8 @@ public class LevelPanel extends JPanel {
       BufferedImage image = null;
       try {
         image = spriteFacade.getLetter((char) scoreText.charAt(i), Color.WHITE);
-      } catch (InvalidLetterException e) {
-        // TODO Auto-generated catch block
-        e.printStackTrace();
-      } catch (InvalidColorException e) {
-        // TODO Auto-generated catch block
-        e.printStackTrace();
+      } catch (Exception exception) {
+        WarningDialog.display("Error while painting the panel. ", exception);
       }
       xPos = i * pixelTileSizeScore;
       drawLevel(image, graphic, xPos, y, pixelTileSizeScore, pixelTileSizeScore);
@@ -97,12 +93,8 @@ public class LevelPanel extends JPanel {
       BufferedImage image = null;
       try {
         image = spriteFacade.getDigit(digit, Color.ORANGE);
-      } catch (InvalidColorException e) {
-        // TODO Auto-generated catch block
-        e.printStackTrace();
-      } catch (InvalidDigitException e) {
-        // TODO Auto-generated catch block
-        e.printStackTrace();
+      } catch (Exception exception) {
+        WarningDialog.display("Error while painting the panel. ", exception);
       }
       pos = i * pixelTileSizeScore + xPos;
       drawLevel(image, graphic, pos, y, pixelTileSizeScore, pixelTileSizeScore);
