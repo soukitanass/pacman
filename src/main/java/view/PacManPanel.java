@@ -23,10 +23,6 @@ public class PacManPanel extends JPanel {
     super.paint(graphic);
     PacMan pacman = model.getPacman();
 
-    if (pacman == null) {
-      return;
-    }
-
     final int x = pacman.getPosition().getX() * pixelTileSize;
     final int y = pacman.getPosition().getY() * pixelTileSize;
 
