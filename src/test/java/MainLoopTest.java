@@ -1,4 +1,6 @@
 import controller.IGameController;
+import game.Game;
+import game.IGame;
 import model.IGameModel;
 import org.junit.Before;
 import org.junit.Test;

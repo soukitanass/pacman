@@ -1,6 +1,6 @@
 package game;
 
-interface IGame {
+public interface IGame {
   void update(long currentTime);
 
   boolean isRunning();
