@@ -15,9 +15,13 @@ public class LevelPanel extends JPanel {
   private int pixelTileSize;
   private SpriteFacade spriteFacade = new SpriteFacade();
 
-  public LevelPanel(IGameModel model, int pixelTileSize) {
-    this.model = model;
+  public void setPixelTileSize(int pixelTileSize) {
     this.pixelTileSize = pixelTileSize;
+  }
+
+  public LevelPanel(IGameModel model) {
+    this.model = model;
+    setFocusable(true);
   }
 
   @Override

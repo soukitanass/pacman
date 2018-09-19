@@ -41,8 +41,8 @@ public class LevelTest {
   }
 
   @Test
-  public void isWallFromCode1To41() {
-    List<List<Integer>> map = Arrays.asList(Arrays.asList(-1, 0, 1, 2, 39, 40, 41, 42, 43, 44));
+  public void isWallFromCode1To38() {
+    List<List<Integer>> map = Arrays.asList(Arrays.asList(-1, 0, 1, 2, 36, 37, 38, 39, 40, 41));
     level.setMap(map);
 
     assertFalse(level.isWall(new Position(0, 0)));

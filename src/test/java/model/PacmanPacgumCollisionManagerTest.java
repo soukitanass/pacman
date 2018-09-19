@@ -10,7 +10,7 @@ import org.junit.Test;
 
 public class PacmanPacgumCollisionManagerTest {
 
-  private static final int PACGUM_CODE = 42;
+  private static final int PACGUM_CODE = 39;
   private PacMan pacman;
   private Level level;
   private PacmanPacgumCollisionManager pacmanPacgumCollisionManager;
