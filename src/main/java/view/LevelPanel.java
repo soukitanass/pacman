@@ -12,6 +12,7 @@ import model.PacGumState;
 import model.exceptions.InvalidColorException;
 import model.exceptions.InvalidDigitException;
 import model.exceptions.InvalidLetterException;
+import view.utilities.WarningDialog;
 
 @SuppressWarnings("serial")
 public class LevelPanel extends JPanel {
@@ -51,7 +52,7 @@ public class LevelPanel extends JPanel {
             image = spriteFacade.getWall(code);
           }
         } catch (Exception e) {
-          System.out.println(e.toString());
+          WarningDialog.display("Error while painting the level. ", e);
         }
         int iPos = j * pixelTileSize;
         int yPos = i * pixelTileSize;
@@ -59,9 +60,6 @@ public class LevelPanel extends JPanel {
       }
       drawScorePanel(graphic, map.size() * pixelTileSize, level);
     }
-
-
-    int YPos = map.size() * pixelTileSize;
 
   }
 
