@@ -1,4 +1,4 @@
-package model;
+package model.sound;
 
 public interface ISoundModel {
   boolean isMuted();

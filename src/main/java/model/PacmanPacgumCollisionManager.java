@@ -11,12 +11,13 @@ public class PacmanPacgumCollisionManager {
     this.level = level;
   }
 
-  public void update() {
+  public boolean isPacgumConsumed() {
     Position position = pacman.getPosition();
     if (!level.isPacgum(position)) {
-      return;
+      return false;
     }
     level.setScore(level.getScore() + POINT);
     level.setEmptyMapTile(position);
+    return true;
   }
 }

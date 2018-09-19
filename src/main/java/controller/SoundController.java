@@ -1,7 +1,7 @@
 package controller;
 
-import model.ISoundModel;
 import java.awt.event.KeyEvent;
+import model.sound.ISoundModel;
 import static java.awt.event.KeyEvent.VK_M;
 
 public class SoundController implements ISoundController {

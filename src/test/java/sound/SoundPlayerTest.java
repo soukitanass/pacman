@@ -1,7 +1,9 @@
 package sound;
 
-import model.ISoundModel;
-import model.SoundModel;
+import model.GameModel;
+import model.IGameModel;
+import model.sound.ISoundModel;
+import model.sound.SoundModel;
 import org.junit.Before;
 import org.junit.Test;
 import static org.junit.Assert.assertFalse;
@@ -12,7 +14,8 @@ public class SoundPlayerTest {
 
   @Before
   public void setUp() {
-    soundPlayer = new SoundModel();
+    IGameModel model = new GameModel();
+    soundPlayer = new SoundModel(model);
   }
 
   @Test
