@@ -27,6 +27,7 @@ public class PacManPanel extends JPanel {
     if (pacman == null) {
       return;
     }
+
     final int x = pacman.getPosition().getX() * pixelTileSize;
     final int y = pacman.getPosition().getY() * pixelTileSize;
 

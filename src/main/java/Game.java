@@ -3,8 +3,9 @@ import controller.IGameController;
 import controller.SoundController;
 import model.GameModel;
 import model.IGameModel;
-import model.ISoundModel;
-import model.SoundModel;
+import model.sound.ISoundModel;
+import model.sound.Sound;
+import model.sound.SoundModel;
 import view.GameView;
 import view.IGameView;
 
@@ -40,7 +41,7 @@ public class Game implements IGame {
     final int frameUpdatePeriodMilliseconds = (int) (1000.0 / frameUpdatesPerSecond);
     IGame game = new Game(model, view, controller, gameUpdatePeriodMilliseconds,
         frameUpdatePeriodMilliseconds, System.currentTimeMillis());
-    ISoundModel soundPlayer = new SoundModel();
+    ISoundModel soundPlayer = new SoundModel(model);
     SoundController soundController = new SoundController(soundPlayer);
     view.addKeyListener(controller);
     view.addKeyListener(soundController);
