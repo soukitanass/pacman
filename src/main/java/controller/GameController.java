@@ -17,10 +17,14 @@ public class GameController implements IGameController {
   }
 
   @Override
-  public void update() {}
+  public void update() {
+    // Do not remove!
+  }
 
   @Override
-  public void keyTyped(KeyEvent e) {}
+  public void keyTyped(KeyEvent e) {
+    // Do not remove!
+  }
 
   @Override
   public void keyPressed(KeyEvent e) {
@@ -49,5 +53,7 @@ public class GameController implements IGameController {
   }
 
   @Override
-  public void keyReleased(KeyEvent e) {}
+  public void keyReleased(KeyEvent e) {
+    // Do not remove!
+  }
 }

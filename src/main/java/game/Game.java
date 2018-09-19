@@ -1,3 +1,5 @@
+package game;
+
 import controller.GameController;
 import controller.IGameController;
 import controller.SoundController;
