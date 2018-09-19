@@ -4,7 +4,6 @@ import com.google.gson.Gson;
 import model.sound.Observer;
 import view.utilities.WarningDialog;
 import java.io.BufferedReader;
-import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.List;
