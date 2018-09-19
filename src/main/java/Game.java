@@ -30,7 +30,7 @@ public class Game implements IGame {
   }
 
   public static void main(String[] args) {
-    final String LEVELS_PATH = "src\\main\\res\\Levels.json";
+    final String LEVELS_PATH = "Levels.json";
     IGameModel model = new GameModel();
     model.loadLevels(LEVELS_PATH);
     IGameView view = new GameView(model);

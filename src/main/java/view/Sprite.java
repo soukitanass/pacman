@@ -5,6 +5,7 @@ import java.awt.image.BufferedImage;
 import java.awt.image.RasterFormatException;
 import java.io.File;
 import java.io.IOException;
+import java.io.InputStream;
 
 public class Sprite {
   private BufferedImage spriteSheet;
@@ -25,10 +26,10 @@ public class Sprite {
     return subImage;
   }
 
-  private BufferedImage loadSprite(String file) {
+  private BufferedImage loadSprite(String filename) {
     BufferedImage sprite = null;
     try {
-      sprite = ImageIO.read(new File("src/main/res/" + file + ".png"));
+      sprite = ImageIO.read(Sprite.class.getClassLoader().getResource(filename + ".png"));
     } catch (IOException e) {
       System.out.println(e.toString());
     }
