@@ -4,7 +4,7 @@ import model.exceptions.InvalidDirectionException;
 import view.utilities.WarningDialog;
 
 public class MovementManager {
-  private final static String INVALID_DIRECTION_MSG = "Invalid direction. ";
+  private static final String INVALID_DIRECTION_MSG = "Invalid direction. ";
 
   private final PacMan pacman;
   private IMoveValidator moveValidator;
