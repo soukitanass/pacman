@@ -183,6 +183,9 @@ public class SpriteFacade {
       case TURQUOISE:
         y = 15;
         break;
+      case YELLOW:
+        y = 17;
+        break;
       default:
         throw new InvalidColorException("Invalid letter color");
     }
@@ -199,7 +202,7 @@ public class SpriteFacade {
   public BufferedImage getDigit(int digit, Color color)
       throws InvalidColorException, InvalidDigitException {
     int y;
-    final int xOffset = 8;
+    final int xOffset = 7;
 
     if (digit < 0 || digit > 9) {
       throw new InvalidDigitException("Invalid digit: " + digit);
@@ -220,6 +223,9 @@ public class SpriteFacade {
         break;
       case TURQUOISE:
         y = 16;
+        break;
+      case YELLOW:
+        y = 18;
         break;
       default:
         throw new InvalidColorException("Invalid digit color");

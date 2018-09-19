@@ -452,61 +452,92 @@ public class SpriteFacadeTest {
   }
 
   @Test
-  public void getWhiteNumberTest() throws InvalidColorException, InvalidDigitException {
+  public void getYellowLetterTest() throws InvalidLetterException, InvalidColorException {
+    BufferedImage image1;
+    BufferedImage image2;
+    String alphabet = "abcdefghijklmnopqrstuvwxyz";
+    char[] chars = alphabet.toCharArray();
+
+    for (int i = 0; i < 19; i++) {
+      image1 = sprite.getSprite(i, 17);
+      image2 = spriteFacade.getLetter(chars[i], Color.YELLOW);
+      assertTrue(compareImages(image1, image2));
+    }
+    for (int i = 19; i < chars.length; i++) {
+      image1 = sprite.getSprite(i % 19, 18);
+      image2 = spriteFacade.getLetter(chars[i], Color.YELLOW);
+      assertTrue(compareImages(image1, image2));
+    }
+  }
+
+  @Test
+  public void getWhiteDigitTest() throws InvalidColorException, InvalidDigitException {
     BufferedImage image1;
     BufferedImage image2;
 
     for (int i = 0; i < 10; i++) {
-      image1 = sprite.getSprite(8 + i, 8);
+      image1 = sprite.getSprite(7 + i, 8);
       image2 = spriteFacade.getDigit(i, Color.WHITE);
       assertTrue(compareImages(image1, image2));
     }
   }
 
   @Test
-  public void getPinkNumberTest() throws InvalidColorException, InvalidDigitException {
+  public void getPinkDigitTest() throws InvalidColorException, InvalidDigitException {
     BufferedImage image1;
     BufferedImage image2;
 
     for (int i = 0; i < 10; i++) {
-      image1 = sprite.getSprite(8 + i, 10);
+      image1 = sprite.getSprite(7 + i, 10);
       image2 = spriteFacade.getDigit(i, Color.PINK);
       assertTrue(compareImages(image1, image2));
     }
   }
 
   @Test
-  public void getOrangeNumberTest() throws InvalidColorException, InvalidDigitException {
+  public void getOrangeDigitTest() throws InvalidColorException, InvalidDigitException {
     BufferedImage image1;
     BufferedImage image2;
 
     for (int i = 0; i < 10; i++) {
-      image1 = sprite.getSprite(8 + i, 12);
+      image1 = sprite.getSprite(7 + i, 12);
       image2 = spriteFacade.getDigit(i, Color.ORANGE);
       assertTrue(compareImages(image1, image2));
     }
   }
 
   @Test
-  public void getRedNumberTest() throws InvalidColorException, InvalidDigitException {
+  public void getRedDigitTest() throws InvalidColorException, InvalidDigitException {
     BufferedImage image1;
     BufferedImage image2;
 
     for (int i = 0; i < 10; i++) {
-      image1 = sprite.getSprite(8 + i, 14);
+      image1 = sprite.getSprite(7 + i, 14);
       image2 = spriteFacade.getDigit(i, Color.RED);
       assertTrue(compareImages(image1, image2));
     }
   }
 
   @Test
-  public void getTurquoiseNumberTest() throws InvalidColorException, InvalidDigitException {
+  public void getTurquoiseDigitTest() throws InvalidColorException, InvalidDigitException {
     BufferedImage image1;
     BufferedImage image2;
 
     for (int i = 0; i < 10; i++) {
-      image1 = sprite.getSprite(8 + i, 16);
+      image1 = sprite.getSprite(7 + i, 16);
       image2 = spriteFacade.getDigit(i, Color.TURQUOISE);
+      assertTrue(compareImages(image1, image2));
+    }
+  }
+
+  @Test
+  public void getYellowDigitTest() throws InvalidColorException, InvalidDigitException {
+    BufferedImage image1;
+    BufferedImage image2;
+
+    for (int i = 0; i < 10; i++) {
+      image1 = sprite.getSprite(7 + i, 18);
+      image2 = spriteFacade.getDigit(i, Color.YELLOW);
       assertTrue(compareImages(image1, image2));
     }
   }
