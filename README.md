@@ -13,6 +13,10 @@ logiciel à l'université de Sherbrooke - Faculté de Génie
 - Run the app with: `./gradlew.bat run`
 - (Optional) Run unit tests with: `./gradlew.bat test`
 
+### Run jar with command line
+- Build the project: `./gradlew build`
+- Run jar: `java -jar ./build/libs/pacman.jar`
+
 ### Run with Eclipse
 - Open Eclipse
 - File > Import... > Gradle > Existing Gradle Project

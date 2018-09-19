@@ -11,7 +11,7 @@ public class GameModelTest {
 
   @Before
   public void setUp() {
-    final String LEVELS_PATH = "src\\test\\res\\Levels.json";
+    final String LEVELS_PATH = "Levels.json";
     model = new GameModel();
     model.loadLevels(LEVELS_PATH);
   }

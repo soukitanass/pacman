@@ -2,11 +2,13 @@ package model;
 
 import com.google.gson.Gson;
 import model.sound.Observer;
+import model.sound.Sound;
 import view.utilities.WarningDialog;
 import java.io.BufferedReader;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
+import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -130,7 +132,8 @@ public class GameModel implements IGameModel {
     Gson gson = new Gson();
     BufferedReader br = null;
     try {
-      br = new BufferedReader(new FileReader(levelsPath));
+      br = new BufferedReader(
+          new InputStreamReader(this.getClass().getResourceAsStream("/" + levelsPath)));
       this.levelsList = gson.fromJson(br, Levels.class);
     } catch (FileNotFoundException exception) {
       WarningDialog.display("Error while opening level file. ", exception);
@@ -144,7 +147,6 @@ public class GameModel implements IGameModel {
       }
     }
   }
-
 
   @Override
   public PacMan getPacman() {
