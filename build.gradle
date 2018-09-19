@@ -31,6 +31,15 @@ dependencies {
     }
 }
 
+jar {
+    manifest {
+        attributes "Main-Class": "Game"
+    }
+    from {
+        configurations.compile.collect { it.isDirectory() ? it : zipTree(it) }
+    }
+}
+
 // Fix for "Gradle test fails with error"
 // https://stackoverflow.com/a/14947906/3212785
 tasks.withType(Test) {
