@@ -9,6 +9,7 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.List;
+import javax.imageio.IIOException;
 
 public class GameModel implements IGameModel {
   private Levels levelsList;
@@ -133,7 +134,7 @@ public class GameModel implements IGameModel {
       br = new BufferedReader(
           new InputStreamReader(this.getClass().getResourceAsStream("/" + levelsPath)));
       this.levelsList = gson.fromJson(br, Levels.class);
-    } catch (FileNotFoundException exception) {
+    } catch (Exception exception) {
       WarningDialog.display("Error while opening level file. ", exception);
     } finally {
       if (br != null) {

@@ -29,17 +29,11 @@ public class SoundFactoryTest {
     assertEquals(new File(
         SoundFactory.class.getClassLoader().getResource("sounds/pacman_eatghost.wav").getFile()),
         soundFactory.getFile(Sound.EAT_GHOST_SOUND));
-<<<<<<< HEAD
-    assertEquals(new File("src/main/res/sounds/pacman_extrapac.wav"),
-        soundFactory.getFile(Sound.EXTRA_PAC));
-    assertEquals(new File("src/main/res/sounds/pacman_intermission.wav"),
-=======
     assertEquals(new File(
         SoundFactory.class.getClassLoader().getResource("sounds/pacman_extrapac.wav").getFile()),
-        soundFactory.getFile(Sound.EXTRA__PAC));
+        soundFactory.getFile(Sound.EXTRA_PAC));
     assertEquals(new File(SoundFactory.class.getClassLoader()
         .getResource("sounds/pacman_intermission.wav").getFile()),
->>>>>>> develop
         soundFactory.getFile(Sound.INTERMISSION));
     assertEquals(
         new File(
