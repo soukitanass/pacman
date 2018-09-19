@@ -1,6 +1,6 @@
 package model;
 
-import view.Direction;
+import model.Direction;
 
 public class MoveRequest implements IMoveRequest {
   private final Direction direction;

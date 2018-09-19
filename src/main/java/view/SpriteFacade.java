@@ -2,7 +2,7 @@ package view;
 
 import java.awt.image.BufferedImage;
 import view.Color;
-import view.Direction;
+import model.Direction;
 import view.GhostState;
 import view.PacGumState;
 import view.PacManState;

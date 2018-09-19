@@ -1,6 +1,6 @@
 package controller;
 
-import view.Direction;
+import model.Direction;
 import model.IGameModel;
 import view.IGameView;
 import java.awt.event.KeyEvent;

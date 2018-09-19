@@ -1,7 +1,7 @@
 package model;
 
 import model.exceptions.InvalidDirectionException;
-import view.Direction;
+import model.Direction;
 import view.utilities.WarningDialog;
 
 public class MovementManager {

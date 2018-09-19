@@ -5,7 +5,7 @@ import static org.junit.Assert.assertTrue;
 import java.awt.image.BufferedImage;
 import org.junit.Test;
 import view.Color;
-import view.Direction;
+import model.Direction;
 import view.GhostState;
 import view.PacGumState;
 import view.PacManState;
