@@ -5,7 +5,6 @@ import java.awt.Graphics;
 import javax.swing.JPanel;
 import model.Direction;
 import model.IGameModel;
-import model.Level;
 import model.PacMan;
 
 @SuppressWarnings("serial")

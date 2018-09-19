@@ -20,7 +20,7 @@ public class Sprite {
     try {
       subImage = spriteSheet.getSubimage(xGrid * tileSize, yGrid * tileSize, tileSize, tileSize);
     } catch (RasterFormatException e) {
-      System.out.println(e.toString());
+      WarningDialog.display("Invalid Layout ", e);
     }
     return subImage;
   }
@@ -30,7 +30,7 @@ public class Sprite {
     try {
       sprite = ImageIO.read(new File("src/main/res/" + file + ".png"));
     } catch (IOException e) {
-      System.out.println(e.toString());
+      WarningDialog.display("Error while opening sprite file ", e);
     }
     return sprite;
   }

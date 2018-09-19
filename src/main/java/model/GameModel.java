@@ -1,6 +1,7 @@
 package model;
 
 import com.google.gson.Gson;
+import view.utilities.WarningDialog;
 import java.io.BufferedReader;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
@@ -107,13 +108,13 @@ public class GameModel implements IGameModel {
       br = new BufferedReader(new FileReader(levelsPath));
       this.levelsList = gson.fromJson(br, Levels.class);
     } catch (FileNotFoundException e) {
-      System.out.println(e.toString());
+      WarningDialog.display("Error while opening level file ", e);
     } finally {
       if (br != null) {
         try {
           br.close();
         } catch (IOException e) {
-          System.out.println(e.toString());
+          WarningDialog.display("Error while closing level file ", e);
         }
       }
     }

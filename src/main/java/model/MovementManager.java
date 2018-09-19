@@ -1,8 +1,10 @@
 package model;
 
 import model.exceptions.InvalidDirectionException;
+import view.utilities.WarningDialog;
 
 public class MovementManager {
+  private static String INVALID_DIRECTION_MSG = "Invalid direction ";
 
   private final PacMan pacman;
   private IMoveValidator moveValidator;
@@ -21,7 +23,7 @@ public class MovementManager {
         return;
       }
     } catch (InvalidDirectionException e) {
-      System.out.println(e.toString());
+      WarningDialog.display(INVALID_DIRECTION_MSG, e);
     }
 
     MoveRequest fallbackMoveRequest = new MoveRequest(pacman.getPosition(), pacman.getDirection());
@@ -30,7 +32,7 @@ public class MovementManager {
         pacman.setPosition(moveValidator.getTargetPosition(fallbackMoveRequest));
       }
     } catch (InvalidDirectionException e) {
-      System.out.println(e.toString());
+      WarningDialog.display(INVALID_DIRECTION_MSG, e);
     }
 
     setPacmanDirection(pacman.getDesiredDirection());
@@ -44,7 +46,7 @@ public class MovementManager {
         return;
       }
     } catch (InvalidDirectionException e) {
-      System.out.println(e.toString());
+      WarningDialog.display(INVALID_DIRECTION_MSG, e);
     }
     pacman.setDirection(direction);
   }
