@@ -1,6 +1,7 @@
 package view;
 
 import javax.imageio.ImageIO;
+import view.utilities.WarningDialog;
 import java.awt.image.BufferedImage;
 import java.awt.image.RasterFormatException;
 import java.io.IOException;
@@ -18,8 +19,8 @@ public class Sprite {
     BufferedImage subImage = null;
     try {
       subImage = spriteSheet.getSubimage(xGrid * tileSize, yGrid * tileSize, tileSize, tileSize);
-    } catch (RasterFormatException e) {
-      System.out.println(e.toString());
+    } catch (RasterFormatException exception) {
+      WarningDialog.display("Invalid Layout. ", exception);
     }
     return subImage;
   }
@@ -28,8 +29,8 @@ public class Sprite {
     BufferedImage sprite = null;
     try {
       sprite = ImageIO.read(Sprite.class.getClassLoader().getResource(filename + ".png"));
-    } catch (IOException e) {
-      System.out.println(e.toString());
+    } catch (IOException exception) {
+      WarningDialog.display("Error while opening sprite file. ", exception);
     }
     return sprite;
   }

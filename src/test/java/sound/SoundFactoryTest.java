@@ -31,7 +31,7 @@ public class SoundFactoryTest {
         soundFactory.getFile(Sound.EAT_GHOST_SOUND));
     assertEquals(new File(
         SoundFactory.class.getClassLoader().getResource("sounds/pacman_extrapac.wav").getFile()),
-        soundFactory.getFile(Sound.EXTRA__PAC));
+        soundFactory.getFile(Sound.EXTRA_PAC));
     assertEquals(new File(SoundFactory.class.getClassLoader()
         .getResource("sounds/pacman_intermission.wav").getFile()),
         soundFactory.getFile(Sound.INTERMISSION));

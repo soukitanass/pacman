@@ -2,6 +2,7 @@ package model.sound;
 
 import java.io.File;
 import model.IGameModel;
+import view.utilities.WarningDialog;
 
 public class SoundModel extends Observer implements ISoundModel {
   private ISoundPlayer actionSoundPlayer = new SoundPlayer();
@@ -89,8 +90,8 @@ public class SoundModel extends Observer implements ISoundModel {
       } else {
         soundPlayer.play();
       }
-    } catch (Exception e) {
-      e.printStackTrace();
+    } catch (Exception exception) {
+      WarningDialog.display("Error while opening sound file. ", exception);
     }
   }
 

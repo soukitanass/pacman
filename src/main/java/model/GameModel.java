@@ -2,10 +2,8 @@ package model;
 
 import com.google.gson.Gson;
 import model.sound.Observer;
-import model.sound.Sound;
+import view.utilities.WarningDialog;
 import java.io.BufferedReader;
-import java.io.FileNotFoundException;
-import java.io.FileReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
@@ -22,7 +20,7 @@ public class GameModel implements IGameModel {
   private PacMan pacman;
   private PacmanPacgumCollisionManager pacmanPacgumCollisionManager;
   private PacmanSuperPacgumCollisionManager pacmanSuperPacgumCollisionManager;
-  private List<Observer> observers = new ArrayList<Observer>();
+  private List<Observer> observers = new ArrayList<>();
 
   public void attach(Observer observer) {
     observers.add(observer);
@@ -134,14 +132,14 @@ public class GameModel implements IGameModel {
       br = new BufferedReader(
           new InputStreamReader(this.getClass().getResourceAsStream("/" + levelsPath)));
       this.levelsList = gson.fromJson(br, Levels.class);
-    } catch (Exception e) {
-      System.out.println(e.toString());
+    } catch (Exception exception) {
+      WarningDialog.display("Error while opening level file. ", exception);
     } finally {
       if (br != null) {
         try {
           br.close();
-        } catch (IOException e) {
-          System.out.println(e.toString());
+        } catch (IOException exception) {
+          WarningDialog.display("Error while closing level file. ", exception);
         }
       }
     }

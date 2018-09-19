@@ -13,6 +13,7 @@ import model.exceptions.InvalidDigitException;
 import model.exceptions.InvalidScoreException;
 import model.exceptions.InvalidStateException;
 import model.exceptions.InvalidWallCodeException;
+import view.Sprite;
 
 /*
  * Uses the Facade Pattern to hide the complexity of the system by proving an interface to the
