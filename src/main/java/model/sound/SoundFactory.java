@@ -1,7 +1,6 @@
 package model.sound;
 
 import java.io.File;
-import view.Sprite;
 
 public class SoundFactory {
   public File getFile(Sound sound) throws Exception {
