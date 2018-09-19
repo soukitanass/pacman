@@ -21,6 +21,7 @@ public class GameCanvas extends JPanel {
   // Constant variables
   private static final int FRAME_WIDTH = 600;
   private static final int FRAME_HEIGHT = 800;
+  private static final int SCORE_PANEL_HEIGHT = 30;
   private static final String GAME_TITLE = "Pac-Man";
   private static final double SCORE_PANEL_PERCENTAGE = 0.2;
   private static final double LEVEL_PANEL_PERCENTAGE = 0.8;
@@ -39,6 +40,8 @@ public class GameCanvas extends JPanel {
     window.setLocationRelativeTo(null);
     window.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
+    layeredPane.setBounds(0, 0, FRAME_WIDTH, FRAME_HEIGHT);
+
     // Add level panel
     levelPanel = new LevelPanel(model);
     levelPanel.setBounds(0, 0, FRAME_WIDTH, (int) (FRAME_HEIGHT * LEVEL_PANEL_PERCENTAGE));
@@ -47,8 +50,7 @@ public class GameCanvas extends JPanel {
 
     // Add score panel
     scorePanel = new ScorePanel(model);
-    scorePanel.setBounds(0, (int) (FRAME_HEIGHT * LEVEL_PANEL_PERCENTAGE), FRAME_WIDTH,
-        (int) (FRAME_HEIGHT * SCORE_PANEL_PERCENTAGE));
+    scorePanel.setBounds(0, (int) (FRAME_HEIGHT * LEVEL_PANEL_PERCENTAGE), FRAME_WIDTH,SCORE_PANEL_HEIGHT);
     scorePanel.setLayout(layoutCenter);
     layeredPane.add(scorePanel, JLayeredPane.DEFAULT_LAYER);
 
@@ -75,6 +77,8 @@ public class GameCanvas extends JPanel {
     final int pixelTileSize = getPixelTileSize();
     levelPanel.setPixelTileSize(pixelTileSize);
     levelPanel.paint(graphic);
+    scorePanel.setPixelTileSize(SCORE_PANEL_HEIGHT);
+    scorePanel.paint(graphic);
     pacmanPanel.setPixelTileSize(pixelTileSize);
     pacmanPanel.paint(graphic);
   }
