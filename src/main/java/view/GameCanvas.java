@@ -1,5 +1,6 @@
 package view;
 
+import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.Graphics;
@@ -16,14 +17,12 @@ public class GameCanvas extends JPanel {
   private final IGameModel model;
   private PacManPanel pacmanPanel;
   private LevelPanel levelPanel;
-  private ScorePanel scorePanel;
 
   // Constant variables
   private static final int FRAME_WIDTH = 600;
   private static final int FRAME_HEIGHT = 800;
   private static final String GAME_TITLE = "Pac-Man";
-  private static final double SCORE_PANEL_PERCENTAGE = 0.2;
-  private static final double LEVEL_PANEL_PERCENTAGE = 0.8;
+ 
 
   private final FlowLayout layoutCenter = new FlowLayout(FlowLayout.CENTER);
   private JLayeredPane layeredPane = new JLayeredPane();
@@ -38,23 +37,19 @@ public class GameCanvas extends JPanel {
     window.setMinimumSize(new Dimension(FRAME_WIDTH, FRAME_HEIGHT));
     window.setLocationRelativeTo(null);
     window.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+    window.getContentPane().setBackground(Color.BLACK);
 
     // Add level panel
     levelPanel = new LevelPanel(model);
-    levelPanel.setBounds(0, 0, FRAME_WIDTH, (int) (FRAME_HEIGHT * LEVEL_PANEL_PERCENTAGE));
+    levelPanel.setBounds(0, 0, FRAME_WIDTH, FRAME_HEIGHT);
     levelPanel.setLayout(layoutCenter);
+    levelPanel.setBackground(Color.BLACK);
     layeredPane.add(levelPanel, JLayeredPane.DEFAULT_LAYER);
 
-    // Add score panel
-    scorePanel = new ScorePanel(model);
-    scorePanel.setBounds(0, (int) (FRAME_HEIGHT * LEVEL_PANEL_PERCENTAGE), FRAME_WIDTH,
-        (int) (FRAME_HEIGHT * SCORE_PANEL_PERCENTAGE));
-    scorePanel.setLayout(layoutCenter);
-    layeredPane.add(scorePanel, JLayeredPane.DEFAULT_LAYER);
 
     // Add Pac-Man panel
     pacmanPanel = new PacManPanel(model);
-    pacmanPanel.setBounds(0, 0, FRAME_WIDTH, (int) (FRAME_HEIGHT * LEVEL_PANEL_PERCENTAGE));
+    pacmanPanel.setBounds(0, 0, FRAME_WIDTH, FRAME_HEIGHT);
     pacmanPanel.setLayout(layoutCenter);
     pacmanPanel.setOpaque(false);
     layeredPane.add(pacmanPanel, Integer.valueOf(1));
