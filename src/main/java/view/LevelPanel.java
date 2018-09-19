@@ -45,8 +45,8 @@ public class LevelPanel extends JPanel {
           } else {
             image = spriteFacade.getWall(code);
           }
-        } catch (Exception e) {
-          WarningDialog.display("Error while painting the level. ", e);
+        } catch (Exception exception) {
+          WarningDialog.display("Error while painting the level. ", exception);
         }
         int iPos = j * pixelTileSize;
         int yPos = i * pixelTileSize;

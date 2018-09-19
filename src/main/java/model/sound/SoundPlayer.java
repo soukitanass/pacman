@@ -3,6 +3,7 @@ package model.sound;
 import java.io.File;
 import javax.sound.sampled.AudioSystem;
 import javax.sound.sampled.Clip;
+import view.utilities.WarningDialog;
 
 public class SoundPlayer implements ISoundPlayer {
 
@@ -15,7 +16,7 @@ public class SoundPlayer implements ISoundPlayer {
       clip = AudioSystem.getClip();
       clip.open(AudioSystem.getAudioInputStream(file));
     } catch (Exception exception) {
-      System.out.println(exception);;
+      WarningDialog.display("Error while playing the sound file. ", exception);
     }
   }
 

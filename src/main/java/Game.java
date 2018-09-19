@@ -4,7 +4,6 @@ import controller.SoundController;
 import model.GameModel;
 import model.IGameModel;
 import model.sound.ISoundModel;
-import model.sound.Sound;
 import model.sound.SoundModel;
 import view.GameView;
 import view.IGameView;
