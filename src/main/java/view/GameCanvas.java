@@ -8,7 +8,6 @@ import javax.swing.JFrame;
 import javax.swing.JLayeredPane;
 import javax.swing.JPanel;
 import model.IGameModel;
-import model.Level;
 
 @SuppressWarnings("serial")
 public class GameCanvas extends JPanel {
