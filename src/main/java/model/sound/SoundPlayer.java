@@ -2,12 +2,10 @@ package model.sound;
 
 import java.io.File;
 import java.io.IOException;
-
 import javax.sound.sampled.AudioSystem;
 import javax.sound.sampled.Clip;
 import javax.sound.sampled.LineUnavailableException;
 import javax.sound.sampled.UnsupportedAudioFileException;
-
 import view.utilities.WarningDialog;
 
 public class SoundPlayer implements ISoundPlayer {
@@ -20,14 +18,14 @@ public class SoundPlayer implements ISoundPlayer {
     try {
       clip = AudioSystem.getClip();
       try {
-    	  clip.open(AudioSystem.getAudioInputStream(file));
-		
-	} catch (IOException | UnsupportedAudioFileException exception) {
-		WarningDialog.display("Error while playing the sound file. ", exception);
-	}
-    }catch (IllegalArgumentException | LineUnavailableException ignored) {
-    	clip=  null;
-    } 
+        clip.open(AudioSystem.getAudioInputStream(file));
+
+      } catch (IOException | UnsupportedAudioFileException exception) {
+        WarningDialog.display("Error while playing the sound file. ", exception);
+      }
+    } catch (IllegalArgumentException | LineUnavailableException ignored) {
+      clip = null;
+    }
   }
 
   @Override
