@@ -5,17 +5,17 @@ import java.awt.Image;
 import java.awt.image.BufferedImage;
 import java.util.List;
 import javax.swing.JPanel;
-import model.Color;
 import model.IGameModel;
 import model.Level;
-import view.PacGumState;
 import view.utilities.WarningDialog;
 
 @SuppressWarnings("serial")
 public class LevelPanel extends JPanel {
+
+  public static final int PANEL_WIDTH_IN_SCORE_TILES = 25;
+  public static final double RATIO_LEVEL_HEIGHT_TO_TOTAL_HEIGHT = 0.9;
   private IGameModel model;
   private int pixelTileSize;
-  private int pixelTileSizeScore = 35;
   private String scoreText = "SCORE";
   private SpriteFacade spriteFacade = new SpriteFacade();
 
@@ -75,11 +75,11 @@ public class LevelPanel extends JPanel {
       } catch (Exception exception) {
         WarningDialog.display("Error while painting the panel. ", exception);
       }
-      xPos = i * pixelTileSizeScore;
-      drawLevel(image, graphic, xPos, y, pixelTileSizeScore, pixelTileSizeScore);
+      xPos = i * getScoreTileSizePixels();
+      drawLevel(image, graphic, xPos, y, getScoreTileSizePixels(), getScoreTileSizePixels());
     }
 
-    xPos = scoreText.length() * pixelTileSizeScore;
+    xPos = scoreText.length() * getScoreTileSizePixels();
 
     // drawing the score
     Integer score = level.getScore();
@@ -93,8 +93,21 @@ public class LevelPanel extends JPanel {
       } catch (Exception exception) {
         WarningDialog.display("Error while painting the panel. ", exception);
       }
-      pos = i * pixelTileSizeScore + xPos;
-      drawLevel(image, graphic, pos, y, pixelTileSizeScore, pixelTileSizeScore);
+      pos = i * getScoreTileSizePixels() + xPos;
+      drawLevel(image, graphic, pos, y, getScoreTileSizePixels(), getScoreTileSizePixels());
     }
+  }
+
+  private int getScoreTileSizePixels() {
+    final double totalWidthPixels = (double) getWidthTiles() * pixelTileSize;
+    return (int) (totalWidthPixels / PANEL_WIDTH_IN_SCORE_TILES);
+  }
+
+  public int getWidthTiles() {
+    return model.getCurrentLevel().getWidth();
+  }
+
+  public int getHeightTiles() {
+    return (int) (model.getCurrentLevel().getHeight() / RATIO_LEVEL_HEIGHT_TO_TOTAL_HEIGHT);
   }
 }

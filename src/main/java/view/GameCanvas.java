@@ -34,7 +34,6 @@ public class GameCanvas extends JPanel {
 
     levelPanel = new LevelPanel(model);
     levelPanel.setBackground(Color.BLACK);
-    levelPanel.setOpaque(true);
     layeredPane.add(levelPanel, Integer.valueOf(1));
 
     pacmanPanel = new PacManPanel(model);
@@ -67,13 +66,14 @@ public class GameCanvas extends JPanel {
   }
 
   public int getPixelTileSize() {
-    final Level level = model.getCurrentLevel();
-    final float panelWidth = getWidth();
-    final float panelHeight = getHeight();
-    final int availableWindowWidth = (int) Math.min(panelWidth, 3.0 / 4.0 * panelHeight);
-    final int availableWindowHeight = (int) Math.min(panelHeight, 4.0 / 3.0 * panelWidth);
-    final float widthRatio = availableWindowWidth / level.getWidth();
-    final float heightRatio = availableWindowHeight / level.getHeight();
+    final float panelWidthPixels = getWidth();
+    final float panelHeightPixels = getHeight();
+    final int availableWindowWidthPixels =
+        (int) Math.min(panelWidthPixels, 3.0 / 4.0 * panelHeightPixels);
+    final int availableWindowHeightPixels =
+        (int) Math.min(panelHeightPixels, 4.0 / 3.0 * panelWidthPixels);
+    final float widthRatio = availableWindowWidthPixels / levelPanel.getWidthTiles();
+    final float heightRatio = availableWindowHeightPixels / levelPanel.getHeightTiles();
     return (int) Math.min(Math.floor(widthRatio), Math.floor(heightRatio));
   }
 }
