@@ -59,7 +59,6 @@ public class GameModel implements IGameModel {
 
   private void startGame() {
     Level level = getCurrentLevel();
-    pacman = level.getPacMan();
     IMoveValidator moveValidator = new MoveValidator(level);
     movementManager = new MovementManager(pacman, moveValidator);
     pacmanPacgumCollisionManager = new PacmanPacgumCollisionManager(pacman, level);
@@ -116,9 +115,6 @@ public class GameModel implements IGameModel {
   }
 
   public Level getCurrentLevel() {
-    if (this.levelsList == null) {
-      return null;
-    }
     final int currentLevel = this.levelsList.getCurrentLevel();
     final List<Level> levels = this.levelsList.getLevels();
     return levels.get(currentLevel);
@@ -130,6 +126,7 @@ public class GameModel implements IGameModel {
     try (BufferedReader br = new BufferedReader(
         new InputStreamReader(this.getClass().getResourceAsStream("/" + levelsPath)));) {
       this.levelsList = gson.fromJson(br, Levels.class);
+      this.pacman = getCurrentLevel().getPacMan();
     } catch (Exception exception) {
       WarningDialog.display("Error while opening level file. ", exception);
     }
