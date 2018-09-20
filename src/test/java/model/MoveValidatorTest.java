@@ -7,6 +7,7 @@ import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 import org.junit.Test;
 import model.exceptions.InvalidDirectionException;
+import model.Direction;
 
 public class MoveValidatorTest {
 

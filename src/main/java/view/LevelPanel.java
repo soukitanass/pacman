@@ -8,7 +8,7 @@ import javax.swing.JPanel;
 import model.Color;
 import model.IGameModel;
 import model.Level;
-import model.PacGumState;
+import view.PacGumState;
 import view.utilities.WarningDialog;
 
 @SuppressWarnings("serial")

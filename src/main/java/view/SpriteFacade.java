@@ -1,11 +1,11 @@
 package view;
 
 import java.awt.image.BufferedImage;
-import model.Color;
+import view.Color;
 import model.Direction;
-import model.GhostState;
-import model.PacGumState;
-import model.PacManState;
+import view.GhostState;
+import view.PacGumState;
+import view.PacManState;
 import model.exceptions.InvalidColorException;
 import model.exceptions.InvalidDirectionException;
 import model.exceptions.InvalidLetterException;
