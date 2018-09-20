@@ -9,9 +9,6 @@ import model.Color;
 import model.IGameModel;
 import model.Level;
 import model.PacGumState;
-import model.exceptions.InvalidColorException;
-import model.exceptions.InvalidDigitException;
-import model.exceptions.InvalidLetterException;
 import view.utilities.WarningDialog;
 
 @SuppressWarnings("serial")
