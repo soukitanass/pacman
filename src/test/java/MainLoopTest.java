@@ -5,8 +5,6 @@ import model.IGameModel;
 import org.junit.Before;
 import org.junit.Test;
 import view.IGameView;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertTrue;
 import static org.mockito.Mockito.*;
 
 public class MainLoopTest {
