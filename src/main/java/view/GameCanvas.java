@@ -55,8 +55,12 @@ public class GameCanvas extends JPanel {
     levelPanel.setBounds(0, 0, window.getWidth(), window.getHeight());
     pacmanPanel.setBounds(0, 0, window.getWidth(), window.getHeight());
     final int pixelTileSize = getPixelTileSize();
+    levelPanel.setOffsetX(getOffsetX());
+    levelPanel.setOffsetY(getOffsetY());
     levelPanel.setPixelTileSize(pixelTileSize);
     levelPanel.paint(graphic);
+    pacmanPanel.setOffsetX(getOffsetX());
+    pacmanPanel.setOffsetY(getOffsetY());
     pacmanPanel.setPixelTileSize(pixelTileSize);
     pacmanPanel.paint(graphic);
   }
@@ -75,5 +79,15 @@ public class GameCanvas extends JPanel {
     final float widthRatio = availableWindowWidthPixels / levelPanel.getWidthTiles();
     final float heightRatio = availableWindowHeightPixels / levelPanel.getHeightTiles();
     return (int) Math.min(Math.floor(widthRatio), Math.floor(heightRatio));
+  }
+
+  public int getOffsetX() {
+    final int levelWidthPixels = levelPanel.getWidthTiles() * getPixelTileSize();
+    return (getWidth() - levelWidthPixels) / 2;
+  }
+
+  public int getOffsetY() {
+    final int levelHeightPixels = levelPanel.getHeightTiles() * getPixelTileSize();
+    return (getHeight() - levelHeightPixels) / 2;
   }
 }

@@ -12,6 +12,8 @@ public class PacManPanel extends JPanel {
 
   private IGameModel model;
   private int pixelTileSize;
+  private int offsetX = 0;
+  private int offsetY = 0;
 
   public PacManPanel(IGameModel model) {
     this.model = model;
@@ -23,8 +25,8 @@ public class PacManPanel extends JPanel {
     super.paint(graphic);
     PacMan pacman = model.getPacman();
 
-    final int x = pacman.getPosition().getX() * pixelTileSize;
-    final int y = pacman.getPosition().getY() * pixelTileSize;
+    final int x = pacman.getPosition().getX() * pixelTileSize + offsetX;
+    final int y = pacman.getPosition().getY() * pixelTileSize + offsetY;
 
     if (pacman.getDirection() == Direction.RIGHT) {
       drawPacmanRight(graphic, x, y);
@@ -67,5 +69,13 @@ public class PacManPanel extends JPanel {
 
   public void setPixelTileSize(int pixelTileSize) {
     this.pixelTileSize = pixelTileSize;
+  }
+
+  public void setOffsetX(int offsetX) {
+    this.offsetX = offsetX;
+  }
+
+  public void setOffsetY(int offsetY) {
+    this.offsetY = offsetY;
   }
 }

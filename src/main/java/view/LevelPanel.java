@@ -18,6 +18,8 @@ public class LevelPanel extends JPanel {
   private int pixelTileSize;
   private String scoreText = "SCORE";
   private SpriteFacade spriteFacade = new SpriteFacade();
+  private int offsetX = 0;
+  private int offsetY = 0;
 
   public void setPixelTileSize(int pixelTileSize) {
     this.pixelTileSize = pixelTileSize;
@@ -53,7 +55,7 @@ public class LevelPanel extends JPanel {
         }
         int iPos = j * pixelTileSize;
         int yPos = i * pixelTileSize;
-        drawLevel(image, graphic, iPos, yPos, pixelTileSize, pixelTileSize);
+        drawLevel(image, graphic, iPos + offsetX, yPos + offsetY, pixelTileSize, pixelTileSize);
       }
       drawScorePanel(graphic, map.size() * pixelTileSize, level);
     }
@@ -75,11 +77,12 @@ public class LevelPanel extends JPanel {
       } catch (Exception exception) {
         WarningDialog.display("Error while painting the panel. ", exception);
       }
-      xPos = i * getScoreTileSizePixels();
-      drawLevel(image, graphic, xPos, y, getScoreTileSizePixels(), getScoreTileSizePixels());
+      xPos = i * getScoreTileSizePixels() + offsetX;
+      drawLevel(image, graphic, xPos, y + offsetY, getScoreTileSizePixels(),
+          getScoreTileSizePixels());
     }
 
-    xPos = scoreText.length() * getScoreTileSizePixels();
+    xPos = scoreText.length() * getScoreTileSizePixels() + offsetX;
 
     // drawing the score
     Integer score = level.getScore();
@@ -94,7 +97,8 @@ public class LevelPanel extends JPanel {
         WarningDialog.display("Error while painting the panel. ", exception);
       }
       pos = i * getScoreTileSizePixels() + xPos;
-      drawLevel(image, graphic, pos, y, getScoreTileSizePixels(), getScoreTileSizePixels());
+      drawLevel(image, graphic, pos, y + offsetY, getScoreTileSizePixels(),
+          getScoreTileSizePixels());
     }
   }
 
@@ -109,5 +113,13 @@ public class LevelPanel extends JPanel {
 
   public int getHeightTiles() {
     return (int) (model.getCurrentLevel().getHeight() / RATIO_LEVEL_HEIGHT_TO_TOTAL_HEIGHT);
+  }
+
+  public void setOffsetX(int offsetX) {
+    this.offsetX = offsetX;
+  }
+
+  public void setOffsetY(int offsetY) {
+    this.offsetY = offsetY;
   }
 }
