@@ -1,8 +1,12 @@
 plugins {
     id "com.diffplug.gradle.spotless" version "3.14.0"
+    id "org.sonarqube" version "2.6.2"
 }
 
 apply plugin: 'application'
+apply plugin: 'java'
+apply plugin: 'jacoco'
+
 
 mainClassName = "game.Game"
 
@@ -46,3 +50,6 @@ tasks.withType(Test) {
     scanForTestClasses = false
     include "**/*Test.class" // whatever Ant pattern matches your test class files
 }
+
+project.tasks["sonarqube"].dependsOn "jacocoTestReport"
+project.tasks["jacocoTestReport"].dependsOn "test"
