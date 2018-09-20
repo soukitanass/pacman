@@ -140,6 +140,9 @@ public class GameModel implements IGameModel {
 
   @Override
   public void setPacmanDirection(Direction direction) {
+    if (isPaused()) {
+      return;
+    }
     movementManager.setPacmanDirection(direction);
   }
 }

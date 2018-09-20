@@ -1,7 +1,6 @@
 package model;
 
 import model.sound.Observer;
-import model.Direction;
 
 public interface IGameModel {
   void update();
@@ -30,9 +29,9 @@ public interface IGameModel {
 
   void setPacmanDirection(Direction direction);
 
-  public void attach(Observer observer);
+  void attach(Observer observer);
 
-  public void consumingPacGums();
+  void consumingPacGums();
 
-  public void movingToEmptySpace();
+  void movingToEmptySpace();
 }
