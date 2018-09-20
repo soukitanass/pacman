@@ -92,7 +92,7 @@ public class LevelPanel extends JPanel {
       int digit = Character.digit(scoreString.charAt(i), 10);
       BufferedImage image = null;
       try {
-        image = spriteFacade.getDigit(digit, Color.ORANGE);
+        image = spriteFacade.getDigit(digit, Color.YELLOW);
       } catch (Exception exception) {
         WarningDialog.display("Error while painting the panel. ", exception);
       }
