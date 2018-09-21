@@ -75,8 +75,8 @@ public class GameCanvas extends JPanel {
         (int) Math.min(panelWidthPixels, 3.0 / 4.0 * panelHeightPixels);
     final int availableWindowHeightPixels =
         (int) Math.min(panelHeightPixels, 4.0 / 3.0 * panelWidthPixels);
-    final float widthRatio = availableWindowWidthPixels / levelPanel.getWidthTiles();
-    final float heightRatio = availableWindowHeightPixels / levelPanel.getHeightTiles();
+    final float widthRatio = (float) (availableWindowWidthPixels / levelPanel.getWidthTiles());
+    final float heightRatio = (float) (availableWindowHeightPixels / levelPanel.getHeightTiles());
     return (int) Math.min(Math.floor(widthRatio), Math.floor(heightRatio));
   }
 
