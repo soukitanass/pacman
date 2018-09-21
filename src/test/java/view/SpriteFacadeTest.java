@@ -53,7 +53,7 @@ public class SpriteFacadeTest {
     try {
       spriteFacade.getWall(50);
     } catch (Exception exception) {
-      assertEquals(exception.getMessage(), "Invalid wall code: 50");
+      assertEquals("Invalid wall code: 50", exception.getMessage());
     }
   }
 
@@ -166,7 +166,7 @@ public class SpriteFacadeTest {
     try {
       spriteFacade.getPacman(null, PacManState.STATE1);
     } catch (Exception exception) {
-      assertEquals(exception.getMessage(), "Invalid direction");
+      assertEquals("Invalid direction", exception.getMessage());
     }
   }
 
@@ -352,7 +352,7 @@ public class SpriteFacadeTest {
     try {
       spriteFacade.getScore(200);
     } catch (Exception exception) {
-      assertEquals(exception.getMessage(), "Invalid score");
+      assertEquals("Invalid score", exception.getMessage());
     }
   }
 
@@ -547,7 +547,7 @@ public class SpriteFacadeTest {
     try {
       spriteFacade.getDigit(18, Color.TURQUOISE);
     } catch (Exception exception) {
-      assertEquals(exception.getMessage(), "Invalid digit: 18");
+      assertEquals("Invalid digit: 18", exception.getMessage());
     }
   }
 
