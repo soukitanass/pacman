@@ -37,7 +37,7 @@ dependencies {
 
 jar {
     manifest {
-        attributes "Main-Class": "Game"
+        attributes "Main-Class": "game.Game"
     }
     from {
         configurations.compile.collect { it.isDirectory() ? it : zipTree(it) }
