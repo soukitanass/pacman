@@ -10,33 +10,15 @@
     <property name="debuglevel" value="source,lines,vars"/>
     <property name="target" value="1.8"/>
     <property name="source" value="1.8"/>
-    <path id="gson_lib.userclasspath">
-        <pathelement location="../../../../../pacman/lib/gson-2.6.2.jar"/>
-    </path>
-    <path id="JUnit 5.libraryclasspath">
-        <pathelement location="../../../.p2/pool/plugins/org.junit.jupiter.api_5.0.0.v20170910-2246.jar"/>
-        <pathelement location="../../../.p2/pool/plugins/org.junit.jupiter.engine_5.0.0.v20170910-2246.jar"/>
-        <pathelement location="../../../.p2/pool/plugins/org.junit.jupiter.migrationsupport_5.0.0.v20170910-2246.jar"/>
-        <pathelement location="../../../.p2/pool/plugins/org.junit.jupiter.params_5.0.0.v20170910-2246.jar"/>
-        <pathelement location="../../../.p2/pool/plugins/org.junit.platform.commons_1.0.0.v20170910-2246.jar"/>
-        <pathelement location="../../../.p2/pool/plugins/org.junit.platform.engine_1.0.0.v20170910-2246.jar"/>
-        <pathelement location="../../../.p2/pool/plugins/org.junit.platform.launcher_1.0.0.v20170910-2246.jar"/>
-        <pathelement location="../../../.p2/pool/plugins/org.junit.platform.runner_1.0.0.v20170910-2246.jar"/>
-        <pathelement location="../../../.p2/pool/plugins/org.junit.platform.suite.api_1.0.0.v20170910-2246.jar"/>
-        <pathelement location="../../../.p2/pool/plugins/org.junit.vintage.engine_4.12.0.v20170910-2246.jar"/>
-        <pathelement location="../../../.p2/pool/plugins/org.opentest4j_1.0.0.v20170910-2246.jar"/>
-        <pathelement location="../../../.p2/pool/plugins/org.apiguardian_1.0.0.v20170910-2246.jar"/>
-        <pathelement location="../../../.p2/pool/plugins/org.junit_4.12.0.v201504281640/junit.jar"/>
-        <pathelement location="../../../.p2/pool/plugins/org.hamcrest.core_1.3.0.v201303031735.jar"/>
-    </path>
-    <path id="mockito.userclasspath">
-        <pathelement location="../../../../../pacman/lib/mockito-core-2.22.0.jar"/>
-    </path>
     <path id="pacman.classpath">
         <pathelement location="bin"/>
-        <path refid="gson_lib.userclasspath"/>
-        <path refid="JUnit 5.libraryclasspath"/>
-        <path refid="mockito.userclasspath"/>
+        <pathelement location="lib/gson-2.6.2.jar"/>
+        <pathelement location="lib/byte-buddy-1.8.21.jar"/>
+        <pathelement location="lib/byte-buddy-agent-1.8.21.jar"/>
+        <pathelement location="lib/mockito-core-2.22.0.jar"/>
+        <pathelement location="lib/objenesis-2.6.jar"/>
+        <pathelement location="lib/hamcrest-core-1.3.jar"/>
+        <pathelement location="lib/junit-4.12-yb-1.jar"/>
     </path>
     <target name="init">
         <mkdir dir="bin"/>
@@ -180,6 +162,34 @@
         <java classname="ca.usherbrooke.pacman.game.Game" failonerror="true" fork="yes">
             <classpath refid="pacman.classpath"/>
         </java>
+    </target>
+    <target name="test">
+        <mkdir dir="${junit.output.dir}"/>
+        <junit fork="yes" printsummary="withOutAndErr">
+            <formatter type="xml"/>
+            <test name="ca.usherbrooke.pacman.game.MainLoopTest" todir="${junit.output.dir}"/>
+            <test name="ca.usherbrooke.pacman.model.GameModelTest" todir="${junit.output.dir}"/>
+            <test name="ca.usherbrooke.pacman.model.LevelTest" todir="${junit.output.dir}"/>
+            <test name="ca.usherbrooke.pacman.model.MoveValidatorTest" todir="${junit.output.dir}"/>
+            <test name="ca.usherbrooke.pacman.model.MovementManagerTest" todir="${junit.output.dir}"/>
+            <test name="ca.usherbrooke.pacman.model.PacmanPacgumCollisionManagerTest" todir="${junit.output.dir}"/>
+            <test name="ca.usherbrooke.pacman.model.PacmanSuperPacgumCollisionManagerTest" todir="${junit.output.dir}"/>
+            <test name="ca.usherbrooke.pacman.model.sound.SoundFactoryTest" todir="${junit.output.dir}"/>
+            <test name="ca.usherbrooke.pacman.model.sound.SoundPlayerTest" todir="${junit.output.dir}"/>
+            <test name="ca.usherbrooke.pacman.view.SpriteFacadeTest" todir="${junit.output.dir}"/>
+            <test name="ca.usherbrooke.pacman.view.SpriteTest" todir="${junit.output.dir}"/>
+            <jvmarg line="-ea"/>
+            <classpath refid="pacman.classpath"/>
+        </junit>
+    </target>
+    <target name="MainLoopTest">
+        <mkdir dir="${junit.output.dir}"/>
+        <junit fork="yes" printsummary="withOutAndErr">
+            <formatter type="xml"/>
+            <test name="ca.usherbrooke.pacman.game.MainLoopTest" todir="${junit.output.dir}"/>
+            <jvmarg line="-ea"/>
+            <classpath refid="pacman.classpath"/>
+        </junit>
     </target>
     <target name="junitreport">
         <junitreport todir="${junit.output.dir}">
