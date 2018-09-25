@@ -29,12 +29,12 @@ public class GameView implements IGameView {
     canvas.dispose();
   }
 
-	public GameCanvas getCanvas() {
-	return canvas;
-}
+  public GameCanvas getCanvas() {
+    return canvas;
+  }
 
-public void setCanvas(GameCanvas canvas) {
-	this.canvas = canvas;
-}
-  
+  public void setCanvas(GameCanvas canvas) {
+    this.canvas = canvas;
+  }
+
 }
