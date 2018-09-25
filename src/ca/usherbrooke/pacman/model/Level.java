@@ -1,8 +1,8 @@
 package ca.usherbrooke.pacman.model;
 
+import java.util.List;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
-import java.util.List;
 
 public class Level {
   private static final int EMPTY_CODE = 0;
@@ -123,5 +123,16 @@ public class Level {
 
   public void setScore(Integer score) {
     this.score = score;
+  }
+
+  public boolean isCompleted() {
+    for (int i = 0; i < width; i++) {
+      for (int j = 0; j < height; j++) {
+        if (map.get(j).get(i) == PACGUM_CODE || map.get(j).get(i) == SUPER_PACGUM_CODE) {
+          return false;
+        }
+      }
+    }
+    return true;
   }
 }

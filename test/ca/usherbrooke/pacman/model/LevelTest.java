@@ -9,7 +9,9 @@ import org.junit.Before;
 import org.junit.Test;
 
 public class LevelTest {
-
+  private static final int EMPTY_CODE = 0;
+  private static final int PACGUM_CODE = 39;
+  private static final int SUPER_PACGUM_CODE = 40;
   private Level level;
 
   @Before
@@ -54,5 +56,32 @@ public class LevelTest {
     assertFalse(level.isWall(new Position(7, 0)));
     assertFalse(level.isWall(new Position(8, 0)));
     assertFalse(level.isWall(new Position(9, 0)));
+  }
+
+  @Test
+  public void isCompleted() {
+    List<List<Integer>> map = Arrays.asList(Arrays.asList(EMPTY_CODE, EMPTY_CODE),
+        Arrays.asList(EMPTY_CODE, EMPTY_CODE), Arrays.asList(EMPTY_CODE, EMPTY_CODE));
+    level.setMap(map);
+
+    assertTrue(level.isCompleted());
+  }
+
+  @Test
+  public void isIncompletedIfPacgumsAreRemaining() {
+    List<List<Integer>> map = Arrays.asList(Arrays.asList(PACGUM_CODE, EMPTY_CODE),
+        Arrays.asList(EMPTY_CODE, PACGUM_CODE), Arrays.asList(EMPTY_CODE, EMPTY_CODE));
+    level.setMap(map);
+
+    assertFalse(level.isCompleted());
+  }
+
+  @Test
+  public void isIncompletedIfSuperPacgumsAreRemaining() {
+    List<List<Integer>> map = Arrays.asList(Arrays.asList(SUPER_PACGUM_CODE, EMPTY_CODE),
+        Arrays.asList(EMPTY_CODE, SUPER_PACGUM_CODE), Arrays.asList(EMPTY_CODE, EMPTY_CODE));
+    level.setMap(map);
+
+    assertFalse(level.isCompleted());
   }
 }
