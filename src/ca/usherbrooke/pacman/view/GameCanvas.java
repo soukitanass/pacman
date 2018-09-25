@@ -4,6 +4,9 @@ import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.event.KeyListener;
+import java.awt.event.WindowEvent;
+import java.awt.event.WindowFocusListener;
+
 import javax.swing.JFrame;
 import javax.swing.JLayeredPane;
 import javax.swing.JPanel;
@@ -31,6 +34,20 @@ public class GameCanvas extends JPanel {
     window.setLocationRelativeTo(null);
     window.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
+    window.addWindowFocusListener( new WindowFocusListener() {
+        @Override
+        public void windowLostFocus(WindowEvent e) {
+          model.pause();
+        }
+
+        @Override
+        public void windowGainedFocus(WindowEvent e) {
+        	if(!model.isManuallyPaused()) {
+              model.unpause();      		
+        	}
+        }
+    });
+    
     levelPanel = new LevelPanel(model);
     levelPanel.setBackground(Color.BLACK);
     layeredPane.add(levelPanel, Integer.valueOf(1));
@@ -42,6 +59,7 @@ public class GameCanvas extends JPanel {
     window.add(layeredPane);
     window.add(this);
     window.setVisible(true);
+   
   }
 
   @Override

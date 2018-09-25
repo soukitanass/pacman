@@ -18,7 +18,11 @@ public interface IGameModel {
 
   boolean isPaused();
 
-  void togglePause();
+  void setManuallyPaused(boolean isManuallyPaused);
+
+  boolean isManuallyPaused();
+ 
+  void togglePause(boolean isManuallyPaused);
 
   void quit();
 

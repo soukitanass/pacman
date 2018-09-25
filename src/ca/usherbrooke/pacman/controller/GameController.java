@@ -30,7 +30,7 @@ public class GameController implements IGameController {
   public void keyPressed(KeyEvent e) {
     switch (e.getKeyCode()) {
       case VK_P:
-        model.togglePause();
+        model.togglePause(true);
         break;
       case VK_Q:
         model.quit();

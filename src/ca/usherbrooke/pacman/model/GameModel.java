@@ -13,6 +13,7 @@ public class GameModel implements IGameModel {
   private Levels levelsList;
 
   private int currentGameFrame = 0;
+  private boolean isManuallyPaused = false;
   private boolean isPaused;
   private boolean isRunning;
   private MovementManager movementManager;
@@ -92,7 +93,12 @@ public class GameModel implements IGameModel {
   }
 
   @Override
-  public void togglePause() {
+  public void togglePause(boolean isManuallyPaused) {
+
+    if(isManuallyPaused){
+      setManuallyPaused(!isManuallyPaused());
+    }
+    
     if (isPaused()) {
       unpause();
     } else {
@@ -145,5 +151,15 @@ public class GameModel implements IGameModel {
       return;
     }
     movementManager.setPacmanDirection(direction);
+  }
+
+  @Override
+  public void setManuallyPaused(boolean isManuallyPaused) {
+    this.isManuallyPaused = isManuallyPaused;
+  }
+
+  @Override
+  public boolean isManuallyPaused() {
+    return isManuallyPaused;
   }
 }
