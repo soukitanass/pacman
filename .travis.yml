@@ -1,2 +1,2 @@
 language: java
-before_install: ./gradlew assemble
+script: ant build
