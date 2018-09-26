@@ -106,10 +106,10 @@ public class GameModel implements IGameModel {
   @Override
   public void togglePause(boolean isManuallyPaused) {
 
-    if(isManuallyPaused){
+    if (isManuallyPaused) {
       setManuallyPaused(!isManuallyPaused());
     }
-    
+
     if (isPaused()) {
       unpause();
     } else {
@@ -140,10 +140,9 @@ public class GameModel implements IGameModel {
 
   public void loadLevels(String levelsPath) {
     Gson gson = new Gson();
+    File file = new File(GameModel.class.getClassLoader().getResource(levelsPath).getFile());
 
-    try {
-      File file = new File(GameModel.class.getClassLoader().getResource(levelsPath).getFile());
-      FileReader fileReader = new FileReader(file);
+    try (FileReader fileReader = new FileReader(file)) {
       this.levelsList = gson.fromJson(new BufferedReader(fileReader), Levels.class);
       this.pacman = getCurrentLevel().getPacMan();
     } catch (Exception exception) {
