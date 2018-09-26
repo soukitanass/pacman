@@ -11,7 +11,7 @@ import javax.swing.JLayeredPane;
 import javax.swing.JPanel;
 import ca.usherbrooke.pacman.model.IGameModel;
 
-@SuppressWarnings("serial")
+@SuppressWarnings({"serial", "squid:S1948"})
 public class GameCanvas extends JPanel {
   private final IGameModel model;
   private PacManPanel pacmanPanel;

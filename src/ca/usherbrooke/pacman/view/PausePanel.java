@@ -7,7 +7,7 @@ import javax.swing.JPanel;
 import ca.usherbrooke.pacman.model.IGameModel;
 import ca.usherbrooke.pacman.view.utilities.WarningDialog;
 
-@SuppressWarnings("serial")
+@SuppressWarnings({"serial", "squid:S1948"})
 public class PausePanel extends JPanel {
 
   public static final int PANEL_WIDTH_IN_SCORE_TILES = 25;
