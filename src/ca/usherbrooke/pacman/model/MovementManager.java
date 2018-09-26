@@ -1,7 +1,6 @@
 package ca.usherbrooke.pacman.model;
 
 import ca.usherbrooke.pacman.model.exceptions.InvalidDirectionException;
-import ca.usherbrooke.pacman.model.Direction;
 import ca.usherbrooke.pacman.view.utilities.WarningDialog;
 
 public class MovementManager {
@@ -19,7 +18,7 @@ public class MovementManager {
     MoveRequest desiredMoveRequest =
         new MoveRequest(pacman.getPosition(), pacman.getDesiredDirection());
     try {
-      if (moveValidator.isValid(desiredMoveRequest)) {
+      if (moveValidator.isDesiredDirectionValid(desiredMoveRequest)) {
         pacman.setPosition(moveValidator.getTargetPosition(desiredMoveRequest));
         return;
       }
@@ -43,7 +42,7 @@ public class MovementManager {
     pacman.setDesiredDirection(direction);
     MoveRequest moveRequest = new MoveRequest(pacman.getPosition(), direction);
     try {
-      if (!moveValidator.isValid(moveRequest)) {
+      if (!moveValidator.isDesiredDirectionValid(moveRequest)) {
         return;
       }
     } catch (InvalidDirectionException exception) {
