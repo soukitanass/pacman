@@ -48,7 +48,7 @@ public class GameModel implements IGameModel {
     }
     ++currentGameFrame;
     if (!isGameStarted()) {
-      startGame();
+      startLevel();
     }
     if (pacmanPacgumCollisionManager.isPacgumConsumed()) {
       consumingPacGums();
@@ -57,15 +57,26 @@ public class GameModel implements IGameModel {
     }
     pacmanSuperPacgumCollisionManager.update();
     movementManager.updatePacmanPosition();
+
+    Level level = getCurrentLevel();
+    if (level.isCompleted()) {
+      goToNextLevel();
+    }
   }
 
-  private void startGame() {
+  private void startLevel() {
     Level level = getCurrentLevel();
     IMoveValidator moveValidator = new MoveValidator(level);
+    pacman = level.getPacMan();
     movementManager = new MovementManager(pacman, moveValidator);
     pacmanPacgumCollisionManager = new PacmanPacgumCollisionManager(pacman, level);
     pacmanSuperPacgumCollisionManager = new PacmanSuperPacgumCollisionManager(pacman, level);
     isGameStarted = true;
+  }
+
+  private void goToNextLevel() {
+    this.levelsList.incrementCurrentLevel();
+    startLevel();
   }
 
   private boolean isGameStarted() {
@@ -132,7 +143,7 @@ public class GameModel implements IGameModel {
 
     try {
       File file = new File(GameModel.class.getClassLoader().getResource(levelsPath).getFile());
-      FileReader fileReader = new FileReader(file);    
+      FileReader fileReader = new FileReader(file);
       this.levelsList = gson.fromJson(new BufferedReader(fileReader), Levels.class);
       this.pacman = getCurrentLevel().getPacMan();
     } catch (Exception exception) {

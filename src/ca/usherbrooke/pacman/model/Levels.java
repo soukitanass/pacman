@@ -1,8 +1,8 @@
 package ca.usherbrooke.pacman.model;
 
+import java.util.List;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
-import java.util.List;
 
 public class Levels {
 
@@ -19,6 +19,12 @@ public class Levels {
 
   public void setCurrentLevel(Integer currentLevel) {
     this.currentLevel = currentLevel;
+  }
+
+  public void incrementCurrentLevel() {
+    if (currentLevel < levelsList.size() - 1) {
+      currentLevel++;
+    }
   }
 
   public List<Level> getLevels() {

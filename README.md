@@ -8,42 +8,17 @@ logiciel à l'université de Sherbrooke - Faculté de Génie
 - Set environment variable JAVA_HOME to most recent JDK. E.g.: `C:\Program Files\Java\jdk1.8.0_181`
 - Restart Git Bash
 
-### Run with command line
-- Open Git Bash in the Git repository
-- Run the app with: `./gradlew.bat run`
-- (Optional) Run unit tests with: `./gradlew.bat test`
-
-### Run jar with command line
-- Build the project: `./gradlew build`
-- Run jar: `java -jar ./build/libs/pacman.jar`
-
 ### Run with Eclipse
 - Open Eclipse
-- File > Import... > Gradle > Existing Gradle Project
+- File > New > Java Project
+- Enter a project name > Finish
+- Right click on project > Import... > General > Existing project into workspace
 - Next
 - Select project root directory. E.g.: `C:\Users\CIP1234\Desktop\pacman`
 - Next, Next, Finish
-- Run > Run configurations...
-- Double click Gradle Project to create a new configuration
-- Set the name as you wish. E.g. `Game`
-- Set Gradle tasks to: `run`
-- Set working directory: E.g.: `C:\Users\CIP1234\Desktop\pacman`
-- (Optional) Create another run configuration for unit tests with Gradle task `test`
+- Right click on project > Run as > Java Application
 - Run button down arrow > `Game`
 
-### Run with IntelliJ
-- Import project
-- Import project from external model > Gradle
-- Next
-- (Optional) Check the option `Use auto-import` to automatically update the project when it changes
-- Check option `Use gradle 'wrapper' task configuration`
-- Run > Edit configurations...
-- Plus button > Gradle
-- Set the name as you wish. E.g. `Game`
-- Set Gradle project: `pacman`
-- Set tasks: run
-- (Optional) Create another run configuration for unit tests with Gradle task `test`
-- Run > Run Game
 ## Setup for Travis CI
 - Go to https://travis-ci.com/
 - Sign in with your GitHub account.
@@ -52,6 +27,7 @@ logiciel à l'université de Sherbrooke - Faculté de Génie
 - Create a file .travis.yml on your repository and commit it.
 - Add the language to .travis.yml
 - Build your project.
+
 ## Setup for SonarQube
 - Go to https://docs.sonarqube.org/Analyzing+with+SonarQube+Scanner.
 - Download SonarQubeScanner

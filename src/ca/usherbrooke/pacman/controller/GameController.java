@@ -1,11 +1,11 @@
 package ca.usherbrooke.pacman.controller;
 
+import static java.awt.event.KeyEvent.VK_P;
+import static java.awt.event.KeyEvent.VK_Q;
 import java.awt.event.KeyEvent;
 import ca.usherbrooke.pacman.model.Direction;
 import ca.usherbrooke.pacman.model.IGameModel;
 import ca.usherbrooke.pacman.view.IGameView;
-import static java.awt.event.KeyEvent.VK_P;
-import static java.awt.event.KeyEvent.VK_Q;
 
 public class GameController implements IGameController {
   private final IGameModel model;
@@ -29,8 +29,9 @@ public class GameController implements IGameController {
   @Override
   public void keyPressed(KeyEvent e) {
     switch (e.getKeyCode()) {
-      case VK_P:
+      case VK_P: 
         model.togglePause(true);
+        view.getCanvas().setPausePanel();
         break;
       case VK_Q:
         model.quit();
