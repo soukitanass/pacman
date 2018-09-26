@@ -13,7 +13,8 @@ public class PausePanel extends JPanel {
   public static final double RATIO_LEVEL_HEIGHT_TO_TOTAL_HEIGHT = 0.9;
   private IGameModel model;
   private int pixelTileSize = 25;
-  private String pauseText = "PAUSE";
+  private String displayText = "PAUSE";
+  private Color color;
   private SpriteFacade spriteFacade = new SpriteFacade();
   private static final int PANEL_X = 220;
   private static final int PANEL_Y = 375;
@@ -22,18 +23,20 @@ public class PausePanel extends JPanel {
     this.pixelTileSize = pixelTileSize;
   }
 
-  public PausePanel(IGameModel model) {
+  public PausePanel(IGameModel model, String text, Color c) {
     this.model = model;
+    this.displayText = text;
+    this.color = c;
     setFocusable(true);
   }
 
   @Override
   public void paint(Graphics graphic) {
     super.paint(graphic);
-    for (int i = 0; i < pauseText.length(); i++) {
+    for (int i = 0; i < displayText.length(); i++) {
       BufferedImage image = null;
       try {
-        image = spriteFacade.getLetter((char) pauseText.charAt(i), Color.YELLOW);
+        image = spriteFacade.getLetter((char) displayText.charAt(i), color);
       } catch (Exception exception) {
         WarningDialog.display("Error while painting the panel. ", exception);
       }
