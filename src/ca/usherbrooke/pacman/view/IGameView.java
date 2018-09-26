@@ -10,4 +10,8 @@ public interface IGameView {
   void display();
 
   void close();
+  
+ GameCanvas getCanvas();
+ 
+ void setCanvas(GameCanvas gameCanvas );
 }
