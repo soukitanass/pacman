@@ -2,6 +2,8 @@ package ca.usherbrooke.pacman.view;
 
 import java.awt.Graphics;
 import java.awt.Image;
+import java.util.HashMap;
+import java.util.Map;
 import javax.swing.JPanel;
 import ca.usherbrooke.pacman.model.Direction;
 import ca.usherbrooke.pacman.model.Ghost;
@@ -18,6 +20,15 @@ public class GhostsPanel extends JPanel {
   private int pixelTileSize;
   private int offsetX = 0;
   private int offsetY = 0;
+
+  private static final Map<Integer, Color> ghostIdToColor = new HashMap<Integer, Color>() {
+    {
+      put(1, Color.RED);
+      put(2, Color.TURQUOISE);
+      put(3, Color.PINK);
+      put(4, Color.ORANGE);
+    }
+  };
 
   public GhostsPanel(IGameModel model) {
     this.model = model;
@@ -38,7 +49,10 @@ public class GhostsPanel extends JPanel {
 
   private void drawGhost(Graphics graphics, Ghost ghost)
       throws InvalidColorException, InvalidDirectionException, InvalidStateException {
-    Image ghostImage = spriteFacade.getGhost(Direction.UP, Color.TURQUOISE, GhostState.STATE1);
+    Direction direction = Direction.UP;
+    Color color = ghostIdToColor.get(ghost.getId());
+    GhostState ghostSpriteState = GhostState.STATE1;
+    Image ghostImage = spriteFacade.getGhost(direction, color, ghostSpriteState);
     final int x = ghost.getPosition().getX() * pixelTileSize + offsetX;
     final int y = ghost.getPosition().getY() * pixelTileSize + offsetY;
     final int width = pixelTileSize;
@@ -46,7 +60,6 @@ public class GhostsPanel extends JPanel {
     final int tileSize = spriteFacade.getTileSize();
     graphics.drawImage(ghostImage, x, y, x + width, y + height, 0, 0, tileSize, tileSize, null);
   }
-
 
   public void setPixelTileSize(int pixelTileSize) {
     this.pixelTileSize = pixelTileSize;
