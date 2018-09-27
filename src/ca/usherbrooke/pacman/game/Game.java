@@ -1,6 +1,6 @@
 package ca.usherbrooke.pacman.game;
 
-import ca.usherbrooke.pacman.controller.GameController;
+import ca.usherbrooke.pacman.controller.PlayerKeyboardController;
 import ca.usherbrooke.pacman.controller.IGameController;
 import ca.usherbrooke.pacman.controller.SoundController;
 import ca.usherbrooke.pacman.model.GameModel;
@@ -35,16 +35,16 @@ public class Game implements IGame {
     IGameModel model = new GameModel();
     model.loadLevels(LEVELS_PATH);
     IGameView view = new GameView(model);
-    IGameController controller = new GameController(model, view);
+    PlayerKeyboardController playerKeyboardController = new PlayerKeyboardController(model, view);
     final int gameUpdatesPerSecond = 7;
     final int frameUpdatesPerSecond = 30;
     final int gameUpdatePeriodMilliseconds = (int) (1000.0 / gameUpdatesPerSecond);
     final int frameUpdatePeriodMilliseconds = (int) (1000.0 / frameUpdatesPerSecond);
-    IGame game = new Game(model, view, controller, gameUpdatePeriodMilliseconds,
+    IGame game = new Game(model, view, playerKeyboardController, gameUpdatePeriodMilliseconds,
         frameUpdatePeriodMilliseconds, System.currentTimeMillis());
     ISoundModel soundPlayer = new SoundModel(model);
     SoundController soundController = new SoundController(soundPlayer);
-    view.addKeyListener(controller);
+    view.addKeyListener(playerKeyboardController);
     view.addKeyListener(soundController);
     game.setRunning(true);
     while (game.isRunning()) {

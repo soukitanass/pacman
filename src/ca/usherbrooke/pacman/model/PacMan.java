@@ -2,9 +2,8 @@ package ca.usherbrooke.pacman.model;
 
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
-import ca.usherbrooke.pacman.model.Direction;
 
-public class PacMan {
+public class PacMan implements IHasDesiredDirection {
 
   @SerializedName("id")
   @Expose
@@ -45,10 +44,12 @@ public class PacMan {
     return this.direction;
   }
 
+  @Override
   public void setDesiredDirection(Direction direction) {
     desiredDirection = direction;
   }
 
+  @Override
   public Direction getDesiredDirection() {
     return desiredDirection;
   }
