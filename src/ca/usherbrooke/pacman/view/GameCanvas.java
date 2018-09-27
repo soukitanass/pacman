@@ -12,6 +12,7 @@ import ca.usherbrooke.pacman.model.IGameModel;
 @SuppressWarnings("serial")
 public class GameCanvas extends JPanel {
   private final IGameModel model;
+  private GhostsPanel ghostsPanel;
   private PacManPanel pacmanPanel;
   private LevelPanel levelPanel;
   private PausePanel pausePanel;
@@ -37,9 +38,13 @@ public class GameCanvas extends JPanel {
     levelPanel.setBackground(Color.BLACK);
     layeredPane.add(levelPanel, Integer.valueOf(1));
 
+    ghostsPanel = new GhostsPanel(model);
+    ghostsPanel.setOpaque(false);
+    layeredPane.add(ghostsPanel, Integer.valueOf(2));
+
     pacmanPanel = new PacManPanel(model);
     pacmanPanel.setOpaque(false);
-    layeredPane.add(pacmanPanel, Integer.valueOf(2));
+    layeredPane.add(pacmanPanel, Integer.valueOf(3));
 
     window.add(layeredPane);
     window.add(this);
@@ -54,12 +59,17 @@ public class GameCanvas extends JPanel {
   @Override
   public void paint(Graphics graphic) {
     levelPanel.setBounds(0, 0, window.getWidth(), window.getHeight());
+    ghostsPanel.setBounds(0, 0, window.getWidth(), window.getHeight());
     pacmanPanel.setBounds(0, 0, window.getWidth(), window.getHeight());
     final int pixelTileSize = getPixelTileSize();
     levelPanel.setOffsetX(getOffsetX());
     levelPanel.setOffsetY(getOffsetY());
     levelPanel.setPixelTileSize(pixelTileSize);
     levelPanel.paint(graphic);
+    ghostsPanel.setOffsetX(getOffsetX());
+    ghostsPanel.setOffsetY(getOffsetY());
+    ghostsPanel.setPixelTileSize(pixelTileSize);
+    ghostsPanel.paint(graphic);
     pacmanPanel.setOffsetX(getOffsetX());
     pacmanPanel.setOffsetY(getOffsetY());
     pacmanPanel.setPixelTileSize(pixelTileSize);

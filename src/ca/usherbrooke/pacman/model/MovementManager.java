@@ -6,41 +6,43 @@ import ca.usherbrooke.pacman.view.utilities.WarningDialog;
 public class MovementManager {
   private static final String INVALID_DIRECTION_MSG = "Invalid direction. ";
 
-  private final PacMan pacman;
+  private final IGameObject gameObject;
   private IMoveValidator moveValidator;
 
-  public MovementManager(PacMan pacman, IMoveValidator moveValidator) {
-    this.pacman = pacman;
+  public MovementManager(IGameObject gameObject, IMoveValidator moveValidator) {
+    this.gameObject = gameObject;
     this.moveValidator = moveValidator;
   }
 
-  public void updatePacmanPosition() {
+  public void updatePosition() {
     MoveRequest desiredMoveRequest =
-        new MoveRequest(pacman.getPosition(), pacman.getDesiredDirection());
+        new MoveRequest(gameObject.getPosition(), gameObject.getDesiredDirection());
     try {
-      if (moveValidator.isDesiredDirectionValid(desiredMoveRequest)) {
-        pacman.setPosition(moveValidator.getTargetPosition(desiredMoveRequest));
+      if (moveValidator.isDesiredDirectionValid(desiredMoveRequest)
+          && moveValidator.isValid(desiredMoveRequest)) {
+        gameObject.setPosition(moveValidator.getTargetPosition(desiredMoveRequest));
         return;
       }
     } catch (InvalidDirectionException exception) {
       WarningDialog.display(INVALID_DIRECTION_MSG, exception);
     }
 
-    MoveRequest fallbackMoveRequest = new MoveRequest(pacman.getPosition(), pacman.getDirection());
+    MoveRequest fallbackMoveRequest =
+        new MoveRequest(gameObject.getPosition(), gameObject.getDirection());
     try {
       if (moveValidator.isValid(fallbackMoveRequest)) {
-        pacman.setPosition(moveValidator.getTargetPosition(fallbackMoveRequest));
+        gameObject.setPosition(moveValidator.getTargetPosition(fallbackMoveRequest));
       }
     } catch (InvalidDirectionException exception) {
       WarningDialog.display(INVALID_DIRECTION_MSG, exception);
     }
 
-    setPacmanDirection(pacman.getDesiredDirection());
+    setDirection(gameObject.getDesiredDirection());
   }
 
-  public void setPacmanDirection(Direction direction) {
-    pacman.setDesiredDirection(direction);
-    MoveRequest moveRequest = new MoveRequest(pacman.getPosition(), direction);
+  public void setDirection(Direction direction) {
+    gameObject.setDesiredDirection(direction);
+    MoveRequest moveRequest = new MoveRequest(gameObject.getPosition(), direction);
     try {
       if (!moveValidator.isDesiredDirectionValid(moveRequest)) {
         return;
@@ -48,6 +50,6 @@ public class MovementManager {
     } catch (InvalidDirectionException exception) {
       WarningDialog.display(INVALID_DIRECTION_MSG, exception);
     }
-    pacman.setDirection(direction);
+    gameObject.setDirection(direction);
   }
 }
