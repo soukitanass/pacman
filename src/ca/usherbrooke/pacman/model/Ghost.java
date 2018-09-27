@@ -3,7 +3,7 @@ package ca.usherbrooke.pacman.model;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
-public class Ghost {
+public class Ghost extends GameObject {
 
   @SerializedName("id")
   @Expose
@@ -11,9 +11,6 @@ public class Ghost {
   @SerializedName("speed")
   @Expose
   private Integer speed;
-  @SerializedName("start_pos")
-  @Expose
-  private Position startPos;
 
   public Integer getId() {
     return id;
@@ -29,14 +26,6 @@ public class Ghost {
 
   public void setSpeed(Integer speed) {
     this.speed = speed;
-  }
-
-  public Position getStartPos() {
-    return startPos;
-  }
-
-  public void setStartPos(Position startPos) {
-    this.startPos = startPos;
   }
 
 }
