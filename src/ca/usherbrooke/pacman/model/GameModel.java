@@ -70,7 +70,7 @@ public class GameModel implements IGameModel {
 
   private void startLevel() {
     Level level = getCurrentLevel();
-    IMoveValidator pacmanMoveValidator = new PacmanMoveValidator(level);
+    IMoveValidator pacmanMoveValidator = new GhostMoveValidator(level);
     IMoveValidator ghostMoveValidator = new GhostMoveValidator(level);
     pacman = level.getPacMan();
     pacmanMovementManager = new MovementManager(pacman, pacmanMoveValidator);
