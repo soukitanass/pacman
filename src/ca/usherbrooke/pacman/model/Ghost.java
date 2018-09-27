@@ -16,8 +16,11 @@ public class Ghost implements IGameObject {
   @Expose
   private Position position;
   private Direction direction;
-
   private Direction desiredDirection;
+
+  public Ghost() {
+    setDirection(Direction.UP);
+  }
 
   public Integer getId() {
     return id;
