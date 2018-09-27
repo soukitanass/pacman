@@ -88,7 +88,7 @@ public class LevelTest {
   @Test
   public void isTunnel() {
     // Assign
-    List<List<Integer>> map = Arrays.asList(Arrays.asList(0, 625));
+    List<List<Integer>> map = Arrays.asList(Arrays.asList(0, 325));
     level.setMap(map);
 
     // Act
@@ -101,7 +101,7 @@ public class LevelTest {
   @Test
   public void isNotTunnel() {
     // Assign
-    List<List<Integer>> map = Arrays.asList(Arrays.asList(0, 625));
+    List<List<Integer>> map = Arrays.asList(Arrays.asList(0, 325));
     level.setMap(map);
 
     // Act
