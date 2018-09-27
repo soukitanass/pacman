@@ -195,7 +195,7 @@ public class MovementManagerTest {
 
   private void initializeMovementManager(List<List<Integer>> map) {
     level.setMap(map);
-    IMoveValidator moveValidator = new MoveValidator(level);
+    IMoveValidator moveValidator = new PacmanMoveValidator(level);
     movementManager = new MovementManager(gameObject, moveValidator);
   }
 }
