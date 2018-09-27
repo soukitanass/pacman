@@ -14,7 +14,7 @@ public class GameCanvas extends JPanel {
   private final IGameModel model;
   private PacManPanel pacmanPanel;
   private LevelPanel levelPanel;
-  private PausePanel pausePanel;
+  private TextPanel pausePanel;
 
   private static final int FRAME_WIDTH = 600;
   private static final int FRAME_HEIGHT = 800;
@@ -98,7 +98,7 @@ public class GameCanvas extends JPanel {
   }
 
   public void setPausePanel() {
-    pausePanel = new PausePanel(model, pauseText, ca.usherbrooke.pacman.view.Color.YELLOW);
+    pausePanel = new TextPanel(model, pauseText, ca.usherbrooke.pacman.view.Color.YELLOW);
     pausePanel.setBackground(new Color(0, 0, 0, 80));
     pausePanel.setOpaque(true);
     window.add(pausePanel);
