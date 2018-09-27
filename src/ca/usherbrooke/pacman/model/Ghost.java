@@ -3,7 +3,7 @@ package ca.usherbrooke.pacman.model;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
-public class Ghost implements GameObject {
+public class Ghost implements IGameObject {
 
   @SerializedName("id")
   @Expose

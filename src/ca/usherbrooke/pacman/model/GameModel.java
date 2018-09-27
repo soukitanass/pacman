@@ -55,7 +55,7 @@ public class GameModel implements IGameModel {
       movingToEmptySpace();
     }
     pacmanSuperPacgumCollisionManager.update();
-    movementManager.updatePacmanPosition();
+    movementManager.updatePosition();
 
     Level level = getCurrentLevel();
     if (level.isCompleted()) {
@@ -155,6 +155,6 @@ public class GameModel implements IGameModel {
     if (isPaused()) {
       return;
     }
-    movementManager.setPacmanDirection(direction);
+    movementManager.setDirection(direction);
   }
 }
