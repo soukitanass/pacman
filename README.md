@@ -31,32 +31,15 @@ logiciel à l'université de Sherbrooke - Faculté de Génie
 ## Setup for SonarQube
 - Go to https://docs.sonarqube.org/Analyzing+with+SonarQube+Scanner.
 - Download SonarQubeScanner
-- Add the path of SonarQubeScanner's floder to your variable PATH.
+- Add the path of SonarQubeScanner's folder to your variable PATH.
 - Check out if the command sonar-scanner work.
-- Modify the file sonar-scanner.properties in the repertoire
+- Modify the file sonar-scanner.properties in the directory
  "~/sonar-scanner/conf/"
     - Change the sonar.host.url to http://zeus.gel.usherbrooke.ca:9000
     - Change the sonar.sourceEncoding to UTF-8
 - Save changes
-- In the root of your project create a file sonar-scanner.properties
-    -`# must be unique in a given SonarQube instance
-        sonar.projectKey=agilea18bKey
-        # this is the name displayed in the SonarQube UI
-        sonar.projectName=agilea18b
-        sonar.projectVersion=1.0
-        # Path is relative to the sonar-project.properties file. Replace "\" by "/" on Windows.
-        # Since SonarQube 4.2, this property is optional if sonar.modules is set.
-        # If not set, SonarQube starts looking for source code from the directory containing
-        # the sonar-project.properties file.
-        sonar.sources=./
-        sonar.java.binaries=./bin
-        # Encoding of the source code. Default is default system encoding
-        #sonar.sourceEncoding=UTF-8
-        sonar.scm.disabled=true`
- - Change the sonar.projectName to agilea18b
- - Change the sonar.projectKey to agilea18bKey
- - Launch the commend sonar-scanner 
- - Check out the result on http://zeus.gel.usherbrooke.ca:9000/
+- Launch the command `sonar-scanner` 
+- Check out the result on `http://zeus.gel.usherbrooke.ca:9000/dashboard?id=agilea18bKey`
 
 ## Generate UML class diagrams with robinbird
 

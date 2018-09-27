@@ -12,4 +12,7 @@ out/
 
 # SonarQube
 **/.scannerwork
-/.gradle/
+
+# Gradle
+.gradle/
+

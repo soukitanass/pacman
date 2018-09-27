@@ -3,15 +3,16 @@ package ca.usherbrooke.pacman.controller;
 import static java.awt.event.KeyEvent.VK_P;
 import static java.awt.event.KeyEvent.VK_Q;
 import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 import ca.usherbrooke.pacman.model.Direction;
 import ca.usherbrooke.pacman.model.IGameModel;
 import ca.usherbrooke.pacman.view.IGameView;
 
-public class GameController implements IGameController {
+public class PlayerKeyboardController implements IGameController, KeyListener {
   private final IGameModel model;
   private final IGameView view;
 
-  public GameController(IGameModel model, IGameView view) {
+  public PlayerKeyboardController(IGameModel model, IGameView view) {
     this.model = model;
     this.view = view;
   }
@@ -29,8 +30,8 @@ public class GameController implements IGameController {
   @Override
   public void keyPressed(KeyEvent e) {
     switch (e.getKeyCode()) {
-      case VK_P: 
-        model.togglePause(true);
+      case VK_P:
+    	model.togglePause(true);
         view.getCanvas().setPausePanel();
         break;
       case VK_Q:
