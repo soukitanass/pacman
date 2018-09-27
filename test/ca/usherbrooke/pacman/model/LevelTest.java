@@ -84,4 +84,30 @@ public class LevelTest {
 
     assertFalse(level.isCompleted());
   }
+
+  @Test
+  public void isTunnel() {
+    // Assign
+    List<List<Integer>> map = Arrays.asList(Arrays.asList(0, 325));
+    level.setMap(map);
+
+    // Act
+    boolean isTunnel = level.isTunnel(new Position(1, 0));
+
+    // Assert
+    assertTrue(isTunnel);
+  }
+
+  @Test
+  public void isNotTunnel() {
+    // Assign
+    List<List<Integer>> map = Arrays.asList(Arrays.asList(0, 325));
+    level.setMap(map);
+
+    // Act
+    boolean isTunnel = level.isTunnel(new Position(0, 0));
+
+    // Assert
+    assertFalse(isTunnel);
+  }
 }

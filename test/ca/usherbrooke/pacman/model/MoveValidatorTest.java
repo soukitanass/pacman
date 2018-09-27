@@ -7,7 +7,6 @@ import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 import org.junit.Test;
 import ca.usherbrooke.pacman.model.exceptions.InvalidDirectionException;
-import ca.usherbrooke.pacman.model.Direction;
 
 public class MoveValidatorTest {
 
@@ -66,6 +65,22 @@ public class MoveValidatorTest {
     assertFalse(moveValidator.isValid(moveRight));
     assertFalse(moveValidator.isValid(moveUp));
     assertFalse(moveValidator.isValid(moveDown));
+  }
+
+  @Test
+  public void turnAroundIsInvalidIfPacmanIsInTunnel() throws InvalidDirectionException {
+    Level mockLevel = getMockLevelSingleTunnel();
+    IMoveValidator moveValidator = new MoveValidator(mockLevel);
+    IMoveRequest moveLeft = new MoveRequest(new Position(0, 0), Direction.LEFT);
+    assertFalse(moveValidator.isDesiredDirectionValid(moveLeft));
+  }
+
+  @Test
+  public void turnAroundIsValidIfPacmanIsNotInTunnel() throws InvalidDirectionException {
+    Level mockLevel = getMockLevelSingleEmpty();
+    IMoveValidator moveValidator = new MoveValidator(mockLevel);
+    IMoveRequest moveLeft = new MoveRequest(new Position(0, 0), Direction.LEFT);
+    assertTrue(moveValidator.isDesiredDirectionValid(moveLeft));
   }
 
   @Test
@@ -155,6 +170,20 @@ public class MoveValidatorTest {
     when(mockLevel.isWall(new Position(1, 0))).thenReturn(true);
     when(mockLevel.isWall(new Position(0, 1))).thenReturn(true);
     when(mockLevel.isWall(new Position(1, 1))).thenReturn(true);
+    return mockLevel;
+  }
+
+  // T = Tunnel
+  //
+  // -----
+  // | T |
+  // -----
+  private Level getMockLevelSingleTunnel() {
+    Level mockLevel = mock(Level.class);
+    when(mockLevel.getWidth()).thenReturn(1);
+    when(mockLevel.getHeight()).thenReturn(1);
+    when(mockLevel.isWall(new Position(0, 0))).thenReturn(false);
+    when(mockLevel.isTunnel(new Position(0, 0))).thenReturn(true);
     return mockLevel;
   }
 }

@@ -10,6 +10,7 @@ public class Level {
   private static final int SUPER_PACGUM_CODE = 40;
   private static final int WALL_CODE_MIN = 1;
   private static final int WALL_CODE_MAX = 38;
+  private static final int TUNNEL_CODE = 325;
 
   private Integer score = 0;
   @SerializedName("id")
@@ -95,6 +96,11 @@ public class Level {
   public boolean isWall(Position position) {
     final int code = getCodeAtPosition(position);
     return WALL_CODE_MIN <= code && code <= WALL_CODE_MAX;
+  }
+
+  public boolean isTunnel(Position position) {
+    final int code = getCodeAtPosition(position);
+    return code == TUNNEL_CODE;
   }
 
   public boolean isPacgum(Position position) {

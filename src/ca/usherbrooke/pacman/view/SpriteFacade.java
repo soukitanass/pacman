@@ -1,19 +1,14 @@
 package ca.usherbrooke.pacman.view;
 
 import java.awt.image.BufferedImage;
-import ca.usherbrooke.pacman.view.Color;
 import ca.usherbrooke.pacman.model.Direction;
-import ca.usherbrooke.pacman.view.GhostState;
-import ca.usherbrooke.pacman.view.PacGumState;
-import ca.usherbrooke.pacman.view.PacManState;
 import ca.usherbrooke.pacman.model.exceptions.InvalidColorException;
+import ca.usherbrooke.pacman.model.exceptions.InvalidDigitException;
 import ca.usherbrooke.pacman.model.exceptions.InvalidDirectionException;
 import ca.usherbrooke.pacman.model.exceptions.InvalidLetterException;
-import ca.usherbrooke.pacman.model.exceptions.InvalidDigitException;
 import ca.usherbrooke.pacman.model.exceptions.InvalidScoreException;
 import ca.usherbrooke.pacman.model.exceptions.InvalidStateException;
 import ca.usherbrooke.pacman.model.exceptions.InvalidWallCodeException;
-import ca.usherbrooke.pacman.view.Sprite;
 
 /*
  * Uses the Facade Pattern to hide the complexity of the system by proving an interface to the
@@ -24,6 +19,7 @@ public class SpriteFacade {
 
   private static final String FILE_NAME = "sprites";
   private static final int TILE_SIZE = 16;
+  private static final int TUNNEL_CODE = 325;
   private Sprite sprite;
 
   public SpriteFacade() {
@@ -33,6 +29,10 @@ public class SpriteFacade {
   public BufferedImage getWall(int code) throws InvalidWallCodeException {
     final int y = 0;
     final int numberOfColumns = 19;
+
+    if (code == TUNNEL_CODE) {
+      return sprite.getSprite(0, y);
+    }
 
     if (code < numberOfColumns) {
       return sprite.getSprite(code, y);

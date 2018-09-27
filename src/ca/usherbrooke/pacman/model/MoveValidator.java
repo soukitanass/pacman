@@ -15,6 +15,13 @@ public class MoveValidator implements IMoveValidator {
     return !level.isWall(targetPosition);
   }
 
+  @Override
+  public boolean isDesiredDirectionValid(IMoveRequest moveRequest) throws InvalidDirectionException {
+    final Position currentPosition = moveRequest.getPosition();
+    final Position targetPosition = getTargetPosition(moveRequest);
+    return !level.isWall(targetPosition) && !level.isTunnel(currentPosition);
+  }
+
   public Position getTargetPosition(IMoveRequest moveRequest) throws InvalidDirectionException {
     int targetX = moveRequest.getPosition().getX();
     int targetY = moveRequest.getPosition().getY();
