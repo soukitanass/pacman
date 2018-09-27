@@ -42,8 +42,15 @@ public class LevelTest {
   }
 
   @Test
-  public void isWallFromCode1To38() {
-    List<List<Integer>> map = Arrays.asList(Arrays.asList(-1, 0, 1, 2, 36, 37, 38, 39, 40, 41));
+  public void ghostGatesArentWalls() {
+    List<List<Integer>> map = Arrays.asList(Arrays.asList(37));
+    level.setMap(map);
+    assertFalse(level.isWall(new Position(0, 0)));
+  }
+
+  @Test
+  public void isWallFromCode1To36() {
+    List<List<Integer>> map = Arrays.asList(Arrays.asList(-1, 0, 1, 2, 34, 35, 36, 37, 38, 39));
     level.setMap(map);
 
     assertFalse(level.isWall(new Position(0, 0)));
@@ -56,6 +63,23 @@ public class LevelTest {
     assertFalse(level.isWall(new Position(7, 0)));
     assertFalse(level.isWall(new Position(8, 0)));
     assertFalse(level.isWall(new Position(9, 0)));
+  }
+
+  @Test
+  public void isGhostGateOnlyForCode37() {
+    List<List<Integer>> map = Arrays.asList(Arrays.asList(-1, 0, 1, 2, 34, 35, 36, 37, 38, 39));
+    level.setMap(map);
+
+    assertFalse(level.isGhostGate(new Position(0, 0)));
+    assertFalse(level.isGhostGate(new Position(1, 0)));
+    assertFalse(level.isGhostGate(new Position(2, 0)));
+    assertFalse(level.isGhostGate(new Position(3, 0)));
+    assertFalse(level.isGhostGate(new Position(4, 0)));
+    assertFalse(level.isGhostGate(new Position(5, 0)));
+    assertFalse(level.isGhostGate(new Position(6, 0)));
+    assertTrue(level.isGhostGate(new Position(7, 0)));
+    assertFalse(level.isGhostGate(new Position(8, 0)));
+    assertFalse(level.isGhostGate(new Position(9, 0)));
   }
 
   @Test

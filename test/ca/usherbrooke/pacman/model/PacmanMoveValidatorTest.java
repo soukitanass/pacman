@@ -8,7 +8,7 @@ import static org.mockito.Mockito.when;
 import org.junit.Test;
 import ca.usherbrooke.pacman.model.exceptions.InvalidDirectionException;
 
-public class MoveValidatorTest {
+public class PacmanMoveValidatorTest {
 
   @Test
   public void movesToEmptySpacesAreValid() throws InvalidDirectionException {

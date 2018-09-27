@@ -18,7 +18,8 @@ public class MovementManager {
     MoveRequest desiredMoveRequest =
         new MoveRequest(gameObject.getPosition(), gameObject.getDesiredDirection());
     try {
-      if (moveValidator.isDesiredDirectionValid(desiredMoveRequest)) {
+      if (moveValidator.isDesiredDirectionValid(desiredMoveRequest)
+          && moveValidator.isValid(desiredMoveRequest)) {
         gameObject.setPosition(moveValidator.getTargetPosition(desiredMoveRequest));
         return;
       }
