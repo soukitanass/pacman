@@ -10,12 +10,15 @@ import ca.usherbrooke.pacman.model.sound.Observer;
 import ca.usherbrooke.pacman.view.utilities.WarningDialog;
 
 public class GameModel implements IGameModel {
-  private Levels levelsList;
 
+  final static int IS_LEVEL_COMPLETED_TIMEOUT = 3000;
+
+  private Levels levelsList;
   private int currentGameFrame = 0;
   private boolean isManuallyPaused = false;
   private boolean isPaused;
   private boolean isRunning;
+  private boolean isLevelCompleted;
   private MovementManager pacmanMovementManager;
   private List<MovementManager> ghostMovementManagers;
   private boolean isGameStarted = false;
@@ -27,6 +30,13 @@ public class GameModel implements IGameModel {
 
   public void attach(Observer observer) {
     observers.add(observer);
+  }
+
+  @Override
+  public void onLevelCompleted() {
+    for (Observer observer : observers) {
+      observer.onLevelCompleted();
+    }
   }
 
   @Override
@@ -45,7 +55,8 @@ public class GameModel implements IGameModel {
 
   @Override
   public void update() {
-    if (isPaused()) {
+    if (isPaused() || isLevelCompleted) {
+      onLevelCompleted();
       return;
     }
     ++currentGameFrame;
@@ -65,8 +76,20 @@ public class GameModel implements IGameModel {
 
     Level level = getCurrentLevel();
     if (level.isCompleted()) {
-      goToNextLevel();
+      isLevelCompleted = true;
+      setTimeout(() -> startNextLevel(), IS_LEVEL_COMPLETED_TIMEOUT);
     }
+  }
+
+  private void setTimeout(Runnable runnable, int delay) {
+    new Thread(() -> {
+      try {
+        Thread.sleep(delay);
+        runnable.run();
+      } catch (Exception exception) {
+        WarningDialog.display("Error while setting timeout. ", exception);
+      }
+    }).start();
   }
 
   private void startLevel() {
@@ -84,7 +107,8 @@ public class GameModel implements IGameModel {
     isGameStarted = true;
   }
 
-  private void goToNextLevel() {
+  private void startNextLevel() {
+    this.isLevelCompleted = false;
     this.levelsList.incrementCurrentLevel();
     startLevel();
   }
@@ -106,6 +130,16 @@ public class GameModel implements IGameModel {
   @Override
   public void unpause() {
     isPaused = false;
+  }
+
+  @Override
+  public int getCurrentLevelIndex() {
+    return levelsList.getCurrentLevel();
+  }
+
+  @Override
+  public boolean isLevelCompleted() {
+    return isLevelCompleted;
   }
 
   @Override

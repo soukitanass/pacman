@@ -12,4 +12,6 @@ public abstract class Observer {
   public abstract void consumingFruit();
 
   public abstract void movingToEmptySpace();
+
+  public abstract void onLevelCompleted();
 }
