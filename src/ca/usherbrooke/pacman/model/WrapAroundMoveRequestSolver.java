@@ -2,7 +2,7 @@ package ca.usherbrooke.pacman.model;
 
 import ca.usherbrooke.pacman.model.exceptions.InvalidDirectionException;
 
-public class WrapAroundMoveRequestSolver implements IMoveRequestSolver {
+public class WrapAroundMoveRequestSolver {
   private Level level;
 
   public WrapAroundMoveRequestSolver(Level level) {
