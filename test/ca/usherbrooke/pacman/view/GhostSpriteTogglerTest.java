@@ -7,7 +7,7 @@ public class GhostSpriteTogglerTest {
 
   @Test
   public void test() {
-    final int period = 2;
+    final int period = 1;
     GhostSpriteToggler toggler = new GhostSpriteToggler(period);
 
     assertEquals(GhostState.STATE1, toggler.getGhostState());

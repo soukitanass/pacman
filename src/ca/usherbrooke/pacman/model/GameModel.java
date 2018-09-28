@@ -99,7 +99,7 @@ public class GameModel implements IGameModel {
     pacman = level.getPacMan();
     pacmanMovementManager = new MovementManager(pacman, pacmanMoveValidator);
     ghostMovementManagers = new ArrayList<MovementManager>();
-    for (Ghost ghost : level.getGhost()) {
+    for (Ghost ghost : level.getGhosts()) {
       ghostMovementManagers.add(new MovementManager(ghost, ghostMoveValidator));
     }
     pacmanPacgumCollisionManager = new PacmanPacgumCollisionManager(pacman, level);

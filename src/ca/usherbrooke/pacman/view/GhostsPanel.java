@@ -40,7 +40,7 @@ public class GhostsPanel extends JPanel {
   public void paint(Graphics graphics) {
     super.paint(graphics);
     ghostSpritePeriodicToggler.update();
-    for (Ghost ghost : model.getCurrentLevel().getGhost()) {
+    for (Ghost ghost : model.getCurrentLevel().getGhosts()) {
       try {
         drawGhost(graphics, ghost);
       } catch (InvalidColorException | InvalidDirectionException | InvalidStateException e) {

@@ -8,7 +8,6 @@ import ca.usherbrooke.pacman.controller.PeriodicDirectionController;
 import ca.usherbrooke.pacman.controller.PlayerKeyboardController;
 import ca.usherbrooke.pacman.controller.SoundController;
 import ca.usherbrooke.pacman.model.GameModel;
-import ca.usherbrooke.pacman.model.Ghost;
 import ca.usherbrooke.pacman.model.IDirectionGenerator;
 import ca.usherbrooke.pacman.model.IGameModel;
 import ca.usherbrooke.pacman.model.random.RandomDirectionGenerator;
@@ -54,10 +53,8 @@ public class Game implements IGame {
     IDirectionGenerator randomDirectionGenerator =
         new RandomDirectionGenerator(randomNumberGenerator);
     controllers.add(playerKeyboardController);
-    for (Ghost ghost : model.getCurrentLevel().getGhost()) {
-      controllers.add(new PeriodicDirectionController(model, randomDirectionGenerator, ghost,
-          GHOSTS_DIRECTION_CHANGE_PERIOD));
-    }
+    controllers.add(new PeriodicDirectionController(model, randomDirectionGenerator,
+        GHOSTS_DIRECTION_CHANGE_PERIOD));
     final int gameUpdatesPerSecond = 7;
     final int frameUpdatesPerSecond = 30;
     final int gameUpdatePeriodMilliseconds = (int) (1000.0 / gameUpdatesPerSecond);
