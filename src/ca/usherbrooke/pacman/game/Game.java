@@ -52,7 +52,7 @@ public class Game implements IGame {
     IDirectionGenerator randomDirectionGenerator = new RandomDirectionGenerator(randomNumberGenerator);
     controllers.add(playerKeyboardController);
     for (Ghost ghost : model.getCurrentLevel().getGhost()) {
-      controllers.add(new PeriodicDirectionController(randomDirectionGenerator, ghost,
+      controllers.add(new PeriodicDirectionController(model, randomDirectionGenerator, ghost,
           GHOSTS_DIRECTION_CHANGE_PERIOD));
     }
     final int gameUpdatesPerSecond = 7;

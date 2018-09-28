@@ -49,7 +49,7 @@ public class GhostsPanel extends JPanel {
 
   private void drawGhost(Graphics graphics, Ghost ghost)
       throws InvalidColorException, InvalidDirectionException, InvalidStateException {
-    Direction direction = Direction.UP;
+    Direction direction = ghost.getDirection();
     Color color = ghostIdToColor.get(ghost.getId());
     GhostState ghostSpriteState = GhostState.STATE1;
     Image ghostImage = spriteFacade.getGhost(direction, color, ghostSpriteState);

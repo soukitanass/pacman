@@ -52,4 +52,8 @@ public class MovementManager {
     }
     gameObject.setDirection(direction);
   }
+
+  public IGameObject getManagedGameObject() {
+    return gameObject;
+  }
 }
