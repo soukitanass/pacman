@@ -22,6 +22,8 @@ public class Game implements IGame {
 
   private static final int RANDOM_GENERATOR_SEED = 8544574;
 
+  private static final int SPRITE_TOGGLE_PERIOD = 10;
+
   private final long modelUpdatePeriod;
   private final long viewUpdatePeriod;
   private long lastModelUpdateTime;
@@ -45,11 +47,12 @@ public class Game implements IGame {
     final String LEVELS_PATH = "Levels.json";
     IGameModel model = new GameModel();
     model.loadLevels(LEVELS_PATH);
-    IGameView view = new GameView(model);
+    IGameView view = new GameView(model, SPRITE_TOGGLE_PERIOD);
     List<IGameController> controllers = new ArrayList<IGameController>();
     PlayerKeyboardController playerKeyboardController = new PlayerKeyboardController(model, view);
     Random randomNumberGenerator = new Random(RANDOM_GENERATOR_SEED);
-    IDirectionGenerator randomDirectionGenerator = new RandomDirectionGenerator(randomNumberGenerator);
+    IDirectionGenerator randomDirectionGenerator =
+        new RandomDirectionGenerator(randomNumberGenerator);
     controllers.add(playerKeyboardController);
     for (Ghost ghost : model.getCurrentLevel().getGhost()) {
       controllers.add(new PeriodicDirectionController(model, randomDirectionGenerator, ghost,
