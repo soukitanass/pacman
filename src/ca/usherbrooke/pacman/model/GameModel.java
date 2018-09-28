@@ -19,8 +19,10 @@ public class GameModel implements IGameModel {
   private boolean isPaused;
   private boolean isRunning;
   private boolean isLevelCompleted;
+  private boolean isGameOver;
   private MovementManager pacmanMovementManager;
   private List<MovementManager> ghostMovementManagers;
+  private PacmanGhostCollisionManager pacmanGhostCollisionManager;
   private boolean isGameStarted = false;
   private PacMan pacman;
   private PacmanPacgumCollisionManager pacmanPacgumCollisionManager;
@@ -69,6 +71,7 @@ public class GameModel implements IGameModel {
       movingToEmptySpace();
     }
     pacmanSuperPacgumCollisionManager.update();
+    pacmanGhostCollisionManager.update();
     pacmanMovementManager.updatePosition();
     for (MovementManager ghostMovementManager : ghostMovementManagers) {
       ghostMovementManager.updatePosition();
@@ -104,7 +107,9 @@ public class GameModel implements IGameModel {
     }
     pacmanPacgumCollisionManager = new PacmanPacgumCollisionManager(pacman, level);
     pacmanSuperPacgumCollisionManager = new PacmanSuperPacgumCollisionManager(pacman, level);
+    pacmanGhostCollisionManager = new PacmanGhostCollisionManager(pacman, level);
     isGameStarted = true;
+    isGameOver = false;
   }
 
   private void startNextLevel() {
@@ -228,6 +233,14 @@ public class GameModel implements IGameModel {
       }
     }
     return null;
+  }
+
+  public boolean isGameOver() {
+    return isGameOver;
+  }
+
+  public void setGameOver() {
+    isGameOver = true;
   }
 
 }

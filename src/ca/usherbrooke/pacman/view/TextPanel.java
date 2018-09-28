@@ -19,6 +19,8 @@ public class TextPanel extends JPanel {
   private SpriteFacade spriteFacade = new SpriteFacade();
   private static final int PANEL_X = 220;
   private static final int PANEL_Y = 375;
+  private int offsetX = 0;
+  private int offsetY = 0;
 
   public void setPixelTileSize(int pixelTileSize) {
     this.pixelTileSize = pixelTileSize;
@@ -55,7 +57,7 @@ public class TextPanel extends JPanel {
       } catch (Exception exception) {
         WarningDialog.display("Error while painting the panel. ", exception);
       }
-      int x = i * getScoreTileSizePixels();
+      int x = i * getScoreTileSizePixels() + offsetX;
       drawSpirite(image, graphic, PANEL_X + x, PANEL_Y, getScoreTileSizePixels(),
           getScoreTileSizePixels());
     }
@@ -93,6 +95,14 @@ public class TextPanel extends JPanel {
 
   public int getHeightTiles() {
     return (int) (model.getCurrentLevel().getHeight() / RATIO_LEVEL_HEIGHT_TO_TOTAL_HEIGHT);
+  }
+
+  public void setOffsetX(int offsetX) {
+    this.offsetX = offsetX;
+  }
+
+  public void setOffsetY(int offsetY) {
+    this.offsetY = offsetY;
   }
 
 }

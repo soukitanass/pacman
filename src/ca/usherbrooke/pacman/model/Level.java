@@ -36,6 +36,16 @@ public class Level {
   @Expose
   private List<List<Integer>> map = null;
 
+  private Integer lives = 3;
+
+  public Integer getLives() {
+    return lives;
+  }
+
+  public void setLives(Integer lives) {
+    this.lives = lives;
+  }
+
   public Integer getId() {
     return id;
   }
@@ -146,5 +156,9 @@ public class Level {
       }
     }
     return true;
+  }
+
+  public boolean isGhost(Position position) {
+    return GHOST_GATE_CODE == getCodeAtPosition(position);
   }
 }
