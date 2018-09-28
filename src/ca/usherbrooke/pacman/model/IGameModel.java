@@ -1,6 +1,5 @@
 package ca.usherbrooke.pacman.model;
 
-import ca.usherbrooke.pacman.model.Level;
 import ca.usherbrooke.pacman.model.sound.Observer;
 
 public interface IGameModel {
@@ -32,7 +31,7 @@ public interface IGameModel {
 
   PacMan getPacman();
 
-  void setPacmanDirection(Direction direction);
+  void setDirection(IHasDesiredDirection gameObject, Direction direction);
 
   void attach(Observer observer);
 

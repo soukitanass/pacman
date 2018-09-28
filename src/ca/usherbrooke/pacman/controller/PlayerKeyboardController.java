@@ -38,16 +38,16 @@ public class PlayerKeyboardController implements IGameController, KeyListener {
         model.quit();
         break;
       case KeyEvent.VK_RIGHT:
-        model.setPacmanDirection(Direction.RIGHT);
+        model.setDirection(model.getPacman(), Direction.RIGHT);
         break;
       case KeyEvent.VK_LEFT:
-        model.setPacmanDirection(Direction.LEFT);
+        model.setDirection(model.getPacman(), Direction.LEFT);
         break;
       case KeyEvent.VK_UP:
-        model.setPacmanDirection(Direction.UP);
+        model.setDirection(model.getPacman(), Direction.UP);
         break;
       case KeyEvent.VK_DOWN:
-        model.setPacmanDirection(Direction.DOWN);
+        model.setDirection(model.getPacman(), Direction.DOWN);
         break;
       default:
         break;

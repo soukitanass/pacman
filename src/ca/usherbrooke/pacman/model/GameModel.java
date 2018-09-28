@@ -166,11 +166,12 @@ public class GameModel implements IGameModel {
   }
 
   @Override
-  public void setPacmanDirection(Direction direction) {
+  public void setDirection(IHasDesiredDirection gameObject, Direction direction) {
     if (isPaused()) {
       return;
     }
-    pacmanMovementManager.setDirection(direction);
+    MovementManager movementManager = getMovementManagerFromGameObject(gameObject);
+    movementManager.setDirection(direction);
   }
 
   @Override
@@ -182,4 +183,17 @@ public class GameModel implements IGameModel {
   public boolean isManuallyPaused() {
     return isManuallyPaused;
   }
+
+  private MovementManager getMovementManagerFromGameObject(IHasDesiredDirection gameObject) {
+    if (gameObject == pacmanMovementManager.getManagedGameObject()) {
+      return pacmanMovementManager;
+    }
+    for (MovementManager ghostMovementManager : ghostMovementManagers) {
+      if (gameObject == ghostMovementManager.getManagedGameObject()) {
+        return ghostMovementManager;
+      }
+    }
+    return null;
+  }
+
 }

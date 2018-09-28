@@ -6,8 +6,8 @@ import ca.usherbrooke.pacman.model.IGameModel;
 public class GameView implements IGameView {
   private GameCanvas canvas;
 
-  public GameView(IGameModel model) {
-    canvas = new GameCanvas(model);
+  public GameView(IGameModel model, int spriteTogglePeriod) {
+    canvas = new GameCanvas(model, spriteTogglePeriod);
   }
 
   public void update() {

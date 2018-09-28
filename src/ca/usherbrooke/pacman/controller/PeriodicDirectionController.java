@@ -1,19 +1,23 @@
 package ca.usherbrooke.pacman.controller;
 
+import ca.usherbrooke.pacman.model.Direction;
 import ca.usherbrooke.pacman.model.IDirectionGenerator;
+import ca.usherbrooke.pacman.model.IGameModel;
 import ca.usherbrooke.pacman.model.IHasDesiredDirection;
 
 public class PeriodicDirectionController implements IGameController {
 
   private int updatesCounter;
   private int period;
-  private IHasDesiredDirection someMovableObject;
+  private IHasDesiredDirection controlledGameObject;
   private IDirectionGenerator directionGenerator;
+  private IGameModel gameModel;
 
-  public PeriodicDirectionController(IDirectionGenerator directionGenerator,
-      IHasDesiredDirection someMovableObject, int period) {
+  public PeriodicDirectionController(IGameModel gameModel, IDirectionGenerator directionGenerator,
+      IHasDesiredDirection controlledGameObject, int period) {
+    this.gameModel = gameModel;
     this.directionGenerator = directionGenerator;
-    this.someMovableObject = someMovableObject;
+    this.controlledGameObject = controlledGameObject;
     this.period = period;
   }
 
@@ -23,7 +27,8 @@ public class PeriodicDirectionController implements IGameController {
       return;
     }
     updatesCounter = 0;
-    someMovableObject.setDesiredDirection(directionGenerator.get());
+    Direction direction = directionGenerator.get();
+    gameModel.setDirection(controlledGameObject, direction);
   }
 
 }
