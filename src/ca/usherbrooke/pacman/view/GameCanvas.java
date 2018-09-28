@@ -17,12 +17,12 @@ public class GameCanvas extends JPanel {
   private GhostsPanel ghostsPanel;
   private PacManPanel pacmanPanel;
   private LevelPanel levelPanel;
-  private PausePanel pausePanel;
+  private TextPanel pausePanel;
 
   private static final int FRAME_WIDTH = 600;
   private static final int FRAME_HEIGHT = 800;
   private static final String GAME_TITLE = "Pac-Man";
-  private static final String PAUSE_TEXT = "PAUSE";
+  private static final String pauseText = "PAUSE";
 
   private JLayeredPane layeredPane = new JLayeredPane();
 
@@ -125,10 +125,9 @@ public class GameCanvas extends JPanel {
   }
 
   public void setPausePanel() {
-    pausePanel = new PausePanel(model, PAUSE_TEXT, ca.usherbrooke.pacman.view.Color.YELLOW);
+    pausePanel = new TextPanel(model, pauseText, ca.usherbrooke.pacman.view.Color.YELLOW);
     pausePanel.setBackground(new Color(0, 0, 0, 80));
     pausePanel.setOpaque(true);
     window.add(pausePanel);
-
   }
 }

@@ -7,14 +7,13 @@ import javax.swing.JPanel;
 import ca.usherbrooke.pacman.model.IGameModel;
 import ca.usherbrooke.pacman.view.utilities.WarningDialog;
 
-@SuppressWarnings({"serial", "squid:S1948"})
-public class PausePanel extends JPanel {
+public class TextPanel extends JPanel {
 
   public static final int PANEL_WIDTH_IN_SCORE_TILES = 25;
   public static final double RATIO_LEVEL_HEIGHT_TO_TOTAL_HEIGHT = 0.9;
   private IGameModel model;
   private int pixelTileSize = 25;
-  private String displayText = "PAUSE";
+  private String displayText;
   private Color color;
   private SpriteFacade spriteFacade = new SpriteFacade();
   private static final int PANEL_X = 220;
@@ -24,7 +23,7 @@ public class PausePanel extends JPanel {
     this.pixelTileSize = pixelTileSize;
   }
 
-  public PausePanel(IGameModel model, String text, Color c) {
+  public TextPanel(IGameModel model, String text, Color c) {
     this.model = model;
     this.displayText = text;
     this.color = c;
