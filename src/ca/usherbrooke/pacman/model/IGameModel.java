@@ -1,5 +1,6 @@
 package ca.usherbrooke.pacman.model;
 
+import ca.usherbrooke.pacman.model.exceptions.GameObjectCannotChangeDirectionException;
 import ca.usherbrooke.pacman.model.sound.Observer;
 
 public interface IGameModel {
@@ -20,7 +21,7 @@ public interface IGameModel {
   void setManuallyPaused(boolean isManuallyPaused);
 
   boolean isManuallyPaused();
- 
+
   void togglePause(boolean isManuallyPaused);
 
   void quit();
@@ -31,7 +32,8 @@ public interface IGameModel {
 
   PacMan getPacman();
 
-  void setDirection(IHasDesiredDirection gameObject, Direction direction);
+  void setDirection(IHasDesiredDirection gameObject, Direction direction)
+      throws GameObjectCannotChangeDirectionException;
 
   void attach(Observer observer);
 

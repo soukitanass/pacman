@@ -4,6 +4,8 @@ import ca.usherbrooke.pacman.model.Direction;
 import ca.usherbrooke.pacman.model.IDirectionGenerator;
 import ca.usherbrooke.pacman.model.IGameModel;
 import ca.usherbrooke.pacman.model.IHasDesiredDirection;
+import ca.usherbrooke.pacman.model.exceptions.GameObjectCannotChangeDirectionException;
+import ca.usherbrooke.pacman.view.utilities.WarningDialog;
 
 public class PeriodicDirectionController implements IGameController {
 
@@ -28,7 +30,11 @@ public class PeriodicDirectionController implements IGameController {
     }
     updatesCounter = 0;
     Direction direction = directionGenerator.get();
-    gameModel.setDirection(controlledGameObject, direction);
+    try {
+      gameModel.setDirection(controlledGameObject, direction);
+    } catch (GameObjectCannotChangeDirectionException exception) {
+      WarningDialog.display("Failed to set game object's direction", exception);
+    }
   }
 
 }

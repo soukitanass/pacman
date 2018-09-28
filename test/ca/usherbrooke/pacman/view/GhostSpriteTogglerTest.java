@@ -6,7 +6,7 @@ import org.junit.Test;
 public class GhostSpriteTogglerTest {
 
   @Test
-  public void test() {
+  public void toggles() {
     final int period = 2;
     GhostSpriteToggler toggler = new GhostSpriteToggler(period);
 
