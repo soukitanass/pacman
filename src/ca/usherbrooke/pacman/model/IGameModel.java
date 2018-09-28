@@ -20,7 +20,7 @@ public interface IGameModel {
   void setManuallyPaused(boolean isManuallyPaused);
 
   boolean isManuallyPaused();
- 
+
   void togglePause(boolean isManuallyPaused);
 
   void quit();
@@ -44,4 +44,6 @@ public interface IGameModel {
   boolean isLevelCompleted();
 
   int getCurrentLevelIndex();
+
+  boolean isGameCompleted();
 }
