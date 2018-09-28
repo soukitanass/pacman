@@ -7,7 +7,7 @@ import ca.usherbrooke.pacman.model.Direction;
 import ca.usherbrooke.pacman.model.IGameModel;
 import ca.usherbrooke.pacman.model.PacMan;
 
-@SuppressWarnings("serial")
+@SuppressWarnings({"serial", "squid:S1948"})
 public class PacManPanel extends JPanel {
 
   private IGameModel model;

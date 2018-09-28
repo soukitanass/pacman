@@ -13,6 +13,7 @@ public class GameModel implements IGameModel {
   private Levels levelsList;
 
   private int currentGameFrame = 0;
+  private boolean isManuallyPaused = false;
   private boolean isPaused;
   private boolean isRunning;
   private MovementManager pacmanMovementManager;
@@ -113,7 +114,12 @@ public class GameModel implements IGameModel {
   }
 
   @Override
-  public void togglePause() {
+  public void togglePause(boolean isManuallyPaused) {
+
+    if (isManuallyPaused) {
+      setManuallyPaused(!isManuallyPaused());
+    }
+
     if (isPaused()) {
       unpause();
     } else {
@@ -144,10 +150,9 @@ public class GameModel implements IGameModel {
 
   public void loadLevels(String levelsPath) {
     Gson gson = new Gson();
+    File file = new File(GameModel.class.getClassLoader().getResource(levelsPath).getFile());
 
-    try {
-      File file = new File(GameModel.class.getClassLoader().getResource(levelsPath).getFile());
-      FileReader fileReader = new FileReader(file);
+    try (FileReader fileReader = new FileReader(file)) {
       this.levelsList = gson.fromJson(new BufferedReader(fileReader), Levels.class);
       this.pacman = getCurrentLevel().getPacMan();
     } catch (Exception exception) {
@@ -166,5 +171,15 @@ public class GameModel implements IGameModel {
       return;
     }
     pacmanMovementManager.setDirection(direction);
+  }
+
+  @Override
+  public void setManuallyPaused(boolean isManuallyPaused) {
+    this.isManuallyPaused = isManuallyPaused;
+  }
+
+  @Override
+  public boolean isManuallyPaused() {
+    return isManuallyPaused;
   }
 }

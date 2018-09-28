@@ -4,12 +4,14 @@ import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.event.KeyListener;
+import java.awt.event.WindowEvent;
+import java.awt.event.WindowFocusListener;
 import javax.swing.JFrame;
 import javax.swing.JLayeredPane;
 import javax.swing.JPanel;
 import ca.usherbrooke.pacman.model.IGameModel;
 
-@SuppressWarnings("serial")
+@SuppressWarnings({"serial", "squid:S1948"})
 public class GameCanvas extends JPanel {
   private final IGameModel model;
   private GhostsPanel ghostsPanel;
@@ -20,7 +22,7 @@ public class GameCanvas extends JPanel {
   private static final int FRAME_WIDTH = 600;
   private static final int FRAME_HEIGHT = 800;
   private static final String GAME_TITLE = "Pac-Man";
-  private final String pauseText = "PAUSE";
+  private static final String pauseText = "PAUSE";
 
   private JLayeredPane layeredPane = new JLayeredPane();
 
@@ -33,6 +35,20 @@ public class GameCanvas extends JPanel {
     window.setMinimumSize(new Dimension(FRAME_WIDTH, FRAME_HEIGHT));
     window.setLocationRelativeTo(null);
     window.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+
+    window.addWindowFocusListener(new WindowFocusListener() {
+      @Override
+      public void windowLostFocus(WindowEvent e) {
+        model.pause();
+      }
+
+      @Override
+      public void windowGainedFocus(WindowEvent e) {
+        if (!model.isManuallyPaused()) {
+          model.unpause();
+        }
+      }
+    });
 
     levelPanel = new LevelPanel(model);
     levelPanel.setBackground(Color.BLACK);
@@ -49,6 +65,7 @@ public class GameCanvas extends JPanel {
     window.add(layeredPane);
     window.add(this);
     window.setVisible(true);
+
   }
 
   @Override
@@ -88,12 +105,12 @@ public class GameCanvas extends JPanel {
   public int getPixelTileSize() {
     final float panelWidthPixels = getWidth();
     final float panelHeightPixels = getHeight();
-    final int availableWindowWidthPixels =
-        (int) Math.min(panelWidthPixels, 3.0 / 4.0 * panelHeightPixels);
-    final int availableWindowHeightPixels =
+    final double availableWindowWidthPixels =
+        Math.min(panelWidthPixels, 3.0 / 4.0 * panelHeightPixels);
+    final double availableWindowHeightPixels =
         (int) Math.min(panelHeightPixels, 4.0 / 3.0 * panelWidthPixels);
-    final float widthRatio = (float) (availableWindowWidthPixels / levelPanel.getWidthTiles());
-    final float heightRatio = (float) (availableWindowHeightPixels / levelPanel.getHeightTiles());
+    final double widthRatio = availableWindowWidthPixels / levelPanel.getWidthTiles();
+    final double heightRatio = availableWindowHeightPixels / levelPanel.getHeightTiles();
     return (int) Math.min(Math.floor(widthRatio), Math.floor(heightRatio));
   }
 
@@ -112,6 +129,5 @@ public class GameCanvas extends JPanel {
     pausePanel.setBackground(new Color(0, 0, 0, 80));
     pausePanel.setOpaque(true);
     window.add(pausePanel);
-
   }
 }

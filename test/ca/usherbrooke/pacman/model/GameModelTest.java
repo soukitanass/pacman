@@ -50,12 +50,25 @@ public class GameModelTest {
   }
 
   @Test
+  public void toggleManualPause() {
+    assertFalse(model.isPaused());
+    model.togglePause(true);
+    assertTrue(model.isManuallyPaused());
+    assertTrue(model.isPaused());
+    model.togglePause(true);
+    assertFalse(model.isPaused());
+    assertFalse(model.isManuallyPaused());
+  }
+
+  @Test
   public void togglePause() {
     assertFalse(model.isPaused());
-    model.togglePause();
+    model.togglePause(false);
     assertTrue(model.isPaused());
-    model.togglePause();
+    assertFalse(model.isManuallyPaused());
+    model.togglePause(false);
     assertFalse(model.isPaused());
+    assertFalse(model.isManuallyPaused());
   }
 
   @Test
