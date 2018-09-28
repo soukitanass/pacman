@@ -11,7 +11,7 @@ import ca.usherbrooke.pacman.view.utilities.WarningDialog;
 
 public class GameModel implements IGameModel {
 
-  final static int IS_LEVEL_COMPLETED_TIMEOUT = 3000;
+  static final int IS_LEVEL_COMPLETED_TIMEOUT = 3000;
 
   private Levels levelsList;
   private int currentGameFrame = 0;
@@ -77,7 +77,7 @@ public class GameModel implements IGameModel {
     Level level = getCurrentLevel();
     if (level.isCompleted()) {
       isLevelCompleted = true;
-      setTimeout(() -> startNextLevel(), IS_LEVEL_COMPLETED_TIMEOUT);
+      setTimeout(this::startNextLevel, IS_LEVEL_COMPLETED_TIMEOUT);
     }
   }
 
