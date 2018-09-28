@@ -13,6 +13,7 @@ public class TextPanel extends JPanel {
   public static final double RATIO_LEVEL_HEIGHT_TO_TOTAL_HEIGHT = 0.9;
   private IGameModel model;
   private int pixelTileSize = 25;
+  private int levelNumber = 0;
   private String displayText;
   private Color color;
   private SpriteFacade spriteFacade = new SpriteFacade();
@@ -23,16 +24,30 @@ public class TextPanel extends JPanel {
     this.pixelTileSize = pixelTileSize;
   }
 
-  public TextPanel(IGameModel model, String text, Color c) {
+  public TextPanel(IGameModel model, Color color, String text, int levelNumber) {
     this.model = model;
     this.displayText = text;
-    this.color = c;
+    this.color = color;
+    this.levelNumber = levelNumber;
+    setFocusable(true);
+  }
+
+
+  public TextPanel(IGameModel model, Color color, String text) {
+    this.model = model;
+    this.displayText = text;
+    this.color = color;
     setFocusable(true);
   }
 
   @Override
   public void paint(Graphics graphic) {
     super.paint(graphic);
+    paintMessage(graphic);
+    paintLevelNumber(graphic);
+  }
+
+  private void paintMessage(Graphics graphic) {
     for (int i = 0; i < displayText.length(); i++) {
       BufferedImage image = null;
       try {
@@ -44,6 +59,22 @@ public class TextPanel extends JPanel {
       drawSpirite(image, graphic, PANEL_X + x, PANEL_Y, getScoreTileSizePixels(),
           getScoreTileSizePixels());
     }
+  }
+
+  private void paintLevelNumber(Graphics graphic) {
+    if (levelNumber <= 0) {
+      return;
+    }
+    BufferedImage image = null;
+    try {
+      image = spriteFacade.getDigit(levelNumber, color);
+    } catch (Exception exception) {
+      WarningDialog.display("Error while painting the panel. ", exception);
+    }
+    final int messageLength = displayText.length();
+    final int x = messageLength * getScoreTileSizePixels();
+    drawSpirite(image, graphic, PANEL_X + x, PANEL_Y, getScoreTileSizePixels(),
+        getScoreTileSizePixels());
   }
 
   private void drawSpirite(Image source, Graphics graphics, int x, int y, int width, int height) {

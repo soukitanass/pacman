@@ -44,29 +44,23 @@ public class SoundModel extends Observer implements ISoundModel {
   }
 
   @Override
-  public void consumingPacGums() {
-    if (isMuted) {
-      return;
-    }
+  public void onLevelCompleted() {
+    actionSoundPlayer.stop();
+    backgroundSoundPlayer.stop();
+  }
 
+  @Override
+  public void consumingPacGums() {
     playSound(actionSoundPlayer, Sound.CHOMP_SOUND, true);
   }
 
   @Override
   public void consumingGhost() {
-    if (isMuted) {
-      return;
-    }
-
     playSound(actionSoundPlayer, Sound.EAT_GHOST_SOUND, false);
   }
 
   @Override
   public void consumingFruit() {
-    if (isMuted) {
-      return;
-    }
-
     playSound(actionSoundPlayer, Sound.EAT_FRUIT_SOUND, false);
   }
 
@@ -75,9 +69,16 @@ public class SoundModel extends Observer implements ISoundModel {
     if (actionSoundPlayer.isPlaying()) {
       actionSoundPlayer.stop();
     }
+    if (!backgroundSoundPlayer.isPlaying()) {
+      playSound(backgroundSoundPlayer, Sound.SIREN, true);
+    }
   }
 
   private void playSound(ISoundPlayer soundPlayer, Sound sound, boolean looping) {
+    if (isMuted) {
+      return;
+    }
+
     File soundFile;
     try {
       soundFile = soundFactory.getFile(sound);

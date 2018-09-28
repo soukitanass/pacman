@@ -35,7 +35,13 @@ public interface IGameModel {
 
   void attach(Observer observer);
 
+  void onLevelCompleted();
+
   void consumingPacGums();
 
   void movingToEmptySpace();
+
+  boolean isLevelCompleted();
+
+  int getCurrentLevelIndex();
 }
