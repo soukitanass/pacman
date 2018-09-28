@@ -2,17 +2,11 @@ package ca.usherbrooke.pacman.model;
 
 import ca.usherbrooke.pacman.model.exceptions.InvalidDirectionException;
 
-public class MoveValidator implements IMoveValidator {
-  private final Level level;
+public class WrapAroundMoveRequestSolver {
+  private Level level;
 
-  public MoveValidator(Level level) {
+  public WrapAroundMoveRequestSolver(Level level) {
     this.level = level;
-  }
-
-  @Override
-  public boolean isValid(IMoveRequest moveRequest) throws InvalidDirectionException {
-    final Position targetPosition = getTargetPosition(moveRequest);
-    return !level.isWall(targetPosition);
   }
 
   public Position getTargetPosition(IMoveRequest moveRequest) throws InvalidDirectionException {
@@ -32,7 +26,7 @@ public class MoveValidator implements IMoveValidator {
         ++targetY;
         break;
       default:
-        throw new InvalidDirectionException("Invalid Pac-Man direction.");
+        throw new InvalidDirectionException("Invalid requested direction.");
     }
     Integer levelWidth = level.getWidth();
     Integer levelHeight = level.getHeight();

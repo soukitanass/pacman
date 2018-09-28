@@ -10,12 +10,10 @@ logiciel à l'université de Sherbrooke - Faculté de Génie
 
 ### Run with Eclipse
 - Open Eclipse
-- File > New > Java Project
-- Enter a project name > Finish
-- Right click on project > Import... > General > Existing project into workspace
+- Right click > Import... > General > Existing project into workspace
 - Next
 - Select project root directory. E.g.: `C:\Users\CIP1234\Desktop\pacman`
-- Next, Next, Finish
+- Finish
 - Right click on project > Run as > Java Application
 - Run button down arrow > `Game`
 

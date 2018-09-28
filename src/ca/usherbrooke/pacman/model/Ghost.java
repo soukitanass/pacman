@@ -3,7 +3,7 @@ package ca.usherbrooke.pacman.model;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
-public class Ghost {
+public class Ghost implements IGameObject {
 
   @SerializedName("id")
   @Expose
@@ -11,9 +11,16 @@ public class Ghost {
   @SerializedName("speed")
   @Expose
   private Integer speed;
+
   @SerializedName("start_pos")
   @Expose
-  private Position startPos;
+  private Position position;
+  private Direction direction;
+  private Direction desiredDirection;
+
+  public Ghost() {
+    setDirection(Direction.UP);
+  }
 
   public Integer getId() {
     return id;
@@ -31,12 +38,35 @@ public class Ghost {
     this.speed = speed;
   }
 
-  public Position getStartPos() {
-    return startPos;
+  @Override
+  public void setPosition(Position position) {
+    this.position = position;
   }
 
-  public void setStartPos(Position startPos) {
-    this.startPos = startPos;
+  @Override
+  public Position getPosition() {
+    return this.position;
+  }
+
+  @Override
+  public void setDirection(Direction direction) {
+    this.direction = direction;
+    setDesiredDirection(direction);
+  }
+
+  @Override
+  public Direction getDirection() {
+    return this.direction;
+  }
+
+  @Override
+  public void setDesiredDirection(Direction direction) {
+    desiredDirection = direction;
+  }
+
+  @Override
+  public Direction getDesiredDirection() {
+    return desiredDirection;
   }
 
 }

@@ -16,12 +16,14 @@ public class GameModel implements IGameModel {
   private boolean isManuallyPaused = false;
   private boolean isPaused;
   private boolean isRunning;
-  private MovementManager movementManager;
+  private MovementManager pacmanMovementManager;
+  private List<MovementManager> ghostMovementManagers;
   private boolean isGameStarted = false;
   private PacMan pacman;
   private PacmanPacgumCollisionManager pacmanPacgumCollisionManager;
   private PacmanSuperPacgumCollisionManager pacmanSuperPacgumCollisionManager;
   private List<Observer> observers = new ArrayList<>();
+
 
   public void attach(Observer observer) {
     observers.add(observer);
@@ -56,7 +58,10 @@ public class GameModel implements IGameModel {
       movingToEmptySpace();
     }
     pacmanSuperPacgumCollisionManager.update();
-    movementManager.updatePacmanPosition();
+    pacmanMovementManager.updatePosition();
+    for (MovementManager ghostMovementManager : ghostMovementManagers) {
+      ghostMovementManager.updatePosition();
+    }
 
     Level level = getCurrentLevel();
     if (level.isCompleted()) {
@@ -66,9 +71,14 @@ public class GameModel implements IGameModel {
 
   private void startLevel() {
     Level level = getCurrentLevel();
-    IMoveValidator moveValidator = new MoveValidator(level);
+    IMoveValidator pacmanMoveValidator = new PacmanMoveValidator(level);
+    IMoveValidator ghostMoveValidator = new GhostMoveValidator(level);
     pacman = level.getPacMan();
-    movementManager = new MovementManager(pacman, moveValidator);
+    pacmanMovementManager = new MovementManager(pacman, pacmanMoveValidator);
+    ghostMovementManagers = new ArrayList<MovementManager>();
+    for (Ghost ghost : level.getGhost()) {
+      ghostMovementManagers.add(new MovementManager(ghost, ghostMoveValidator));
+    }
     pacmanPacgumCollisionManager = new PacmanPacgumCollisionManager(pacman, level);
     pacmanSuperPacgumCollisionManager = new PacmanSuperPacgumCollisionManager(pacman, level);
     isGameStarted = true;
@@ -160,7 +170,7 @@ public class GameModel implements IGameModel {
     if (isPaused()) {
       return;
     }
-    movementManager.setPacmanDirection(direction);
+    pacmanMovementManager.setDirection(direction);
   }
 
   @Override

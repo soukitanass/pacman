@@ -1,13 +1,15 @@
 package ca.usherbrooke.pacman.game;
 
-import ca.usherbrooke.pacman.controller.IGameController;
-import ca.usherbrooke.pacman.game.Game;
-import ca.usherbrooke.pacman.game.IGame;
-import ca.usherbrooke.pacman.model.IGameModel;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.times;
+import static org.mockito.Mockito.verify;
+import java.util.ArrayList;
+import java.util.List;
 import org.junit.Before;
 import org.junit.Test;
+import ca.usherbrooke.pacman.controller.IGameController;
+import ca.usherbrooke.pacman.model.IGameModel;
 import ca.usherbrooke.pacman.view.IGameView;
-import static org.mockito.Mockito.*;
 
 public class MainLoopTest {
   private IGame game;
@@ -23,7 +25,9 @@ public class MainLoopTest {
     mockModel = mock(IGameModel.class);
     mockView = mock(IGameView.class);
     mockController = mock(IGameController.class);
-    game = new Game(mockModel, mockView, mockController, modelUpdatePeriod, viewUpdatePeriod,
+    List<IGameController> controllers = new ArrayList<IGameController>();
+    controllers.add(mockController);
+    game = new Game(mockModel, mockView, controllers, modelUpdatePeriod, viewUpdatePeriod,
         initialTime);
   }
 
@@ -82,30 +86,30 @@ public class MainLoopTest {
   }
 
   @Test
-  public void controllerIsCalledAtEveryUpdate() {
+  public void controllerIsCalledAtEveryGamePeriodUpdate() {
     game.update(0);
-    verify(mockController, times(1)).update();
+    verify(mockController, times(0)).update();
 
     game.update(1);
-    verify(mockController, times(2)).update();
+    verify(mockController, times(0)).update();
 
     game.update(2);
-    verify(mockController, times(3)).update();
+    verify(mockController, times(1)).update();
 
     game.update(3);
-    verify(mockController, times(4)).update();
+    verify(mockController, times(1)).update();
 
     game.update(4);
-    verify(mockController, times(5)).update();
+    verify(mockController, times(2)).update();
 
     game.update(5);
-    verify(mockController, times(6)).update();
+    verify(mockController, times(2)).update();
 
     game.update(6);
-    verify(mockController, times(7)).update();
+    verify(mockController, times(3)).update();
 
     game.update(7);
-    verify(mockController, times(8)).update();
+    verify(mockController, times(3)).update();
   }
 
   @Test

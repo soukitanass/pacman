@@ -3,7 +3,7 @@ package ca.usherbrooke.pacman.model;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
-public class PacMan implements IHasDesiredDirection {
+public class PacMan implements IGameObject {
 
   @SerializedName("id")
   @Expose
@@ -12,7 +12,6 @@ public class PacMan implements IHasDesiredDirection {
   @Expose
   private Position position;
   private Direction direction;
-
   private Direction desiredDirection;
 
   public PacMan() {
@@ -27,19 +26,23 @@ public class PacMan implements IHasDesiredDirection {
     this.id = id;
   }
 
+  @Override
   public void setPosition(Position position) {
     this.position = position;
   }
 
+  @Override
   public Position getPosition() {
     return this.position;
   }
 
+  @Override
   public void setDirection(Direction direction) {
     this.direction = direction;
     setDesiredDirection(direction);
   }
 
+  @Override
   public Direction getDirection() {
     return this.direction;
   }
@@ -53,4 +56,5 @@ public class PacMan implements IHasDesiredDirection {
   public Direction getDesiredDirection() {
     return desiredDirection;
   }
+
 }
