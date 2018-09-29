@@ -15,7 +15,7 @@ import ca.usherbrooke.pacman.view.utilities.WarningDialog;
 
 public class GameModel implements IGameModel {
 
-  private static final int IS_LEVEL_COMPLETED_TIMEOUT = 3000;
+  private static final int IS_LEVEL_COMPLETED_PERIOD = 20;
   private static final int GHOSTS_DIRECTION_CHANGE_PERIOD = 3;
   private static final int RANDOM_GENERATOR_SEED = 8544574;
 
@@ -36,6 +36,7 @@ public class GameModel implements IGameModel {
   IDirectionGenerator randomDirectionGenerator =
       new RandomDirectionGenerator(randomNumberGenerator);
   private List<PeriodicDirectionManager> ghostDirectionManagers;
+  private int isLevelCompletedUpdatesCounter = 0;
 
   public void attach(Observer observer) {
     observers.add(observer);
@@ -64,8 +65,15 @@ public class GameModel implements IGameModel {
 
   @Override
   public void update() {
-    if (isPaused() || isGameCompleted() || isLevelCompleted) {
+    if (isPaused() || isGameCompleted()) {
       onLevelCompleted();
+      return;
+    }
+    Level level = getCurrentLevel();
+    if (level.isCompleted()) {
+      isLevelCompleted = true;
+      onLevelCompleted();
+      updateIsLevelCompleted();
       return;
     }
     ++currentGameFrame;
@@ -79,19 +87,22 @@ public class GameModel implements IGameModel {
     }
     pacmanSuperPacgumCollisionManager.update();
     updateGameObjectsPosition();
-
-    Level level = getCurrentLevel();
-    if (level.isCompleted()) {
-      goToNextLevel();
-    }
   }
 
   private void goToNextLevel() {
-    isLevelCompleted = true;
+    isLevelCompleted = false;
     levelsList.incrementCurrentLevel();
     initializeLevel();
     updateGameObjectsPosition();
-    setTimeout(() -> setIsLevelCompleted(false), IS_LEVEL_COMPLETED_TIMEOUT);
+  }
+
+  private void updateIsLevelCompleted() {
+    ++isLevelCompletedUpdatesCounter;
+    if (isLevelCompletedUpdatesCounter != IS_LEVEL_COMPLETED_PERIOD) {
+      return;
+    }
+    isLevelCompletedUpdatesCounter = 0;
+    goToNextLevel();
   }
 
   private void updateGameObjectsPosition() {
@@ -104,17 +115,6 @@ public class GameModel implements IGameModel {
     }
   }
 
-  private void setTimeout(Runnable runnable, int delay) {
-    new Thread(() -> {
-      try {
-        Thread.sleep(delay);
-        runnable.run();
-      } catch (Exception exception) {
-        WarningDialog.display("Error while setting timeout. ", exception);
-      }
-    }).start();
-  }
-
   private void initializeLevel() {
     Level level = getCurrentLevel();
     IMoveValidator pacmanMoveValidator = new PacmanMoveValidator(level);
@@ -124,17 +124,13 @@ public class GameModel implements IGameModel {
     ghostMovementManagers = new ArrayList<MovementManager>();
     ghostDirectionManagers = new ArrayList<PeriodicDirectionManager>();
     for (Ghost ghost : level.getGhosts()) {
-      ghostDirectionManagers.add(new PeriodicDirectionManager(this, randomDirectionGenerator,
-          ghost, GHOSTS_DIRECTION_CHANGE_PERIOD));
+      ghostDirectionManagers.add(new PeriodicDirectionManager(this, randomDirectionGenerator, ghost,
+          GHOSTS_DIRECTION_CHANGE_PERIOD));
       ghostMovementManagers.add(new MovementManager(ghost, ghostMoveValidator));
     }
     pacmanPacgumCollisionManager = new PacmanPacgumCollisionManager(pacman, level);
     pacmanSuperPacgumCollisionManager = new PacmanSuperPacgumCollisionManager(pacman, level);
     isGameStarted = true;
-  }
-
-  private void setIsLevelCompleted(boolean isLevelCompleted) {
-    this.isLevelCompleted = isLevelCompleted;
   }
 
   private boolean isGameStarted() {
