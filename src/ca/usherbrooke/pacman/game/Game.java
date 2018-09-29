@@ -13,7 +13,12 @@ import ca.usherbrooke.pacman.view.GameView;
 import ca.usherbrooke.pacman.view.IGameView;
 
 public class Game implements IGame {
-  private static final int SPRITE_TOGGLE_PERIOD = 10;
+  private static final int GHOSTS_DIRECTION_CHANGE_PERIOD = 3;
+
+  private static final int RANDOM_GENERATOR_SEED = 8544574;
+
+  private static final int GHOST_SPRITE_TOGGLE_PERIOD = 10;
+  private static final int PACMAN_SPRITE_TOGGLE_PERIOD = 2;
 
   private final long modelUpdatePeriod;
   private final long viewUpdatePeriod;
@@ -39,7 +44,7 @@ public class Game implements IGame {
     final String LEVELS_PATH = "Levels.json";
     IGameModel model = new GameModel();
     model.loadLevels(LEVELS_PATH);
-    IGameView view = new GameView(model, SPRITE_TOGGLE_PERIOD);
+    IGameView view = new GameView(model, GHOST_SPRITE_TOGGLE_PERIOD, PACMAN_SPRITE_TOGGLE_PERIOD);
     List<IGameController> controllers = new ArrayList<IGameController>();
     PlayerKeyboardController playerKeyboardController = new PlayerKeyboardController(model, view);
     controllers.add(playerKeyboardController);

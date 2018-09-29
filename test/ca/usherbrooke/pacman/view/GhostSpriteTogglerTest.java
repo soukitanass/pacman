@@ -12,11 +12,13 @@ public class GhostSpriteTogglerTest {
 
     assertEquals(GhostState.STATE1, toggler.getGhostState());
     toggler.update();
-    assertEquals(GhostState.STATE2, toggler.getGhostState());
-    toggler.update();
     assertEquals(GhostState.STATE1, toggler.getGhostState());
     toggler.update();
     assertEquals(GhostState.STATE2, toggler.getGhostState());
+    toggler.update();
+    assertEquals(GhostState.STATE2, toggler.getGhostState());
+    toggler.update();
+    assertEquals(GhostState.STATE1, toggler.getGhostState());
     toggler.update();
     assertEquals(GhostState.STATE1, toggler.getGhostState());
   }

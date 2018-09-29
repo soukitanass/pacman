@@ -30,7 +30,7 @@ public class GameCanvas extends JPanel {
 
   private JFrame window = new JFrame(GAME_TITLE);
 
-  GameCanvas(IGameModel model, int spriteTogglePeriod) {
+  GameCanvas(IGameModel model, int ghostSpriteTogglePeriod, int pacmanSpriteTogglePeriod) {
     this.model = model;
 
     window.setSize(FRAME_WIDTH, FRAME_HEIGHT);
@@ -62,11 +62,11 @@ public class GameCanvas extends JPanel {
     levelPanel.setBackground(Color.BLACK);
     layeredPane.add(levelPanel, Integer.valueOf(1));
 
-    ghostsPanel = new GhostsPanel(model, spriteTogglePeriod);
+    ghostsPanel = new GhostsPanel(model, ghostSpriteTogglePeriod);
     ghostsPanel.setOpaque(false);
     layeredPane.add(ghostsPanel, Integer.valueOf(2));
 
-    pacmanPanel = new PacManPanel(model);
+    pacmanPanel = new PacManPanel(model, pacmanSpriteTogglePeriod);
     pacmanPanel.setOpaque(false);
     layeredPane.add(pacmanPanel, Integer.valueOf(3));
 

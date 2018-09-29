@@ -11,7 +11,7 @@ public class GhostSpriteToggler {
 
   public void update() {
     ++updatesCounter;
-    if (period != updatesCounter + 1) {
+    if (updatesCounter != period) {
       return;
     }
     updatesCounter = 0;
