@@ -33,7 +33,7 @@ public class LevelTest {
     List<List<Integer>> map =
         Arrays.asList(Arrays.asList(0, 1), Arrays.asList(2, 0), Arrays.asList(4, 5));
     level.setMap(map);
-    assertFalse(level.isWall(new Position(0, 0)));
+    assertFalse(level.isWall(new Position(420, 0)));
     assertTrue(level.isWall(new Position(1, 0)));
     assertTrue(level.isWall(new Position(0, 1)));
     assertFalse(level.isWall(new Position(1, 1)));
