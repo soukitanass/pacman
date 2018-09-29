@@ -136,8 +136,8 @@ public class GameModel implements IGameModel {
           GHOSTS_DIRECTION_CHANGE_PERIOD));
       ghostMovementManagers.add(new MovementManager(ghost, ghostMoveValidator));
     }
-    pacmanPacgumCollisionManager = new PacmanPacgumCollisionManager(pacman, level);
-    pacmanSuperPacgumCollisionManager = new PacmanSuperPacgumCollisionManager(pacman, level);
+    pacmanPacgumCollisionManager = new PacmanPacgumCollisionManager(level);
+    pacmanSuperPacgumCollisionManager = new PacmanSuperPacgumCollisionManager(level);
 
     physicsThread = new PhysicsThread(level);
     physicsThread.start();

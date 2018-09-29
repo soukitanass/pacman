@@ -1,8 +1,11 @@
 package ca.usherbrooke.pacman.threads;
 
 
+import java.util.List;
 import java.util.concurrent.atomic.AtomicBoolean;
+import ca.usherbrooke.pacman.model.Ghost;
 import ca.usherbrooke.pacman.model.Level;
+import ca.usherbrooke.pacman.model.MovementManager;
 import ca.usherbrooke.pacman.model.PacMan;
 import ca.usherbrooke.pacman.model.Position;
 import ca.usherbrooke.pacman.view.utilities.WarningDialog;
@@ -13,15 +16,14 @@ public class PhysicsThread extends Thread {
 
   private AtomicBoolean isPacgumConsumed = new AtomicBoolean();
   private AtomicBoolean isSuperPacgumConsumed = new AtomicBoolean();
-  
+  private AtomicBoolean isPacmanGhostsCollision = new AtomicBoolean();
+
   private Level level;
-  private PacMan pacman;
-  
+
   public PhysicsThread(Level level) {
     this.setName("Physic_Thread");
-    
+
     this.level = level;
-    this.pacman = level.getPacMan();
   }
 
   public synchronized void stopThread() {
@@ -37,7 +39,8 @@ public class PhysicsThread extends Thread {
       try {
         setIsPacgumConsumed();
         setIsSuperPacgumConsumed();
-        
+        setIsPacmanGhostsCollision();
+
         Thread.sleep(SLEEP_TIME);
 
       } catch (InterruptedException exception) {
@@ -50,26 +53,38 @@ public class PhysicsThread extends Thread {
   public boolean isPacgumConsumed() {
     return isPacgumConsumed.get();
   }
-  
+
   public boolean isSuperPacgumConsumed() {
     return isSuperPacgumConsumed.get();
   }
-  
+
   private void setIsPacgumConsumed() {
-    Position position = pacman.getPosition();
+    Position position = level.getPacMan().getPosition();
     if (!level.isPacgum(position)) {
       isPacgumConsumed.set(false);
     } else {
       isPacgumConsumed.set(true);
     }
   }
-  
+
   private void setIsSuperPacgumConsumed() {
-    Position position = pacman.getPosition();
+    Position position = level.getPacMan().getPosition();
     if (!level.isSuperPacgum(position)) {
       isSuperPacgumConsumed.set(false);
     } else {
       isSuperPacgumConsumed.set(true);
+    }
+  }
+
+  private void setIsPacmanGhostsCollision() {
+    Position pacmanPosition = level.getPacMan().getPosition();
+    for (Ghost ghost : level.getGhosts()) {
+      if (pacmanPosition.equals(ghost.getPosition())) {
+        isPacmanGhostsCollision.set(true);
+        System.out.println("Hey!!");
+        return;
+      }
+      isPacmanGhostsCollision.set(false);
     }
   }
 }
