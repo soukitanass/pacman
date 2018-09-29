@@ -1,6 +1,7 @@
 package ca.usherbrooke.pacman.model;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -45,16 +46,18 @@ public class LevelsTest {
   }
 
   @Test
-  public void incrementLevelDoesNothing() {
+  public void incrementLevelDoesNotIncrementIfGameIsCompleted() {
     // Assign
     levels.setCurrentLevel(2);
 
     // Act
     levels.incrementCurrentLevel();
     int currentLevel = levels.getCurrentLevel();
+    boolean isGameCompleted = levels.isGameCompleted();
 
     // Assert
     assertEquals(2, currentLevel);
+    assertTrue(isGameCompleted);
   }
 
 }

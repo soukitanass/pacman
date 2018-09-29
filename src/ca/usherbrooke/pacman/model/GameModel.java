@@ -55,13 +55,13 @@ public class GameModel implements IGameModel {
 
   @Override
   public void update() {
-    if (isPaused() || isLevelCompleted) {
+    if (isPaused() || isGameCompleted() || isLevelCompleted) {
       onLevelCompleted();
       return;
     }
     ++currentGameFrame;
     if (!isGameStarted()) {
-      startLevel();
+      initializeLevel();
     }
     if (pacmanPacgumCollisionManager.isPacgumConsumed()) {
       consumingPacGums();
@@ -69,15 +69,26 @@ public class GameModel implements IGameModel {
       movingToEmptySpace();
     }
     pacmanSuperPacgumCollisionManager.update();
-    pacmanMovementManager.updatePosition();
-    for (MovementManager ghostMovementManager : ghostMovementManagers) {
-      ghostMovementManager.updatePosition();
-    }
+    updateGameObjectsPosition();
 
     Level level = getCurrentLevel();
     if (level.isCompleted()) {
-      isLevelCompleted = true;
-      setTimeout(this::startNextLevel, IS_LEVEL_COMPLETED_TIMEOUT);
+      goToNextLevel();
+    }
+  }
+
+  private void goToNextLevel() {
+    isLevelCompleted = true;
+    levelsList.incrementCurrentLevel();
+    initializeLevel();
+    updateGameObjectsPosition();
+    setTimeout(() -> setIsLevelCompleted(false), IS_LEVEL_COMPLETED_TIMEOUT);
+  }
+
+  private void updateGameObjectsPosition() {
+    pacmanMovementManager.updatePosition();
+    for (MovementManager ghostMovementManager : ghostMovementManagers) {
+      ghostMovementManager.updatePosition();
     }
   }
 
@@ -92,14 +103,14 @@ public class GameModel implements IGameModel {
     }).start();
   }
 
-  private void startLevel() {
+  private void initializeLevel() {
     Level level = getCurrentLevel();
     IMoveValidator pacmanMoveValidator = new PacmanMoveValidator(level);
     IMoveValidator ghostMoveValidator = new GhostMoveValidator(level);
     pacman = level.getPacMan();
     pacmanMovementManager = new MovementManager(pacman, pacmanMoveValidator);
     ghostMovementManagers = new ArrayList<MovementManager>();
-    for (Ghost ghost : level.getGhost()) {
+    for (Ghost ghost : level.getGhosts()) {
       ghostMovementManagers.add(new MovementManager(ghost, ghostMoveValidator));
     }
     pacmanPacgumCollisionManager = new PacmanPacgumCollisionManager(pacman, level);
@@ -107,10 +118,8 @@ public class GameModel implements IGameModel {
     isGameStarted = true;
   }
 
-  private void startNextLevel() {
-    this.isLevelCompleted = false;
-    this.levelsList.incrementCurrentLevel();
-    startLevel();
+  private void setIsLevelCompleted(boolean isLevelCompleted) {
+    this.isLevelCompleted = isLevelCompleted;
   }
 
   private boolean isGameStarted() {
@@ -228,6 +237,11 @@ public class GameModel implements IGameModel {
       }
     }
     return null;
+  }
+
+  @Override
+  public boolean isGameCompleted() {
+    return levelsList.isGameCompleted();
   }
 
 }

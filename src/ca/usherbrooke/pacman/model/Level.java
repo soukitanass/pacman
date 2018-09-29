@@ -1,5 +1,6 @@
 package ca.usherbrooke.pacman.model;
 
+import java.util.ArrayList;
 import java.util.List;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
@@ -31,7 +32,7 @@ public class Level {
   private PacMan pacMan;
   @SerializedName("ghost")
   @Expose
-  private List<Ghost> ghost = null;
+  private List<Ghost> ghosts = null;
   @SerializedName("map")
   @Expose
   private List<List<Integer>> map = null;
@@ -76,12 +77,12 @@ public class Level {
     this.pacMan = pacMan;
   }
 
-  public List<Ghost> getGhost() {
-    return ghost;
+  public List<Ghost> getGhosts() {
+    return ghosts;
   }
 
   public void setGhost(List<Ghost> ghost) {
-    this.ghost = ghost;
+    this.ghosts = ghost;
   }
 
   public List<List<Integer>> getMap() {
@@ -135,6 +136,14 @@ public class Level {
 
   public void setScore(Integer score) {
     this.score = score;
+  }
+
+  public List<IHasDesiredDirection> getObjectsWithPeriodicDirectionChanges() {
+    List<IHasDesiredDirection> gameObjects = new ArrayList<>();
+    for (Ghost ghost : ghosts) {
+      gameObjects.add(ghost);
+    }
+    return gameObjects;
   }
 
   public boolean isCompleted() {
