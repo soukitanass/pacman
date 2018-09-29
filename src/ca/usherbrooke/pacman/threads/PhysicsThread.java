@@ -58,6 +58,10 @@ public class PhysicsThread extends Thread {
     return isSuperPacgumConsumed.get();
   }
 
+  public boolean isPacmanGhostsCollision() {
+    return isPacmanGhostsCollision.get();
+  }
+
   private void setIsPacgumConsumed() {
     Position position = level.getPacMan().getPosition();
     if (!level.isPacgum(position)) {
@@ -81,7 +85,6 @@ public class PhysicsThread extends Thread {
     for (Ghost ghost : level.getGhosts()) {
       if (pacmanPosition.equals(ghost.getPosition())) {
         isPacmanGhostsCollision.set(true);
-        System.out.println("Hey!!");
         return;
       }
       isPacmanGhostsCollision.set(false);
