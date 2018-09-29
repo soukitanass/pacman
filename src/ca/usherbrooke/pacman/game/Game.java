@@ -2,26 +2,17 @@ package ca.usherbrooke.pacman.game;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Random;
 import ca.usherbrooke.pacman.controller.IGameController;
-import ca.usherbrooke.pacman.controller.PeriodicDirectionController;
 import ca.usherbrooke.pacman.controller.PlayerKeyboardController;
 import ca.usherbrooke.pacman.controller.SoundController;
 import ca.usherbrooke.pacman.model.GameModel;
-import ca.usherbrooke.pacman.model.Ghost;
-import ca.usherbrooke.pacman.model.IDirectionGenerator;
 import ca.usherbrooke.pacman.model.IGameModel;
-import ca.usherbrooke.pacman.model.random.RandomDirectionGenerator;
 import ca.usherbrooke.pacman.model.sound.ISoundModel;
 import ca.usherbrooke.pacman.model.sound.SoundModel;
 import ca.usherbrooke.pacman.view.GameView;
 import ca.usherbrooke.pacman.view.IGameView;
 
 public class Game implements IGame {
-  private static final int GHOSTS_DIRECTION_CHANGE_PERIOD = 3;
-
-  private static final int RANDOM_GENERATOR_SEED = 8544574;
-
   private static final int SPRITE_TOGGLE_PERIOD = 10;
 
   private final long modelUpdatePeriod;
@@ -50,14 +41,7 @@ public class Game implements IGame {
     IGameView view = new GameView(model, SPRITE_TOGGLE_PERIOD);
     List<IGameController> controllers = new ArrayList<IGameController>();
     PlayerKeyboardController playerKeyboardController = new PlayerKeyboardController(model, view);
-    Random randomNumberGenerator = new Random(RANDOM_GENERATOR_SEED);
-    IDirectionGenerator randomDirectionGenerator =
-        new RandomDirectionGenerator(randomNumberGenerator);
     controllers.add(playerKeyboardController);
-    for (Ghost ghost : model.getCurrentLevel().getGhost()) {
-      controllers.add(new PeriodicDirectionController(model, randomDirectionGenerator, ghost,
-          GHOSTS_DIRECTION_CHANGE_PERIOD));
-    }
     final int gameUpdatesPerSecond = 7;
     final int frameUpdatesPerSecond = 30;
     final int gameUpdatePeriodMilliseconds = (int) (1000.0 / gameUpdatesPerSecond);

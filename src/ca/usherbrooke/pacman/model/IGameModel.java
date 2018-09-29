@@ -46,4 +46,6 @@ public interface IGameModel {
   boolean isLevelCompleted();
 
   int getCurrentLevelIndex();
+
+  boolean isGameCompleted();
 }
