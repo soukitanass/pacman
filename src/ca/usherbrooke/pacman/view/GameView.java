@@ -7,9 +7,10 @@ public class GameView implements IGameView {
   private GameCanvas canvas;
   private IGameModel model;
 
-  public GameView(IGameModel model, int spriteTogglePeriod) {
+
+  public GameView(IGameModel model, int ghostSpriteTogglePeriod, int pacmanSpriteTogglePeriod) {
     this.model = model;
-    canvas = new GameCanvas(model, spriteTogglePeriod);
+    canvas = new GameCanvas(model, ghostSpriteTogglePeriod, pacmanSpriteTogglePeriod);
   }
 
   public void update() {
