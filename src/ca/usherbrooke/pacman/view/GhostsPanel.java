@@ -22,18 +22,20 @@ public class GhostsPanel extends JPanel {
   private int offsetY = 0;
   private GhostSpriteToggler ghostSpritePeriodicToggler;
 
-  private static final Map<Integer, Color> GHOST_ID_TO_COLOR = new HashMap<Integer, Color>() {
-    {
-      put(1, Color.RED);
-      put(2, Color.TURQUOISE);
-      put(3, Color.PINK);
-      put(4, Color.ORANGE);
-    }
-  };
+  private Map<Integer, Color> ghostIdToColor = new HashMap<Integer, Color>();
+
 
   public GhostsPanel(IGameModel model, int spriteTogglePeriod) {
     this.model = model;
     this.ghostSpritePeriodicToggler = new GhostSpriteToggler(spriteTogglePeriod);
+    initializeGhostIdToColorMap();
+  }
+
+  private void initializeGhostIdToColorMap() {
+    ghostIdToColor.put(1, Color.RED);
+    ghostIdToColor.put(2, Color.TURQUOISE);
+    ghostIdToColor.put(3, Color.PINK);
+    ghostIdToColor.put(4, Color.ORANGE);
   }
 
   @Override
@@ -53,7 +55,7 @@ public class GhostsPanel extends JPanel {
   private void drawGhost(Graphics graphics, Ghost ghost)
       throws InvalidColorException, InvalidDirectionException, InvalidStateException {
     Direction direction = ghost.getDirection();
-    Color color = GHOST_ID_TO_COLOR.get(ghost.getId());
+    Color color = ghostIdToColor.get(ghost.getId());
     GhostState ghostSpriteState = ghostSpritePeriodicToggler.getGhostState();
     Image ghostImage = spriteFacade.getGhost(direction, color, ghostSpriteState);
     final int x = ghost.getPosition().getX() * pixelTileSize + offsetX;
