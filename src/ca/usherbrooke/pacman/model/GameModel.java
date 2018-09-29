@@ -6,6 +6,8 @@ import java.io.FileReader;
 import java.util.ArrayList;
 import java.util.List;
 import com.google.gson.Gson;
+import ca.usherbrooke.pacman.model.exceptions.GameObjectCannotChangeDirectionException;
+import ca.usherbrooke.pacman.model.exceptions.MovementManagerNotFoundException;
 import ca.usherbrooke.pacman.model.sound.Observer;
 import ca.usherbrooke.pacman.view.utilities.WarningDialog;
 
@@ -205,11 +207,18 @@ public class GameModel implements IGameModel {
   }
 
   @Override
-  public void setDirection(IHasDesiredDirection gameObject, Direction direction) {
+  public void setDirection(IHasDesiredDirection gameObject, Direction direction)
+      throws GameObjectCannotChangeDirectionException {
     if (isPaused()) {
       return;
     }
-    MovementManager movementManager = getMovementManagerFromGameObject(gameObject);
+    MovementManager movementManager;
+    try {
+      movementManager = getMovementManagerFromGameObject(gameObject);
+    } catch (MovementManagerNotFoundException e) {
+      throw new GameObjectCannotChangeDirectionException(
+          "Could not find a movement manager for the given game object", e);
+    }
     movementManager.setDirection(direction);
   }
 
@@ -223,7 +232,8 @@ public class GameModel implements IGameModel {
     return isManuallyPaused;
   }
 
-  private MovementManager getMovementManagerFromGameObject(IHasDesiredDirection gameObject) {
+  private MovementManager getMovementManagerFromGameObject(IHasDesiredDirection gameObject)
+      throws MovementManagerNotFoundException {
     if (gameObject == pacmanMovementManager.getManagedGameObject()) {
       return pacmanMovementManager;
     }
@@ -232,7 +242,8 @@ public class GameModel implements IGameModel {
         return ghostMovementManager;
       }
     }
-    return null;
+    throw new MovementManagerNotFoundException(
+        "Could not find a movement manager for the given game object");
   }
 
   public boolean isGameOver() {

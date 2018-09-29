@@ -6,7 +6,9 @@ import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import ca.usherbrooke.pacman.model.Direction;
 import ca.usherbrooke.pacman.model.IGameModel;
+import ca.usherbrooke.pacman.model.exceptions.GameObjectCannotChangeDirectionException;
 import ca.usherbrooke.pacman.view.IGameView;
+import ca.usherbrooke.pacman.view.utilities.WarningDialog;
 
 public class PlayerKeyboardController implements IGameController, KeyListener {
   private final IGameModel model;
@@ -29,8 +31,9 @@ public class PlayerKeyboardController implements IGameController, KeyListener {
   }
 
   @Override
-  public void keyPressed(KeyEvent e) {
-    switch (e.getKeyCode()) {
+
+  public void keyPressed(KeyEvent keyEvent) {
+    switch (keyEvent.getKeyCode()) {
       case VK_P:{
     	model.togglePause(true);
     	view.getCanvas().setPausePanel();
@@ -40,16 +43,32 @@ public class PlayerKeyboardController implements IGameController, KeyListener {
         model.quit();
         break;
       case KeyEvent.VK_RIGHT:
-        model.setDirection(model.getPacman(), Direction.RIGHT);
+        try {
+          model.setDirection(model.getPacman(), Direction.RIGHT);
+        } catch (GameObjectCannotChangeDirectionException exception) {
+          WarningDialog.display("Failed to set pacman's direction", exception);
+        }
         break;
       case KeyEvent.VK_LEFT:
-        model.setDirection(model.getPacman(), Direction.LEFT);
+        try {
+          model.setDirection(model.getPacman(), Direction.LEFT);
+        } catch (GameObjectCannotChangeDirectionException e) {
+          WarningDialog.display("Failed to set pacman's direction", e);
+        }
         break;
       case KeyEvent.VK_UP:
-        model.setDirection(model.getPacman(), Direction.UP);
+        try {
+          model.setDirection(model.getPacman(), Direction.UP);
+        } catch (GameObjectCannotChangeDirectionException e) {
+          WarningDialog.display("Failed to set pacman's direction", e);
+        }
         break;
       case KeyEvent.VK_DOWN:
-        model.setDirection(model.getPacman(), Direction.DOWN);
+        try {
+          model.setDirection(model.getPacman(), Direction.DOWN);
+        } catch (GameObjectCannotChangeDirectionException e) {
+          WarningDialog.display("Failed to set pacman's direction", e);
+        }
         break;
       default:
         break;
