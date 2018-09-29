@@ -7,17 +7,13 @@ public class PacmanPacgumCollisionManager {
   private static final Integer POINT = 10;
 
   public PacmanPacgumCollisionManager(PacMan pacman, Level level) {
-    this.pacman = pacman;
     this.level = level;
+    this.pacman = pacman;
   }
 
-  public boolean isPacgumConsumed() {
+  public void update() {
     Position position = pacman.getPosition();
-    if (!level.isPacgum(position)) {
-      return false;
-    }
     level.setScore(level.getScore() + POINT);
     level.setEmptyMapTile(position);
-    return true;
   }
 }

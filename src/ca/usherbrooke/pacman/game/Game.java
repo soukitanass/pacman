@@ -23,6 +23,7 @@ public class Game implements IGame {
   private IGameView view;
   private List<IGameController> controllers;
 
+
   public Game(IGameModel model, IGameView view, List<IGameController> controllers,
       long modelUpdatePeriod, long viewUpdatePeriod, long initialTime) {
     this.model = model;
@@ -53,6 +54,7 @@ public class Game implements IGame {
     view.addKeyListener(playerKeyboardController);
     view.addKeyListener(soundController);
     game.setRunning(true);
+
     while (game.isRunning()) {
       game.update(System.currentTimeMillis());
     }

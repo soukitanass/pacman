@@ -4,6 +4,7 @@ import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.event.KeyListener;
+import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.awt.event.WindowFocusListener;
 import javax.swing.JFrame;
@@ -48,6 +49,12 @@ public class GameCanvas extends JPanel {
         if (!model.isManuallyPaused()) {
           model.unpause();
         }
+      }
+    });
+
+    window.addWindowListener(new WindowAdapter() {
+      public void windowClosing(WindowEvent e) {
+        model.stopPhysicsThread();
       }
     });
 

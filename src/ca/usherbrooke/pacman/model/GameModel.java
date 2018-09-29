@@ -11,13 +11,15 @@ import ca.usherbrooke.pacman.model.exceptions.GameObjectCannotChangeDirectionExc
 import ca.usherbrooke.pacman.model.exceptions.MovementManagerNotFoundException;
 import ca.usherbrooke.pacman.model.random.RandomDirectionGenerator;
 import ca.usherbrooke.pacman.model.sound.Observer;
+import ca.usherbrooke.pacman.threads.PhysicsThread;
 import ca.usherbrooke.pacman.view.utilities.WarningDialog;
 
 public class GameModel implements IGameModel {
-
   private static final int IS_LEVEL_COMPLETED_TIMEOUT = 3000;
   private static final int GHOSTS_DIRECTION_CHANGE_PERIOD = 3;
   private static final int RANDOM_GENERATOR_SEED = 8544574;
+  private static final int JOIN_TIMER = 1000; // ms
+
 
   private Levels levelsList;
   private int currentGameFrame = 0;
@@ -36,6 +38,7 @@ public class GameModel implements IGameModel {
   IDirectionGenerator randomDirectionGenerator =
       new RandomDirectionGenerator(randomNumberGenerator);
   private List<PeriodicDirectionManager> ghostDirectionManagers;
+  private static PhysicsThread physicsThread;
 
   public void attach(Observer observer) {
     observers.add(observer);
@@ -72,16 +75,21 @@ public class GameModel implements IGameModel {
     if (!isGameStarted()) {
       initializeLevel();
     }
-    if (pacmanPacgumCollisionManager.isPacgumConsumed()) {
+    if (physicsThread.isPacgumConsumed()) {
+      pacmanPacgumCollisionManager.update();
       consumingPacGums();
     } else {
       movingToEmptySpace();
     }
-    pacmanSuperPacgumCollisionManager.update();
+    if (physicsThread.isSuperPacgumConsumed()) {
+      pacmanSuperPacgumCollisionManager.update();
+    }
+
     updateGameObjectsPosition();
 
     Level level = getCurrentLevel();
     if (level.isCompleted()) {
+      stopPhysicsThread();
       goToNextLevel();
     }
   }
@@ -124,12 +132,16 @@ public class GameModel implements IGameModel {
     ghostMovementManagers = new ArrayList<MovementManager>();
     ghostDirectionManagers = new ArrayList<PeriodicDirectionManager>();
     for (Ghost ghost : level.getGhosts()) {
-      ghostDirectionManagers.add(new PeriodicDirectionManager(this, randomDirectionGenerator,
-          ghost, GHOSTS_DIRECTION_CHANGE_PERIOD));
+      ghostDirectionManagers.add(new PeriodicDirectionManager(this, randomDirectionGenerator, ghost,
+          GHOSTS_DIRECTION_CHANGE_PERIOD));
       ghostMovementManagers.add(new MovementManager(ghost, ghostMoveValidator));
     }
     pacmanPacgumCollisionManager = new PacmanPacgumCollisionManager(pacman, level);
     pacmanSuperPacgumCollisionManager = new PacmanSuperPacgumCollisionManager(pacman, level);
+
+    physicsThread = new PhysicsThread(level);
+    physicsThread.start();
+
     isGameStarted = true;
   }
 
@@ -266,6 +278,19 @@ public class GameModel implements IGameModel {
   @Override
   public boolean isGameCompleted() {
     return levelsList.isGameCompleted();
+  }
+
+  public void stopPhysicsThread() {
+    try {
+      physicsThread.stopThread();
+      physicsThread.join(JOIN_TIMER);
+      if (physicsThread.isAlive()) {
+        physicsThread.interrupt();
+        throw new InterruptedException();
+      }
+    } catch (InterruptedException exception) {
+      WarningDialog.display("Error stoping physicsThread. ", exception);
+    }
   }
 
 }
