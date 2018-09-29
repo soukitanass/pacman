@@ -61,7 +61,7 @@ public class GameModel implements IGameModel {
     }
     ++currentGameFrame;
     if (!isGameStarted()) {
-      startLevel();
+      initializeLevel();
     }
     if (pacmanPacgumCollisionManager.isPacgumConsumed()) {
       consumingPacGums();
@@ -80,8 +80,8 @@ public class GameModel implements IGameModel {
   private void goToNextLevel() {
     isLevelCompleted = true;
     levelsList.incrementCurrentLevel();
+    initializeLevel();
     updateGameObjectsPosition();
-    startLevel();
     setTimeout(() -> setIsLevelCompleted(false), IS_LEVEL_COMPLETED_TIMEOUT);
   }
 
@@ -103,7 +103,7 @@ public class GameModel implements IGameModel {
     }).start();
   }
 
-  private void startLevel() {
+  private void initializeLevel() {
     Level level = getCurrentLevel();
     IMoveValidator pacmanMoveValidator = new PacmanMoveValidator(level);
     IMoveValidator ghostMoveValidator = new GhostMoveValidator(level);
