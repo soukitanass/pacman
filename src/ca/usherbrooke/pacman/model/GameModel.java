@@ -5,15 +5,19 @@ import java.io.File;
 import java.io.FileReader;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 import com.google.gson.Gson;
 import ca.usherbrooke.pacman.model.exceptions.GameObjectCannotChangeDirectionException;
 import ca.usherbrooke.pacman.model.exceptions.MovementManagerNotFoundException;
+import ca.usherbrooke.pacman.model.random.RandomDirectionGenerator;
 import ca.usherbrooke.pacman.model.sound.Observer;
 import ca.usherbrooke.pacman.view.utilities.WarningDialog;
 
 public class GameModel implements IGameModel {
 
-  static final int IS_LEVEL_COMPLETED_TIMEOUT = 3000;
+  private static final int IS_LEVEL_COMPLETED_TIMEOUT = 3000;
+  private static final int GHOSTS_DIRECTION_CHANGE_PERIOD = 3;
+  private static final int RANDOM_GENERATOR_SEED = 8544574;
 
   private Levels levelsList;
   private int currentGameFrame = 0;
@@ -28,7 +32,10 @@ public class GameModel implements IGameModel {
   private PacmanPacgumCollisionManager pacmanPacgumCollisionManager;
   private PacmanSuperPacgumCollisionManager pacmanSuperPacgumCollisionManager;
   private List<Observer> observers = new ArrayList<>();
-
+  Random randomNumberGenerator = new Random(RANDOM_GENERATOR_SEED);
+  IDirectionGenerator randomDirectionGenerator =
+      new RandomDirectionGenerator(randomNumberGenerator);
+  private List<PeriodicDirectionManager> ghostDirectionManagers;
 
   public void attach(Observer observer) {
     observers.add(observer);
@@ -57,13 +64,13 @@ public class GameModel implements IGameModel {
 
   @Override
   public void update() {
-    if (isPaused() || isLevelCompleted) {
+    if (isPaused() || isGameCompleted() || isLevelCompleted) {
       onLevelCompleted();
       return;
     }
     ++currentGameFrame;
     if (!isGameStarted()) {
-      startLevel();
+      initializeLevel();
     }
     if (pacmanPacgumCollisionManager.isPacgumConsumed()) {
       consumingPacGums();
@@ -71,15 +78,29 @@ public class GameModel implements IGameModel {
       movingToEmptySpace();
     }
     pacmanSuperPacgumCollisionManager.update();
-    pacmanMovementManager.updatePosition();
-    for (MovementManager ghostMovementManager : ghostMovementManagers) {
-      ghostMovementManager.updatePosition();
-    }
+    updateGameObjectsPosition();
 
     Level level = getCurrentLevel();
     if (level.isCompleted()) {
-      isLevelCompleted = true;
-      setTimeout(this::startNextLevel, IS_LEVEL_COMPLETED_TIMEOUT);
+      goToNextLevel();
+    }
+  }
+
+  private void goToNextLevel() {
+    isLevelCompleted = true;
+    levelsList.incrementCurrentLevel();
+    initializeLevel();
+    updateGameObjectsPosition();
+    setTimeout(() -> setIsLevelCompleted(false), IS_LEVEL_COMPLETED_TIMEOUT);
+  }
+
+  private void updateGameObjectsPosition() {
+    pacmanMovementManager.updatePosition();
+    for (PeriodicDirectionManager ghostDirectionManager : ghostDirectionManagers) {
+      ghostDirectionManager.update();
+    }
+    for (MovementManager ghostMovementManager : ghostMovementManagers) {
+      ghostMovementManager.updatePosition();
     }
   }
 
@@ -94,14 +115,17 @@ public class GameModel implements IGameModel {
     }).start();
   }
 
-  private void startLevel() {
+  private void initializeLevel() {
     Level level = getCurrentLevel();
     IMoveValidator pacmanMoveValidator = new PacmanMoveValidator(level);
     IMoveValidator ghostMoveValidator = new GhostMoveValidator(level);
     pacman = level.getPacMan();
     pacmanMovementManager = new MovementManager(pacman, pacmanMoveValidator);
     ghostMovementManagers = new ArrayList<MovementManager>();
-    for (Ghost ghost : level.getGhost()) {
+    ghostDirectionManagers = new ArrayList<PeriodicDirectionManager>();
+    for (Ghost ghost : level.getGhosts()) {
+      ghostDirectionManagers.add(new PeriodicDirectionManager(this, randomDirectionGenerator,
+          ghost, GHOSTS_DIRECTION_CHANGE_PERIOD));
       ghostMovementManagers.add(new MovementManager(ghost, ghostMoveValidator));
     }
     pacmanPacgumCollisionManager = new PacmanPacgumCollisionManager(pacman, level);
@@ -109,10 +133,8 @@ public class GameModel implements IGameModel {
     isGameStarted = true;
   }
 
-  private void startNextLevel() {
-    this.isLevelCompleted = false;
-    this.levelsList.incrementCurrentLevel();
-    startLevel();
+  private void setIsLevelCompleted(boolean isLevelCompleted) {
+    this.isLevelCompleted = isLevelCompleted;
   }
 
   private boolean isGameStarted() {
@@ -239,6 +261,11 @@ public class GameModel implements IGameModel {
     }
     throw new MovementManagerNotFoundException(
         "Could not find a movement manager for the given game object");
+  }
+
+  @Override
+  public boolean isGameCompleted() {
+    return levelsList.isGameCompleted();
   }
 
 }

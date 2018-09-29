@@ -1,25 +1,20 @@
-package ca.usherbrooke.pacman.controller;
+package ca.usherbrooke.pacman.model;
 
-import ca.usherbrooke.pacman.model.Direction;
-import ca.usherbrooke.pacman.model.IDirectionGenerator;
-import ca.usherbrooke.pacman.model.IGameModel;
-import ca.usherbrooke.pacman.model.IHasDesiredDirection;
 import ca.usherbrooke.pacman.model.exceptions.GameObjectCannotChangeDirectionException;
 import ca.usherbrooke.pacman.view.utilities.WarningDialog;
 
-public class PeriodicDirectionController implements IGameController {
-
+public class PeriodicDirectionManager {
   private int updatesCounter;
   private int period;
-  private IHasDesiredDirection controlledGameObject;
+  private IHasDesiredDirection gameObject;
   private IDirectionGenerator directionGenerator;
   private IGameModel gameModel;
 
-  public PeriodicDirectionController(IGameModel gameModel, IDirectionGenerator directionGenerator,
-      IHasDesiredDirection controlledGameObject, int period) {
+  public PeriodicDirectionManager(IGameModel gameModel, IDirectionGenerator directionGenerator,
+      IHasDesiredDirection gameObject, int period) {
     this.gameModel = gameModel;
     this.directionGenerator = directionGenerator;
-    this.controlledGameObject = controlledGameObject;
+    this.gameObject = gameObject;
     this.period = period;
   }
 
@@ -31,10 +26,9 @@ public class PeriodicDirectionController implements IGameController {
     updatesCounter = 0;
     Direction direction = directionGenerator.get();
     try {
-      gameModel.setDirection(controlledGameObject, direction);
+      gameModel.setDirection(gameObject, direction);
     } catch (GameObjectCannotChangeDirectionException exception) {
       WarningDialog.display("Failed to set game object's direction", exception);
     }
   }
-
 }
