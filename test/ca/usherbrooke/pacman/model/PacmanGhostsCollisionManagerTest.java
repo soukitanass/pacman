@@ -45,7 +45,7 @@ public class PacmanGhostsCollisionManagerTest {
 
   private void initializeGhostsList() {
     List<Ghost> ghosts = new ArrayList<Ghost>();
-    level.setGhosts(ghosts);
+    level.setGhost(ghosts);
     level.setPacMan(new PacMan(new Position(0, 0)));
     ghost.setPosition(new Position(0, 0));
     level.getGhosts().add(ghost);

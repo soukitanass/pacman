@@ -47,10 +47,6 @@ public class Game implements IGame {
     List<IGameController> controllers = new ArrayList<IGameController>();
     PlayerKeyboardController playerKeyboardController = new PlayerKeyboardController(model, view);
     controllers.add(playerKeyboardController);
-    for (Ghost ghost : model.getCurrentLevel().getGhosts()) {
-      controllers.add(new PeriodicDirectionController(model, randomDirectionGenerator, ghost,
-          GHOSTS_DIRECTION_CHANGE_PERIOD));
-    }
 
     final int gameUpdatesPerSecond = 7;
     final int frameUpdatesPerSecond = 30;

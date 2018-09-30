@@ -70,7 +70,7 @@ public class GameModel implements IGameModel {
 
   @Override
   public void update() {
-    if (isPaused() || isLevelCompleted || || isGameCompleted() ||isGameOver()) {
+    if (isPaused() || isLevelCompleted || isGameCompleted() ||isGameOver()) {
       onLevelCompleted();
       return;
     }
@@ -103,7 +103,7 @@ public class GameModel implements IGameModel {
       ghostMovementManager.updatePosition();
     }
 
-    Level level = getCurrentLevel();
+    level = getCurrentLevel();
     if (level.isCompleted()) {
       goToNextLevel();
     }
@@ -291,6 +291,7 @@ public class GameModel implements IGameModel {
 
   public void setGameOver() {
     isGameOver = true;
+  }
 
   @Override
   public boolean isGameCompleted() {
