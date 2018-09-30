@@ -10,12 +10,14 @@ import ca.usherbrooke.pacman.model.IDirectionGenerator;
 import ca.usherbrooke.pacman.model.IGameModel;
 import ca.usherbrooke.pacman.model.IHasDesiredDirection;
 import ca.usherbrooke.pacman.model.PacMan;
+import ca.usherbrooke.pacman.model.exceptions.GameObjectCannotChangeDirectionException;
 import ca.usherbrooke.pacman.model.random.RandomDirectionGenerator;
 
 public class PeriodicRandomDirectionControllerTest {
 
   @Test
-  public void updateDesiredDirectionWhenPeriodsReached() {
+  public void updateDesiredDirectionWhenPeriodsReached()
+      throws GameObjectCannotChangeDirectionException {
     IDirectionGenerator mockDirectionGenerator = mock(RandomDirectionGenerator.class);
     IHasDesiredDirection pacman = new PacMan();
     pacman.setDesiredDirection(Direction.DOWN);
