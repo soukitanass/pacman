@@ -102,6 +102,20 @@ public class PacmanMoveValidatorTest {
   }
 
   @Test
+  public void movesOntoTunnelTilesAreValid() throws InvalidDirectionException {
+    Level mockLevel = getMockLevelTwoByTwoTunnel();
+    IMoveValidator moveValidator = new PacmanMoveValidator(mockLevel);
+    IMoveRequest moveLeft = new MoveRequest(new Position(0, 0), Direction.LEFT);
+    IMoveRequest moveRight = new MoveRequest(new Position(0, 0), Direction.RIGHT);
+    IMoveRequest moveUp = new MoveRequest(new Position(0, 0), Direction.UP);
+    IMoveRequest moveDown = new MoveRequest(new Position(0, 0), Direction.DOWN);
+    assertTrue(moveValidator.isValid(moveLeft));
+    assertTrue(moveValidator.isValid(moveRight));
+    assertTrue(moveValidator.isValid(moveUp));
+    assertTrue(moveValidator.isValid(moveDown));
+  }
+
+  @Test
   public void cannotTurnInTunnel() throws InvalidDirectionException {
     Level mockLevel = getMockLevelSingleTunnelSurroundedByEmptiness();
     IMoveValidator moveValidator = new PacmanMoveValidator(mockLevel);
@@ -121,20 +135,16 @@ public class PacmanMoveValidatorTest {
 
   @Test
   public void canTurnIfNotInTunnel() throws InvalidDirectionException {
-    Level mockLevel = getMockLevelSingleTunnelSurroundedByEmptiness();
+    Level mockLevel = getMockLevelSingleEmptySurroundedByTunnels();
     IMoveValidator moveValidator = new PacmanMoveValidator(mockLevel);
     IMoveRequest moveLeft = new MoveRequest(new Position(1, 1), Direction.LEFT);
     IMoveRequest moveRight = new MoveRequest(new Position(1, 1), Direction.RIGHT);
     IMoveRequest moveUp = new MoveRequest(new Position(1, 1), Direction.UP);
     IMoveRequest moveDown = new MoveRequest(new Position(1, 1), Direction.DOWN);
-    assertTrue(moveValidator.isValid(moveLeft));
-    assertTrue(moveValidator.isValid(moveRight));
-    assertTrue(moveValidator.isValid(moveUp));
-    assertTrue(moveValidator.isValid(moveDown));
-    assertFalse(moveValidator.isDesiredDirectionValid(moveLeft));
-    assertFalse(moveValidator.isDesiredDirectionValid(moveRight));
-    assertFalse(moveValidator.isDesiredDirectionValid(moveUp));
-    assertFalse(moveValidator.isDesiredDirectionValid(moveDown));
+    assertTrue(moveValidator.isDesiredDirectionValid(moveLeft));
+    assertTrue(moveValidator.isDesiredDirectionValid(moveRight));
+    assertTrue(moveValidator.isDesiredDirectionValid(moveUp));
+    assertTrue(moveValidator.isDesiredDirectionValid(moveDown));
   }
 
   @Test
@@ -279,6 +289,22 @@ public class PacmanMoveValidatorTest {
     when(mockLevel.isGhostGate(new Position(1, 0))).thenReturn(true);
     when(mockLevel.isGhostGate(new Position(0, 1))).thenReturn(true);
     when(mockLevel.isGhostGate(new Position(1, 1))).thenReturn(true);
+    return mockLevel;
+  }
+
+  // T = Tunnel
+  //
+  // T | T
+  // -----
+  // T | T
+  private Level getMockLevelTwoByTwoTunnel() {
+    Level mockLevel = mock(Level.class);
+    when(mockLevel.getWidth()).thenReturn(2);
+    when(mockLevel.getHeight()).thenReturn(2);
+    when(mockLevel.isTunnel(new Position(0, 0))).thenReturn(true);
+    when(mockLevel.isTunnel(new Position(1, 0))).thenReturn(true);
+    when(mockLevel.isTunnel(new Position(0, 1))).thenReturn(true);
+    when(mockLevel.isTunnel(new Position(1, 1))).thenReturn(true);
     return mockLevel;
   }
 }
