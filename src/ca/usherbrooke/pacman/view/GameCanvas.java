@@ -153,7 +153,7 @@ public class GameCanvas extends JPanel {
     }
 
     final String levelText = "Level";
-    final int levelNumberOffset = 1;
+    final int levelNumberOffset = 2;
 
     levelCompletedPanel = new TextPanel(model, ca.usherbrooke.pacman.view.Color.YELLOW, levelText,
         model.getCurrentLevelIndex() + levelNumberOffset);
