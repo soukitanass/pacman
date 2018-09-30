@@ -31,7 +31,7 @@ public class Level {
   private PacMan pacMan;
   @SerializedName("ghost")
   @Expose
-  private List<Ghost> ghost = null;
+  private List<Ghost> ghosts = null;
   @SerializedName("map")
   @Expose
   private List<List<Integer>> map = null;
@@ -87,11 +87,11 @@ public class Level {
   }
 
   public List<Ghost> getGhosts() {
-    return ghost;
+    return ghosts;
   }
 
-  public void setGhosts(List<Ghost> ghost) {
-    this.ghost = ghost;
+  public void setGhost(List<Ghost> ghost) {
+    this.ghosts = ghost;
   }
 
   public List<List<Integer>> getMap() {

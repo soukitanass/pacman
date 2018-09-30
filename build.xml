@@ -72,6 +72,11 @@
             <classpath refid="pacman.classpath"/>
         </java>
     </target>
+    <target name="Game (3)">
+        <java classname="ca.usherbrooke.pacman.game.Game" failonerror="true" fork="yes">
+            <classpath refid="pacman.classpath"/>
+        </java>
+    </target>
     <target name="Game">
         <java classname="Game" failonerror="true" fork="yes">
             <classpath refid="pacman.classpath"/>
@@ -103,6 +108,24 @@
             <classpath refid="pacman.classpath"/>
         </junit>
     </target>
+    <target name="LevelsTest">
+        <mkdir dir="${junit.output.dir}"/>
+        <junit fork="yes" printsummary="withOutAndErr">
+            <formatter type="xml"/>
+            <test name="ca.usherbrooke.pacman.model.LevelsTest" todir="${junit.output.dir}"/>
+            <jvmarg line="-ea"/>
+            <classpath refid="pacman.classpath"/>
+        </junit>
+    </target>
+    <target name="LevelTest">
+        <mkdir dir="${junit.output.dir}"/>
+        <junit fork="yes" printsummary="withOutAndErr">
+            <formatter type="xml"/>
+            <test name="ca.usherbrooke.pacman.model.LevelTest" todir="${junit.output.dir}"/>
+            <jvmarg line="-ea"/>
+            <classpath refid="pacman.classpath"/>
+        </junit>
+    </target>
     <target name="LibraryTest">
         <mkdir dir="${junit.output.dir}"/>
         <junit fork="yes" printsummary="withOutAndErr">
@@ -112,19 +135,34 @@
             <classpath refid="pacman.classpath"/>
         </junit>
     </target>
-    <target name="pacman">
+    <target name="MainLoopTest">
         <mkdir dir="${junit.output.dir}"/>
         <junit fork="yes" printsummary="withOutAndErr">
             <formatter type="xml"/>
             <test name="ca.usherbrooke.pacman.game.MainLoopTest" todir="${junit.output.dir}"/>
+            <jvmarg line="-ea"/>
+            <classpath refid="pacman.classpath"/>
+        </junit>
+    </target>
+    <target name="pacman">
+        <mkdir dir="${junit.output.dir}"/>
+        <junit fork="yes" printsummary="withOutAndErr">
+            <formatter type="xml"/>
+            <test name="ca.usherbrooke.pacman.controller.PeriodicRandomDirectionControllerTest" todir="${junit.output.dir}"/>
+            <test name="ca.usherbrooke.pacman.game.MainLoopTest" todir="${junit.output.dir}"/>
             <test name="ca.usherbrooke.pacman.model.GameModelTest" todir="${junit.output.dir}"/>
+            <test name="ca.usherbrooke.pacman.model.GhostMoveValidatorTest" todir="${junit.output.dir}"/>
             <test name="ca.usherbrooke.pacman.model.LevelTest" todir="${junit.output.dir}"/>
-            <test name="ca.usherbrooke.pacman.model.MoveValidatorTest" todir="${junit.output.dir}"/>
+            <test name="ca.usherbrooke.pacman.model.LevelsTest" todir="${junit.output.dir}"/>
             <test name="ca.usherbrooke.pacman.model.MovementManagerTest" todir="${junit.output.dir}"/>
+            <test name="ca.usherbrooke.pacman.model.PacmanMoveValidatorTest" todir="${junit.output.dir}"/>
             <test name="ca.usherbrooke.pacman.model.PacmanPacgumCollisionManagerTest" todir="${junit.output.dir}"/>
             <test name="ca.usherbrooke.pacman.model.PacmanSuperPacgumCollisionManagerTest" todir="${junit.output.dir}"/>
+            <test name="ca.usherbrooke.pacman.model.WrapAroundMoveRequestSolverTest" todir="${junit.output.dir}"/>
+            <test name="ca.usherbrooke.pacman.model.random.RandomDirectionGeneratorTest" todir="${junit.output.dir}"/>
             <test name="ca.usherbrooke.pacman.model.sound.SoundFactoryTest" todir="${junit.output.dir}"/>
             <test name="ca.usherbrooke.pacman.model.sound.SoundPlayerTest" todir="${junit.output.dir}"/>
+            <test name="ca.usherbrooke.pacman.view.GhostSpriteTogglerTest" todir="${junit.output.dir}"/>
             <test name="ca.usherbrooke.pacman.view.SpriteFacadeTest" todir="${junit.output.dir}"/>
             <test name="ca.usherbrooke.pacman.view.SpriteTest" todir="${junit.output.dir}"/>
             <jvmarg line="-ea"/>
@@ -158,35 +196,36 @@
             <classpath refid="pacman.classpath"/>
         </junit>
     </target>
-    <target name="Game (3)">
-        <java classname="ca.usherbrooke.pacman.game.Game" failonerror="true" fork="yes">
-            <classpath refid="pacman.classpath"/>
-        </java>
-    </target>
     <target name="test">
         <mkdir dir="${junit.output.dir}"/>
-        <junit fork="yes" printsummary="withOutAndErr">
+        <junit fork="yes" printsummary="withOutAndErr" haltonerror="true" haltonfailure="true">
             <formatter type="xml"/>
+            <test name="ca.usherbrooke.pacman.controller.PeriodicRandomDirectionControllerTest" todir="${junit.output.dir}"/>
             <test name="ca.usherbrooke.pacman.game.MainLoopTest" todir="${junit.output.dir}"/>
             <test name="ca.usherbrooke.pacman.model.GameModelTest" todir="${junit.output.dir}"/>
+            <test name="ca.usherbrooke.pacman.model.GhostMoveValidatorTest" todir="${junit.output.dir}"/>
             <test name="ca.usherbrooke.pacman.model.LevelTest" todir="${junit.output.dir}"/>
-            <test name="ca.usherbrooke.pacman.model.MoveValidatorTest" todir="${junit.output.dir}"/>
+            <test name="ca.usherbrooke.pacman.model.LevelsTest" todir="${junit.output.dir}"/>
             <test name="ca.usherbrooke.pacman.model.MovementManagerTest" todir="${junit.output.dir}"/>
+            <test name="ca.usherbrooke.pacman.model.PacmanMoveValidatorTest" todir="${junit.output.dir}"/>
             <test name="ca.usherbrooke.pacman.model.PacmanPacgumCollisionManagerTest" todir="${junit.output.dir}"/>
             <test name="ca.usherbrooke.pacman.model.PacmanSuperPacgumCollisionManagerTest" todir="${junit.output.dir}"/>
+            <test name="ca.usherbrooke.pacman.model.WrapAroundMoveRequestSolverTest" todir="${junit.output.dir}"/>
+            <test name="ca.usherbrooke.pacman.model.random.RandomDirectionGeneratorTest" todir="${junit.output.dir}"/>
             <test name="ca.usherbrooke.pacman.model.sound.SoundFactoryTest" todir="${junit.output.dir}"/>
             <test name="ca.usherbrooke.pacman.model.sound.SoundPlayerTest" todir="${junit.output.dir}"/>
+            <test name="ca.usherbrooke.pacman.view.GhostSpriteTogglerTest" todir="${junit.output.dir}"/>
             <test name="ca.usherbrooke.pacman.view.SpriteFacadeTest" todir="${junit.output.dir}"/>
             <test name="ca.usherbrooke.pacman.view.SpriteTest" todir="${junit.output.dir}"/>
             <jvmarg line="-ea"/>
             <classpath refid="pacman.classpath"/>
         </junit>
     </target>
-    <target name="MainLoopTest">
+    <target name="DirectionManagerTest">
         <mkdir dir="${junit.output.dir}"/>
         <junit fork="yes" printsummary="withOutAndErr">
             <formatter type="xml"/>
-            <test name="ca.usherbrooke.pacman.game.MainLoopTest" todir="${junit.output.dir}"/>
+            <test name="ca.usherbrooke.pacman.model.DirectionManagerTest" todir="${junit.output.dir}"/>
             <jvmarg line="-ea"/>
             <classpath refid="pacman.classpath"/>
         </junit>
