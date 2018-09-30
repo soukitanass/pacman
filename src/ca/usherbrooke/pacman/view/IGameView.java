@@ -2,7 +2,7 @@ package ca.usherbrooke.pacman.view;
 
 import java.awt.event.KeyListener;
 
-public interface IGameView {
+public interface IGameView extends Runnable {
   void update();
 
   void addKeyListener(KeyListener keyListener);
