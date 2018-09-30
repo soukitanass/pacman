@@ -1,6 +1,7 @@
 package ca.usherbrooke.pacman.threads;
 
-import java.util.concurrent.atomic.AtomicBoolean;
+import java.util.Queue;
+import ca.usherbrooke.pacman.model.GameEvent;
 import ca.usherbrooke.pacman.model.Ghost;
 import ca.usherbrooke.pacman.model.Level;
 import ca.usherbrooke.pacman.model.Position;
@@ -8,18 +9,15 @@ import ca.usherbrooke.pacman.view.utilities.WarningDialog;
 
 public class PhysicsThread extends Thread {
   private volatile boolean isRunning = false;
-  private static final int SLEEP_TIME = 10;
+  private static final int SLEEP_TIME = 20;
 
-  private AtomicBoolean isPacgumConsumed = new AtomicBoolean();
-  private AtomicBoolean isSuperPacgumConsumed = new AtomicBoolean();
-  private AtomicBoolean isPacmanGhostsCollision = new AtomicBoolean();
+  private final Queue<GameEvent> eventQueue;
+  private final Queue<Level> moveQueue;
 
-  private Level level;
-
-  public PhysicsThread(Level level) {
+  public PhysicsThread(Queue<Level> moveQueue, Queue<GameEvent> eventQueue) {
     this.setName("Physic_Thread");
-
-    this.level = level;
+    this.eventQueue = eventQueue;
+    this.moveQueue = moveQueue;
   }
 
   public synchronized void stopThread() {
@@ -34,10 +32,14 @@ public class PhysicsThread extends Thread {
 
     while (isRunning) {
       try {
-        setIsPacgumConsumed();
-        setIsSuperPacgumConsumed();
-        setIsPacmanGhostsCollision();
-
+        synchronized (moveQueue) {
+          while (!moveQueue.isEmpty()) {
+            Level level = moveQueue.poll();
+            validPacgumConsumedEvent(level);
+            validSuperPacgumConsumedEvent(level);
+            validPacmanGhostsCollisionEvent(level);
+          }
+        }
         Thread.sleep(SLEEP_TIME);
 
       } catch (InterruptedException exception) {
@@ -48,44 +50,27 @@ public class PhysicsThread extends Thread {
     System.out.println("STOP - " + this.getName());
   }
 
-  public boolean isPacgumConsumed() {
-    return isPacgumConsumed.get();
-  }
-
-  public boolean isSuperPacgumConsumed() {
-    return isSuperPacgumConsumed.get();
-  }
-
-  public boolean isPacmanGhostsCollision() {
-    return isPacmanGhostsCollision.get();
-  }
-
-  private void setIsPacgumConsumed() {
+  private void validPacgumConsumedEvent(Level level) {
     Position position = level.getPacMan().getPosition();
-    if (!level.isPacgum(position)) {
-      isPacgumConsumed.set(false);
-    } else {
-      isPacgumConsumed.set(true);
+    if (level.isPacgum(position)) {
+      eventQueue.add(GameEvent.PACGUM_CONSUMED);
     }
   }
 
-  private void setIsSuperPacgumConsumed() {
+  private void validSuperPacgumConsumedEvent(Level level) {
     Position position = level.getPacMan().getPosition();
-    if (!level.isSuperPacgum(position)) {
-      isSuperPacgumConsumed.set(false);
-    } else {
-      isSuperPacgumConsumed.set(true);
+    if (level.isSuperPacgum(position)) {
+      eventQueue.add(GameEvent.SUPER_PACGUM_CONSUMED);
     }
   }
 
-  private void setIsPacmanGhostsCollision() {
+  private void validPacmanGhostsCollisionEvent(Level level) {
     Position pacmanPosition = level.getPacMan().getPosition();
     for (Ghost ghost : level.getGhosts()) {
       if (pacmanPosition.equals(ghost.getPosition())) {
-        isPacmanGhostsCollision.set(true);
+        eventQueue.add(GameEvent.PACMAN_GHOST_COLLISON);
         return;
       }
-      isPacmanGhostsCollision.set(false);
     }
   }
 }

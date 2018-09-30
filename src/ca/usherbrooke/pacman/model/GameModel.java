@@ -5,7 +5,9 @@ import java.io.File;
 import java.io.FileReader;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Queue;
 import java.util.Random;
+import java.util.concurrent.ConcurrentLinkedQueue;
 import com.google.gson.Gson;
 import ca.usherbrooke.pacman.model.exceptions.GameObjectCannotChangeDirectionException;
 import ca.usherbrooke.pacman.model.exceptions.MovementManagerNotFoundException;
@@ -39,6 +41,9 @@ public class GameModel implements IGameModel {
   private List<PeriodicDirectionManager> ghostDirectionManagers;
   private PhysicsThread physicsThread;
   private int isLevelCompletedUpdatesCounter = 0;
+
+  Queue<Level> moveQueue = new ConcurrentLinkedQueue<>();
+  Queue<GameEvent> eventQueue = new ConcurrentLinkedQueue<>();
 
   public void attach(Observer observer) {
     observers.add(observer);
@@ -82,14 +87,25 @@ public class GameModel implements IGameModel {
     if (!isGameStarted()) {
       initializeLevel();
     }
-    if (physicsThread.isPacgumConsumed()) {
-      pacmanPacgumCollisionManager.update();
-      consumingPacGums();
-    } else {
-      movingToEmptySpace();
-    }
-    if (physicsThread.isSuperPacgumConsumed()) {
-      pacmanSuperPacgumCollisionManager.update();
+
+    moveQueue.add(getCurrentLevel());
+
+    synchronized (eventQueue) {
+      while (!eventQueue.isEmpty()) {
+        GameEvent gameEvent = eventQueue.poll();
+        if (gameEvent == GameEvent.PACGUM_CONSUMED) {
+          pacmanPacgumCollisionManager.update();
+          consumingPacGums();
+        } else {
+          movingToEmptySpace();
+        }
+        if (gameEvent == GameEvent.SUPER_PACGUM_CONSUMED) {
+          pacmanSuperPacgumCollisionManager.update();
+        }
+        if (gameEvent == GameEvent.PACMAN_GHOST_COLLISON) {
+          // TODO: Ajouter la gestion de la collison ici.
+        }
+      }
     }
 
     updateGameObjectsPosition();
@@ -138,7 +154,7 @@ public class GameModel implements IGameModel {
     pacmanPacgumCollisionManager = new PacmanPacgumCollisionManager(level);
     pacmanSuperPacgumCollisionManager = new PacmanSuperPacgumCollisionManager(level);
 
-    physicsThread = new PhysicsThread(level);
+    physicsThread = new PhysicsThread(moveQueue, eventQueue);
     physicsThread.start();
 
     isGameStarted = true;
