@@ -1,12 +1,8 @@
 package ca.usherbrooke.pacman.threads;
 
-
-import java.util.List;
 import java.util.concurrent.atomic.AtomicBoolean;
 import ca.usherbrooke.pacman.model.Ghost;
 import ca.usherbrooke.pacman.model.Level;
-import ca.usherbrooke.pacman.model.MovementManager;
-import ca.usherbrooke.pacman.model.PacMan;
 import ca.usherbrooke.pacman.model.Position;
 import ca.usherbrooke.pacman.view.utilities.WarningDialog;
 
@@ -31,6 +27,7 @@ public class PhysicsThread extends Thread {
   }
 
   @Override
+  @SuppressWarnings("squid:S106")
   public void run() {
     isRunning = true;
     System.out.println("START - " + this.getName());
@@ -44,6 +41,7 @@ public class PhysicsThread extends Thread {
         Thread.sleep(SLEEP_TIME);
 
       } catch (InterruptedException exception) {
+        Thread.currentThread().interrupt();
         WarningDialog.display("Interrupt error in" + this.getName(), exception);
       }
     }

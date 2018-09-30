@@ -38,7 +38,7 @@ public class GameModel implements IGameModel {
   IDirectionGenerator randomDirectionGenerator =
       new RandomDirectionGenerator(randomNumberGenerator);
   private List<PeriodicDirectionManager> ghostDirectionManagers;
-  private static PhysicsThread physicsThread;
+  private PhysicsThread physicsThread;
 
   public void attach(Observer observer) {
     observers.add(observer);
@@ -129,8 +129,8 @@ public class GameModel implements IGameModel {
     IMoveValidator ghostMoveValidator = new GhostMoveValidator(level);
     pacman = level.getPacMan();
     pacmanMovementManager = new MovementManager(pacman, pacmanMoveValidator);
-    ghostMovementManagers = new ArrayList<MovementManager>();
-    ghostDirectionManagers = new ArrayList<PeriodicDirectionManager>();
+    ghostMovementManagers = new ArrayList<>();
+    ghostDirectionManagers = new ArrayList<>();
     for (Ghost ghost : level.getGhosts()) {
       ghostDirectionManagers.add(new PeriodicDirectionManager(this, randomDirectionGenerator, ghost,
           GHOSTS_DIRECTION_CHANGE_PERIOD));
@@ -285,10 +285,10 @@ public class GameModel implements IGameModel {
       physicsThread.stopThread();
       physicsThread.join(JOIN_TIMER);
       if (physicsThread.isAlive()) {
-        physicsThread.interrupt();
         throw new InterruptedException();
       }
     } catch (InterruptedException exception) {
+      physicsThread.interrupt();
       WarningDialog.display("Error stoping physicsThread. ", exception);
     }
   }

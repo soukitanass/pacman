@@ -8,6 +8,7 @@ import ca.usherbrooke.pacman.model.IGameModel;
 import ca.usherbrooke.pacman.model.PacMan;
 import ca.usherbrooke.pacman.model.exceptions.InvalidDirectionException;
 import ca.usherbrooke.pacman.model.exceptions.InvalidStateException;
+import ca.usherbrooke.pacman.view.utilities.WarningDialog;
 
 @SuppressWarnings({"serial", "squid:S1948"})
 public class PacManPanel extends JPanel {
@@ -30,9 +31,8 @@ public class PacManPanel extends JPanel {
     pacmanSpritePeriodicToggler.update();
     try {
       drawPacman(graphic, model.getPacman());
-    } catch (InvalidDirectionException | InvalidStateException e) {
-      // TODO Auto-generated catch block
-      e.printStackTrace();
+    } catch (InvalidDirectionException | InvalidStateException exception) {
+      WarningDialog.display("Error while painting pacman. ", exception);
     }
   }
 
