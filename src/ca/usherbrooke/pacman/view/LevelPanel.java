@@ -22,7 +22,7 @@ public class LevelPanel extends JPanel {
   private SpriteFacade spriteFacade = new SpriteFacade();
   private int offsetX = 0;
   private int offsetY = 0;
-  
+
   public void setPixelTileSize(int pixelTileSize) {
     this.pixelTileSize = pixelTileSize;
   }
@@ -82,7 +82,6 @@ public class LevelPanel extends JPanel {
 
     xPos = xPos + liveText.length() * getScoreTileSizePixels();
     if (level.getLives() == 0) {
-      System.out.println("lives is 0");
       model.setGameOver();
       level.setLives(-1);
     }
