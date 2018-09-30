@@ -65,20 +65,16 @@ public class PhysicsThreadTest {
   @Test
   public void pacmanPacgumConsumedTest() throws InterruptedException {
     pacman.setPosition(new Position(1, 0));
-
     moveQueue.add(level);
     Thread.sleep(SLEEP_TIME);
-
     assertEquals(GameEvent.PACGUM_CONSUMED, eventQueue.poll());
   }
 
   @Test
   public void pacmanSuperPacgumConsumedTest() throws InterruptedException {
     pacman.setPosition(new Position(2, 0));
-
     moveQueue.add(level);
     Thread.sleep(SLEEP_TIME);
-
     assertEquals(GameEvent.SUPER_PACGUM_CONSUMED, eventQueue.poll());
   }
 
@@ -86,20 +82,16 @@ public class PhysicsThreadTest {
   public void pacmanGhostColision() throws InterruptedException {
     pacman.setPosition(new Position(3, 0));
     ghost.setPosition(new Position(3, 0));
-
     moveQueue.add(level);
     Thread.sleep(SLEEP_TIME);
-
     assertEquals(GameEvent.PACMAN_GHOST_COLLISON, eventQueue.poll());
   }
 
   @Test
   public void pacmanNothingConsumedTest() throws InterruptedException {
     pacman.setPosition(new Position(0, 0));
-
     moveQueue.add(level);
     Thread.sleep(SLEEP_TIME);
-
     assertNull(eventQueue.poll());
   }
 }
