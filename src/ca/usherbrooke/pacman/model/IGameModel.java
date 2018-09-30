@@ -50,4 +50,7 @@ public interface IGameModel {
   public void setGameOver();
 
   public boolean isGameOver();
+
+  boolean isGameCompleted();
+
 }

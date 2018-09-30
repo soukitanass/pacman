@@ -5,13 +5,18 @@ import ca.usherbrooke.pacman.model.IGameModel;
 
 public class GameView implements IGameView {
   private GameCanvas canvas;
+  private IGameModel model;
 
-  public GameView(IGameModel model, int spriteTogglePeriod) {
-    canvas = new GameCanvas(model, spriteTogglePeriod);
+
+  public GameView(IGameModel model, int ghostSpriteTogglePeriod, int pacmanSpriteTogglePeriod) {
+    this.model = model;
+    canvas = new GameCanvas(model, ghostSpriteTogglePeriod, pacmanSpriteTogglePeriod);
   }
 
   public void update() {
-    this.canvas.repaint();
+    if (!model.isGameCompleted()) {
+      this.canvas.repaint();
+    }
   }
 
   @Override

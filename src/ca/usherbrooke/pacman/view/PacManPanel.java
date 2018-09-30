@@ -1,11 +1,13 @@
 package ca.usherbrooke.pacman.view;
 
-import java.awt.Color;
 import java.awt.Graphics;
+import java.awt.Image;
 import javax.swing.JPanel;
 import ca.usherbrooke.pacman.model.Direction;
 import ca.usherbrooke.pacman.model.IGameModel;
 import ca.usherbrooke.pacman.model.PacMan;
+import ca.usherbrooke.pacman.model.exceptions.InvalidDirectionException;
+import ca.usherbrooke.pacman.model.exceptions.InvalidStateException;
 
 @SuppressWarnings({"serial", "squid:S1948"})
 public class PacManPanel extends JPanel {
@@ -14,57 +16,37 @@ public class PacManPanel extends JPanel {
   private int pixelTileSize;
   private int offsetX = 0;
   private int offsetY = 0;
+  private PacmanSpriteToggler pacmanSpritePeriodicToggler;
+  private SpriteFacade spriteFacade = new SpriteFacade();
 
-  public PacManPanel(IGameModel model) {
+  public PacManPanel(IGameModel model, int spriteTogglePeriod) {
     this.model = model;
+    pacmanSpritePeriodicToggler = new PacmanSpriteToggler(spriteTogglePeriod);
   }
 
   @Override
   public void paint(Graphics graphic) {
-
     super.paint(graphic);
-    PacMan pacman = model.getPacman();
+    pacmanSpritePeriodicToggler.update();
+    try {
+      drawPacman(graphic, model.getPacman());
+    } catch (InvalidDirectionException | InvalidStateException e) {
+      // TODO Auto-generated catch block
+      e.printStackTrace();
+    }
+  }
 
+  public void drawPacman(Graphics graphic, PacMan pacman)
+      throws InvalidStateException, InvalidDirectionException {
+    Direction direction = pacman.getDirection();
+    PacManState pacmanSpriteState = pacmanSpritePeriodicToggler.getPacmanState();
+    Image ghostImage = spriteFacade.getPacman(direction, pacmanSpriteState);
     final int x = pacman.getPosition().getX() * pixelTileSize + offsetX;
     final int y = pacman.getPosition().getY() * pixelTileSize + offsetY;
-
-    if (pacman.getDirection() == Direction.RIGHT) {
-      drawPacmanRight(graphic, x, y);
-    } else if (pacman.getDirection() == Direction.LEFT) {
-      drawPacmanLeft(graphic, x, y);
-    } else if (pacman.getDirection() == Direction.UP) {
-      drawPacmanUp(graphic, x, y);
-    } else if (pacman.getDirection() == Direction.DOWN) {
-      drawPacmanDown(graphic, x, y);
-    }
-
-  }
-
-  private void drawPacmanRight(Graphics graphic, int x, int y) {
-    int angle = (int) (20 * (Math.sin((x + y) * 2 * Math.PI / pixelTileSize) + 1));
-    graphic.setColor(Color.YELLOW);
-    graphic.fillArc(x, y, pixelTileSize, pixelTileSize, angle / 2, 360 - angle);
-  }
-
-  private void drawPacmanLeft(Graphics graphic, int x, int y) {
-    int direction = 180;
-    int angle = (int) (20 * (Math.sin((x + y) * 2 * Math.PI / pixelTileSize) + 1));
-    graphic.setColor(Color.YELLOW);
-    graphic.fillArc(x, y, pixelTileSize, pixelTileSize, angle / 2 + direction, 360 - angle);
-  }
-
-  private void drawPacmanUp(Graphics graphic, int x, int y) {
-    int direction = 90;
-    int angle = (int) (20 * (Math.sin((x + y) * 2 * Math.PI / pixelTileSize) + 1));
-    graphic.setColor(Color.YELLOW);
-    graphic.fillArc(x, y, pixelTileSize, pixelTileSize, angle / 2 + direction, 360 - angle);
-  }
-
-  private void drawPacmanDown(Graphics graphic, int x, int y) {
-    int direction = 270;
-    int angle = (int) (20 * (Math.sin((x + y) * 2 * Math.PI / pixelTileSize) + 1));
-    graphic.setColor(Color.YELLOW);
-    graphic.fillArc(x, y, pixelTileSize, pixelTileSize, angle / 2 + direction, 360 - angle);
+    final int width = pixelTileSize;
+    final int height = pixelTileSize;
+    final int tileSize = spriteFacade.getTileSize();
+    graphic.drawImage(ghostImage, x, y, x + width, y + height, 0, 0, tileSize, tileSize, null);
   }
 
   public void setPixelTileSize(int pixelTileSize) {

@@ -13,6 +13,8 @@ public class Levels {
   @Expose
   private List<Level> levelsList = null;
 
+  private boolean isGameCompleted = false;
+
   public Integer getCurrentLevel() {
     return currentLevel;
   }
@@ -24,6 +26,8 @@ public class Levels {
   public void incrementCurrentLevel() {
     if (currentLevel < levelsList.size() - 1) {
       currentLevel++;
+    } else {
+      isGameCompleted = true;
     }
   }
 
@@ -33,6 +37,10 @@ public class Levels {
 
   public void setLevels(List<Level> levels) {
     this.levelsList = levels;
+  }
+
+  public boolean isGameCompleted() {
+    return isGameCompleted;
   }
 
 }
