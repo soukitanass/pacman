@@ -11,6 +11,7 @@ import ca.usherbrooke.pacman.model.IGameModel;
 import ca.usherbrooke.pacman.model.exceptions.InvalidColorException;
 import ca.usherbrooke.pacman.model.exceptions.InvalidDirectionException;
 import ca.usherbrooke.pacman.model.exceptions.InvalidStateException;
+import ca.usherbrooke.pacman.view.utilities.WarningDialog;
 
 @SuppressWarnings("serial")
 public class GhostsPanel extends JPanel {
@@ -46,8 +47,7 @@ public class GhostsPanel extends JPanel {
       try {
         drawGhost(graphics, ghost);
       } catch (InvalidColorException | InvalidDirectionException | InvalidStateException e) {
-        // TODO Auto-generated catch block
-        e.printStackTrace();
+        WarningDialog.display("Could not draw ghost", e);;
       }
     }
   }
