@@ -13,7 +13,7 @@ import ca.usherbrooke.pacman.view.GameView;
 import ca.usherbrooke.pacman.view.IGameView;
 
 public class Game implements IGame {
-  
+
   private static final int GHOST_SPRITE_TOGGLE_PERIOD = 10;
   private static final int PACMAN_SPRITE_TOGGLE_PERIOD = 2;
 
