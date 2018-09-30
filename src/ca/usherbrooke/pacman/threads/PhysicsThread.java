@@ -1,12 +1,9 @@
 package ca.usherbrooke.pacman.threads;
 
 
-import java.util.List;
 import java.util.concurrent.atomic.AtomicBoolean;
 import ca.usherbrooke.pacman.model.Ghost;
 import ca.usherbrooke.pacman.model.Level;
-import ca.usherbrooke.pacman.model.MovementManager;
-import ca.usherbrooke.pacman.model.PacMan;
 import ca.usherbrooke.pacman.model.Position;
 import ca.usherbrooke.pacman.view.utilities.WarningDialog;
 

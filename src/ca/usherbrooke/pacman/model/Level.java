@@ -158,7 +158,4 @@ public class Level {
     return true;
   }
 
-  public boolean isGhost(Position position) {
-    return GHOST_GATE_CODE == getCodeAtPosition(position);
-  }
 }
