@@ -41,9 +41,8 @@ public class GameModel implements IGameModel {
   private List<PeriodicDirectionManager> ghostDirectionManagers;
   private PhysicsThread physicsThread;
   private int isLevelCompletedUpdatesCounter = 0;
-
-  Queue<Level> moveQueue = new ConcurrentLinkedQueue<>();
-  Queue<GameEvent> eventQueue = new ConcurrentLinkedQueue<>();
+  private Queue<Level> moveQueue = new ConcurrentLinkedQueue<>();
+  private Queue<GameEvent> eventQueue = new ConcurrentLinkedQueue<>();
 
   public void attach(Observer observer) {
     observers.add(observer);
