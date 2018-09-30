@@ -148,7 +148,7 @@
         <mkdir dir="${junit.output.dir}"/>
         <junit fork="yes" printsummary="withOutAndErr">
             <formatter type="xml"/>
-            <test name="ca.usherbrooke.pacman.controller.PeriodicRandomDirectionControllerTest" todir="${junit.output.dir}"/>
+            <test name="ca.usherbrooke.pacman.model.PeriodicDirectionManagerTest" todir="${junit.output.dir}"/>
             <test name="ca.usherbrooke.pacman.game.MainLoopTest" todir="${junit.output.dir}"/>
             <test name="ca.usherbrooke.pacman.model.GameModelTest" todir="${junit.output.dir}"/>
             <test name="ca.usherbrooke.pacman.model.GhostMoveValidatorTest" todir="${junit.output.dir}"/>
@@ -200,7 +200,7 @@
         <mkdir dir="${junit.output.dir}"/>
         <junit fork="yes" printsummary="withOutAndErr" haltonerror="true" haltonfailure="true">
             <formatter type="xml"/>
-            <test name="ca.usherbrooke.pacman.controller.PeriodicRandomDirectionControllerTest" todir="${junit.output.dir}"/>
+            <test name="ca.usherbrooke.pacman.model.PeriodicDirectionManagerTest" todir="${junit.output.dir}"/>
             <test name="ca.usherbrooke.pacman.game.MainLoopTest" todir="${junit.output.dir}"/>
             <test name="ca.usherbrooke.pacman.model.GameModelTest" todir="${junit.output.dir}"/>
             <test name="ca.usherbrooke.pacman.model.GhostMoveValidatorTest" todir="${junit.output.dir}"/>

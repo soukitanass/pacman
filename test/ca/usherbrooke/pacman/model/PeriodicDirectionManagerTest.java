@@ -8,7 +8,7 @@ import org.junit.Test;
 import ca.usherbrooke.pacman.model.exceptions.GameObjectCannotChangeDirectionException;
 import ca.usherbrooke.pacman.model.random.RandomDirectionGenerator;
 
-public class DirectionManagerTest {
+public class PeriodicDirectionManagerTest {
 
   @Test
   public void updateDesiredDirectionWhenPeriodsReached()
