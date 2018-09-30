@@ -16,15 +16,13 @@ public class LevelPanel extends JPanel {
   public static final int PANEL_WIDTH_IN_SCORE_TILES = 25;
   public static final double RATIO_LEVEL_HEIGHT_TO_TOTAL_HEIGHT = 0.9;
   private IGameModel model;
-  private IGameView view;
   private int pixelTileSize;
   private String scoreText = "SCORE";
   private String liveText = "LIVES";
   private SpriteFacade spriteFacade = new SpriteFacade();
   private int offsetX = 0;
   private int offsetY = 0;
-  private int lives = 3;
-
+  
   public void setPixelTileSize(int pixelTileSize) {
     this.pixelTileSize = pixelTileSize;
   }
@@ -84,8 +82,8 @@ public class LevelPanel extends JPanel {
 
     xPos = xPos + liveText.length() * getScoreTileSizePixels();
     if (level.getLives() == 0) {
+      System.out.println("lives is 0");
       model.setGameOver();
-      view.getCanvas().setGameOverPanel();
       level.setLives(-1);
     }
     drawLives(graphic, y, xPos, level, level.getLives());

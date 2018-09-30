@@ -31,9 +31,8 @@ public class PlayerKeyboardController implements IGameController, KeyListener {
   @Override
   public void keyPressed(KeyEvent e) {
     switch (e.getKeyCode()) {
-      case VK_P:{
-    	model.togglePause(true);
-    	view.getCanvas().setPausePanel();
+      case VK_P: {
+        model.togglePause(true);
         break;
       }
       case VK_Q:

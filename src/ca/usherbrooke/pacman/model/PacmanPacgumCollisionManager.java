@@ -11,7 +11,7 @@ public class PacmanPacgumCollisionManager {
     this.level = level;
   }
 
-  public boolean isPacgumConsumed() {
+  public boolean update() {
     Position position = pacman.getPosition();
     if (!level.isPacgum(position)) {
       return false;

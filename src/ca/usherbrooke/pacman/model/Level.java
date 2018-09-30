@@ -86,11 +86,11 @@ public class Level {
     this.pacMan = pacMan;
   }
 
-  public List<Ghost> getGhost() {
+  public List<Ghost> getGhosts() {
     return ghost;
   }
 
-  public void setGhost(List<Ghost> ghost) {
+  public void setGhosts(List<Ghost> ghost) {
     this.ghost = ghost;
   }
 

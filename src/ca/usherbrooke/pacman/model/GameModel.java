@@ -7,6 +7,7 @@ import java.util.ArrayList;
 import java.util.List;
 import com.google.gson.Gson;
 import ca.usherbrooke.pacman.model.sound.Observer;
+import ca.usherbrooke.pacman.threads.PhysicsThread;
 import ca.usherbrooke.pacman.view.utilities.WarningDialog;
 
 public class GameModel implements IGameModel {
@@ -28,7 +29,7 @@ public class GameModel implements IGameModel {
   private PacmanPacgumCollisionManager pacmanPacgumCollisionManager;
   private PacmanSuperPacgumCollisionManager pacmanSuperPacgumCollisionManager;
   private List<Observer> observers = new ArrayList<>();
-
+  private static PhysicsThread physicsThread;
 
   public void attach(Observer observer) {
     observers.add(observer);
@@ -57,7 +58,7 @@ public class GameModel implements IGameModel {
 
   @Override
   public void update() {
-    if (isPaused() || isLevelCompleted) {
+    if (isPaused() || isLevelCompleted || isGameOver()) {
       onLevelCompleted();
       return;
     }
@@ -65,13 +66,18 @@ public class GameModel implements IGameModel {
     if (!isGameStarted()) {
       startLevel();
     }
-    if (pacmanPacgumCollisionManager.isPacgumConsumed()) {
+    if (physicsThread.isPacgumConsumed()) {
+      pacmanPacgumCollisionManager.update();
       consumingPacGums();
     } else {
       movingToEmptySpace();
     }
-    pacmanSuperPacgumCollisionManager.update();
-    pacmanGhostCollisionManager.update();
+    if (physicsThread.isSuperPacgumConsumed()) {
+      pacmanSuperPacgumCollisionManager.update();
+    }
+    if (physicsThread.isPacmanGhostsCollision()) {
+      pacmanGhostCollisionManager.update();
+    }
     pacmanMovementManager.updatePosition();
     for (MovementManager ghostMovementManager : ghostMovementManagers) {
       ghostMovementManager.updatePosition();
@@ -102,12 +108,14 @@ public class GameModel implements IGameModel {
     pacman = level.getPacMan();
     pacmanMovementManager = new MovementManager(pacman, pacmanMoveValidator);
     ghostMovementManagers = new ArrayList<MovementManager>();
-    for (Ghost ghost : level.getGhost()) {
+    for (Ghost ghost : level.getGhosts()) {
       ghostMovementManagers.add(new MovementManager(ghost, ghostMoveValidator));
     }
     pacmanPacgumCollisionManager = new PacmanPacgumCollisionManager(pacman, level);
     pacmanSuperPacgumCollisionManager = new PacmanSuperPacgumCollisionManager(pacman, level);
     pacmanGhostCollisionManager = new PacmanGhostCollisionManager(pacman, level);
+    physicsThread = new PhysicsThread(level);
+    physicsThread.start();
     isGameStarted = true;
     isGameOver = false;
   }

@@ -27,13 +27,13 @@ public class GameCanvas extends JPanel {
   private static final String pauseText = "PAUSE";
   private final String gameOverText = "GAMEOVER";
 
+
   private JLayeredPane layeredPane = new JLayeredPane();
 
   private JFrame window = new JFrame(GAME_TITLE);
 
   GameCanvas(IGameModel model, int spriteTogglePeriod) {
     this.model = model;
-
     window.setSize(FRAME_WIDTH, FRAME_HEIGHT);
     window.setMinimumSize(new Dimension(FRAME_WIDTH, FRAME_HEIGHT));
     window.setLocationRelativeTo(null);
@@ -106,9 +106,10 @@ public class GameCanvas extends JPanel {
       levelCompletedPanel = null;
     }
     if (model.isManuallyPaused()) {
+      setPausePanel();
       pausePanel.setPixelTileSize(pixelTileSize);
       pausePanel.setOffsetX(getOffsetX());
-      pausePanel.setOffsetY(getOffsetY());
+      pausePanel.setOffsetY(getOffsetYTextPanel());
       pausePanel.setBounds(0, 0, window.getWidth(), window.getHeight());
       pausePanel.paint(graphic);
     } else {
@@ -117,9 +118,10 @@ public class GameCanvas extends JPanel {
       }
     }
     if (model.isGameOver()) {
+      setGameOverPanel();
       gameOverPanel.setPixelTileSize(pixelTileSize);
       gameOverPanel.setOffsetX(getOffsetX());
-      gameOverPanel.setOffsetY(getOffsetY());
+      gameOverPanel.setOffsetY(getOffsetYTextPanelG());
       gameOverPanel.setBounds(0, 0, window.getWidth(), window.getHeight());
       gameOverPanel.paint(graphic);
     }
@@ -149,6 +151,21 @@ public class GameCanvas extends JPanel {
   public int getOffsetY() {
     final int levelHeightPixels = levelPanel.getHeightTiles() * getPixelTileSize();
     return (getHeight() - levelHeightPixels) / 2;
+  }
+
+  public int getOffsetYTextPanel() {
+    final int levelHeightPixels = pausePanel.getHeightTiles() * getPixelTileSize();
+    return (getHeight() - levelHeightPixels) / 2;
+  }
+
+  public int getOffsetYTextPanelG() {
+    final int levelHeightPixels = gameOverPanel.getHeightTiles() * getPixelTileSize();
+    return (getHeight() - levelHeightPixels) / 2;
+  }
+
+  public int getOffsetXTextPanel() {
+    final int levelWidthPixels = pausePanel.getWidthTiles() * getPixelTileSize();
+    return (getWidth() - levelWidthPixels) / 2;
   }
 
   public void setPausePanel() {

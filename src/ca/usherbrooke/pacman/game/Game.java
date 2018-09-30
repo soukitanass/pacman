@@ -54,7 +54,7 @@ public class Game implements IGame {
     IDirectionGenerator randomDirectionGenerator =
         new RandomDirectionGenerator(randomNumberGenerator);
     controllers.add(playerKeyboardController);
-    for (Ghost ghost : model.getCurrentLevel().getGhost()) {
+    for (Ghost ghost : model.getCurrentLevel().getGhosts()) {
       controllers.add(new PeriodicDirectionController(model, randomDirectionGenerator, ghost,
           GHOSTS_DIRECTION_CHANGE_PERIOD));
     }
