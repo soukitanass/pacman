@@ -19,7 +19,7 @@ public class PacmanGhostsCollisionManagerTest {
   }
 
   @Test
-  public void pacmanGhostCollisionLivesManger() {
+  public void pacmanGhostCollisionManagerLivesTest() {
     initializeGhostsList();
 
     ghost.setPosition(new Position(0, 0));
@@ -51,5 +51,4 @@ public class PacmanGhostsCollisionManagerTest {
     level.getGhosts().add(ghost);
     pacmanGhostCollisionManager = new PacmanGhostCollisionManager(level);
   }
-
 }

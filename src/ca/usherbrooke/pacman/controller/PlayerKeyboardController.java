@@ -35,10 +35,9 @@ public class PlayerKeyboardController implements IGameController, KeyListener {
 
   public void keyPressed(KeyEvent keyEvent) {
     switch (keyEvent.getKeyCode()) {
-      case VK_P: {
+      case VK_P:
         model.togglePause(true);
         break;
-      }
       case VK_Q:
         model.quit();
         break;

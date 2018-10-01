@@ -12,7 +12,7 @@ public class PacmanGhostCollisionManager {
   public void update() {
     level.setLives(level.getLives() - 1);
     pacman.setPosition(new Position(13, 23));
-    pacman.setDirection(Direction.RIGHT);
+    pacman.setDirection(Direction.LEFT);
     for (Ghost ghost : level.getGhosts()) {
       ghost.setPosition(ghost.getPosition());
     }

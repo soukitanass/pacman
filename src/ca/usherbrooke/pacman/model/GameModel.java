@@ -74,7 +74,7 @@ public class GameModel implements IGameModel {
 
   @Override
   public void update() {
-    if (isPaused() || isLevelCompleted || isGameCompleted() ||isGameOver()) {
+    if (isPaused() || isGameCompleted() || isGameOver()) {
       onLevelCompleted();
       return;
     }

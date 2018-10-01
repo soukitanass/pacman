@@ -118,7 +118,7 @@ public class GameCanvas extends JPanel {
       setPausePanel();
       pausePanel.setPixelTileSize(pixelTileSize);
       pausePanel.setOffsetX(getOffsetX());
-      pausePanel.setOffsetY(getOffsetYTextPanel());
+      pausePanel.setOffsetY(getOffsetXPausePanel());
       pausePanel.setBounds(0, 0, window.getWidth(), window.getHeight());
       pausePanel.paint(graphic);
     } else {
@@ -130,7 +130,7 @@ public class GameCanvas extends JPanel {
       setGameOverPanel();
       gameOverPanel.setPixelTileSize(pixelTileSize);
       gameOverPanel.setOffsetX(getOffsetX());
-      gameOverPanel.setOffsetY(getOffsetYTextPanelG());
+      gameOverPanel.setOffsetY(getOffsetYTextPanelGameOver());
       gameOverPanel.setBounds(0, 0, window.getWidth(), window.getHeight());
       gameOverPanel.paint(graphic);
     }
@@ -162,17 +162,17 @@ public class GameCanvas extends JPanel {
     return (getHeight() - levelHeightPixels) / 2;
   }
 
-  public int getOffsetYTextPanel() {
+  public int getOffsetYPausePanel() {
     final int levelHeightPixels = pausePanel.getHeightTiles() * getPixelTileSize();
     return (getHeight() - levelHeightPixels) / 2;
   }
 
-  public int getOffsetYTextPanelG() {
+  public int getOffsetYTextPanelGameOver() {
     final int levelHeightPixels = gameOverPanel.getHeightTiles() * getPixelTileSize();
     return (getHeight() - levelHeightPixels) / 2;
   }
 
-  public int getOffsetXTextPanel() {
+  public int getOffsetXPausePanel() {
     final int levelWidthPixels = pausePanel.getWidthTiles() * getPixelTileSize();
     return (getWidth() - levelWidthPixels) / 2;
   }

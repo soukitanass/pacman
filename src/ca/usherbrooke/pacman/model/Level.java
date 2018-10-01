@@ -36,13 +36,13 @@ public class Level {
   @Expose
   private List<List<Integer>> map = null;
 
-  private Integer lives = 3;
+  private int lives = 3;
 
-  public Integer getLives() {
+  public int getLives() {
     return lives;
   }
 
-  public void setLives(Integer lives) {
+  public void setLives(int lives) {
     this.lives = lives;
   }
 
