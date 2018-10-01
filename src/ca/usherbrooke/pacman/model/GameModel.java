@@ -209,6 +209,7 @@ public class GameModel implements IGameModel {
 
   @Override
   public void quit() {
+    stopPhysicsThread();
     setRunning(false);
   }
 
