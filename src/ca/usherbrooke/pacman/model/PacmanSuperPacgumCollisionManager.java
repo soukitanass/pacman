@@ -1,20 +1,15 @@
 package ca.usherbrooke.pacman.model;
 
 public class PacmanSuperPacgumCollisionManager {
-  private final PacMan pacman;
   private final Level level;
   private static final int POINT = 50;
 
-  public PacmanSuperPacgumCollisionManager(PacMan pacman, Level level) {
-    this.pacman = pacman;
+  public PacmanSuperPacgumCollisionManager(Level level) {
     this.level = level;
   }
 
   public void update() {
-    Position position = pacman.getPosition();
-    if (!level.isSuperPacgum(position)) {
-      return;
-    }
+    Position position = level.getPacMan().getPosition();
     level.setScore(level.getScore() + POINT);
     level.setEmptyMapTile(position);
   }

@@ -42,7 +42,7 @@ public class SpriteFacade {
       throw new InvalidWallCodeException("Invalid wall code: " + code);
     }
   }
- 
+
   @SuppressWarnings("squid:RedundantThrowsDeclarationCheck")
   public BufferedImage getPacman(Direction direction, PacManState state)
       throws InvalidStateException, InvalidDirectionException {

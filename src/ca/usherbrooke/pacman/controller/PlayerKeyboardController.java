@@ -11,6 +11,7 @@ import ca.usherbrooke.pacman.view.IGameView;
 import ca.usherbrooke.pacman.view.utilities.WarningDialog;
 
 public class PlayerKeyboardController implements IGameController, KeyListener {
+  private static final String DIRECTION_ERROR_MSG = "Failed to set pacman's direction";
   private final IGameModel model;
   private final IGameView view;
 
@@ -45,28 +46,28 @@ public class PlayerKeyboardController implements IGameController, KeyListener {
         try {
           model.setDirection(model.getPacman(), Direction.RIGHT);
         } catch (GameObjectCannotChangeDirectionException exception) {
-          WarningDialog.display("Failed to set pacman's direction", exception);
+          WarningDialog.display(DIRECTION_ERROR_MSG, exception);
         }
         break;
       case KeyEvent.VK_LEFT:
         try {
           model.setDirection(model.getPacman(), Direction.LEFT);
         } catch (GameObjectCannotChangeDirectionException e) {
-          WarningDialog.display("Failed to set pacman's direction", e);
+          WarningDialog.display(DIRECTION_ERROR_MSG, e);
         }
         break;
       case KeyEvent.VK_UP:
         try {
           model.setDirection(model.getPacman(), Direction.UP);
         } catch (GameObjectCannotChangeDirectionException e) {
-          WarningDialog.display("Failed to set pacman's direction", e);
+          WarningDialog.display(DIRECTION_ERROR_MSG, e);
         }
         break;
       case KeyEvent.VK_DOWN:
         try {
           model.setDirection(model.getPacman(), Direction.DOWN);
         } catch (GameObjectCannotChangeDirectionException e) {
-          WarningDialog.display("Failed to set pacman's direction", e);
+          WarningDialog.display(DIRECTION_ERROR_MSG, e);
         }
         break;
       default:

@@ -52,5 +52,7 @@ public interface IGameModel {
   public boolean isGameOver();
 
   boolean isGameCompleted();
+  
+  void stopPhysicsThread();
 
 }

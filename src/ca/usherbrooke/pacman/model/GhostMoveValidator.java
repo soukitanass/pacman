@@ -12,8 +12,7 @@ public class GhostMoveValidator implements IMoveValidator {
 
   @Override
   public boolean isValid(IMoveRequest moveRequest) throws InvalidDirectionException {
-    final Position targetPosition = getTargetPosition(moveRequest);
-    return !level.isWall(targetPosition) && !level.isTunnel(targetPosition);
+    return isDirectionValid(moveRequest);
   }
 
   public Position getTargetPosition(IMoveRequest moveRequest) throws InvalidDirectionException {
@@ -23,6 +22,10 @@ public class GhostMoveValidator implements IMoveValidator {
   @Override
   public boolean isDesiredDirectionValid(IMoveRequest moveRequest)
       throws InvalidDirectionException {
+    return isDirectionValid(moveRequest);
+  }
+
+  private boolean isDirectionValid(IMoveRequest moveRequest) throws InvalidDirectionException {
     final Position targetPosition = getTargetPosition(moveRequest);
     return !level.isWall(targetPosition) && !level.isTunnel(targetPosition);
   }
