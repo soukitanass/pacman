@@ -29,7 +29,7 @@ public class PacmanPacgumCollisionManagerTest {
     pacman.setPosition(new Position(0, 0));
     assertTrue(level.isPacgum(new Position(0, 0)));
     assertTrue(level.isPacgum(new Position(1, 0)));
-    pacmanPacgumCollisionManager.isPacgumConsumed();
+    pacmanPacgumCollisionManager.update();
     assertEquals(Integer.valueOf(10), level.getScore());
     assertFalse(level.isPacgum(new Position(0, 0)));
     assertTrue(level.isPacgum(new Position(1, 0)));
@@ -37,6 +37,7 @@ public class PacmanPacgumCollisionManagerTest {
 
   private void initializePacmanPacgumCollisionManager(List<List<Integer>> map) {
     level.setMap(map);
-    pacmanPacgumCollisionManager = new PacmanPacgumCollisionManager(pacman, level);
+    level.setPacMan(pacman);
+    pacmanPacgumCollisionManager = new PacmanPacgumCollisionManager(level);
   }
 }

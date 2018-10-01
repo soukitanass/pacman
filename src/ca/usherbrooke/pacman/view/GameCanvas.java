@@ -4,6 +4,7 @@ import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.event.KeyListener;
+import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.awt.event.WindowFocusListener;
 import javax.swing.JFrame;
@@ -23,7 +24,7 @@ public class GameCanvas extends JPanel {
   private static final int FRAME_WIDTH = 600;
   private static final int FRAME_HEIGHT = 800;
   private static final String GAME_TITLE = "Pac-Man";
-  private static final String pauseText = "PAUSE";
+  private static final String PAUSE_TEXT = "PAUSE";
 
   private JLayeredPane layeredPane = new JLayeredPane();
 
@@ -48,6 +49,13 @@ public class GameCanvas extends JPanel {
         if (!model.isManuallyPaused()) {
           model.unpause();
         }
+      }
+    });
+
+    window.addWindowListener(new WindowAdapter() {
+      @Override
+      public void windowClosing(WindowEvent e) {
+        model.quit();
       }
     });
 
@@ -132,7 +140,7 @@ public class GameCanvas extends JPanel {
   }
 
   public void setPausePanel() {
-    pausePanel = new TextPanel(model, ca.usherbrooke.pacman.view.Color.YELLOW, pauseText);
+    pausePanel = new TextPanel(model, ca.usherbrooke.pacman.view.Color.YELLOW, PAUSE_TEXT);
     pausePanel.setBackground(new Color(0, 0, 0, 80));
     pausePanel.setOpaque(true);
     window.add(pausePanel);

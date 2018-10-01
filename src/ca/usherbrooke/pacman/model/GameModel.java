@@ -5,19 +5,22 @@ import java.io.File;
 import java.io.FileReader;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Queue;
 import java.util.Random;
+import java.util.concurrent.ConcurrentLinkedQueue;
 import com.google.gson.Gson;
 import ca.usherbrooke.pacman.model.exceptions.GameObjectCannotChangeDirectionException;
 import ca.usherbrooke.pacman.model.exceptions.MovementManagerNotFoundException;
 import ca.usherbrooke.pacman.model.random.RandomDirectionGenerator;
 import ca.usherbrooke.pacman.model.sound.Observer;
+import ca.usherbrooke.pacman.threads.PhysicsThread;
 import ca.usherbrooke.pacman.view.utilities.WarningDialog;
 
 public class GameModel implements IGameModel {
-
   private static final int IS_LEVEL_COMPLETED_PERIOD = 20;
   private static final int GHOSTS_DIRECTION_CHANGE_PERIOD = 3;
   private static final int RANDOM_GENERATOR_SEED = 8544574;
+  private static final int JOIN_TIMER = 1000; // ms
 
   private Levels levelsList;
   private int currentGameFrame = 0;
@@ -36,7 +39,10 @@ public class GameModel implements IGameModel {
   IDirectionGenerator randomDirectionGenerator =
       new RandomDirectionGenerator(randomNumberGenerator);
   private List<PeriodicDirectionManager> ghostDirectionManagers;
+  private PhysicsThread physicsThread;
   private int isLevelCompletedUpdatesCounter = 0;
+  private Queue<Level> moveQueue = new ConcurrentLinkedQueue<>();
+  private Queue<GameEvent> eventQueue = new ConcurrentLinkedQueue<>();
 
   public void attach(Observer observer) {
     observers.add(observer);
@@ -80,12 +86,27 @@ public class GameModel implements IGameModel {
     if (!isGameStarted()) {
       initializeLevel();
     }
-    if (pacmanPacgumCollisionManager.isPacgumConsumed()) {
-      consumingPacGums();
-    } else {
-      movingToEmptySpace();
+
+    moveQueue.add(getCurrentLevel());
+
+    synchronized (eventQueue) {
+      while (!eventQueue.isEmpty()) {
+        GameEvent gameEvent = eventQueue.poll();
+        if (gameEvent == GameEvent.PACGUM_CONSUMED) {
+          pacmanPacgumCollisionManager.update();
+          consumingPacGums();
+        } else {
+          movingToEmptySpace();
+        }
+        if (gameEvent == GameEvent.SUPER_PACGUM_CONSUMED) {
+          pacmanSuperPacgumCollisionManager.update();
+        }
+        if (gameEvent == GameEvent.PACMAN_GHOST_COLLISON) {
+          // TODO: Ajouter la gestion de la collison ici.
+        }
+      }
     }
-    pacmanSuperPacgumCollisionManager.update();
+
     updateGameObjectsPosition();
   }
 
@@ -97,6 +118,7 @@ public class GameModel implements IGameModel {
   }
 
   private void updateIsLevelCompleted() {
+    stopPhysicsThread();
     ++isLevelCompletedUpdatesCounter;
     if (isLevelCompletedUpdatesCounter != IS_LEVEL_COMPLETED_PERIOD) {
       return;
@@ -121,15 +143,19 @@ public class GameModel implements IGameModel {
     IMoveValidator ghostMoveValidator = new GhostMoveValidator(level);
     pacman = level.getPacMan();
     pacmanMovementManager = new MovementManager(pacman, pacmanMoveValidator);
-    ghostMovementManagers = new ArrayList<MovementManager>();
-    ghostDirectionManagers = new ArrayList<PeriodicDirectionManager>();
+    ghostMovementManagers = new ArrayList<>();
+    ghostDirectionManagers = new ArrayList<>();
     for (Ghost ghost : level.getGhosts()) {
       ghostDirectionManagers.add(new PeriodicDirectionManager(this, randomDirectionGenerator, ghost,
           GHOSTS_DIRECTION_CHANGE_PERIOD));
       ghostMovementManagers.add(new MovementManager(ghost, ghostMoveValidator));
     }
-    pacmanPacgumCollisionManager = new PacmanPacgumCollisionManager(pacman, level);
-    pacmanSuperPacgumCollisionManager = new PacmanSuperPacgumCollisionManager(pacman, level);
+    pacmanPacgumCollisionManager = new PacmanPacgumCollisionManager(level);
+    pacmanSuperPacgumCollisionManager = new PacmanSuperPacgumCollisionManager(level);
+
+    physicsThread = new PhysicsThread(moveQueue, eventQueue);
+    physicsThread.start();
+
     isGameStarted = true;
   }
 
@@ -183,6 +209,7 @@ public class GameModel implements IGameModel {
 
   @Override
   public void quit() {
+    stopPhysicsThread();
     setRunning(false);
   }
 
@@ -262,6 +289,19 @@ public class GameModel implements IGameModel {
   @Override
   public boolean isGameCompleted() {
     return levelsList.isGameCompleted();
+  }
+
+  public void stopPhysicsThread() {
+    try {
+      physicsThread.stopThread();
+      physicsThread.join(JOIN_TIMER);
+      if (physicsThread.isAlive()) {
+        throw new InterruptedException();
+      }
+    } catch (InterruptedException exception) {
+      physicsThread.interrupt();
+      WarningDialog.display("Error stoping physicsThread. ", exception);
+    }
   }
 
 }

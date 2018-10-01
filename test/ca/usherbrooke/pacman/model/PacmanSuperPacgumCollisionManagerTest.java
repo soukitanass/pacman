@@ -35,6 +35,7 @@ public class PacmanSuperPacgumCollisionManagerTest {
 
   private void initializeSuperPacgumCollisionManager(List<List<Integer>> map) {
     level.setMap(map);
-    pacmanSuperPacgumCollisionManager = new PacmanSuperPacgumCollisionManager(pacman, level);
+    level.setPacMan(pacman);
+    pacmanSuperPacgumCollisionManager = new PacmanSuperPacgumCollisionManager(level);
   }
 }

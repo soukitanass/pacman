@@ -48,4 +48,6 @@ public interface IGameModel {
   int getCurrentLevelIndex();
 
   boolean isGameCompleted();
+  
+  void stopPhysicsThread();
 }

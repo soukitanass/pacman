@@ -13,9 +13,6 @@ import ca.usherbrooke.pacman.view.GameView;
 import ca.usherbrooke.pacman.view.IGameView;
 
 public class Game implements IGame {
-  private static final int GHOSTS_DIRECTION_CHANGE_PERIOD = 3;
-
-  private static final int RANDOM_GENERATOR_SEED = 8544574;
 
   private static final int GHOST_SPRITE_TOGGLE_PERIOD = 10;
   private static final int PACMAN_SPRITE_TOGGLE_PERIOD = 2;
@@ -27,6 +24,7 @@ public class Game implements IGame {
   private IGameModel model;
   private IGameView view;
   private List<IGameController> controllers;
+
 
   public Game(IGameModel model, IGameView view, List<IGameController> controllers,
       long modelUpdatePeriod, long viewUpdatePeriod, long initialTime) {
@@ -44,7 +42,7 @@ public class Game implements IGame {
     IGameModel model = new GameModel();
     model.loadLevels(LEVELS_PATH);
     IGameView view = new GameView(model, GHOST_SPRITE_TOGGLE_PERIOD, PACMAN_SPRITE_TOGGLE_PERIOD);
-    List<IGameController> controllers = new ArrayList<IGameController>();
+    List<IGameController> controllers = new ArrayList<>();
     PlayerKeyboardController playerKeyboardController = new PlayerKeyboardController(model, view);
     controllers.add(playerKeyboardController);
     final int gameUpdatesPerSecond = 7;
@@ -58,6 +56,7 @@ public class Game implements IGame {
     view.addKeyListener(playerKeyboardController);
     view.addKeyListener(soundController);
     game.setRunning(true);
+
     while (game.isRunning()) {
       game.update(System.currentTimeMillis());
     }
