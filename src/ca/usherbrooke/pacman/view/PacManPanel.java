@@ -31,8 +31,8 @@ public class PacManPanel extends JPanel {
     pacmanSpritePeriodicToggler.update();
     try {
       drawPacman(graphic, model.getPacman());
-    } catch (InvalidDirectionException | InvalidStateException exception) {
-      WarningDialog.display("Error while painting pacman. ", exception);
+    } catch (InvalidDirectionException | InvalidStateException e) {
+      WarningDialog.display("Could not draw pacman", e);;
     }
   }
 
