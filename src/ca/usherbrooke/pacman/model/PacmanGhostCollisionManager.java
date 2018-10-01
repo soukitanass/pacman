@@ -4,8 +4,8 @@ public class PacmanGhostCollisionManager {
   private final PacMan pacman;
   private final Level level;
 
-  public PacmanGhostCollisionManager(PacMan pacman, Level level) {
-    this.pacman = pacman;
+  public PacmanGhostCollisionManager( Level level) {
+    this.pacman = level.getPacMan();
     this.level = level;
   }
 

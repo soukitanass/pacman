@@ -42,7 +42,6 @@ public class GameModel implements IGameModel {
   IDirectionGenerator randomDirectionGenerator =
       new RandomDirectionGenerator(randomNumberGenerator);
   private List<PeriodicDirectionManager> ghostDirectionManagers;
-  private PhysicsThread physicsThread;
   private int isLevelCompletedUpdatesCounter = 0;
   private Queue<Level> moveQueue = new ConcurrentLinkedQueue<>();
   private Queue<GameEvent> eventQueue = new ConcurrentLinkedQueue<>();
@@ -106,7 +105,7 @@ public class GameModel implements IGameModel {
           pacmanSuperPacgumCollisionManager.update();
         }
         if (gameEvent == GameEvent.PACMAN_GHOST_COLLISON) {
-          // TODO: Ajouter la gestion de la collison ici.
+          pacmanGhostCollisionManager.update();
         }
       }
     }
@@ -159,6 +158,7 @@ public class GameModel implements IGameModel {
 
     pacmanPacgumCollisionManager = new PacmanPacgumCollisionManager(level);
     pacmanSuperPacgumCollisionManager = new PacmanSuperPacgumCollisionManager(level);
+    pacmanGhostCollisionManager = new PacmanGhostCollisionManager(level);
 
     physicsThread = new PhysicsThread(moveQueue, eventQueue);
     physicsThread.start();

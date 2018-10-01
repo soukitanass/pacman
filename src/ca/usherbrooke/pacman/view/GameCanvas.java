@@ -25,7 +25,7 @@ public class GameCanvas extends JPanel {
   private static final int FRAME_WIDTH = 600;
   private static final int FRAME_HEIGHT = 800;
   private static final String GAME_TITLE = "Pac-Man";
-  private static final String pauseText = "PAUSE";
+  private static final String PAUSE_TEXT = "PAUSE";
   private final String gameOverText = "GAMEOVER";
 
 
