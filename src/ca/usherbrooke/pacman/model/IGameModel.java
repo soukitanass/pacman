@@ -53,6 +53,10 @@ public interface IGameModel {
 
   boolean isGameCompleted();
 
+  GameState getGameState();
+
+  void setGameState(GameState gameState);
+
   void stopPhysicsThread();
 
   void consumingGhost();

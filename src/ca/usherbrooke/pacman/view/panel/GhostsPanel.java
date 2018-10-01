@@ -1,4 +1,4 @@
-package ca.usherbrooke.pacman.view;
+package ca.usherbrooke.pacman.view.panel;
 
 import java.awt.Graphics;
 import java.awt.Image;
@@ -11,6 +11,10 @@ import ca.usherbrooke.pacman.model.IGameModel;
 import ca.usherbrooke.pacman.model.exceptions.InvalidColorException;
 import ca.usherbrooke.pacman.model.exceptions.InvalidDirectionException;
 import ca.usherbrooke.pacman.model.exceptions.InvalidStateException;
+import ca.usherbrooke.pacman.view.Color;
+import ca.usherbrooke.pacman.view.GhostSpriteToggler;
+import ca.usherbrooke.pacman.view.GhostState;
+import ca.usherbrooke.pacman.view.SpriteFacade;
 import ca.usherbrooke.pacman.view.utilities.WarningDialog;
 
 @SuppressWarnings({"serial", "squid:S1948"})

@@ -5,6 +5,7 @@ import static java.awt.event.KeyEvent.VK_Q;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import ca.usherbrooke.pacman.model.Direction;
+import ca.usherbrooke.pacman.model.GameState;
 import ca.usherbrooke.pacman.model.IGameModel;
 import ca.usherbrooke.pacman.model.exceptions.GameObjectCannotChangeDirectionException;
 import ca.usherbrooke.pacman.view.IGameView;
@@ -13,11 +14,9 @@ import ca.usherbrooke.pacman.view.utilities.WarningDialog;
 public class PlayerKeyboardController implements IGameController, KeyListener {
   private static final String DIRECTION_ERROR_MSG = "Failed to set pacman's direction";
   private final IGameModel model;
-  private final IGameView view;
 
   public PlayerKeyboardController(IGameModel model, IGameView view) {
     this.model = model;
-    this.view = view;
     view.getCanvas().setPausePanel();
   }
 
@@ -32,7 +31,6 @@ public class PlayerKeyboardController implements IGameController, KeyListener {
   }
 
   @Override
-
   public void keyPressed(KeyEvent keyEvent) {
     switch (keyEvent.getKeyCode()) {
       case VK_P:
@@ -68,6 +66,10 @@ public class PlayerKeyboardController implements IGameController, KeyListener {
         } catch (GameObjectCannotChangeDirectionException e) {
           WarningDialog.display(DIRECTION_ERROR_MSG, e);
         }
+        break;
+      case KeyEvent.VK_ESCAPE:
+        model.pause();
+        model.setGameState(GameState.GAME_MENU);
         break;
       default:
         break;

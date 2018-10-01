@@ -1,10 +1,12 @@
-package ca.usherbrooke.pacman.view;
+package ca.usherbrooke.pacman.view.panel;
 
 import java.awt.Graphics;
 import java.awt.Image;
 import java.awt.image.BufferedImage;
 import javax.swing.JPanel;
 import ca.usherbrooke.pacman.model.IGameModel;
+import ca.usherbrooke.pacman.view.Color;
+import ca.usherbrooke.pacman.view.SpriteFacade;
 import ca.usherbrooke.pacman.view.utilities.WarningDialog;
 
 @SuppressWarnings({"serial", "squid:S1948"})
