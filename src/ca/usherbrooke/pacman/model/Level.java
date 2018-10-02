@@ -35,7 +35,6 @@ public class Level {
   @SerializedName("map")
   @Expose
   private List<List<Integer>> map = null;
-
   private int lives = 3;
 
   public int getLives() {

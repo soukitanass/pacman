@@ -118,7 +118,7 @@ public class GameCanvas extends JPanel {
       setPausePanel();
       pausePanel.setPixelTileSize(pixelTileSize);
       pausePanel.setOffsetX(getOffsetX());
-      pausePanel.setOffsetY(getOffsetXPausePanel());
+      pausePanel.setOffsetY(getOffsetYPausePanel());
       pausePanel.setBounds(0, 0, window.getWidth(), window.getHeight());
       pausePanel.paint(graphic);
     } else {

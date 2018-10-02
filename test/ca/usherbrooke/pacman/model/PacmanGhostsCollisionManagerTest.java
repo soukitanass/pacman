@@ -21,24 +21,27 @@ public class PacmanGhostsCollisionManagerTest {
   @Test
   public void pacmanGhostCollisionManagerLivesTest() {
     initializeGhostsList();
-
+    int actualValue;
     ghost.setPosition(new Position(0, 0));
     level.getGhosts().add(ghost);
     level.getPacMan().setPosition(new Position(0, 0));
     pacmanGhostCollisionManager.update();
-    assertEquals(Integer.valueOf(2), level.getLives());
-    
+    actualValue = 2;
+    assertEquals(actualValue, level.getLives());
+
     ghost.setPosition(new Position(0, 1));
     level.getGhosts().add(ghost);
     level.getPacMan().setPosition(new Position(0, 1));
     pacmanGhostCollisionManager.update();
-    assertEquals(Integer.valueOf(1), level.getLives());
+    actualValue = 1;
+    assertEquals(actualValue, level.getLives());
 
     ghost.setPosition(new Position(1, 0));
     level.getGhosts().add(ghost);
     level.getPacMan().setPosition(new Position(1, 0));
     pacmanGhostCollisionManager.update();
-    assertEquals(Integer.valueOf(0), level.getLives());
+    actualValue = 0;
+    assertEquals(actualValue, level.getLives());
 
   }
 
