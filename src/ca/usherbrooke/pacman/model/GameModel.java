@@ -66,6 +66,13 @@ public class GameModel implements IGameModel {
   }
 
   @Override
+  public void consumingGhost() {
+    for (Observer observer : observers) {
+      observer.consumingGhost();
+    }
+  }
+
+  @Override
   public void movingToEmptySpace() {
     for (Observer observer : observers) {
       observer.movingToEmptySpace();
@@ -106,6 +113,7 @@ public class GameModel implements IGameModel {
         }
         if (gameEvent == GameEvent.PACMAN_GHOST_COLLISON) {
           pacmanGhostCollisionManager.update();
+          consumingGhost();
         }
       }
     }
