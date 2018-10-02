@@ -18,6 +18,10 @@ public class PacMan implements IGameObject {
     setDirection(Direction.LEFT);
   }
 
+  public PacMan(Position position) {
+    this.position = position;
+  }
+
   public Integer getId() {
     return id;
   }

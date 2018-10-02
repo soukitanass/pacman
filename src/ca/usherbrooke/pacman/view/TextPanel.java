@@ -10,8 +10,8 @@ import ca.usherbrooke.pacman.view.utilities.WarningDialog;
 @SuppressWarnings({"serial", "squid:S1948"})
 public class TextPanel extends JPanel {
 
-  public static final int PANEL_WIDTH_IN_SCORE_TILES = 25;
-  public static final double RATIO_LEVEL_HEIGHT_TO_TOTAL_HEIGHT = 0.9;
+  public static final int PANEL_WIDTH_IN_SCORE_TILES = 30;
+  public static final double RATIO_LEVEL_HEIGHT_TO_TOTAL_HEIGHT = 0.7;
   private IGameModel model;
   private int pixelTileSize = 25;
   private int levelNumber = 0;
@@ -19,7 +19,9 @@ public class TextPanel extends JPanel {
   private Color color;
   private SpriteFacade spriteFacade = new SpriteFacade();
   private static final int PANEL_X = 220;
-  private static final int PANEL_Y = 375;
+  private static final int PANEL_Y = 445;
+  private int offsetX = 0;
+  private int offsetY = 0;
 
   public void setPixelTileSize(int pixelTileSize) {
     this.pixelTileSize = pixelTileSize;
@@ -56,8 +58,8 @@ public class TextPanel extends JPanel {
       } catch (Exception exception) {
         WarningDialog.display("Error while painting the panel. ", exception);
       }
-      int x = i * getScoreTileSizePixels();
-      drawSpirite(image, graphic, PANEL_X + x, PANEL_Y, getScoreTileSizePixels(),
+      int x = i * getScoreTileSizePixels() + offsetX;
+      drawSpirite(image, graphic, PANEL_X + x, PANEL_Y + offsetY, getScoreTileSizePixels(),
           getScoreTileSizePixels());
     }
   }
@@ -94,6 +96,14 @@ public class TextPanel extends JPanel {
 
   public int getHeightTiles() {
     return (int) (model.getCurrentLevel().getHeight() / RATIO_LEVEL_HEIGHT_TO_TOTAL_HEIGHT);
+  }
+
+  public void setOffsetX(int offsetX) {
+    this.offsetX = offsetX;
+  }
+
+  public void setOffsetY(int offsetY) {
+    this.offsetY = offsetY;
   }
 
 }

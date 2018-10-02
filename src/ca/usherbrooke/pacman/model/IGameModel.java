@@ -47,7 +47,14 @@ public interface IGameModel {
 
   int getCurrentLevelIndex();
 
+  public void setGameOver();
+
+  public boolean isGameOver();
+
   boolean isGameCompleted();
-  
+
   void stopPhysicsThread();
+
+  void consumingGhost();
+
 }

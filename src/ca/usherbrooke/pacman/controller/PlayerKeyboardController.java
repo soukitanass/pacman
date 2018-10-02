@@ -32,6 +32,7 @@ public class PlayerKeyboardController implements IGameController, KeyListener {
   }
 
   @Override
+
   public void keyPressed(KeyEvent keyEvent) {
     switch (keyEvent.getKeyCode()) {
       case VK_P:

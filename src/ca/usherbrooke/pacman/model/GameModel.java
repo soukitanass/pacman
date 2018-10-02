@@ -28,21 +28,24 @@ public class GameModel implements IGameModel {
   private boolean isPaused;
   private boolean isRunning;
   private boolean isLevelCompleted;
+  private boolean isGameOver;
   private MovementManager pacmanMovementManager;
   private List<MovementManager> ghostMovementManagers;
+  private PacmanGhostCollisionManager pacmanGhostCollisionManager;
   private boolean isGameStarted = false;
   private PacMan pacman;
   private PacmanPacgumCollisionManager pacmanPacgumCollisionManager;
   private PacmanSuperPacgumCollisionManager pacmanSuperPacgumCollisionManager;
   private List<Observer> observers = new ArrayList<>();
+  private static PhysicsThread physicsThread;
   Random randomNumberGenerator = new Random(RANDOM_GENERATOR_SEED);
   IDirectionGenerator randomDirectionGenerator =
       new RandomDirectionGenerator(randomNumberGenerator);
   private List<PeriodicDirectionManager> ghostDirectionManagers;
-  private PhysicsThread physicsThread;
   private int isLevelCompletedUpdatesCounter = 0;
   private Queue<Level> moveQueue = new ConcurrentLinkedQueue<>();
   private Queue<GameEvent> eventQueue = new ConcurrentLinkedQueue<>();
+
 
   public void attach(Observer observer) {
     observers.add(observer);
@@ -63,6 +66,13 @@ public class GameModel implements IGameModel {
   }
 
   @Override
+  public void consumingGhost() {
+    for (Observer observer : observers) {
+      observer.consumingGhost();
+    }
+  }
+
+  @Override
   public void movingToEmptySpace() {
     for (Observer observer : observers) {
       observer.movingToEmptySpace();
@@ -71,7 +81,7 @@ public class GameModel implements IGameModel {
 
   @Override
   public void update() {
-    if (isPaused() || isGameCompleted()) {
+    if (isPaused() || isGameCompleted() || isGameOver()) {
       onLevelCompleted();
       return;
     }
@@ -102,7 +112,8 @@ public class GameModel implements IGameModel {
           pacmanSuperPacgumCollisionManager.update();
         }
         if (gameEvent == GameEvent.PACMAN_GHOST_COLLISON) {
-          // TODO: Ajouter la gestion de la collison ici.
+          pacmanGhostCollisionManager.update();
+          consumingGhost();
         }
       }
     }
@@ -143,20 +154,26 @@ public class GameModel implements IGameModel {
     IMoveValidator ghostMoveValidator = new GhostMoveValidator(level);
     pacman = level.getPacMan();
     pacmanMovementManager = new MovementManager(pacman, pacmanMoveValidator);
+
     ghostMovementManagers = new ArrayList<>();
     ghostDirectionManagers = new ArrayList<>();
+
     for (Ghost ghost : level.getGhosts()) {
       ghostDirectionManagers.add(new PeriodicDirectionManager(this, randomDirectionGenerator, ghost,
           GHOSTS_DIRECTION_CHANGE_PERIOD));
       ghostMovementManagers.add(new MovementManager(ghost, ghostMoveValidator));
     }
+
     pacmanPacgumCollisionManager = new PacmanPacgumCollisionManager(level);
     pacmanSuperPacgumCollisionManager = new PacmanSuperPacgumCollisionManager(level);
+    pacmanGhostCollisionManager = new PacmanGhostCollisionManager(level);
 
     physicsThread = new PhysicsThread(moveQueue, eventQueue);
     physicsThread.start();
 
+
     isGameStarted = true;
+    isGameOver = false;
   }
 
   private boolean isGameStarted() {
@@ -284,6 +301,15 @@ public class GameModel implements IGameModel {
     }
     throw new MovementManagerNotFoundException(
         "Could not find a movement manager for the given game object");
+  }
+
+
+  public boolean isGameOver() {
+    return isGameOver;
+  }
+
+  public void setGameOver() {
+    isGameOver = true;
   }
 
   @Override

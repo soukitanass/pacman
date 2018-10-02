@@ -35,6 +35,15 @@ public class Level {
   @SerializedName("map")
   @Expose
   private List<List<Integer>> map = null;
+  private int lives = 3;
+
+  public int getLives() {
+    return lives;
+  }
+
+  public void setLives(int lives) {
+    this.lives = lives;
+  }
 
   public Integer getId() {
     return id;
@@ -147,4 +156,5 @@ public class Level {
     }
     return true;
   }
+
 }

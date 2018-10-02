@@ -9,6 +9,7 @@ public class PacmanPacgumCollisionManager {
     this.level = level;
   }
 
+
   public void update() {
     Position position = level.getPacMan().getPosition();
     level.setScore(level.getScore() + POINT);
