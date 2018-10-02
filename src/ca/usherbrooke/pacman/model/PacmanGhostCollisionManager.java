@@ -6,22 +6,23 @@ import java.util.List;
 public class PacmanGhostCollisionManager {
   private final PacMan pacman;
   private final Level level;
-  private IGameModel model = new GameModel();
-  private static final String LEVELS_PATH = "Levels.json";
+  private final Level initialLevel;
   private List<Position> listPositions;
+  private Position pacmanInitialPosition;
 
-  public PacmanGhostCollisionManager(Level level) {
-    model.loadLevels(LEVELS_PATH);
-    listPositions = new ArrayList<>();
+  public PacmanGhostCollisionManager(Level level, Level initialLevel) {
+    listPositions = new ArrayList<Position>();
     this.pacman = level.getPacMan();
     this.level = level;
+    this.initialLevel = initialLevel;
+    loadGhostInitialPosition();
+    loadPacmanInitialPosition();
   }
 
   public void update() {
     level.setLives(level.getLives() - 1);
-    pacman.setPosition(loadPacmanInitialPosition());
+    pacman.setPosition(pacmanInitialPosition);
     pacman.setDirection(Direction.LEFT);
-    loadGhostInitialPosition();
     int i = 0;
     for (Ghost ghost : level.getGhosts()) {
       ghost.setPosition(listPositions.get(i));
@@ -29,13 +30,12 @@ public class PacmanGhostCollisionManager {
     }
   }
 
-  private Position loadPacmanInitialPosition() {
-    PacMan pacmanCurrentLevel = model.getCurrentLevel().getPacMan();
-    return pacmanCurrentLevel.getPosition();
+  private void loadPacmanInitialPosition() {
+    this.pacmanInitialPosition = initialLevel.getPacMan().getPosition();
   }
 
   private List<Position> loadGhostInitialPosition() {
-    for (Ghost ghost : model.getCurrentLevel().getGhosts()) {
+    for (Ghost ghost : initialLevel.getGhosts()) {
       listPositions.add(ghost.getPosition());
     }
     return listPositions;
