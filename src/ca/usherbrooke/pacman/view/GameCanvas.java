@@ -26,7 +26,7 @@ public class GameCanvas extends JPanel {
   private static final int FRAME_HEIGHT = 800;
   private static final String GAME_TITLE = "Pac-Man";
   private static final String PAUSE_TEXT = "PAUSE";
-  private final String gameOverText = "GAMEOVER";
+  private static final String GAMEOVER_TEXT = "GAMEOVER";
 
 
 
@@ -200,7 +200,7 @@ public class GameCanvas extends JPanel {
   }
 
   public void setGameOverPanel() {
-    gameOverPanel = new TextPanel(model, ca.usherbrooke.pacman.view.Color.YELLOW, gameOverText);
+    gameOverPanel = new TextPanel(model, ca.usherbrooke.pacman.view.Color.YELLOW, GAMEOVER_TEXT);
     gameOverPanel.setBackground(new Color(0, 0, 0, 80));
     gameOverPanel.setOpaque(true);
     layeredPane.add(gameOverPanel, Integer.valueOf(1));
