@@ -45,6 +45,7 @@ public class GameModel implements IGameModel {
   private int isLevelCompletedUpdatesCounter = 0;
   private Queue<Level> moveQueue = new ConcurrentLinkedQueue<>();
   private Queue<GameEvent> eventQueue = new ConcurrentLinkedQueue<>();
+  private Level initialLevel;
 
 
   public void attach(Observer observer) {
@@ -166,7 +167,7 @@ public class GameModel implements IGameModel {
 
     pacmanPacgumCollisionManager = new PacmanPacgumCollisionManager(level);
     pacmanSuperPacgumCollisionManager = new PacmanSuperPacgumCollisionManager(level);
-    pacmanGhostCollisionManager = new PacmanGhostCollisionManager(level);
+    pacmanGhostCollisionManager = new PacmanGhostCollisionManager(level, initialLevel);
 
     physicsThread = new PhysicsThread(moveQueue, eventQueue);
     physicsThread.start();
@@ -253,6 +254,7 @@ public class GameModel implements IGameModel {
     try (FileReader fileReader = new FileReader(file)) {
       this.levelsList = gson.fromJson(new BufferedReader(fileReader), Levels.class);
       this.pacman = getCurrentLevel().getPacMan();
+      this.initialLevel = getCurrentLevel();
     } catch (Exception exception) {
       WarningDialog.display("Error while opening level file. ", exception);
     }
