@@ -48,10 +48,13 @@ public class PacmanGhostsCollisionManagerTest {
 
   private void initializeGhostsList() {
     List<Ghost> ghosts = new ArrayList<Ghost>();
+    IGameModel model = new GameModel();
+    String levelsPath = "Levels.json";
+    model.loadLevels(levelsPath );
     level.setGhost(ghosts);
     level.setPacMan(new PacMan(new Position(0, 0)));
     ghost.setPosition(new Position(0, 0));
     level.getGhosts().add(ghost);
-    pacmanGhostCollisionManager = new PacmanGhostCollisionManager(level, level);
+    pacmanGhostCollisionManager = new PacmanGhostCollisionManager(level, model.getCurrentLevel());
   }
 }
