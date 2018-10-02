@@ -16,23 +16,19 @@ public class ImageUtilitiesTest {
 
   @Test
   public void resizeImageTest() throws InvalidLetterException, InvalidColorException {
-    // Assign
     SpriteFacade spriteFacade = new SpriteFacade();
     BufferedImage image = spriteFacade.getLetter('a', Color.WHITE);
 
-    // Act
     final int newWidth = 200;
     final int newHeight = 200;
     BufferedImage resizedImage = utilities.resize(image, newHeight, newWidth);
 
-    // Assert
     assertEquals(resizedImage.getWidth(), 200);
     assertEquals(resizedImage.getHeight(), 200);
   }
 
   @Test
   public void joinImagesTest() throws InvalidLetterException, InvalidColorException {
-    // Assign
     SpriteFacade spriteFacade = new SpriteFacade();
     BufferedImage image1 = spriteFacade.getLetter('a', Color.WHITE);
     BufferedImage image2 = spriteFacade.getLetter('b', Color.WHITE);
@@ -41,15 +37,13 @@ public class ImageUtilitiesTest {
     images.add(image1);
     images.add(image2);
 
-    // Act
     BufferedImage image = utilities.joinImages(images);
     BufferedImage subimage1 = image.getSubimage(0, 0, image1.getWidth(), image1.getHeight());
     BufferedImage subimage2 =
         image.getSubimage(image1.getWidth(), 0, image2.getWidth(), image2.getHeight());
 
-    // Assert
-    assertEquals(image.getHeight(), image1.getHeight());
-    assertEquals(image.getWidth(), image1.getWidth() + image2.getWidth());
+    assertEquals(16, image.getHeight());
+    assertEquals(32, image.getWidth());
     compareImage(image1, subimage1);
     compareImage(image2, subimage2);
   }

@@ -13,5 +13,5 @@ public abstract class Observer {
 
   public abstract void movingToEmptySpace();
 
-  public abstract void onLevelCompleted();
+  public abstract void onGameInterruption();
 }

@@ -11,7 +11,7 @@ import ca.usherbrooke.pacman.model.IGameModel;
 @SuppressWarnings("serial")
 public class GameMenuPanel extends AbstractMenuPanel {
 
-  private static int Y_OFFSET = 400;
+  private static double Y_OFFSET_FACTOR = 0.6;
   private static String START_GAME_LABEL = "START GAME";
   private static String PAUSE_GAME_LABEL = "RESUME GAME";
   private static String AUDIO_LABEL = "AUDIO";
@@ -39,26 +39,35 @@ public class GameMenuPanel extends AbstractMenuPanel {
   public void paint(Graphics graphic) {
     super.paint(graphic);
 
-    // Start Game:
-    int y = Y_OFFSET;
+    int y = (int) (model.getCurrentLevel().getHeight() * pixelTileSize * Y_OFFSET_FACTOR);
+    paintStartGameOption(y);
+    y += startGameMenuOption.getHeight() + DELTA_Y;
+    paintAudioOption(y);
+    y += audioMenuOption.getHeight() + DELTA_Y;
+    paintFpsOption(y);
+    y += fpsMenuOption.getHeight() + DELTA_Y;
+    paintExitGameOption(y);
+  }
+
+  private void paintStartGameOption(int y) {
     if (model.isPaused()) {
       setJLabel(startGameMenuOption, PAUSE_GAME_LABEL, y, IMAGE_SCALE_FACTOR);
     } else {
       setJLabel(startGameMenuOption, START_GAME_LABEL, y, IMAGE_SCALE_FACTOR);
     }
+  }
 
-    // Audio:
-    y += startGameMenuOption.getHeight() + DELTA_Y;
+  private void paintAudioOption(int y) {
     setJLabel(audioMenuOption, AUDIO_LABEL, y, IMAGE_SCALE_FACTOR);
+  }
 
-    // FPS:
-    y += audioMenuOption.getHeight() + DELTA_Y;
+  private void paintFpsOption(int y) {
     setJLabel(fpsMenuOption, FPS_LABEL, y, IMAGE_SCALE_FACTOR);
     final int x = fpsMenuOption.getX() + fpsMenuOption.getWidth() + CHECKBOX_X_OFFSET;
     setJCheckBox(fpsCheckBox, x, y);
+  }
 
-    // Exit Game:
-    y += fpsMenuOption.getHeight() + DELTA_Y;
+  private void paintExitGameOption(int y) {
     setJLabel(exitGameMenuOption, EXIT_GAME_LABEL, y, IMAGE_SCALE_FACTOR);
   }
 
@@ -66,7 +75,6 @@ public class GameMenuPanel extends AbstractMenuPanel {
     startGameMenuOption.addMouseListener(new MouseAdapter() {
       public void mouseClicked(MouseEvent e) {
         model.setGameState(GameState.GAME);
-        model.unpause();
       }
     });
 

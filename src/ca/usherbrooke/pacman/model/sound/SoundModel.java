@@ -43,7 +43,7 @@ public class SoundModel extends Observer implements ISoundModel {
   }
 
   @Override
-  public void onLevelCompleted() {
+  public void onGameInterruption() {
     actionSoundPlayer.stop();
     backgroundSoundPlayer.stop();
   }

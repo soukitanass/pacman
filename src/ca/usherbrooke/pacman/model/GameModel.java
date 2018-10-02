@@ -57,9 +57,9 @@ public class GameModel implements IGameModel {
   }
 
   @Override
-  public void onLevelCompleted() {
+  public void onInterruption() {
     for (Observer observer : observers) {
-      observer.onLevelCompleted();
+      observer.onGameInterruption();
     }
   }
 
@@ -89,13 +89,13 @@ public class GameModel implements IGameModel {
     boolean isGameInProgress =
         !isPaused() && !isGameCompleted() && !isGameOver() && gameState == GameState.GAME;
     if (!isGameInProgress) {
-      onLevelCompleted();
+      onInterruption();
       return;
     }
     Level level = getCurrentLevel();
     if (level.isCompleted()) {
       isLevelCompleted = true;
-      onLevelCompleted();
+      onInterruption();
       updateIsLevelCompleted();
       return;
     }

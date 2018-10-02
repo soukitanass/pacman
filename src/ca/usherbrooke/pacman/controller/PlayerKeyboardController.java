@@ -69,6 +69,7 @@ public class PlayerKeyboardController implements IGameController, KeyListener {
         break;
       case KeyEvent.VK_ESCAPE:
         model.pause();
+        model.setManuallyPaused(true);
         model.setGameState(GameState.GAME_MENU);
         break;
       default:

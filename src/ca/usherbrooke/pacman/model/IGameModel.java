@@ -37,7 +37,7 @@ public interface IGameModel {
 
   void attach(Observer observer);
 
-  void onLevelCompleted();
+  void onInterruption();
 
   void consumingPacGums();
 
