@@ -32,7 +32,7 @@ public class PacManPanel extends JPanel {
     try {
       drawPacman(graphic, model.getPacman());
     } catch (InvalidDirectionException | InvalidStateException e) {
-      WarningDialog.display("Could not draw pacman", e);;
+      WarningDialog.display("Could not draw pacman", e);
     }
   }
 

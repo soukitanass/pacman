@@ -10,11 +10,12 @@ import ca.usherbrooke.pacman.model.IGameModel;
 import ca.usherbrooke.pacman.model.Level;
 import ca.usherbrooke.pacman.view.utilities.WarningDialog;
 
-@SuppressWarnings("serial")
+@SuppressWarnings({"serial", "squid:S1948"})
 public class LevelPanel extends JPanel {
 
   public static final int PANEL_WIDTH_IN_SCORE_TILES = 25;
   public static final double RATIO_LEVEL_HEIGHT_TO_TOTAL_HEIGHT = 0.9;
+  private static final String PAINTING_ERROR = "Error while painting the level. ";
   private IGameModel model;
   private int pixelTileSize;
   private String scoreText = "SCORE";
@@ -53,7 +54,7 @@ public class LevelPanel extends JPanel {
             image = spriteFacade.getWall(code);
           }
         } catch (Exception exception) {
-          WarningDialog.display("Error while painting the level. ", exception);
+          WarningDialog.display(PAINTING_ERROR, exception);
         }
         int iPos = j * pixelTileSize;
         int yPos = i * pixelTileSize;
@@ -71,13 +72,13 @@ public class LevelPanel extends JPanel {
 
   private void drawScorePanel(Graphics graphic, int y, Level level) {
     int xPos = 0;
-    drawText(graphic, y, xPos, level, this.scoreText);
+    drawText(graphic, y, xPos, this.scoreText);
 
     xPos = scoreText.length() * getScoreTileSizePixels() + offsetX;
     drawScore(graphic, y, level, xPos);
 
     xPos = xPos + 4 * getScoreTileSizePixels();
-    drawTextLive(graphic, y, xPos, level, this.liveText);
+    drawTextLive(graphic, y, xPos, this.liveText);
 
 
     xPos = xPos + liveText.length() * getScoreTileSizePixels();
@@ -85,7 +86,7 @@ public class LevelPanel extends JPanel {
       model.setGameOver();
       level.setLives(-1);
     }
-    drawLives(graphic, y, xPos, level, level.getLives());
+    drawLives(graphic, y, xPos, level.getLives());
 
   }
 
@@ -120,7 +121,7 @@ public class LevelPanel extends JPanel {
       try {
         image = spriteFacade.getDigit(digit, Color.YELLOW);
       } catch (Exception exception) {
-        WarningDialog.display("Error while painting the panel. ", exception);
+        WarningDialog.display(PAINTING_ERROR, exception);
       }
       pos = i * getScoreTileSizePixels() + x;
       drawLevel(image, graphic, pos, y + offsetY, getScoreTileSizePixels(),
@@ -129,14 +130,14 @@ public class LevelPanel extends JPanel {
 
   }
 
-  public void drawText(Graphics graphic, int y, int x, Level level, String text) {
+  public void drawText(Graphics graphic, int y, int x, String text) {
     int xPos = 0;
     for (int i = 0; i < text.length(); i++) {
       BufferedImage image = null;
       try {
         image = spriteFacade.getLetter((char) text.charAt(i), Color.WHITE);
       } catch (Exception exception) {
-        WarningDialog.display("Error while painting the panel. ", exception);
+        WarningDialog.display(PAINTING_ERROR, exception);
       }
       xPos = i * getScoreTileSizePixels() + offsetX + x;
       drawLevel(image, graphic, xPos, y + offsetY, getScoreTileSizePixels(),
@@ -144,14 +145,14 @@ public class LevelPanel extends JPanel {
     }
   }
 
-  public void drawTextLive(Graphics graphic, int y, int x, Level level, String text) {
+  public void drawTextLive(Graphics graphic, int y, int x, String text) {
     int xPos = 0;
     for (int i = 0; i < text.length(); i++) {
       BufferedImage image = null;
       try {
         image = spriteFacade.getLetter((char) text.charAt(i), Color.WHITE);
       } catch (Exception exception) {
-        WarningDialog.display("Error while painting the panel. ", exception);
+        WarningDialog.display(PAINTING_ERROR, exception);
       }
       xPos = i * getScoreTileSizePixels() + x;
       drawLevel(image, graphic, xPos, y + offsetY, getScoreTileSizePixels(),
@@ -159,7 +160,7 @@ public class LevelPanel extends JPanel {
     }
   }
 
-  public void drawLives(Graphics graphic, int y, int x, Level level, int lives) {
+  public void drawLives(Graphics graphic, int y, int x, int lives) {
 
     for (int i = 0; i < lives; i++) {
       int pos;
@@ -167,7 +168,7 @@ public class LevelPanel extends JPanel {
       try {
         image = spriteFacade.getPacman(Direction.RIGHT, PacManState.STATE2);
       } catch (Exception exception) {
-        WarningDialog.display("Error while painting the panel. ", exception);
+        WarningDialog.display(PAINTING_ERROR, exception);
       }
       pos = i * getScoreTileSizePixels() + x;
       drawLevel(image, graphic, pos, y + offsetY, getScoreTileSizePixels(),

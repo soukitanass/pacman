@@ -28,7 +28,7 @@ public class PhysicsThread extends Thread {
   }
 
   @Override
-
+  @SuppressWarnings("squid:S106")
   public void run() {
     isRunning = true;
     System.out.println("START - " + this.getName());

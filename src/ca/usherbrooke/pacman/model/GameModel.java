@@ -37,7 +37,6 @@ public class GameModel implements IGameModel {
   private PacmanPacgumCollisionManager pacmanPacgumCollisionManager;
   private PacmanSuperPacgumCollisionManager pacmanSuperPacgumCollisionManager;
   private List<Observer> observers = new ArrayList<>();
-  private static PhysicsThread physicsThread;
   Random randomNumberGenerator = new Random(RANDOM_GENERATOR_SEED);
   IDirectionGenerator randomDirectionGenerator =
       new RandomDirectionGenerator(randomNumberGenerator);
@@ -45,8 +44,12 @@ public class GameModel implements IGameModel {
   private int isLevelCompletedUpdatesCounter = 0;
   private Queue<Level> moveQueue = new ConcurrentLinkedQueue<>();
   private Queue<GameEvent> eventQueue = new ConcurrentLinkedQueue<>();
+  private PhysicsThread physicsThread = new PhysicsThread(moveQueue, eventQueue);
   private Level initialLevel;
 
+  public GameModel() {
+    physicsThread.start();
+  }
 
   public void attach(Observer observer) {
     observers.add(observer);
@@ -130,7 +133,6 @@ public class GameModel implements IGameModel {
   }
 
   private void updateIsLevelCompleted() {
-    stopPhysicsThread();
     ++isLevelCompletedUpdatesCounter;
     if (isLevelCompletedUpdatesCounter != IS_LEVEL_COMPLETED_PERIOD) {
       return;
@@ -151,6 +153,7 @@ public class GameModel implements IGameModel {
 
   private void initializeLevel() {
     Level level = getCurrentLevel();
+    this.initialLevel = getCurrentLevel();
     IMoveValidator pacmanMoveValidator = new PacmanMoveValidator(level);
     IMoveValidator ghostMoveValidator = new GhostMoveValidator(level);
     pacman = level.getPacMan();
@@ -168,10 +171,6 @@ public class GameModel implements IGameModel {
     pacmanPacgumCollisionManager = new PacmanPacgumCollisionManager(level);
     pacmanSuperPacgumCollisionManager = new PacmanSuperPacgumCollisionManager(level);
     pacmanGhostCollisionManager = new PacmanGhostCollisionManager(level, initialLevel);
-
-    physicsThread = new PhysicsThread(moveQueue, eventQueue);
-    physicsThread.start();
-
 
     isGameStarted = true;
     isGameOver = false;
@@ -254,7 +253,6 @@ public class GameModel implements IGameModel {
     try (FileReader fileReader = new FileReader(file)) {
       this.levelsList = gson.fromJson(new BufferedReader(fileReader), Levels.class);
       this.pacman = getCurrentLevel().getPacMan();
-      this.initialLevel = getCurrentLevel();
     } catch (Exception exception) {
       WarningDialog.display("Error while opening level file. ", exception);
     }
