@@ -7,12 +7,12 @@ public class PacmanGhostCollisionManager {
   private final PacMan pacman;
   private final Level level;
   private IGameModel model = new GameModel();
-  private final String LEVELS_PATH = "Levels.json";
+  private static final String LEVELS_PATH = "Levels.json";
   private List<Position> listPositions;
 
-  public PacmanGhostCollisionManager( Level level) {
+  public PacmanGhostCollisionManager(Level level) {
     model.loadLevels(LEVELS_PATH);
-    listPositions = new ArrayList<Position>();
+    listPositions = new ArrayList<>();
     this.pacman = level.getPacMan();
     this.level = level;
   }
@@ -28,11 +28,12 @@ public class PacmanGhostCollisionManager {
       i++;
     }
   }
-  
+
   private Position loadPacmanInitialPosition() {
-    PacMan pacman = model.getCurrentLevel().getPacMan();
-    return pacman.getPosition();
+    PacMan pacmanCurrentLevel = model.getCurrentLevel().getPacMan();
+    return pacmanCurrentLevel.getPosition();
   }
+
   private List<Position> loadGhostInitialPosition() {
     for (Ghost ghost : model.getCurrentLevel().getGhosts()) {
       listPositions.add(ghost.getPosition());

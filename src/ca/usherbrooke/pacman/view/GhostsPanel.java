@@ -13,7 +13,7 @@ import ca.usherbrooke.pacman.model.exceptions.InvalidDirectionException;
 import ca.usherbrooke.pacman.model.exceptions.InvalidStateException;
 import ca.usherbrooke.pacman.view.utilities.WarningDialog;
 
-@SuppressWarnings("serial")
+@SuppressWarnings({"serial", "squid:S1948"})
 public class GhostsPanel extends JPanel {
 
   private IGameModel model;
@@ -23,7 +23,7 @@ public class GhostsPanel extends JPanel {
   private int offsetY = 0;
   private GhostSpriteToggler ghostSpritePeriodicToggler;
 
-  private Map<Integer, Color> ghostIdToColor = new HashMap<Integer, Color>();
+  private Map<Integer, Color> ghostIdToColor = new HashMap<>();
 
 
   public GhostsPanel(IGameModel model, int spriteTogglePeriod) {
@@ -47,7 +47,7 @@ public class GhostsPanel extends JPanel {
       try {
         drawGhost(graphics, ghost);
       } catch (InvalidColorException | InvalidDirectionException | InvalidStateException e) {
-        WarningDialog.display("Could not draw ghost", e);;
+        WarningDialog.display("Could not draw ghost", e);
       }
     }
   }
