@@ -153,6 +153,7 @@ public class GameModel implements IGameModel {
 
   private void initializeLevel() {
     Level level = getCurrentLevel();
+    this.initialLevel = getCurrentLevel();
     IMoveValidator pacmanMoveValidator = new PacmanMoveValidator(level);
     IMoveValidator ghostMoveValidator = new GhostMoveValidator(level);
     pacman = level.getPacMan();
@@ -252,7 +253,6 @@ public class GameModel implements IGameModel {
     try (FileReader fileReader = new FileReader(file)) {
       this.levelsList = gson.fromJson(new BufferedReader(fileReader), Levels.class);
       this.pacman = getCurrentLevel().getPacMan();
-      this.initialLevel = getCurrentLevel();
     } catch (Exception exception) {
       WarningDialog.display("Error while opening level file. ", exception);
     }
