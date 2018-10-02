@@ -1,22 +1,20 @@
-package ca.usherbrooke.pacman.view;
+package ca.usherbrooke.pacman.view.panel;
 
 import java.awt.Graphics;
 import java.awt.Image;
-import javax.swing.JPanel;
 import ca.usherbrooke.pacman.model.Direction;
 import ca.usherbrooke.pacman.model.IGameModel;
 import ca.usherbrooke.pacman.model.PacMan;
 import ca.usherbrooke.pacman.model.exceptions.InvalidDirectionException;
 import ca.usherbrooke.pacman.model.exceptions.InvalidStateException;
+import ca.usherbrooke.pacman.view.PacManState;
+import ca.usherbrooke.pacman.view.PacmanSpriteToggler;
+import ca.usherbrooke.pacman.view.SpriteFacade;
 import ca.usherbrooke.pacman.view.utilities.WarningDialog;
 
 @SuppressWarnings({"serial", "squid:S1948"})
-public class PacManPanel extends JPanel {
-
+public class PacManPanel extends AbstractPanel {
   private IGameModel model;
-  private int pixelTileSize;
-  private int offsetX = 0;
-  private int offsetY = 0;
   private PacmanSpriteToggler pacmanSpritePeriodicToggler;
   private SpriteFacade spriteFacade = new SpriteFacade();
 
@@ -47,17 +45,5 @@ public class PacManPanel extends JPanel {
     final int height = pixelTileSize;
     final int tileSize = spriteFacade.getTileSize();
     graphic.drawImage(ghostImage, x, y, x + width, y + height, 0, 0, tileSize, tileSize, null);
-  }
-
-  public void setPixelTileSize(int pixelTileSize) {
-    this.pixelTileSize = pixelTileSize;
-  }
-
-  public void setOffsetX(int offsetX) {
-    this.offsetX = offsetX;
-  }
-
-  public void setOffsetY(int offsetY) {
-    this.offsetY = offsetY;
   }
 }

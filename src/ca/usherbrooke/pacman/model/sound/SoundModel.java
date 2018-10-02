@@ -13,7 +13,6 @@ public class SoundModel extends Observer implements ISoundModel {
   public SoundModel(IGameModel subject) {
     this.subject = subject;
     this.subject.attach(this);
-    playSound(backgroundSoundPlayer, Sound.SIREN, true);
   }
 
   @Override
@@ -44,7 +43,7 @@ public class SoundModel extends Observer implements ISoundModel {
   }
 
   @Override
-  public void onLevelCompleted() {
+  public void onGameInterruption() {
     actionSoundPlayer.stop();
     backgroundSoundPlayer.stop();
   }

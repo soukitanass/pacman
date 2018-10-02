@@ -3,11 +3,13 @@ package ca.usherbrooke.pacman.game;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
 import java.util.ArrayList;
 import java.util.List;
 import org.junit.Before;
 import org.junit.Test;
 import ca.usherbrooke.pacman.controller.IGameController;
+import ca.usherbrooke.pacman.model.GameState;
 import ca.usherbrooke.pacman.model.IGameModel;
 import ca.usherbrooke.pacman.view.IGameView;
 
@@ -29,6 +31,7 @@ public class MainLoopTest {
     controllers.add(mockController);
     game = new Game(mockModel, mockView, controllers, modelUpdatePeriod, viewUpdatePeriod,
         initialTime);
+    when(mockModel.getGameState()).thenReturn(GameState.GAME);
   }
 
   @Test

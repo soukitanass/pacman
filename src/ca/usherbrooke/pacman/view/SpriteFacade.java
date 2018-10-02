@@ -20,6 +20,7 @@ public class SpriteFacade {
   private static final String FILE_NAME = "sprites";
   private static final int TILE_SIZE = 16;
   private static final int TUNNEL_CODE = 325;
+  private static final char SPACE = ' ';
   private Sprite sprite;
 
   public SpriteFacade() {
@@ -166,7 +167,8 @@ public class SpriteFacade {
   @SuppressWarnings("squid:RedundantThrowsDeclarationCheck")
   public BufferedImage getLetter(char letter, Color color)
       throws InvalidLetterException, InvalidColorException {
-    if (letter == ' ') {
+
+    if (letter == SPACE) {
       return sprite.getSprite(0, 0);
     }
 

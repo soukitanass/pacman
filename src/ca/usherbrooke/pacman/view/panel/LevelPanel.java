@@ -1,4 +1,4 @@
-package ca.usherbrooke.pacman.view;
+package ca.usherbrooke.pacman.view.panel;
 
 import java.awt.Graphics;
 import java.awt.Image;
@@ -8,13 +8,16 @@ import javax.swing.JPanel;
 import ca.usherbrooke.pacman.model.Direction;
 import ca.usherbrooke.pacman.model.IGameModel;
 import ca.usherbrooke.pacman.model.Level;
+import ca.usherbrooke.pacman.view.Color;
+import ca.usherbrooke.pacman.view.PacGumState;
+import ca.usherbrooke.pacman.view.PacManState;
+import ca.usherbrooke.pacman.view.SpriteFacade;
 import ca.usherbrooke.pacman.view.utilities.WarningDialog;
 
 @SuppressWarnings({"serial", "squid:S1948"})
 public class LevelPanel extends JPanel {
 
   public static final int PANEL_WIDTH_IN_SCORE_TILES = 25;
-  public static final double RATIO_LEVEL_HEIGHT_TO_TOTAL_HEIGHT = 0.9;
   private static final String PAINTING_ERROR = "Error while painting the level. ";
   private IGameModel model;
   private int pixelTileSize;
@@ -97,10 +100,6 @@ public class LevelPanel extends JPanel {
 
   public int getWidthTiles() {
     return model.getCurrentLevel().getWidth();
-  }
-
-  public int getHeightTiles() {
-    return (int) (model.getCurrentLevel().getHeight() / RATIO_LEVEL_HEIGHT_TO_TOTAL_HEIGHT);
   }
 
   public void setOffsetX(int offsetX) {

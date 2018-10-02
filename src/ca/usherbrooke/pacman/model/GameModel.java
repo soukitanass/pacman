@@ -33,6 +33,7 @@ public class GameModel implements IGameModel {
   private List<MovementManager> ghostMovementManagers;
   private PacmanGhostCollisionManager pacmanGhostCollisionManager;
   private boolean isGameStarted = false;
+  private GameState gameState = GameState.GAME_MENU;
   private PacMan pacman;
   private PacmanPacgumCollisionManager pacmanPacgumCollisionManager;
   private PacmanSuperPacgumCollisionManager pacmanSuperPacgumCollisionManager;
@@ -56,9 +57,9 @@ public class GameModel implements IGameModel {
   }
 
   @Override
-  public void onLevelCompleted() {
+  public void onInterruption() {
     for (Observer observer : observers) {
-      observer.onLevelCompleted();
+      observer.onGameInterruption();
     }
   }
 
@@ -85,19 +86,21 @@ public class GameModel implements IGameModel {
 
   @Override
   public void update() {
-    if (isPaused() || isGameCompleted() || isGameOver()) {
-      onLevelCompleted();
+    boolean isGameInProgress =
+        !isPaused() && !isGameCompleted() && !isGameOver() && gameState == GameState.GAME;
+    if (!isGameInProgress) {
+      onInterruption();
       return;
     }
     Level level = getCurrentLevel();
     if (level.isCompleted()) {
       isLevelCompleted = true;
-      onLevelCompleted();
+      onInterruption();
       updateIsLevelCompleted();
       return;
     }
     ++currentGameFrame;
-    if (!isGameStarted()) {
+    if (!isGameStarted) {
       initializeLevel();
     }
 
@@ -174,10 +177,6 @@ public class GameModel implements IGameModel {
 
     isGameStarted = true;
     isGameOver = false;
-  }
-
-  private boolean isGameStarted() {
-    return isGameStarted;
   }
 
   @Override
@@ -318,6 +317,10 @@ public class GameModel implements IGameModel {
   }
 
   public void stopPhysicsThread() {
+    if (physicsThread == null) {
+      return;
+    }
+
     try {
       physicsThread.stopThread();
       physicsThread.join(JOIN_TIMER);
@@ -328,6 +331,16 @@ public class GameModel implements IGameModel {
       physicsThread.interrupt();
       WarningDialog.display("Error stoping physicsThread. ", exception);
     }
+  }
+
+  @Override
+  public GameState getGameState() {
+    return this.gameState;
+  }
+
+  @Override
+  public void setGameState(GameState gameState) {
+    this.gameState = gameState;
   }
 
 }

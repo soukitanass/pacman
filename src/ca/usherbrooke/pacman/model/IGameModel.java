@@ -37,7 +37,7 @@ public interface IGameModel {
 
   void attach(Observer observer);
 
-  void onLevelCompleted();
+  void onInterruption();
 
   void consumingPacGums();
 
@@ -52,6 +52,10 @@ public interface IGameModel {
   public boolean isGameOver();
 
   boolean isGameCompleted();
+
+  GameState getGameState();
+
+  void setGameState(GameState gameState);
 
   void stopPhysicsThread();
 
