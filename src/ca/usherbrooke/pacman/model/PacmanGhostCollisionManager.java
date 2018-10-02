@@ -11,7 +11,7 @@ public clasws PacmanGhostCollisionManager {
   private Position pacmanInitialPosition;
 
   public PacmanGhostCollisionManager(Level level, Level initialLevel) {
-    listPositions = new ArrayList<Position>();
+    listPositions = new ArrayList<>();
     this.pacman = level.getPacMan();
     this.level = level;
     this.initialLevel = initialLevel;
