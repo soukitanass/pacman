@@ -166,6 +166,10 @@ public class SpriteFacade {
   @SuppressWarnings("squid:RedundantThrowsDeclarationCheck")
   public BufferedImage getLetter(char letter, Color color)
       throws InvalidLetterException, InvalidColorException {
+    if (letter == ' ') {
+      return sprite.getSprite(0, 0);
+    }
+
     int y;
     final int numberOfColumns = 19;
     final int letterPosition = Character.toUpperCase(letter) - 65;

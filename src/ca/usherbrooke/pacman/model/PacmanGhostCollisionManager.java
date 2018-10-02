@@ -3,7 +3,7 @@ package ca.usherbrooke.pacman.model;
 import java.util.ArrayList;
 import java.util.List;
 
-public clasws PacmanGhostCollisionManager {
+public class PacmanGhostCollisionManager {
   private final PacMan pacman;
   private final Level level;
   private final Level initialLevel;
