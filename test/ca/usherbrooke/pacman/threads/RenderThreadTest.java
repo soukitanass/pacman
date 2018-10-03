@@ -1,5 +1,6 @@
 package ca.usherbrooke.pacman.threads;
 
+import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.times;
@@ -55,6 +56,65 @@ public class RenderThreadTest {
     timeGetter.setCurrentTime(9);
     Thread.sleep(WAIT_TIME_MILLISECONDS);
     verify(viewUpdateSpy, times(0)).update();
+  }
+
+  @Test
+  public void fpsIsInitiallyZero() {
+    assertEquals(0, renderThread.getFps());
+  }
+
+  @Test
+  public void fpsIsAverageOfLast5UpdatesWhenPeriodIsConstant() throws InterruptedException {
+    timeGetter.setCurrentTime(10);
+    Thread.sleep(WAIT_TIME_MILLISECONDS);
+    assertEquals(100, renderThread.getFps());
+
+    timeGetter.setCurrentTime(20);
+    Thread.sleep(WAIT_TIME_MILLISECONDS);
+    assertEquals(100, renderThread.getFps());
+
+    timeGetter.setCurrentTime(30);
+    Thread.sleep(WAIT_TIME_MILLISECONDS);
+    assertEquals(100, renderThread.getFps());
+
+    timeGetter.setCurrentTime(40);
+    Thread.sleep(WAIT_TIME_MILLISECONDS);
+    assertEquals(100, renderThread.getFps());
+
+    timeGetter.setCurrentTime(50);
+    Thread.sleep(WAIT_TIME_MILLISECONDS);
+    assertEquals(100, renderThread.getFps());
+
+    timeGetter.setCurrentTime(60);
+    Thread.sleep(WAIT_TIME_MILLISECONDS);
+    assertEquals(100, renderThread.getFps());
+  }
+
+  @Test
+  public void fpsIsAverageOfLast5UpdatesWhenPeriodIsVarying() throws InterruptedException {
+    timeGetter.setCurrentTime(10);
+    Thread.sleep(WAIT_TIME_MILLISECONDS);
+    assertEquals(100, renderThread.getFps());
+
+    timeGetter.setCurrentTime(40);
+    Thread.sleep(WAIT_TIME_MILLISECONDS);
+    assertEquals(50, renderThread.getFps());
+
+    timeGetter.setCurrentTime(50);
+    Thread.sleep(WAIT_TIME_MILLISECONDS);
+    assertEquals(60, renderThread.getFps());
+
+    timeGetter.setCurrentTime(80);
+    Thread.sleep(WAIT_TIME_MILLISECONDS);
+    assertEquals(50, renderThread.getFps());
+
+    timeGetter.setCurrentTime(100);
+    Thread.sleep(WAIT_TIME_MILLISECONDS);
+    assertEquals(50, renderThread.getFps());
+
+    timeGetter.setCurrentTime(135);
+    Thread.sleep(WAIT_TIME_MILLISECONDS);
+    assertEquals(40, renderThread.getFps());
   }
 
 }
