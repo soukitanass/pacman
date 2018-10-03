@@ -23,7 +23,6 @@ public class SoundModel extends Observer implements ISoundModel {
   @Override
   public synchronized void unmute() {
     isMuted = false;
-    System.out.println("haha umuting");
     playSound(backgroundSoundPlayer, Sound.SIREN, true);
   }
 
