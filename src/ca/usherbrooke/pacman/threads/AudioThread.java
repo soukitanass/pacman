@@ -72,7 +72,7 @@ public class AudioThread extends Thread implements CloseObserver {
     return soundVolumeChanged;
   }
 
-  public void setSoundVolumeChanged(int volume) {
+  public synchronized void setSoundVolumeChanged(int volume) {
     this.soundVolumeChanged = true;
     this.soundVolume = volume;
     synchronized (lock) {
@@ -80,11 +80,27 @@ public class AudioThread extends Thread implements CloseObserver {
     }
   }
 
-  private boolean isMusicVolumeChanged() {
+  public synchronized int getSoundVolume() {
+    return soundVolume;
+  }
+
+  public synchronized void setSoundVolume(int soundVolume) {
+    this.soundVolume = soundVolume;
+  }
+
+  public synchronized int getMusicVolume() {
+    return musicVolume;
+  }
+
+  public void setMusicVolume(int musicVolume) {
+    this.musicVolume = musicVolume;
+  }
+
+  public synchronized boolean isMusicVolumeChanged() {
     return musicVolumeChanged;
   }
 
-  public void setMusicVolumeChanged(int volume) {
+  public synchronized void setMusicVolumeChanged(int volume) {
     this.musicVolumeChanged = true;
     this.musicVolume = volume;
     synchronized (lock) {
@@ -92,11 +108,11 @@ public class AudioThread extends Thread implements CloseObserver {
     }
   }
 
-  private boolean isSoundPlay() {
+  public synchronized boolean isSoundPlay() {
     return soundPlay;
   }
 
-  public void setSoundPlay(boolean isMuted) {
+  public synchronized void setSoundPlay(boolean isMuted) {
     this.soundPlay = true;
     this.isMuted = isMuted;
     synchronized (lock) {
@@ -104,11 +120,11 @@ public class AudioThread extends Thread implements CloseObserver {
     }
   }
 
-  private boolean isMusicPlay() {
+  public synchronized boolean isMusicPlay() {
     return musicPlay;
   }
 
-  public void setMusicPlay(boolean isMuted) {
+  public synchronized void setMusicPlay(boolean isMuted) {
     this.musicPlay = true;
     this.isMuted = isMuted;
     synchronized (lock) {
@@ -131,5 +147,13 @@ public class AudioThread extends Thread implements CloseObserver {
       lock.notifyAll();
     }
 
+  }
+
+  public void setStop() {
+    isRunning = false;
+    synchronized (lock) {
+      lock.notifyAll();
+    }
+    
   }
 }
