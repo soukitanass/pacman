@@ -18,4 +18,6 @@ public interface IGameView {
   void addCloseObserver(CloseObserver closeObserver);
 
   void setFps(int fps);
+
+  void setFpsEnabled(boolean isFpsEnabled);
 }

@@ -20,6 +20,7 @@ import ca.usherbrooke.pacman.view.panel.AbstractMenuPanel;
 import ca.usherbrooke.pacman.view.panel.AudioMenuPanel;
 import ca.usherbrooke.pacman.view.panel.CenteredInLevelPositioningStrategy;
 import ca.usherbrooke.pacman.view.panel.FixedPositioningStrategy;
+import ca.usherbrooke.pacman.view.panel.FpsOptionListener;
 import ca.usherbrooke.pacman.view.panel.GameMenuPanel;
 import ca.usherbrooke.pacman.view.panel.GhostsPanel;
 import ca.usherbrooke.pacman.view.panel.LevelPanel;
@@ -61,8 +62,10 @@ public class GameCanvas extends JPanel {
   private JLayeredPane layeredPane = new JLayeredPane();
   private JFrame window = new JFrame(GAME_TITLE);
   private int fps;
+  private boolean isFpsEnabled = false;
 
-  GameCanvas(IGameModel model, int ghostSpriteTogglePeriod, int pacmanSpriteTogglePeriod) {
+  GameCanvas(IGameModel model, int ghostSpriteTogglePeriod, int pacmanSpriteTogglePeriod,
+      FpsOptionListener fpsOptionListener) {
     this.model = model;
     window.setSize(FRAME_WIDTH, FRAME_HEIGHT);
     window.setMinimumSize(new Dimension(FRAME_WIDTH, FRAME_HEIGHT));
@@ -89,7 +92,7 @@ public class GameCanvas extends JPanel {
       }
     });
 
-    gameMenu = new GameMenuPanel(model);
+    gameMenu = new GameMenuPanel(model, fpsOptionListener);
     gameMenu.setVisible(false);
 
     audioMenu = new AudioMenuPanel(model);
@@ -207,7 +210,7 @@ public class GameCanvas extends JPanel {
         removePausePanel();
       }
     }
-    if (isDisplayingFps()) {
+    if (isFpsEnabled()) {
       setFpsPanel();
       fpsPanel.setBounds(0, 0, window.getWidth(), window.getHeight());
       fpsPanel.setOffsetX(getOffsetX());
@@ -234,8 +237,8 @@ public class GameCanvas extends JPanel {
     fpsPanel = null;
   }
 
-  private boolean isDisplayingFps() {
-    return true;
+  private boolean isFpsEnabled() {
+    return isFpsEnabled;
   }
 
   private void setFpsPanel() {
@@ -320,5 +323,9 @@ public class GameCanvas extends JPanel {
   public void removePausePanel() {
     layeredPane.remove(pausePanel);
     pausePanel = null;
+  }
+
+  public void setFpsEnabled(boolean isFpsEnabled) {
+    this.isFpsEnabled = isFpsEnabled;
   }
 }

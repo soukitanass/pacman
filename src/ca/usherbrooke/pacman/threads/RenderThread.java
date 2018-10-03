@@ -16,6 +16,7 @@ public class RenderThread implements Runnable, CloseObserver {
   private ITimeGetter timeGetter;
   private CircularQueue<Long> timesBetweenUpdatesMilliseconds =
       new CircularQueue<Long>(NB_UPDATE_TIMES_TO_REMEMBER);
+  private boolean isFpsEnabled = false;
 
   public RenderThread(IGameView view, int updatePeriodMilliseconds, ITimeGetter timeGetter) {
     this.view = view;
@@ -35,6 +36,7 @@ public class RenderThread implements Runnable, CloseObserver {
             currentTimeMilliseconds - lastUpdateTimeMilliseconds;
         timesBetweenUpdatesMilliseconds.add(Long.valueOf(timeSinceLastUpdateMilliseconds));
         lastUpdateTimeMilliseconds = currentTimeMilliseconds;
+        view.setFpsEnabled(isFpsEnabled);
         view.setFps(getFps());
         view.update();
       }
@@ -79,6 +81,10 @@ public class RenderThread implements Runnable, CloseObserver {
     }
     return (int) (timesBetweenUpdatesMilliseconds.size() * 1000.0
         / sumTimeBetweenUpdatesMilliseconds);
+  }
+
+  public void setFpsEnabled(boolean isFpsEnabled) {
+    this.isFpsEnabled = isFpsEnabled;
   }
 
 }
