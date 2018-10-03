@@ -4,52 +4,28 @@ import java.awt.Color;
 import java.awt.Cursor;
 import java.awt.Point;
 import java.awt.image.BufferedImage;
-import java.util.ArrayList;
-import java.util.List;
 import javax.swing.ImageIcon;
 import javax.swing.JCheckBox;
 import javax.swing.JLabel;
 import javax.swing.JSlider;
 import ca.usherbrooke.pacman.model.IGameModel;
-import ca.usherbrooke.pacman.view.SpriteFacade;
-import ca.usherbrooke.pacman.view.utilities.ImageUtilities;
-import ca.usherbrooke.pacman.view.utilities.WarningDialog;
 
-@SuppressWarnings("serial")
+@SuppressWarnings({"serial", "squid:S1948"})
 public abstract class AbstractMenuPanel extends AbstractPanel {
 
-  protected static int IMAGE_SCALE_FACTOR = 2;
-  protected static int DELTA_Y = 40;
-  protected static int CHECKBOX_X_OFFSET = 10;
+  protected static final int IMAGE_SCALE_FACTOR = 2;
+  protected static final int DELTA_Y = 40;
+  protected static final int CHECKBOX_X_OFFSET = 10;
 
-  private static int SLIDER_WIDTH = 360;
-  private static int MINOR_TICK_SPACING = 2;
-  private static int MAJOR_TICK_SPACING = 10;
-  private static Color FOREGROUND_COLOR = Color.WHITE;
-  private static Color BACKGROUND_COLOR = Color.BLACK;
+  private static final int SLIDER_WIDTH = 360;
+  private static final int MINOR_TICK_SPACING = 2;
+  private static final int MAJOR_TICK_SPACING = 10;
+  private static final Color FOREGROUND_COLOR = Color.WHITE;
+  private static final Color BACKGROUND_COLOR = Color.BLACK;
+  private static final ca.usherbrooke.pacman.view.Color SPRITE_COLOR =
+      ca.usherbrooke.pacman.view.Color.WHITE;
 
   protected IGameModel model;
-  private ImageUtilities imageUtilities = new ImageUtilities();
-  private SpriteFacade spriteFacade = new SpriteFacade();
-
-  private BufferedImage getJLabelImage(final String label, final int scaleFactor) {
-    List<BufferedImage> images = new ArrayList<>();
-
-    for (int i = 0; i < label.length(); i++) {
-      BufferedImage image = null;
-      try {
-        image =
-            spriteFacade.getLetter((char) label.charAt(i), ca.usherbrooke.pacman.view.Color.WHITE);
-        BufferedImage resizedImage = imageUtilities.resize(image, image.getWidth() * scaleFactor,
-            image.getHeight() * scaleFactor);
-        images.add(resizedImage);
-      } catch (Exception exception) {
-        WarningDialog.display("Error while painting the panel. ", exception);
-      }
-    }
-
-    return imageUtilities.joinImages(images);
-  }
 
   protected void setJCheckBox(JCheckBox checkbox, int x, int y) {
     checkbox.setLocation(x, y);
@@ -73,8 +49,8 @@ public abstract class AbstractMenuPanel extends AbstractPanel {
     slider.setSize(SLIDER_WIDTH, slider.getHeight());
   }
 
-  protected void setJLabel(JLabel jLabel, String text, int y, int scaleFactor) {
-    final BufferedImage image = getJLabelImage(text, scaleFactor);
+  protected void setJLabel(JLabel jLabel, String text, int y, double scaleFactor) {
+    final BufferedImage image = getJLabelImage(text, SPRITE_COLOR, scaleFactor);
     final int levelWidth = model.getCurrentLevel().getWidth() * pixelTileSize;
     final int x = (levelWidth / 2) - (image.getWidth() / 2) + offsetX;
     final Point location = new Point(x, y);

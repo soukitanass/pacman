@@ -14,4 +14,6 @@ public interface IGameView {
   GameCanvas getCanvas();
 
   void setCanvas(GameCanvas gameCanvas);
+
+  void addCloseObserver(CloseObserver closeObserver);
 }

@@ -11,12 +11,12 @@ import ca.usherbrooke.pacman.model.IGameModel;
 @SuppressWarnings("serial")
 public class GameMenuPanel extends AbstractMenuPanel {
 
-  private static double Y_OFFSET_FACTOR = 0.6;
-  private static String START_GAME_LABEL = "START GAME";
-  private static String PAUSE_GAME_LABEL = "RESUME GAME";
-  private static String AUDIO_LABEL = "AUDIO";
-  private static String EXIT_GAME_LABEL = "EXIT GAME";
-  private static String FPS_LABEL = "FPS";
+  private static final double Y_OFFSET_FACTOR = 0.6;
+  private static final String START_GAME_LABEL = "START GAME";
+  private static final String PAUSE_GAME_LABEL = "RESUME GAME";
+  private static final String AUDIO_LABEL = "AUDIO";
+  private static final String EXIT_GAME_LABEL = "EXIT GAME";
+  private static final String FPS_LABEL = "FPS";
 
   private JLabel startGameMenuOption = new JLabel();
   private JLabel audioMenuOption = new JLabel();
@@ -73,18 +73,21 @@ public class GameMenuPanel extends AbstractMenuPanel {
 
   private void addMouseListeners() {
     startGameMenuOption.addMouseListener(new MouseAdapter() {
+      @Override
       public void mouseClicked(MouseEvent e) {
         model.setGameState(GameState.GAME);
       }
     });
 
     audioMenuOption.addMouseListener(new MouseAdapter() {
+      @Override
       public void mouseClicked(MouseEvent e) {
         model.setGameState(GameState.AUDIO_MENU);
       }
     });
 
     exitGameMenuOption.addMouseListener(new MouseAdapter() {
+      @Override
       public void mouseClicked(MouseEvent e) {
         model.quit();
       }

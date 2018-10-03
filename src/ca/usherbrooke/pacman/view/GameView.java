@@ -1,13 +1,15 @@
 package ca.usherbrooke.pacman.view;
 
 import java.awt.event.KeyListener;
+import java.util.ArrayList;
+import java.util.List;
 import ca.usherbrooke.pacman.model.IGameModel;
 import ca.usherbrooke.pacman.threads.AudioThread;
 
 public class GameView implements IGameView {
   private GameCanvas canvas;
   private IGameModel model;
-
+  private List<CloseObserver> closeObservers = new ArrayList<>();
 
   public GameView(IGameModel model, int ghostSpriteTogglePeriod, int pacmanSpriteTogglePeriod,AudioThread audioThread) {
     this.model = model;
@@ -32,7 +34,14 @@ public class GameView implements IGameView {
 
   @Override
   public void close() {
+    notifyClosing();
     canvas.dispose();
+  }
+
+  private void notifyClosing() {
+    for (CloseObserver closeObserver : closeObservers) {
+      closeObserver.onClosingView();
+    }
   }
 
   public GameCanvas getCanvas() {
@@ -41,6 +50,11 @@ public class GameView implements IGameView {
 
   public void setCanvas(GameCanvas canvas) {
     this.canvas = canvas;
+  }
+
+  @Override
+  public void addCloseObserver(CloseObserver closeObserver) {
+    closeObservers.add(closeObserver);
   }
 
 }
