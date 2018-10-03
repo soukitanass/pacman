@@ -1,10 +1,12 @@
-package ca.usherbrooke.pacman.view;
+package ca.usherbrooke.pacman.threads;
 
+import ca.usherbrooke.pacman.view.CloseObserver;
+import ca.usherbrooke.pacman.view.IGameView;
 import ca.usherbrooke.pacman.view.utilities.WarningDialog;
 
 public class RenderThread implements Runnable, CloseObserver {
   private static final String NAME = "RenderThread";
-  private boolean shouldRun = false;
+  private volatile boolean shouldRun = false;
   private long lastUpdateTimeMilliseconds;
   private int updatePeriodMilliseconds;
   private IGameView view;
