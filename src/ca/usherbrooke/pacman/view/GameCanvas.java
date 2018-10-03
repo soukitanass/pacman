@@ -183,7 +183,7 @@ public class GameCanvas extends JPanel {
     } else {
       levelCompletedPanel = null;
     }
-    if (model.isManuallyPaused()) {
+    if (model.isPaused()) {
       setPausePanel();
       pausePanel.setBounds(0, 0, window.getWidth(), window.getHeight());
       pausePanel.setOffsetX(getOffsetX());
