@@ -26,6 +26,7 @@ import ca.usherbrooke.pacman.view.panel.TextPanel;
 @SuppressWarnings({"serial", "squid:S1948"})
 public class GameCanvas extends JPanel {
   private static final double RATIO_LEVEL_HEIGHT_TO_TOTAL_HEIGHT = 0.9;
+  private static Color TEXT_PANEL_COLOR = new Color(0, 0, 0, 80);
 
   private final IGameModel model;
   private GhostsPanel ghostsPanel;
@@ -184,10 +185,10 @@ public class GameCanvas extends JPanel {
     }
     if (model.isManuallyPaused()) {
       setPausePanel();
-      pausePanel.setPixelTileSize(pixelTileSize);
-      pausePanel.setOffsetX(getOffsetX());
-      pausePanel.setOffsetY(getOffsetYPausePanel());
       pausePanel.setBounds(0, 0, window.getWidth(), window.getHeight());
+      pausePanel.setOffsetX(getOffsetX());
+      pausePanel.setOffsetY(getOffsetY());
+      pausePanel.setPixelTileSize(pixelTileSize);
       pausePanel.paint(graphic);
     } else {
       if (pausePanel != null) {
@@ -198,7 +199,7 @@ public class GameCanvas extends JPanel {
       setGameOverPanel();
       gameOverPanel.setPixelTileSize(pixelTileSize);
       gameOverPanel.setOffsetX(getOffsetX());
-      gameOverPanel.setOffsetY(getOffsetYTextPanelGameOver());
+      gameOverPanel.setOffsetY(getOffsetY());
       gameOverPanel.setBounds(0, 0, window.getWidth(), window.getHeight());
       gameOverPanel.paint(graphic);
     }
@@ -236,24 +237,9 @@ public class GameCanvas extends JPanel {
     return (getHeight() - levelHeightPixels) / 2;
   }
 
-  public int getOffsetYPausePanel() {
-    final int levelHeightPixels = pausePanel.getHeightTiles() * getPixelTileSize();
-    return (getHeight() - levelHeightPixels) / 2;
-  }
-
-  public int getOffsetYTextPanelGameOver() {
-    final int levelHeightPixels = gameOverPanel.getHeightTiles() * getPixelTileSize();
-    return (getHeight() - levelHeightPixels) / 2;
-  }
-
-  public int getOffsetXPausePanel() {
-    final int levelWidthPixels = pausePanel.getWidthTiles() * getPixelTileSize();
-    return (getWidth() - levelWidthPixels) / 2;
-  }
-
   public void setPausePanel() {
-    pausePanel = new TextPanel(model, ca.usherbrooke.pacman.view.Color.YELLOW, PAUSE_TEXT);
-    pausePanel.setBackground(new Color(0, 0, 0, 80));
+    pausePanel = new TextPanel(model, PAUSE_TEXT);
+    pausePanel.setBackground(TEXT_PANEL_COLOR);
     pausePanel.setOpaque(true);
     layeredPane.add(pausePanel, Integer.valueOf(1));
   }
@@ -263,19 +249,18 @@ public class GameCanvas extends JPanel {
       return;
     }
 
-    final String levelText = "Level";
     final int levelNumberOffset = 2;
+    final String levelText = "Level " + model.getCurrentLevelIndex() + levelNumberOffset;
 
-    levelCompletedPanel = new TextPanel(model, ca.usherbrooke.pacman.view.Color.YELLOW, levelText,
-        model.getCurrentLevelIndex() + levelNumberOffset);
-    levelCompletedPanel.setBackground(new Color(0, 0, 0, 80));
+    levelCompletedPanel = new TextPanel(model, levelText);
+    levelCompletedPanel.setBackground(TEXT_PANEL_COLOR);
     levelCompletedPanel.setOpaque(true);
     layeredPane.add(levelCompletedPanel, Integer.valueOf(1));
   }
 
   public void setGameOverPanel() {
-    gameOverPanel = new TextPanel(model, ca.usherbrooke.pacman.view.Color.YELLOW, GAMEOVER_TEXT);
-    gameOverPanel.setBackground(new Color(0, 0, 0, 80));
+    gameOverPanel = new TextPanel(model, GAMEOVER_TEXT);
+    gameOverPanel.setBackground(TEXT_PANEL_COLOR);
     gameOverPanel.setOpaque(true);
     layeredPane.add(gameOverPanel, Integer.valueOf(1));
 
