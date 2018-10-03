@@ -11,6 +11,7 @@ import ca.usherbrooke.pacman.model.sound.ISoundModel;
 import ca.usherbrooke.pacman.model.sound.SoundModel;
 import ca.usherbrooke.pacman.view.GameView;
 import ca.usherbrooke.pacman.view.IGameView;
+import ca.usherbrooke.pacman.view.RenderThread;
 import ca.usherbrooke.pacman.view.utilities.WarningDialog;
 
 public class Game implements IGame {
@@ -39,8 +40,9 @@ public class Game implements IGame {
     final int viewUpdatePeriodMilliseconds = (int) (1000.0 / viewUpdatesPerSecond);
     IGameModel model = new GameModel();
     model.loadLevels(LEVELS_PATH);
-    IGameView view = new GameView(model, GHOST_SPRITE_TOGGLE_PERIOD, PACMAN_SPRITE_TOGGLE_PERIOD,
-        viewUpdatePeriodMilliseconds);
+    IGameView view = new GameView(model, GHOST_SPRITE_TOGGLE_PERIOD, PACMAN_SPRITE_TOGGLE_PERIOD);
+    RenderThread renderThread = new RenderThread(view, viewUpdatePeriodMilliseconds);
+    view.addCloseObserver(renderThread);
     List<IGameController> controllers = new ArrayList<IGameController>();
     PlayerKeyboardController playerKeyboardController = new PlayerKeyboardController(model, view);
     controllers.add(playerKeyboardController);
@@ -51,7 +53,7 @@ public class Game implements IGame {
     view.addKeyListener(playerKeyboardController);
     view.addKeyListener(soundController);
     game.setRunning(true);
-    Thread viewThread = new Thread(view);
+    Thread viewThread = new Thread(renderThread);
     viewThread.start();
     while (game.isRunning()) {
       game.update(System.currentTimeMillis());
