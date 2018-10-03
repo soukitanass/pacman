@@ -17,6 +17,7 @@ import ca.usherbrooke.pacman.threads.PhysicsThread;
 import ca.usherbrooke.pacman.view.utilities.WarningDialog;
 
 public class GameModel implements IGameModel {
+  private static final String LEVEL_PATH = "Levels.json";
   private static final int IS_LEVEL_COMPLETED_PERIOD = 20;
   private static final int GHOSTS_DIRECTION_CHANGE_PERIOD = 3;
   private static final int RANDOM_GENERATOR_SEED = 8544574;
@@ -179,6 +180,12 @@ public class GameModel implements IGameModel {
   }
 
   @Override
+  public void startNewGame() {
+    loadLevels(LEVEL_PATH);
+    initializeLevel();
+  }
+
+  @Override
   public int getCurrentGameFrame() {
     return currentGameFrame;
   }
@@ -301,11 +308,12 @@ public class GameModel implements IGameModel {
         "Could not find a movement manager for the given game object");
   }
 
-
+  @Override
   public boolean isGameOver() {
     return isGameOver;
   }
 
+  @Override
   public void setGameOver() {
     isGameOver = true;
   }
