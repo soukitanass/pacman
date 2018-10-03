@@ -2,15 +2,16 @@ package ca.usherbrooke.pacman.view;
 
 import java.awt.event.KeyListener;
 import ca.usherbrooke.pacman.model.IGameModel;
+import ca.usherbrooke.pacman.threads.AudioThread;
 
 public class GameView implements IGameView {
   private GameCanvas canvas;
   private IGameModel model;
 
 
-  public GameView(IGameModel model, int ghostSpriteTogglePeriod, int pacmanSpriteTogglePeriod) {
+  public GameView(IGameModel model, int ghostSpriteTogglePeriod, int pacmanSpriteTogglePeriod,AudioThread audioThread) {
     this.model = model;
-    canvas = new GameCanvas(model, ghostSpriteTogglePeriod, pacmanSpriteTogglePeriod);
+    canvas = new GameCanvas(model, ghostSpriteTogglePeriod, pacmanSpriteTogglePeriod,audioThread);
   }
 
   public void update() {

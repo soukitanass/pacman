@@ -4,6 +4,7 @@ import java.io.File;
 import java.io.IOException;
 import javax.sound.sampled.AudioSystem;
 import javax.sound.sampled.Clip;
+import javax.sound.sampled.FloatControl;
 import javax.sound.sampled.LineUnavailableException;
 import javax.sound.sampled.UnsupportedAudioFileException;
 import ca.usherbrooke.pacman.view.utilities.WarningDialog;
@@ -59,4 +60,19 @@ public class SoundPlayer implements ISoundPlayer {
   public boolean isPlaying() {
     return isPlaying;
   }
+
+  @Override
+  public void setVolume(float volume) {
+    if (clip != null) {
+      if (clip.isControlSupported(FloatControl.Type.MASTER_GAIN)) {
+        FloatControl gainControl = (FloatControl) clip.getControl(FloatControl.Type.MASTER_GAIN);
+        float range = gainControl.getMaximum() - gainControl.getMinimum();
+        float gain = (range * volume) + gainControl.getMinimum();
+        if(gain > gainControl.getMaximum()) gainControl.setValue(gainControl.getMaximum());
+        else gainControl.setValue(gain);
+      } else
+        System.out.println("No Volume controls available");
+    }
+  }
+
 }

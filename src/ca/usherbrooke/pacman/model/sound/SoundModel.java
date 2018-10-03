@@ -21,20 +21,30 @@ public class SoundModel extends Observer implements ISoundModel {
   }
 
   @Override
-  public void unmute() {
+  public synchronized void unmute() {
     isMuted = false;
     playSound(backgroundSoundPlayer, Sound.SIREN, true);
   }
 
   @Override
-  public void mute() {
+  public synchronized void mute() {
     isMuted = true;
     actionSoundPlayer.stop();
     backgroundSoundPlayer.stop();
   }
 
   @Override
-  public void toggleSound() {
+  public void setSoundVolumeChanged(int volume) {
+    backgroundSoundPlayer.setVolume(volume);
+  }
+  
+  @Override
+  public void setMusicVolumeChanged(int volume) {
+    actionSoundPlayer.setVolume(volume);
+  }
+
+  @Override
+  public synchronized void toggleSound() {
     if (isMuted()) {
       unmute();
     } else {
@@ -95,4 +105,6 @@ public class SoundModel extends Observer implements ISoundModel {
     }
   }
 
+
+ 
 }

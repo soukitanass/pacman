@@ -8,4 +8,8 @@ public interface ISoundModel {
   void mute();
 
   void toggleSound();
+
+  void setSoundVolumeChanged(int volume);
+
+  void setMusicVolumeChanged(int volume);
 }

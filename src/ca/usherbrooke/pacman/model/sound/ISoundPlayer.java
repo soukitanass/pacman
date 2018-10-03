@@ -13,5 +13,7 @@ public interface ISoundPlayer {
   public void loop();
 
   public void stop();
+  
+  public void setVolume(float volume);
 
 }
