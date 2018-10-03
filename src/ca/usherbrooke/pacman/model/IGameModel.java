@@ -61,4 +61,6 @@ public interface IGameModel {
 
   void consumingGhost();
 
+  void startNewGame();
+
 }
