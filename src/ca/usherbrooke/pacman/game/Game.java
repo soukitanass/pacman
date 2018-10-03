@@ -21,14 +21,12 @@ public class Game implements IGame {
   private final long modelUpdatePeriod;
   private long lastModelUpdateTime;
   private IGameModel model;
-  private IGameView view;
   private List<IGameController> controllers;
 
 
-  public Game(IGameModel model, IGameView view, List<IGameController> controllers,
-      long modelUpdatePeriod, long initialTime) {
+  public Game(IGameModel model, List<IGameController> controllers, long modelUpdatePeriod,
+      long initialTime) {
     this.model = model;
-    this.view = view;
     this.controllers = controllers;
     this.modelUpdatePeriod = modelUpdatePeriod;
     this.lastModelUpdateTime = initialTime;
@@ -48,8 +46,8 @@ public class Game implements IGame {
     List<IGameController> controllers = new ArrayList<>();
     PlayerKeyboardController playerKeyboardController = new PlayerKeyboardController(model, view);
     controllers.add(playerKeyboardController);
-    IGame game = new Game(model, view, controllers, gameUpdatePeriodMilliseconds,
-        System.currentTimeMillis());
+    IGame game =
+        new Game(model, controllers, gameUpdatePeriodMilliseconds, System.currentTimeMillis());
     ISoundModel soundPlayer = new SoundModel(model);
     SoundController soundController = new SoundController(soundPlayer);
     view.addKeyListener(playerKeyboardController);
