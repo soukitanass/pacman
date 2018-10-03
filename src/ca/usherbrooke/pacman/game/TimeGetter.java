@@ -3,7 +3,7 @@ package ca.usherbrooke.pacman.game;
 public class TimeGetter implements ITimeGetter {
 
   @Override
-  public long getMillis() {
+  public long getMilliseconds() {
     return System.currentTimeMillis();
   }
 
