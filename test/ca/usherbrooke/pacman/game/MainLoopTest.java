@@ -11,12 +11,10 @@ import org.junit.Test;
 import ca.usherbrooke.pacman.controller.IGameController;
 import ca.usherbrooke.pacman.model.GameState;
 import ca.usherbrooke.pacman.model.IGameModel;
-import ca.usherbrooke.pacman.view.IGameView;
 
 public class MainLoopTest {
   private IGame game;
   private IGameModel mockModel;
-  private IGameView mockView;
   private IGameController mockController;
 
   @Before
@@ -24,11 +22,10 @@ public class MainLoopTest {
     final int modelUpdatePeriod = 2;
     final int initialTime = 0;
     mockModel = mock(IGameModel.class);
-    mockView = mock(IGameView.class);
     mockController = mock(IGameController.class);
     List<IGameController> controllers = new ArrayList<IGameController>();
     controllers.add(mockController);
-    game = new Game(mockModel, mockView, controllers, modelUpdatePeriod, initialTime);
+    game = new Game(mockModel, controllers, modelUpdatePeriod, initialTime);
     when(mockModel.getGameState()).thenReturn(GameState.GAME);
   }
 
