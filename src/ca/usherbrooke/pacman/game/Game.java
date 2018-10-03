@@ -9,9 +9,9 @@ import ca.usherbrooke.pacman.model.GameModel;
 import ca.usherbrooke.pacman.model.IGameModel;
 import ca.usherbrooke.pacman.model.sound.ISoundModel;
 import ca.usherbrooke.pacman.model.sound.SoundModel;
+import ca.usherbrooke.pacman.threads.RenderThread;
 import ca.usherbrooke.pacman.view.GameView;
 import ca.usherbrooke.pacman.view.IGameView;
-import ca.usherbrooke.pacman.view.RenderThread;
 import ca.usherbrooke.pacman.view.utilities.WarningDialog;
 
 public class Game implements IGame {
