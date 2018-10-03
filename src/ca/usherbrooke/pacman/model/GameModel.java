@@ -46,7 +46,6 @@ public class GameModel implements IGameModel {
   private Queue<Level> moveQueue = new ConcurrentLinkedQueue<>();
   private Queue<GameEvent> eventQueue = new ConcurrentLinkedQueue<>();
   private PhysicsThread physicsThread = new PhysicsThread(moveQueue, eventQueue);
-  private Level initialLevel;
 
   public GameModel() {
     physicsThread.start();
@@ -156,7 +155,7 @@ public class GameModel implements IGameModel {
 
   private void initializeLevel() {
     Level level = getCurrentLevel();
-    this.initialLevel = getCurrentLevel();
+    Level initialLevel = getCurrentLevel();
     IMoveValidator pacmanMoveValidator = new PacmanMoveValidator(level);
     IMoveValidator ghostMoveValidator = new GhostMoveValidator(level);
     pacman = level.getPacMan();

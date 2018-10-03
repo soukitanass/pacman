@@ -10,7 +10,7 @@ import javax.swing.JLabel;
 import javax.swing.JSlider;
 import ca.usherbrooke.pacman.model.IGameModel;
 
-@SuppressWarnings("serial")
+@SuppressWarnings({"serial", "squid:S1948"})
 public abstract class AbstractMenuPanel extends AbstractPanel {
 
   protected static final int IMAGE_SCALE_FACTOR = 2;

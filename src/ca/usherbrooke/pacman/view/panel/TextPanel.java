@@ -8,9 +8,9 @@ import ca.usherbrooke.pacman.view.Color;
 @SuppressWarnings({"serial", "squid:S1948"})
 public class TextPanel extends AbstractPanel {
 
-  private static Color COLOR = Color.YELLOW;
-  private static double TEXT_SCALE_FACTOR = 2.2;
-  private static int Y_TILES_OFFSET = 2;
+  private static final Color COLOR = Color.YELLOW;
+  private static final double TEXT_SCALE_FACTOR = 2.2;
+  private static final int Y_TILES_OFFSET = 2;
 
   private IGameModel model;
   private String text;

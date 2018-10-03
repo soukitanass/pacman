@@ -8,7 +8,7 @@ import ca.usherbrooke.pacman.view.SpriteFacade;
 import ca.usherbrooke.pacman.view.utilities.ImageUtilities;
 import ca.usherbrooke.pacman.view.utilities.WarningDialog;
 
-@SuppressWarnings("serial")
+@SuppressWarnings({"serial", "squid:S1948"})
 public abstract class AbstractPanel extends JPanel {
 
   private ImageUtilities imageUtilities = new ImageUtilities();

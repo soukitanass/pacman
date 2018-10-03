@@ -24,8 +24,8 @@ public class Game implements IGame {
   private List<IGameController> controllers;
 
 
-  public Game(IGameModel model, IGameView view, List<IGameController> controllers,
-      long modelUpdatePeriod, long initialTime) {
+  public Game(IGameModel model, List<IGameController> controllers, long modelUpdatePeriod,
+      long initialTime) {
     this.model = model;
     this.controllers = controllers;
     this.modelUpdatePeriod = modelUpdatePeriod;
@@ -43,11 +43,11 @@ public class Game implements IGame {
     IGameView view = new GameView(model, GHOST_SPRITE_TOGGLE_PERIOD, PACMAN_SPRITE_TOGGLE_PERIOD);
     RenderThread renderThread = new RenderThread(view, viewUpdatePeriodMilliseconds);
     view.addCloseObserver(renderThread);
-    List<IGameController> controllers = new ArrayList<IGameController>();
+    List<IGameController> controllers = new ArrayList<>();
     PlayerKeyboardController playerKeyboardController = new PlayerKeyboardController(model, view);
     controllers.add(playerKeyboardController);
-    IGame game = new Game(model, view, controllers, gameUpdatePeriodMilliseconds,
-        System.currentTimeMillis());
+    IGame game =
+        new Game(model, controllers, gameUpdatePeriodMilliseconds, System.currentTimeMillis());
     ISoundModel soundPlayer = new SoundModel(model);
     SoundController soundController = new SoundController(soundPlayer);
     view.addKeyListener(playerKeyboardController);
@@ -62,6 +62,7 @@ public class Game implements IGame {
     try {
       viewThread.join();
     } catch (InterruptedException e) {
+      viewThread.interrupt();
       WarningDialog.display("An error occured when waiting for the view to stop", e);
     }
   }

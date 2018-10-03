@@ -11,7 +11,7 @@ import ca.usherbrooke.pacman.view.utilities.WarningDialog;
 public class PhysicsThread extends Thread {
   private volatile boolean isRunning = false;
 
-  private static final int SLEEP_TIME = 20;
+  private static final int SLEEP_TIME = 10;
 
   private final Queue<GameEvent> eventQueue;
   private final Queue<Level> moveQueue;

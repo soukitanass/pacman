@@ -26,7 +26,7 @@ import ca.usherbrooke.pacman.view.panel.TextPanel;
 @SuppressWarnings({"serial", "squid:S1948"})
 public class GameCanvas extends JPanel {
   private static final double RATIO_LEVEL_HEIGHT_TO_TOTAL_HEIGHT = 0.9;
-  private static Color TEXT_PANEL_COLOR = new Color(0, 0, 0, 80);
+  private static final Color TEXT_PANEL_COLOR = new Color(0, 0, 0, 80);
 
   private final IGameModel model;
   private GhostsPanel ghostsPanel;
