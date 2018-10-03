@@ -14,93 +14,135 @@ public class AudioThread extends Thread {
   private ISoundModel soundPlayer;
   private ISoundController soundController;
   private final IGameModel model;
-  
+
   private boolean soundVolumeChanged = false;
   private boolean musicVolumeChanged = false;
   private boolean soundPlay = false;
   private boolean musicPlay = false;
   private boolean isMuted = false;
-  
+
   private int soundVolume;
   private int musicVolume;
-  
+
+  private Object lock = new Object();
+
   public AudioThread(IGameModel model) {
     this.model = model;
     soundPlayer = new SoundModel(this.model);
     soundController = new SoundController(soundPlayer);
-    
+
   }
 
   public void setStop() {
+    System.out.println("stopping it");
     isRunning = false;
-  }
-  
-  public void run() {
-    System.out.println("START - "+getName());
-    isRunning = true;
-    while(isRunning) {
-      if(isSoundVolumeChanged()) {
-        soundPlayer.setMusicVolumeChanged(musicVolume);
-      }
-      if(isMusicVolumeChanged()) {
-        soundPlayer.setSoundVolumeChanged(soundVolume);
-      }
-      
-      if(isMusicPlay()) {
-        if(isMuted) {
-          soundPlayer.mute();
-        }else {
-          soundPlayer.unmute();
-        }
-        soundPlay = false;
-      }
-      if(isSoundPlay()) {
-        
-      }
-      try {
-        Thread.sleep(THREAD_SLEEP);
-      } catch (InterruptedException e) {}
+    synchronized (lock) {
+      lock.notifyAll();
     }
-    System.out.println("STOP - "+getName());
+  }
+
+  public void run() {
+    System.out.println("START - " + getName());
+    isRunning = true;
+    while (isRunning) {
+      try {
+        System.out.println("je rentre dans le bloc");
+        if (isSoundVolumeChanged()) {
+          soundPlayer.setSoundVolumeChanged(soundVolume);
+          System.out.println("le sound volume est changé " + soundVolume);
+          soundVolumeChanged = false;
+        }
+        if (isMusicVolumeChanged()) {
+          soundPlayer.setMusicVolumeChanged(musicVolume);
+          System.out.println("le sound volume est changé " + musicVolume);
+          musicVolumeChanged = false;
+        }
+
+        if (isMusicPlay()) {
+          if (isMuted) {
+            soundPlayer.mute();
+            System.out.println("le son est mute");
+          } else {
+            soundPlayer.unmute();
+            System.out.println("le son est on");
+          }
+
+          musicPlay = false;
+        }
+        if (isSoundPlay()) {
+          if (isMuted) {
+            soundPlayer.mute();
+            System.out.println("le son est mute");
+          } else {
+            soundPlayer.unmute();
+            System.out.println("le son est on");
+          }
+          soundPlay = false;
+        }
+        Thread.sleep(THREAD_SLEEP);
+        synchronized (lock) {
+          System.out.println("im waiting ");
+          lock.wait();
+
+        }
+
+
+      } catch (InterruptedException e) {
+      }
+    }
+    System.out.println("STOP - " + getName());
   }
 
   public synchronized boolean isSoundVolumeChanged() {
     return soundVolumeChanged;
   }
 
-  public synchronized void setSoundVolumeChanged(int volume) {
+  public void setSoundVolumeChanged(int volume) {
     this.soundVolumeChanged = true;
     this.soundVolume = volume;
+    synchronized (lock) {
+      lock.notifyAll();
+    }
   }
 
-  public synchronized boolean isMusicVolumeChanged() {
+  public boolean isMusicVolumeChanged() {
     return musicVolumeChanged;
   }
 
-  public synchronized void setMusicVolumeChanged(int volume) {
+  public void setMusicVolumeChanged(int volume) {
     this.musicVolumeChanged = true;
     this.musicVolume = volume;
+    synchronized (lock) {
+      lock.notifyAll();
+    }
   }
 
-  public synchronized boolean isSoundPlay() {
+  public boolean isSoundPlay() {
     return soundPlay;
   }
 
-  public synchronized void setSoundPlay(boolean isMuted) {
+  public void setSoundPlay(boolean isMuted) {
     this.soundPlay = true;
     this.isMuted = isMuted;
+    synchronized (lock) {
+      lock.notifyAll();
+    }
   }
 
-  public synchronized boolean isMusicPlay() {
+  public boolean isMusicPlay() {
     return musicPlay;
   }
 
-  public synchronized void setMusicPlay(boolean musicPlay) {
-    this.musicPlay = musicPlay;
+  public void setMusicPlay(boolean isMuted) {
+    this.musicPlay = true;
+    this.isMuted = isMuted;
+    synchronized (lock) {
+      lock.notifyAll();
+    }
   }
 
   public void addKeyListenner(IGameView view2) {
     view2.addKeyListener(soundController);
-    
+
   }
 }

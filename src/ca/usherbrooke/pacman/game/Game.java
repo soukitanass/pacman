@@ -15,7 +15,7 @@ public class Game implements IGame {
 
   private static final int GHOST_SPRITE_TOGGLE_PERIOD = 10;
   private static final int PACMAN_SPRITE_TOGGLE_PERIOD = 2;
-  private static final int JOIN_TIMER = 100;
+  private static final int JOIN_TIMER = 1000;
 
   private final long modelUpdatePeriod;
   private final long viewUpdatePeriod;
@@ -45,21 +45,22 @@ public class Game implements IGame {
     audioThread = new AudioThread(model);
     audioThread.setName("Audio_Thread");
     audioThread.start();
-    IGameView view = new GameView(model, GHOST_SPRITE_TOGGLE_PERIOD, PACMAN_SPRITE_TOGGLE_PERIOD,audioThread);
+    IGameView view =
+        new GameView(model, GHOST_SPRITE_TOGGLE_PERIOD, PACMAN_SPRITE_TOGGLE_PERIOD, audioThread);
     audioThread.addKeyListenner(view);
     List<IGameController> controllers = new ArrayList<>();
     PlayerKeyboardController playerKeyboardController = new PlayerKeyboardController(model, view);
     controllers.add(playerKeyboardController);
-    
-    
-    
+
+
+
     final int gameUpdatesPerSecond = 7;
     final int frameUpdatesPerSecond = 30;
     final int gameUpdatePeriodMilliseconds = (int) (1000.0 / gameUpdatesPerSecond);
     final int frameUpdatePeriodMilliseconds = (int) (1000.0 / frameUpdatesPerSecond);
     IGame game = new Game(model, view, controllers, gameUpdatePeriodMilliseconds,
         frameUpdatePeriodMilliseconds, System.currentTimeMillis());
-    
+
     view.addKeyListener(playerKeyboardController);
     game.setRunning(true);
 
@@ -67,7 +68,13 @@ public class Game implements IGame {
       game.update(System.currentTimeMillis());
     }
     view.close();
-    Game.stopAudioThread();
+    audioThread.setStop();
+    try {
+      audioThread.join(JOIN_TIMER);
+    } catch (InterruptedException e) {
+      // TODO Auto-generated catch block
+      e.printStackTrace();
+    }
   }
 
   public void update(long currentTime) {
@@ -93,6 +100,7 @@ public class Game implements IGame {
   public void setRunning(boolean isRunning) {
     model.setRunning(isRunning);
   }
+
   public static void stopAudioThread() {
     try {
       audioThread.setStop();

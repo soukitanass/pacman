@@ -125,6 +125,7 @@ public class AudioMenuPanel extends AbstractMenuPanel {
       @Override
       public void itemStateChanged(ItemEvent e) {
         boolean value = musicCheckbox.isSelected();
+        System.out.println("checkbox pressed" + musicCheckbox.isSelected());
         audioThread.setMusicPlay(value);
       }
     });
