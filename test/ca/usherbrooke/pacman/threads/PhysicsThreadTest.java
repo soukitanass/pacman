@@ -11,6 +11,7 @@ import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 import ca.usherbrooke.pacman.model.GameEvent;
+import ca.usherbrooke.pacman.model.GameEventObject;
 import ca.usherbrooke.pacman.model.Ghost;
 import ca.usherbrooke.pacman.model.Level;
 import ca.usherbrooke.pacman.model.PacMan;
@@ -23,7 +24,7 @@ public class PhysicsThreadTest {
 
   private PhysicsThread physicsThread;
   private Queue<Level> moveQueue = new ConcurrentLinkedQueue<>();
-  private Queue<GameEvent> eventQueue = new ConcurrentLinkedQueue<>();
+  private Queue<GameEventObject> eventQueue = new ConcurrentLinkedQueue<>();
   private static List<Ghost> ghosts = new ArrayList<>();
   private static PacMan pacman = new PacMan();
   private static Ghost ghost = new Ghost();
