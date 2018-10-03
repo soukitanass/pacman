@@ -8,9 +8,9 @@ import ca.usherbrooke.pacman.model.sound.SoundModel;
 import ca.usherbrooke.pacman.view.CloseObserver;
 import ca.usherbrooke.pacman.view.IGameView;
 
-public class AudioThread extends Thread implements CloseObserver{
+public class AudioThread extends Thread implements CloseObserver {
 
-  private static final int THREAD_SLEEP = 50;
+  private static final int THREAD_SLEEP = 2;
   private volatile boolean isRunning = false;
   private ISoundModel soundPlayer;
   private ISoundController soundController;
@@ -31,15 +31,6 @@ public class AudioThread extends Thread implements CloseObserver{
     this.model = model;
     soundPlayer = new SoundModel(this.model);
     soundController = new SoundController(soundPlayer);
-
-  }
-
-  public void setStop() {
-    System.out.println("stopping it");
-    isRunning = false;
-    synchronized (lock) {
-      lock.notifyAll();
-    }
   }
 
   public void run() {
@@ -47,46 +38,29 @@ public class AudioThread extends Thread implements CloseObserver{
     isRunning = true;
     while (isRunning) {
       try {
-        System.out.println("je rentre dans le bloc");
         if (isSoundVolumeChanged()) {
           soundPlayer.setSoundVolumeChanged(soundVolume);
-          System.out.println("le sound volume est changé " + soundVolume);
           soundVolumeChanged = false;
         }
         if (isMusicVolumeChanged()) {
           soundPlayer.setMusicVolumeChanged(musicVolume);
-          System.out.println("le sound volume est changé " + musicVolume);
           musicVolumeChanged = false;
         }
 
-        if (isMusicPlay()) {
+        if (isMusicPlay() || isSoundPlay()) {
           if (isMuted) {
             soundPlayer.mute();
-            System.out.println("le son est mute");
           } else {
             soundPlayer.unmute();
-            System.out.println("le son est on");
           }
 
           musicPlay = false;
-        }
-        if (isSoundPlay()) {
-          if (isMuted) {
-            soundPlayer.mute();
-            System.out.println("le son est mute");
-          } else {
-            soundPlayer.unmute();
-            System.out.println("le son est on");
-          }
           soundPlay = false;
         }
         Thread.sleep(THREAD_SLEEP);
         synchronized (lock) {
-          System.out.println("im waiting ");
           lock.wait();
-
         }
-
 
       } catch (InterruptedException e) {
       }
@@ -106,7 +80,7 @@ public class AudioThread extends Thread implements CloseObserver{
     }
   }
 
-  public boolean isMusicVolumeChanged() {
+  private boolean isMusicVolumeChanged() {
     return musicVolumeChanged;
   }
 
@@ -118,7 +92,7 @@ public class AudioThread extends Thread implements CloseObserver{
     }
   }
 
-  public boolean isSoundPlay() {
+  private boolean isSoundPlay() {
     return soundPlay;
   }
 
@@ -130,7 +104,7 @@ public class AudioThread extends Thread implements CloseObserver{
     }
   }
 
-  public boolean isMusicPlay() {
+  private boolean isMusicPlay() {
     return musicPlay;
   }
 
@@ -142,9 +116,12 @@ public class AudioThread extends Thread implements CloseObserver{
     }
   }
 
-  public void addKeyListenner(IGameView view2) {
-    view2.addKeyListener(soundController);
+  public void addKeyListenner(IGameView view) {
+    view.addKeyListener(soundController);
+  }
 
+  public void addCloseListenner(IGameView view) {
+    view.addCloseObserver(this);
   }
 
   @Override
@@ -153,6 +130,6 @@ public class AudioThread extends Thread implements CloseObserver{
     synchronized (lock) {
       lock.notifyAll();
     }
-    
+
   }
 }

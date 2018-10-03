@@ -68,8 +68,6 @@ public class SoundPlayer implements ISoundPlayer {
         FloatControl gainControl = (FloatControl) clip.getControl(FloatControl.Type.MASTER_GAIN);
         float range = gainControl.getMaximum() - gainControl.getMinimum();
         float gain = (range * volume) + gainControl.getMinimum();
-        System.out.println(
-            "max volume " + gainControl.getMaximum() + " min volume " + gainControl.getMinimum());
         if (gain > gainControl.getMaximum())
           gainControl.setValue(gainControl.getMaximum());
         else

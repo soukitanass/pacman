@@ -9,7 +9,6 @@ import ca.usherbrooke.pacman.model.IGameModel;
 import ca.usherbrooke.pacman.threads.AudioThread;
 import ca.usherbrooke.pacman.view.GameView;
 import ca.usherbrooke.pacman.view.IGameView;
-import ca.usherbrooke.pacman.view.utilities.WarningDialog;
 
 public class Game implements IGame {
 
@@ -48,6 +47,7 @@ public class Game implements IGame {
     IGameView view =
         new GameView(model, GHOST_SPRITE_TOGGLE_PERIOD, PACMAN_SPRITE_TOGGLE_PERIOD, audioThread);
     audioThread.addKeyListenner(view);
+    audioThread.addCloseListenner(view);
     List<IGameController> controllers = new ArrayList<>();
     PlayerKeyboardController playerKeyboardController = new PlayerKeyboardController(model, view);
     controllers.add(playerKeyboardController);
@@ -68,11 +68,9 @@ public class Game implements IGame {
       game.update(System.currentTimeMillis());
     }
     view.close();
-    audioThread.setStop();
     try {
       audioThread.join(JOIN_TIMER);
     } catch (InterruptedException e) {
-      // TODO Auto-generated catch block
       e.printStackTrace();
     }
   }
@@ -101,16 +99,4 @@ public class Game implements IGame {
     model.setRunning(isRunning);
   }
 
-  public static void stopAudioThread() {
-    try {
-      audioThread.setStop();
-      audioThread.join(JOIN_TIMER);
-      if (audioThread.isAlive()) {
-        throw new InterruptedException();
-      }
-    } catch (InterruptedException exception) {
-      audioThread.interrupt();
-      WarningDialog.display("Error stoping audioThread. ", exception);
-    }
-  }
 }

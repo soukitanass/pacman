@@ -30,21 +30,19 @@ public class SoundModel extends Observer implements ISoundModel {
   @Override
   public synchronized void mute() {
     isMuted = true;
-    System.out.println("haha muting");
     actionSoundPlayer.stop();
     backgroundSoundPlayer.stop();
   }
 
   @Override
   public void setSoundVolumeChanged(int volume) {
-    System.out.println("haha setting sound");
     backgroundSoundPlayer.setVolume(volume);
+    actionSoundPlayer.setVolume(volume);
   }
 
   @Override
   public void setMusicVolumeChanged(int volume) {
-    System.out.println("haha setting music");
-    actionSoundPlayer.setVolume(volume);
+    backgroundSoundPlayer.setVolume(volume);
   }
 
   @Override
