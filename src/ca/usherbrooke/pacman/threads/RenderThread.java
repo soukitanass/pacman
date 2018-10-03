@@ -35,6 +35,7 @@ public class RenderThread implements Runnable, CloseObserver {
             currentTimeMilliseconds - lastUpdateTimeMilliseconds;
         timesBetweenUpdatesMilliseconds.add(Long.valueOf(timeSinceLastUpdateMilliseconds));
         lastUpdateTimeMilliseconds = currentTimeMilliseconds;
+        view.setFps(getFps());
         view.update();
       }
       sleepUntilNextUpdate();

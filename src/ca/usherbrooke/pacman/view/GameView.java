@@ -56,4 +56,9 @@ public class GameView implements IGameView {
     closeObservers.add(closeObserver);
   }
 
+  @Override
+  public void setFps(int fps) {
+    canvas.setFps(fps);
+  }
+
 }

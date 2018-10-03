@@ -16,4 +16,6 @@ public interface IGameView {
   void setCanvas(GameCanvas gameCanvas);
 
   void addCloseObserver(CloseObserver closeObserver);
+
+  void setFps(int fps);
 }
