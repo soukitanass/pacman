@@ -41,7 +41,8 @@ public class Game implements IGame {
     IGameModel model = new GameModel();
     model.loadLevels(LEVELS_PATH);
     IGameView view = new GameView(model, GHOST_SPRITE_TOGGLE_PERIOD, PACMAN_SPRITE_TOGGLE_PERIOD);
-    RenderThread renderThread = new RenderThread(view, viewUpdatePeriodMilliseconds);
+    ITimeGetter timeGetter = new TimeGetter();
+    RenderThread renderThread = new RenderThread(view, viewUpdatePeriodMilliseconds, timeGetter);
     view.addCloseObserver(renderThread);
     List<IGameController> controllers = new ArrayList<>();
     PlayerKeyboardController playerKeyboardController = new PlayerKeyboardController(model, view);

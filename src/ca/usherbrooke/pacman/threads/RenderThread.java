@@ -1,29 +1,31 @@
 package ca.usherbrooke.pacman.threads;
 
+import ca.usherbrooke.pacman.game.ITimeGetter;
 import ca.usherbrooke.pacman.view.CloseObserver;
 import ca.usherbrooke.pacman.view.IGameView;
 import ca.usherbrooke.pacman.view.utilities.WarningDialog;
 
 public class RenderThread implements Runnable, CloseObserver {
   private static final String NAME = "RenderThread";
-  private volatile boolean shouldRun = false;
+  private volatile boolean shouldRun = true;
   private long lastUpdateTimeMilliseconds;
   private int updatePeriodMilliseconds;
   private IGameView view;
+  private ITimeGetter timeGetter;
 
-  public RenderThread(IGameView view, int updatePeriodMilliseconds) {
+  public RenderThread(IGameView view, int updatePeriodMilliseconds, ITimeGetter timeGetter) {
     this.view = view;
     this.updatePeriodMilliseconds = updatePeriodMilliseconds;
-    lastUpdateTimeMilliseconds = System.currentTimeMillis();
+    this.timeGetter = timeGetter;
+    lastUpdateTimeMilliseconds = timeGetter.getMillis();
   }
 
   @Override
   @SuppressWarnings("squid:S106")
   public void run() {
     System.out.println("START - " + this.getName());
-    shouldRun = true;
     while (shouldRun) {
-      final long currentTimeMillis = System.currentTimeMillis();
+      final long currentTimeMillis = timeGetter.getMillis();
       if (isTimeToUpdate(currentTimeMillis)) {
         lastUpdateTimeMilliseconds = currentTimeMillis;
         view.update();
@@ -39,7 +41,7 @@ public class RenderThread implements Runnable, CloseObserver {
 
   private void sleepUntilNextUpdate() {
     final long timeSinceLastUpdateMilliseconds =
-        System.currentTimeMillis() - lastUpdateTimeMilliseconds;
+        timeGetter.getMillis() - lastUpdateTimeMilliseconds;
     final long timeUntilNextUpdateMilliseconds =
         updatePeriodMilliseconds - timeSinceLastUpdateMilliseconds;
     if (timeUntilNextUpdateMilliseconds <= 0) {
