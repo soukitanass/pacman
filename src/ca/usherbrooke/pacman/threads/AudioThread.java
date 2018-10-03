@@ -5,9 +5,10 @@ import ca.usherbrooke.pacman.controller.SoundController;
 import ca.usherbrooke.pacman.model.IGameModel;
 import ca.usherbrooke.pacman.model.sound.ISoundModel;
 import ca.usherbrooke.pacman.model.sound.SoundModel;
+import ca.usherbrooke.pacman.view.CloseObserver;
 import ca.usherbrooke.pacman.view.IGameView;
 
-public class AudioThread extends Thread {
+public class AudioThread extends Thread implements CloseObserver{
 
   private static final int THREAD_SLEEP = 50;
   private volatile boolean isRunning = false;
@@ -144,5 +145,14 @@ public class AudioThread extends Thread {
   public void addKeyListenner(IGameView view2) {
     view2.addKeyListener(soundController);
 
+  }
+
+  @Override
+  public void onClosingView() {
+    isRunning = false;
+    synchronized (lock) {
+      lock.notifyAll();
+    }
+    
   }
 }
