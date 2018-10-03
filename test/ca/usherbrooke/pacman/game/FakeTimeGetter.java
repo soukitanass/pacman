@@ -9,7 +9,7 @@ public class FakeTimeGetter implements ITimeGetter {
   }
 
   @Override
-  public long getMillis() {
+  public long getMilliseconds() {
     return currentTimeMilliseconds;
   }
 
