@@ -25,6 +25,7 @@ import ca.usherbrooke.pacman.view.panel.TextPanel;
 
 @SuppressWarnings({"serial", "squid:S1948"})
 public class GameCanvas extends JPanel {
+  private static final String LEVEL_PANEL_TEXT = "Level ";
   private static final double RATIO_LEVEL_HEIGHT_TO_TOTAL_HEIGHT = 0.9;
   private static final Color TEXT_PANEL_COLOR = new Color(0, 0, 0, 80);
 
@@ -44,10 +45,7 @@ public class GameCanvas extends JPanel {
   private static final String PAUSE_TEXT = "PAUSE";
   private static final String GAMEOVER_TEXT = "GAME OVER";
 
-
-
   private JLayeredPane layeredPane = new JLayeredPane();
-
   private JFrame window = new JFrame(GAME_TITLE);
 
   GameCanvas(IGameModel model, int ghostSpriteTogglePeriod, int pacmanSpriteTogglePeriod) {
@@ -183,7 +181,7 @@ public class GameCanvas extends JPanel {
     } else {
       levelCompletedPanel = null;
     }
-    if (model.isManuallyPaused()) {
+    if (model.isPaused()) {
       setPausePanel();
       pausePanel.setBounds(0, 0, window.getWidth(), window.getHeight());
       pausePanel.setOffsetX(getOffsetX());
@@ -250,7 +248,8 @@ public class GameCanvas extends JPanel {
     }
 
     final int levelNumberOffset = 2;
-    final String levelText = "Level " + model.getCurrentLevelIndex() + levelNumberOffset;
+    final int levelNumber = model.getCurrentLevelIndex() + levelNumberOffset;
+    final String levelText = LEVEL_PANEL_TEXT + levelNumber;
 
     levelCompletedPanel = new TextPanel(model, levelText);
     levelCompletedPanel.setBackground(TEXT_PANEL_COLOR);
@@ -263,7 +262,6 @@ public class GameCanvas extends JPanel {
     gameOverPanel.setBackground(TEXT_PANEL_COLOR);
     gameOverPanel.setOpaque(true);
     layeredPane.add(gameOverPanel, Integer.valueOf(1));
-
   }
 
   public void removePausePanel() {
