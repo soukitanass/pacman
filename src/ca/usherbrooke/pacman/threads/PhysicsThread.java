@@ -1,25 +1,22 @@
 package ca.usherbrooke.pacman.threads;
 
-
 import java.util.Queue;
-import ca.usherbrooke.pacman.model.Direction;
 import ca.usherbrooke.pacman.model.GameEvent;
 import ca.usherbrooke.pacman.model.GameEventObject;
 import ca.usherbrooke.pacman.model.Ghost;
+import ca.usherbrooke.pacman.model.GhostMoveValidator;
 import ca.usherbrooke.pacman.model.IGameObject;
-import ca.usherbrooke.pacman.model.IMoveValidator;
 import ca.usherbrooke.pacman.model.Level;
-import ca.usherbrooke.pacman.model.MoveRequest;
+import ca.usherbrooke.pacman.model.MovementManager;
 import ca.usherbrooke.pacman.model.PacMan;
 import ca.usherbrooke.pacman.model.PacmanMoveValidator;
 import ca.usherbrooke.pacman.model.Position;
-import ca.usherbrooke.pacman.model.exceptions.InvalidDirectionException;
 import ca.usherbrooke.pacman.view.utilities.WarningDialog;
 
 public class PhysicsThread extends Thread {
   private volatile boolean isRunning = false;
 
-  private static final int SLEEP_TIME = 10;
+  private static final int SLEEP_TIME = 25;
   private static final String THREAD_NAME = "Physic_Thread";
   private final Queue<GameEventObject> eventQueue;
   private final Queue<Level> moveQueue;
@@ -28,7 +25,7 @@ public class PhysicsThread extends Thread {
     this.setName(THREAD_NAME);
     this.eventQueue = eventQueue;
     this.moveQueue = moveQueue;
-    }
+  }
 
   public synchronized void stopThread() {
     isRunning = false;
@@ -44,10 +41,9 @@ public class PhysicsThread extends Thread {
       try {
         synchronized (moveQueue) {
           while (!moveQueue.isEmpty()) {
-            
             Level level = moveQueue.poll();
-            IMoveValidator moveValidator = new PacmanMoveValidator(level);
-            updatePosition(level.getPacMan(), moveValidator);
+            validPacmanMovement(level);
+            validGhostMovement(level);
             validPacgumConsumedEvent(level);
             validSuperPacgumConsumedEvent(level);
             validPacmanGhostsCollisionEvent(level);
@@ -57,7 +53,6 @@ public class PhysicsThread extends Thread {
 
       } catch (InterruptedException exception) {
         Thread.currentThread().interrupt();
-
         WarningDialog.display("Interrupt error in" + this.getName(), exception);
       }
     }
@@ -68,8 +63,8 @@ public class PhysicsThread extends Thread {
   private void validPacgumConsumedEvent(Level level) {
     PacMan pacman = level.getPacMan();
     Position position = pacman.getPosition();
-    if (level.isPacgum(position)) {   
-      eventQueue.add(new GameEventObject(pacman, GameEvent.PACGUM_CONSUMED, position));
+    if (level.isPacgum(position)) {
+      addEventToQueue(pacman, GameEvent.PACGUM_CONSUMED, position);
     }
   }
 
@@ -77,7 +72,7 @@ public class PhysicsThread extends Thread {
     PacMan pacman = level.getPacMan();
     Position position = pacman.getPosition();
     if (level.isSuperPacgum(position)) {
-      eventQueue.add(new GameEventObject(pacman, GameEvent.SUPER_PACGUM_CONSUMED, position));
+      addEventToQueue(pacman, GameEvent.SUPER_PACGUM_CONSUMED, position);
     }
   }
 
@@ -86,54 +81,33 @@ public class PhysicsThread extends Thread {
     Position position = pacman.getPosition();
     for (Ghost ghost : level.getGhosts()) {
       if (position.equals(ghost.getPosition())) {
-        eventQueue.add(new GameEventObject(pacman, GameEvent.PACMAN_GHOST_COLLISON, position));
+        addEventToQueue(pacman, GameEvent.PACMAN_GHOST_COLLISON, position);
         return;
       }
     }
-  } 
-  
-  public void updatePosition(IGameObject gameObject, IMoveValidator moveValidator) {
-
-    MoveRequest desiredMoveRequest =
-        new MoveRequest(gameObject.getPosition(), gameObject.getDesiredDirection());
-    try {
-      if (moveValidator.isDesiredDirectionValid(desiredMoveRequest)
-          && moveValidator.isValid(desiredMoveRequest)) {
-        gameObject.setPosition(moveValidator.getTargetPosition(desiredMoveRequest));
-        return;
-      }
-    } catch (InvalidDirectionException exception) {
-     
-    }
-
-    MoveRequest fallbackMoveRequest =
-        new MoveRequest(gameObject.getPosition(), gameObject.getDirection());
-    try {
-      if (moveValidator.isValid(fallbackMoveRequest)) {
-        gameObject.setPosition(moveValidator.getTargetPosition(fallbackMoveRequest));
-      }
-    } catch (InvalidDirectionException exception) {
-
-    }
-
-    setDirection(gameObject, moveValidator);
   }
 
-  public void setDirection(IGameObject gameObject, IMoveValidator moveValidator) {
-    Direction direction = gameObject.getDesiredDirection();
-    gameObject.setDesiredDirection(direction);
-    MoveRequest moveRequest = new MoveRequest(gameObject.getPosition(), direction);
-    try {
-      if (!moveValidator.isDesiredDirectionValid(moveRequest)) {
-        return;
-      }
-    } catch (InvalidDirectionException exception) {
-
-    }
-    gameObject.setDirection(direction);
+  private void validPacmanMovement(Level level) {
+    PacmanMoveValidator moveValidator = new PacmanMoveValidator(level);
+    PacMan pacman = level.getPacMan();
+    MovementManager movementManager = new MovementManager(pacman, moveValidator);
+    movementManager.setDirection(pacman.getDesiredDirection());
+    addEventToQueue(pacman, GameEvent.ENTITY_MOVE, movementManager.getPosition());
   }
-  
-  private void createGameEvent() {
-    
+
+  private void validGhostMovement(Level level) {
+    GhostMoveValidator moveValidator = new GhostMoveValidator(level);
+    for (Ghost ghost : level.getGhosts()) {
+      MovementManager movementManager = new MovementManager(ghost, moveValidator);
+      movementManager.setDirection(ghost.getDesiredDirection());
+      addEventToQueue(ghost, GameEvent.ENTITY_MOVE, movementManager.getPosition());
+    }
+  }
+
+  private void addEventToQueue(IGameObject gameObject, GameEvent gameEvent, Position position) {
+    GameEventObject gamaEventObject = new GameEventObject(gameObject, gameEvent, position);
+    synchronized (eventQueue) {
+      eventQueue.add(gamaEventObject);
+    }
   }
 }

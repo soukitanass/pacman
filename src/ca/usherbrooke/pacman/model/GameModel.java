@@ -9,9 +9,6 @@ import java.util.Queue;
 import java.util.Random;
 import java.util.concurrent.ConcurrentLinkedQueue;
 import com.google.gson.Gson;
-import ca.usherbrooke.pacman.model.exceptions.GameObjectCannotChangeDirectionException;
-import ca.usherbrooke.pacman.model.exceptions.InvalidDirectionException;
-import ca.usherbrooke.pacman.model.exceptions.MovementManagerNotFoundException;
 import ca.usherbrooke.pacman.model.random.RandomDirectionGenerator;
 import ca.usherbrooke.pacman.model.sound.Observer;
 import ca.usherbrooke.pacman.threads.PhysicsThread;
@@ -30,8 +27,6 @@ public class GameModel implements IGameModel {
   private boolean isRunning;
   private boolean isLevelCompleted;
   private boolean isGameOver;
-  private MovementManager pacmanMovementManager;
-  private List<MovementManager> ghostMovementManagers;
   private PacmanGhostCollisionManager pacmanGhostCollisionManager;
   private boolean isGameStarted = false;
   private GameState gameState = GameState.GAME_MENU;
@@ -122,16 +117,12 @@ public class GameModel implements IGameModel {
           pacmanGhostCollisionManager.update();
           consumingGhost();
         }
-        if (gameEventObject.getGameEvent() == GameEvent.PACMAN_MOVE) {
+        if (gameEventObject.getGameEvent() == GameEvent.ENTITY_MOVE) {
           IGameObject gameObject = gameEventObject.getGameObject();
           gameObject.setPosition(gameEventObject.getPosition());
         }
-        if (gameEventObject.getGameEvent() == GameEvent.GHOST_MOVE) {
-          
-        }
       }
     }
-
     updateGameObjectsPosition();
   }
 
@@ -152,31 +143,20 @@ public class GameModel implements IGameModel {
   }
 
   private void updateGameObjectsPosition() {
-   // pacman.setPosition(position);
-  //  pacmanMovementManager.updatePosition();
     for (PeriodicDirectionManager ghostDirectionManager : ghostDirectionManagers) {
       ghostDirectionManager.update();
-    }
-    for (MovementManager ghostMovementManager : ghostMovementManagers) {
-      ghostMovementManager.updatePosition();
     }
   }
 
   private void initializeLevel() {
     Level level = getCurrentLevel();
     Level initialLevel = getCurrentLevel();
-    IMoveValidator pacmanMoveValidator = new PacmanMoveValidator(level);
-    IMoveValidator ghostMoveValidator = new GhostMoveValidator(level);
     pacman = level.getPacMan();
-    pacmanMovementManager = new MovementManager(pacman, pacmanMoveValidator);
-
-    ghostMovementManagers = new ArrayList<>();
     ghostDirectionManagers = new ArrayList<>();
 
     for (Ghost ghost : level.getGhosts()) {
       ghostDirectionManagers.add(new PeriodicDirectionManager(this, randomDirectionGenerator, ghost,
           GHOSTS_DIRECTION_CHANGE_PERIOD));
-      ghostMovementManagers.add(new MovementManager(ghost, ghostMoveValidator));
     }
 
     pacmanPacgumCollisionManager = new PacmanPacgumCollisionManager(level);
@@ -258,8 +238,7 @@ public class GameModel implements IGameModel {
     File file = new File(GameModel.class.getClassLoader().getResource(levelsPath).getFile());
 
     try (FileReader fileReader = new FileReader(file)) {
-      this.levelsList = gson.fromJson(new BufferedReader(fileReader), Levels.class);
-      this.pacman = getCurrentLevel().getPacMan();
+      levelsList = gson.fromJson(new BufferedReader(fileReader), Levels.class);
     } catch (Exception exception) {
       WarningDialog.display("Error while opening level file. ", exception);
     }
@@ -271,20 +250,11 @@ public class GameModel implements IGameModel {
   }
 
   @Override
-  public void setDirection(IHasDesiredDirection gameObject, Direction direction)
-      throws GameObjectCannotChangeDirectionException {
+  public void setDirection(IHasDesiredDirection gameObject, Direction direction) {
     if (isPaused()) {
       return;
     }
     gameObject.setDesiredDirection(direction);
-  //  MovementManager movementManager;
- //   try {
-  //    movementManager = getMovementManagerFromGameObject(gameObject);
- //   } catch (MovementManagerNotFoundException e) {
- //     throw new GameObjectCannotChangeDirectionException(
- //         "Could not find a movement manager for the given game object", e);
- //   }
- //   movementManager.setDirection(direction);
   }
 
   @Override
@@ -296,21 +266,6 @@ public class GameModel implements IGameModel {
   public boolean isManuallyPaused() {
     return isManuallyPaused;
   }
-
-  private MovementManager getMovementManagerFromGameObject(IHasDesiredDirection gameObject)
-      throws MovementManagerNotFoundException {
-    if (gameObject == pacmanMovementManager.getManagedGameObject()) {
-      return pacmanMovementManager;
-    }
-    for (MovementManager ghostMovementManager : ghostMovementManagers) {
-      if (gameObject == ghostMovementManager.getManagedGameObject()) {
-        return ghostMovementManager;
-      }
-    }
-    throw new MovementManagerNotFoundException(
-        "Could not find a movement manager for the given game object");
-  }
-
 
   public boolean isGameOver() {
     return isGameOver;

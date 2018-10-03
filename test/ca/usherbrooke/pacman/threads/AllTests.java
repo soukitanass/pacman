@@ -5,7 +5,7 @@ import org.junit.runner.RunWith;
 
 @RunWith(Suite.class)
 
-@Suite.SuiteClasses({PhysicsThreadTest.class})
+@Suite.SuiteClasses({PhysicsThreadTest.class, RenderThreadTest.class})
 
 public class AllTests {
 }

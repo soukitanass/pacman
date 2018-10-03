@@ -14,14 +14,15 @@ public class MovementManager {
     this.moveValidator = moveValidator;
   }
 
-  public void updatePosition() {
+
+  public Position getPosition() {
+    Position gameObjectPosition = gameObject.getPosition();
     MoveRequest desiredMoveRequest =
         new MoveRequest(gameObject.getPosition(), gameObject.getDesiredDirection());
     try {
       if (moveValidator.isDesiredDirectionValid(desiredMoveRequest)
           && moveValidator.isValid(desiredMoveRequest)) {
-        gameObject.setPosition(moveValidator.getTargetPosition(desiredMoveRequest));
-        return;
+        return moveValidator.getTargetPosition(desiredMoveRequest);
       }
     } catch (InvalidDirectionException exception) {
       WarningDialog.display(INVALID_DIRECTION_MSG, exception);
@@ -31,13 +32,14 @@ public class MovementManager {
         new MoveRequest(gameObject.getPosition(), gameObject.getDirection());
     try {
       if (moveValidator.isValid(fallbackMoveRequest)) {
-        gameObject.setPosition(moveValidator.getTargetPosition(fallbackMoveRequest));
+        gameObjectPosition = moveValidator.getTargetPosition(fallbackMoveRequest);
       }
     } catch (InvalidDirectionException exception) {
       WarningDialog.display(INVALID_DIRECTION_MSG, exception);
     }
 
     setDirection(gameObject.getDesiredDirection());
+    return gameObjectPosition;
   }
 
   public void setDirection(Direction direction) {
