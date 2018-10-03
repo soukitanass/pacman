@@ -18,17 +18,17 @@ public class GameModel implements IGameModel {
   private static final int IS_LEVEL_COMPLETED_PERIOD = 20;
   private static final int GHOSTS_DIRECTION_CHANGE_PERIOD = 3;
   private static final int RANDOM_GENERATOR_SEED = 8544574;
-  private static final int JOIN_TIMER = 1000; // ms
+  private static final int JOIN_TIMER = 500; // ms
 
   private Levels levelsList;
   private int currentGameFrame = 0;
   private boolean isManuallyPaused = false;
-  private boolean isPaused;
-  private boolean isRunning;
-  private boolean isLevelCompleted;
-  private boolean isGameOver;
-  private PacmanGhostCollisionManager pacmanGhostCollisionManager;
+  private boolean isPaused = false;
+  private boolean isRunning = false;
+  private boolean isLevelCompleted = false;
+  private boolean isGameOver = false;
   private boolean isGameStarted = false;
+  private PacmanGhostCollisionManager pacmanGhostCollisionManager;
   private GameState gameState = GameState.GAME_MENU;
   private PacMan pacman;
   private PacmanPacgumCollisionManager pacmanPacgumCollisionManager;
@@ -37,10 +37,10 @@ public class GameModel implements IGameModel {
   Random randomNumberGenerator = new Random(RANDOM_GENERATOR_SEED);
   IDirectionGenerator randomDirectionGenerator =
       new RandomDirectionGenerator(randomNumberGenerator);
-  private List<PeriodicDirectionManager> ghostDirectionManagers;
+  private List<PeriodicDirectionManager> ghostDirectionManagers = new ArrayList<>();
   private int isLevelCompletedUpdatesCounter = 0;
-  private Queue<Level> moveQueue = new ConcurrentLinkedQueue<>();
-  private Queue<GameEventObject> eventQueue = new ConcurrentLinkedQueue<>();
+  private Queue<Level> moveQueue = new ConcurrentLinkedQueue<>(); // Thread Safe
+  private Queue<GameEventObject> eventQueue = new ConcurrentLinkedQueue<>(); // Thread Safe
   private PhysicsThread physicsThread = new PhysicsThread(moveQueue, eventQueue);
 
   public GameModel() {
@@ -99,28 +99,25 @@ public class GameModel implements IGameModel {
       initializeLevel();
     }
 
-    moveQueue.add(getCurrentLevel());
-
-    synchronized (eventQueue) {
-      while (!eventQueue.isEmpty()) {
-        GameEventObject gameEventObject = eventQueue.poll();
-        if (gameEventObject.getGameEvent() == GameEvent.PACGUM_CONSUMED) {
-          pacmanPacgumCollisionManager.update();
-          consumingPacGums();
-        } else {
-          movingToEmptySpace();
-        }
-        if (gameEventObject.getGameEvent() == GameEvent.SUPER_PACGUM_CONSUMED) {
-          pacmanSuperPacgumCollisionManager.update();
-        }
-        if (gameEventObject.getGameEvent() == GameEvent.PACMAN_GHOST_COLLISON) {
-          pacmanGhostCollisionManager.update();
-          consumingGhost();
-        }
-        if (gameEventObject.getGameEvent() == GameEvent.ENTITY_MOVE) {
-          IGameObject gameObject = gameEventObject.getGameObject();
-          gameObject.setPosition(gameEventObject.getPosition());
-        }
+    moveQueue.add(level);
+    while (!eventQueue.isEmpty()) {
+      GameEventObject gameEventObject = eventQueue.poll();
+      if (gameEventObject.getGameEvent() == GameEvent.PACGUM_CONSUMED) {
+        pacmanPacgumCollisionManager.update();
+        consumingPacGums();
+      } else {
+        movingToEmptySpace();
+      }
+      if (gameEventObject.getGameEvent() == GameEvent.SUPER_PACGUM_CONSUMED) {
+        pacmanSuperPacgumCollisionManager.update();
+      }
+      if (gameEventObject.getGameEvent() == GameEvent.PACMAN_GHOST_COLLISON) {
+        pacmanGhostCollisionManager.update();
+        consumingGhost();
+      }
+      if (gameEventObject.getGameEvent() == GameEvent.ENTITY_MOVE) {
+        IGameObject gameObject = gameEventObject.getGameObject();
+        gameObject.setPosition(gameEventObject.getPosition());
       }
     }
     updateGameObjectsPosition();
@@ -130,7 +127,6 @@ public class GameModel implements IGameModel {
     isLevelCompleted = false;
     levelsList.incrementCurrentLevel();
     initializeLevel();
-    updateGameObjectsPosition();
   }
 
   private void updateIsLevelCompleted() {
@@ -152,7 +148,6 @@ public class GameModel implements IGameModel {
     Level level = getCurrentLevel();
     Level initialLevel = getCurrentLevel();
     pacman = level.getPacMan();
-    ghostDirectionManagers = new ArrayList<>();
 
     for (Ghost ghost : level.getGhosts()) {
       ghostDirectionManagers.add(new PeriodicDirectionManager(this, randomDirectionGenerator, ghost,
