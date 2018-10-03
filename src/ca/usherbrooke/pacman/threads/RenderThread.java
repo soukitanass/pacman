@@ -18,6 +18,7 @@ public class RenderThread implements Runnable, CloseObserver {
   }
 
   @Override
+  @SuppressWarnings("squid:S106")
   public void run() {
     System.out.println("START - " + this.getName());
     shouldRun = true;
@@ -47,6 +48,7 @@ public class RenderThread implements Runnable, CloseObserver {
     try {
       Thread.sleep(timeUntilNextUpdateMilliseconds);
     } catch (InterruptedException e) {
+      Thread.currentThread().interrupt();
       WarningDialog.display("An error occured while waiting for the next frame update", e);
     }
   }
