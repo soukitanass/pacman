@@ -8,7 +8,7 @@ import ca.usherbrooke.pacman.model.IGameModel;
 public class GameView implements IGameView {
   private GameCanvas canvas;
   private IGameModel model;
-  private List<CloseObserver> closeObservers = new ArrayList<CloseObserver>();
+  private List<CloseObserver> closeObservers = new ArrayList<>();
 
   public GameView(IGameModel model, int ghostSpriteTogglePeriod, int pacmanSpriteTogglePeriod) {
     this.model = model;

@@ -13,16 +13,16 @@ import ca.usherbrooke.pacman.model.IGameModel;
 @SuppressWarnings("serial")
 public abstract class AbstractMenuPanel extends AbstractPanel {
 
-  protected static int IMAGE_SCALE_FACTOR = 2;
-  protected static int DELTA_Y = 40;
-  protected static int CHECKBOX_X_OFFSET = 10;
+  protected static final int IMAGE_SCALE_FACTOR = 2;
+  protected static final int DELTA_Y = 40;
+  protected static final int CHECKBOX_X_OFFSET = 10;
 
-  private static int SLIDER_WIDTH = 360;
-  private static int MINOR_TICK_SPACING = 2;
-  private static int MAJOR_TICK_SPACING = 10;
-  private static Color FOREGROUND_COLOR = Color.WHITE;
-  private static Color BACKGROUND_COLOR = Color.BLACK;
-  private static ca.usherbrooke.pacman.view.Color SPRITE_COLOR =
+  private static final int SLIDER_WIDTH = 360;
+  private static final int MINOR_TICK_SPACING = 2;
+  private static final int MAJOR_TICK_SPACING = 10;
+  private static final Color FOREGROUND_COLOR = Color.WHITE;
+  private static final Color BACKGROUND_COLOR = Color.BLACK;
+  private static final ca.usherbrooke.pacman.view.Color SPRITE_COLOR =
       ca.usherbrooke.pacman.view.Color.WHITE;
 
   protected IGameModel model;
