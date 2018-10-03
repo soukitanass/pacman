@@ -9,7 +9,7 @@ import ca.usherbrooke.pacman.view.Color;
 public class TextPanel extends AbstractPanel {
 
   private static Color COLOR = Color.YELLOW;
-  private static double TEXT_SCALE_FACTOR = 1.2;
+  private static double TEXT_SCALE_FACTOR = 2.2;
   private static int Y_TILES_OFFSET = 2;
 
   private IGameModel model;

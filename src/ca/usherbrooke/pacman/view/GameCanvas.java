@@ -149,7 +149,7 @@ public class GameCanvas extends JPanel {
     menuPanel.setOffsetX(getOffsetX());
     menuPanel.setOffsetY(getOffsetY());
     menuPanel.setPixelTileSize(pixelTileSize);
-    menuPanel.paint(graphic);;
+    menuPanel.paint(graphic);
     showComponent(menuPanel);
   }
 

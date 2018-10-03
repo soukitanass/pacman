@@ -12,13 +12,13 @@ import ca.usherbrooke.pacman.model.IGameModel;
 @SuppressWarnings("serial")
 public class AudioMenuPanel extends AbstractMenuPanel {
 
-  private static double Y_OFFSET_FACTOR = 0.1;
-  private static String MUTE_LABEL = "Mute";
-  private static String MUSIC_LABEL = "MUSIC";
-  private static String SOUND_LABEL = "SOUND";
-  private static String GO_BACK_LABEL = "GO BACK";
-  private static int MINIMAL_VOLUME = 0;
-  private static int MAXIMAL_VOLUME = 100;
+  private static final double Y_OFFSET_FACTOR = 0.1;
+  private static final String MUTE_LABEL = "Mute";
+  private static final String MUSIC_LABEL = "MUSIC";
+  private static final String SOUND_LABEL = "SOUND";
+  private static final String GO_BACK_LABEL = "GO BACK";
+  private static final int MINIMAL_VOLUME = 0;
+  private static final int MAXIMAL_VOLUME = 100;
 
   private JLabel soundMenuOption = new JLabel();
   private JLabel musicMenuOption = new JLabel();
@@ -79,6 +79,7 @@ public class AudioMenuPanel extends AbstractMenuPanel {
 
   private void addMouseListeners() {
     goBackMenuOption.addMouseListener(new MouseAdapter() {
+      @Override
       public void mouseClicked(MouseEvent e) {
         model.setGameState(GameState.GAME_MENU);
       }
