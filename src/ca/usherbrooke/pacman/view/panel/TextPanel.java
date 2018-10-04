@@ -28,7 +28,7 @@ public class TextPanel extends AbstractPanel {
   @Override
   public void paint(Graphics graphic) {
     super.paint(graphic);
-    final BufferedImage image = getJLabelImage(text, textColor, textScaleFactor);
+    final BufferedImage image = getLabelImage(text, textColor, textScaleFactor);
     final Position position =
         positioningStrategy.getPosition(image, model, pixelTileSize, offsetX, offsetY);
     graphic.drawImage(image, position.getX(), position.getY(), null);
