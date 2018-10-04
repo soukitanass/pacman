@@ -9,7 +9,7 @@ public class WarningDialog {
 
   }
 
-  private static void displayWarningDialog(String warningMessage) {
+  public static void displayWarningDialog(String warningMessage) {
     JOptionPane.showMessageDialog(null, warningMessage, "Error!", JOptionPane.ERROR_MESSAGE);
   }
 
