@@ -11,6 +11,7 @@ public class Level {
   private static final int WALL_CODE_MIN = 1;
   private static final int WALL_CODE_MAX = 36;
   private static final int GHOST_GATE_CODE = 37;
+  private static final int GHOST_ROOM_CODE = 38;
   private static final int TUNNEL_CODE = 325;
   private static final int INITIAL_NUMBER_OF_LIVES = 3;
 
@@ -156,6 +157,11 @@ public class Level {
       }
     }
     return true;
+  }
+
+  public boolean isGhostRoom(Position position) {
+    final int code = getCodeAtPosition(position);
+    return GHOST_ROOM_CODE == code;
   }
 
 }
