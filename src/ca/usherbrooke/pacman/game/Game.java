@@ -36,7 +36,7 @@ public class Game implements IGame {
   public static void main(String[] args) {
     final String LEVELS_PATH = "Levels.json";
     final int gameUpdatesPerSecond = 7;
-    final int viewUpdatesPerSecond = 20;
+    final int viewUpdatesPerSecond = 30;
     final int gameUpdatePeriodMilliseconds = (int) (1000.0 / gameUpdatesPerSecond);
     final int viewUpdatePeriodMilliseconds = (int) (1000.0 / viewUpdatesPerSecond);
     IGameModel model = new GameModel();

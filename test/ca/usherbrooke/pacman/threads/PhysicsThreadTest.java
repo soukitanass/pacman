@@ -59,7 +59,7 @@ public class PhysicsThreadTest {
   @Test
   public void pacmanPacgumConsumedTest() throws InterruptedException {
     Level level = getLevel();
-    level.getPacMan().setPosition(new Position(1, 0));
+    level.getPacMan().setPosition(new Position(2, 0));
 
     synchronized (moveQueue) {
       moveQueue.add(level);
@@ -79,7 +79,7 @@ public class PhysicsThreadTest {
   @Test
   public void pacmanSuperPacgumConsumedTest() throws InterruptedException {
     Level level = getLevel();
-    level.getPacMan().setPosition(new Position(2, 0));
+    level.getPacMan().setPosition(new Position(3, 0));
 
     synchronized (moveQueue) {
       moveQueue.add(level);
@@ -99,8 +99,8 @@ public class PhysicsThreadTest {
   @Test
   public void pacmanGhostColision() throws InterruptedException {
     Level level = getLevel();
-    level.getPacMan().setPosition(new Position(3, 0));
-    level.getGhosts().get(0).setPosition(new Position(3, 0));
+    level.getPacMan().setPosition(new Position(5, 0));
+    level.getGhosts().get(0).setPosition(new Position(5, 0));
 
     synchronized (moveQueue) {
       moveQueue.add(level);
@@ -136,13 +136,14 @@ public class PhysicsThreadTest {
   }
 
   private Level getLevel() {
-    List<List<Integer>> map = Arrays.asList(Arrays.asList(0, PACGUM_CODE, SUPER_PACGUM_CODE, 0));
+    List<List<Integer>> map =
+        Arrays.asList(Arrays.asList(0, 0, PACGUM_CODE, SUPER_PACGUM_CODE, 0, 0));
     List<Ghost> ghosts = new ArrayList<>();
 
     Ghost ghost = new Ghost();
     ghost.setDesiredDirection(Direction.RIGHT);
     ghost.setDirection(Direction.RIGHT);
-    ghost.setPosition(new Position(3, 0));
+    ghost.setPosition(new Position(5, 0));
     ghosts.add(ghost);
 
     PacMan pacman = new PacMan();
