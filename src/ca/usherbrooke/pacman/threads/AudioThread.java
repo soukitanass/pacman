@@ -46,16 +46,14 @@ public class AudioThread extends Thread implements CloseObserver {
           soundPlayer.setMusicVolumeChanged(musicVolume);
           musicVolumeChanged = false;
         }
-        if (isMusicPlay() || isSoundPlay()) {
+        if (isMusicPlay()) {
           if (isMuted) {
             soundPlayer.mute();
           } else {
             soundPlayer.unmute();
           }
-          musicPlay = false;
-          soundPlay = false;
+          setTheMusicPlay(false);
         }
-        
         Thread.sleep(THREAD_SLEEP);
         synchronized (lock) {
           lock.wait();
@@ -80,7 +78,7 @@ public class AudioThread extends Thread implements CloseObserver {
     }
   }
 
-  public int getSoundVolume() {
+  public synchronized int getSoundVolume() {
     return soundVolume;
   }
 
@@ -88,7 +86,7 @@ public class AudioThread extends Thread implements CloseObserver {
     this.soundVolume = soundVolume;
   }
 
-  public int getMusicVolume() {
+  public synchronized int getMusicVolume() {
     return musicVolume;
   }
 
@@ -119,11 +117,12 @@ public class AudioThread extends Thread implements CloseObserver {
       lock.notifyAll();
     }
   }
+
   public synchronized void setTheSoundPlay(boolean soundPlay) {
     this.soundPlay = soundPlay;
   }
 
-  public boolean isMusicPlay() {
+  public synchronized boolean isMusicPlay() {
     return musicPlay;
   }
 
@@ -134,6 +133,7 @@ public class AudioThread extends Thread implements CloseObserver {
       lock.notifyAll();
     }
   }
+
   public synchronized void setTheMusicPlay(boolean musicPlay) {
     this.soundPlay = musicPlay;
   }

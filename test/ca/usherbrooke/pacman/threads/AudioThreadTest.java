@@ -9,10 +9,11 @@ import ca.usherbrooke.pacman.model.GameModel;
 import ca.usherbrooke.pacman.model.IGameModel;
 
 public class AudioThreadTest {
-  
+
+  private static final long THREAD_SLEEP = 100;
   private AudioThread audioThread;
   private static IGameModel model;
-  
+
   @Before
   public void setUp() throws Exception {
     model = new GameModel();
@@ -38,9 +39,43 @@ public class AudioThreadTest {
       assertEquals("Thread not stopped", expectedStop, actualStop);
     }
   }
- 
+
   @Test
-  public void test() {
-    //TODO
+  public void changeSoundVolumeTest() throws InterruptedException  {
+    int expectedVolume = 10;
+    audioThread.setSoundVolumeChanged(expectedVolume);
+    Thread.sleep(THREAD_SLEEP);
+    int actualVolume = audioThread.getSoundVolume();
+    audioThread.setStop();
+    assertEquals(expectedVolume, actualVolume);
   }
+
+  @Test
+  public void changeMusicVolumeTest() throws InterruptedException {
+    int expectedVolume = 10;
+    audioThread.setMusicVolumeChanged(expectedVolume);
+    Thread.sleep(THREAD_SLEEP);
+    int actualVolume = audioThread.getMusicVolume();
+    assertEquals(expectedVolume, actualVolume);
+  }
+
+  @Test
+  public void muteSoundTest() throws InterruptedException  {
+    boolean expected = true;
+    audioThread.setSoundPlay(expected);
+    Thread.sleep(THREAD_SLEEP);
+    boolean actual = audioThread.isSoundPlay();
+    assertEquals(expected, actual);
+  }
+
+  @Test
+  public void muteMusicTest() throws InterruptedException {
+    boolean expected = true;
+    audioThread.setMusicPlay(expected);
+    Thread.sleep(THREAD_SLEEP);
+    boolean actual = audioThread.isMusicPlay();
+    assertEquals(expected, actual);
+  }
+
+
 }
