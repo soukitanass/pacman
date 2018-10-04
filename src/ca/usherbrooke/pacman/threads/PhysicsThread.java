@@ -15,8 +15,10 @@ import ca.usherbrooke.pacman.view.utilities.WarningDialog;
 
 public class PhysicsThread extends Thread {
   private volatile boolean isRunning = false;
-
+  
   private static final int SLEEP_TIME = 15;
+  private static final int WAIT_TIME = 50;
+  
   private static final String THREAD_NAME = "Physic_Thread";
   private final Queue<GameEventObject> eventQueue;
   private final Queue<Level> moveQueue;
@@ -39,22 +41,25 @@ public class PhysicsThread extends Thread {
 
     while (isRunning) {
       try {
-        while (!moveQueue.isEmpty()) {
-          Level level = moveQueue.poll();
+        synchronized (moveQueue) {
+          while (!moveQueue.isEmpty()) {
+            Level level = moveQueue.poll();
 
-          validPacgumConsumedEvent(level);
-          validSuperPacgumConsumedEvent(level);
-          validPacmanGhostsCollisionEvent(level);
-          validPacmanMovement(level);
-          validGhostMovement(level);
+            validPacgumConsumedEvent(level);
+            validSuperPacgumConsumedEvent(level);
+            validPacmanGhostsCollisionEvent(level);
+            validPacmanMovement(level);
+            validGhostMovement(level);
+            Thread.sleep(SLEEP_TIME);
+          }
+          moveQueue.wait(WAIT_TIME);
         }
-        Thread.sleep(SLEEP_TIME);
-
       } catch (InterruptedException exception) {
         Thread.currentThread().interrupt();
         WarningDialog.display("Interrupt error in" + this.getName(), exception);
       }
     }
+
     System.out.println("STOP - " + this.getName());
   }
 

@@ -10,11 +10,11 @@ public class PacmanGhostCollisionManager {
   private List<Position> listPositions;
   private Position pacmanInitialPosition;
 
-  public PacmanGhostCollisionManager(Level level, Level initialLevel) {
+  public PacmanGhostCollisionManager(Level level) {
     listPositions = new ArrayList<>();
     this.pacman = level.getPacMan();
     this.level = level;
-    this.initialLevel = initialLevel;
+    this.initialLevel = level;
     loadGhostInitialPosition();
     loadPacmanInitialPosition();
   }

@@ -19,7 +19,7 @@ public class GameModel implements IGameModel {
   private static final int IS_LEVEL_COMPLETED_PERIOD = 20;
   private static final int GHOSTS_DIRECTION_CHANGE_PERIOD = 3;
   private static final int RANDOM_GENERATOR_SEED = 8544574;
-  private static final int JOIN_TIMER = 500; // ms
+  private static final int JOIN_TIMER = 1000; // ms
 
   private Levels levelsList;
   private int currentGameFrame = 0;
@@ -100,7 +100,6 @@ public class GameModel implements IGameModel {
       initializeLevel();
     }
 
-    moveQueue.add(level);
     while (!eventQueue.isEmpty()) {
       GameEventObject gameEventObject = eventQueue.poll();
       if (gameEventObject.getGameEvent() == GameEvent.PACGUM_CONSUMED) {
@@ -121,6 +120,12 @@ public class GameModel implements IGameModel {
         gameObject.setPosition(gameEventObject.getPosition());
       }
     }
+    
+    synchronized (moveQueue) {
+      moveQueue.add(level);
+      moveQueue.notify();
+    }
+
     updateGameObjectsPosition();
   }
 
@@ -147,7 +152,6 @@ public class GameModel implements IGameModel {
 
   private void initializeLevel() {
     Level level = getCurrentLevel();
-    Level initialLevel = getCurrentLevel();
     pacman = level.getPacMan();
 
     for (Ghost ghost : level.getGhosts()) {
@@ -157,7 +161,7 @@ public class GameModel implements IGameModel {
 
     pacmanPacgumCollisionManager = new PacmanPacgumCollisionManager(level);
     pacmanSuperPacgumCollisionManager = new PacmanSuperPacgumCollisionManager(level);
-    pacmanGhostCollisionManager = new PacmanGhostCollisionManager(level, initialLevel);
+    pacmanGhostCollisionManager = new PacmanGhostCollisionManager(level);
 
     isGameStarted = true;
     isGameOver = false;
