@@ -62,16 +62,17 @@ public class AudioThreadTest {
   @Test
   public void muteSoundTest() throws InterruptedException  {
     boolean expected = true;
-    audioThread.setSoundPlay(expected);
+    audioThread.setTheSoundPlay(expected);
     Thread.sleep(THREAD_SLEEP);
     boolean actual = audioThread.isSoundPlay();
+    System.out.println("actual" + actual);
     assertEquals(expected, actual);
   }
 
   @Test
   public void muteMusicTest() throws InterruptedException {
     boolean expected = true;
-    audioThread.setMusicPlay(expected);
+    audioThread.setTheMusicPlay(expected);
     Thread.sleep(THREAD_SLEEP);
     boolean actual = audioThread.isMusicPlay();
     assertEquals(expected, actual);

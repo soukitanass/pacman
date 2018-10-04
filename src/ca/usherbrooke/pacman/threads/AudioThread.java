@@ -20,12 +20,13 @@ public class AudioThread extends Thread implements CloseObserver {
   private boolean musicVolumeChanged = false;
   private boolean soundPlay = false;
   private boolean musicPlay = false;
-  private boolean isMuted = false;
 
   private int soundVolume;
   private int musicVolume;
 
   private Object lock = new Object();
+  private boolean isMusicMuted = false;
+  private boolean isSoundMuted = false;
 
   public AudioThread(IGameModel model) {
     this.model = model;
@@ -47,12 +48,21 @@ public class AudioThread extends Thread implements CloseObserver {
           musicVolumeChanged = false;
         }
         if (isMusicPlay()) {
-          if (isMuted) {
-            soundPlayer.mute();
+          if (isMusicMuted) {
+            soundPlayer.muteMusic();
           } else {
-            soundPlayer.unmute();
+            soundPlayer.unmuteMusic();
           }
           setTheMusicPlay(false);
+        }
+
+        if (isSoundPlay()) {
+          if (isSoundMuted) {
+            soundPlayer.muteSound();
+          } else {
+            soundPlayer.unmuteSound();
+          }
+          setTheSoundPlay(false);
         }
         Thread.sleep(THREAD_SLEEP);
         synchronized (lock) {
@@ -107,12 +117,14 @@ public class AudioThread extends Thread implements CloseObserver {
   }
 
   public synchronized boolean isSoundPlay() {
+    System.out.println("issound play"+soundPlay);
     return soundPlay;
   }
 
   public synchronized void setSoundPlay(boolean isMuted) {
     this.soundPlay = true;
-    this.isMuted = isMuted;
+    System.out.println(soundPlay);
+    this.isSoundMuted = isMuted;
     synchronized (lock) {
       lock.notifyAll();
     }
@@ -128,14 +140,14 @@ public class AudioThread extends Thread implements CloseObserver {
 
   public synchronized void setMusicPlay(boolean isMuted) {
     this.musicPlay = true;
-    this.isMuted = isMuted;
+    this.isMusicMuted = isMuted;
     synchronized (lock) {
       lock.notifyAll();
     }
   }
 
   public synchronized void setTheMusicPlay(boolean musicPlay) {
-    this.soundPlay = musicPlay;
+    this.musicPlay = musicPlay;
   }
 
   public ISoundController getSoundController() {

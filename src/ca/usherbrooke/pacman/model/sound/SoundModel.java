@@ -8,7 +8,8 @@ public class SoundModel extends Observer implements ISoundModel {
   private ISoundPlayer actionSoundPlayer = new SoundPlayer();
   private ISoundPlayer backgroundSoundPlayer = new SoundPlayer();
   private SoundFactory soundFactory = new SoundFactory();
-  private boolean isMuted;
+  private boolean isSoundMuted = false;
+  private boolean isMusicMuted = false;
 
   public SoundModel(IGameModel subject) {
     this.subject = subject;
@@ -16,21 +17,36 @@ public class SoundModel extends Observer implements ISoundModel {
   }
 
   @Override
-  public boolean isMuted() {
-    return isMuted;
+  public boolean isSoundMuted() {
+    return isSoundMuted;
   }
 
   @Override
-  public synchronized void unmute() {
-    isMuted = false;
+  public boolean isMusicMuted() {
+    return isMusicMuted;
+  }
+
+  @Override
+  public synchronized void unmuteMusic() {
+    isMusicMuted = false;
     playSound(backgroundSoundPlayer, Sound.SIREN, true);
   }
 
   @Override
-  public synchronized void mute() {
-    isMuted = true;
-    actionSoundPlayer.stop();
+  public synchronized void muteMusic() {
+    isMusicMuted = true;
     backgroundSoundPlayer.stop();
+  }
+
+  @Override
+  public synchronized void unmuteSound() {
+    isSoundMuted = false;
+  }
+
+  @Override
+  public synchronized void muteSound() {
+    isSoundMuted = true;
+    actionSoundPlayer.stop();
   }
 
   @Override
@@ -45,10 +61,15 @@ public class SoundModel extends Observer implements ISoundModel {
 
   @Override
   public synchronized void toggleSound() {
-    if (isMuted()) {
-      unmute();
+    if (isSoundMuted()) {
+      unmuteSound();
     } else {
-      mute();
+      muteSound();
+    }
+    if (isMusicMuted()) {
+      unmuteMusic();
+    } else {
+      muteMusic();
     }
   }
 
@@ -60,17 +81,23 @@ public class SoundModel extends Observer implements ISoundModel {
 
   @Override
   public void consumingPacGums() {
-    playSound(actionSoundPlayer, Sound.CHOMP_SOUND, true);
+    if (!isSoundMuted()) {
+      playSound(actionSoundPlayer, Sound.CHOMP_SOUND, true);
+    }
   }
 
   @Override
   public void consumingGhost() {
-    playSound(actionSoundPlayer, Sound.EAT_GHOST_SOUND, false);
+    if (!isSoundMuted()) {
+      playSound(actionSoundPlayer, Sound.EAT_GHOST_SOUND, false);
+    }
   }
 
   @Override
   public void consumingFruit() {
-    playSound(actionSoundPlayer, Sound.EAT_FRUIT_SOUND, false);
+    if (!isSoundMuted()) {
+      playSound(actionSoundPlayer, Sound.EAT_FRUIT_SOUND, false);
+    }
   }
 
   @Override
@@ -84,10 +111,9 @@ public class SoundModel extends Observer implements ISoundModel {
   }
 
   private void playSound(ISoundPlayer soundPlayer, Sound sound, boolean looping) {
-    if (isMuted) {
+    if (isMusicMuted()) {
       return;
     }
-
     File soundFile;
     try {
       soundFile = soundFactory.getFile(sound);
@@ -104,7 +130,4 @@ public class SoundModel extends Observer implements ISoundModel {
       WarningDialog.display("Error while opening sound file. ", exception);
     }
   }
-
-
-
 }

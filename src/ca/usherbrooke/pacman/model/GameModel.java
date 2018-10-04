@@ -117,6 +117,7 @@ public class GameModel implements IGameModel {
         }
         if (gameEvent == GameEvent.SUPER_PACGUM_CONSUMED) {
           pacmanSuperPacgumCollisionManager.update();
+          consumingPacGums();
         }
         if (gameEvent == GameEvent.PACMAN_GHOST_COLLISON) {
           pacmanGhostCollisionManager.update();
