@@ -153,6 +153,7 @@ public class GameModel implements IGameModel {
 
   private void initializeLevel() {
     Level level = getCurrentLevel();
+    Level actualLevel = getCurrentLevel();
     pacman = level.getPacMan();
 
     for (Ghost ghost : level.getGhosts()) {
@@ -162,7 +163,7 @@ public class GameModel implements IGameModel {
 
     pacmanPacgumCollisionManager = new PacmanPacgumCollisionManager(level);
     pacmanSuperPacgumCollisionManager = new PacmanSuperPacgumCollisionManager(level);
-    pacmanGhostCollisionManager = new PacmanGhostCollisionManager(level);
+    pacmanGhostCollisionManager = new PacmanGhostCollisionManager(level, actualLevel);
 
     isGameStarted = true;
     isGameOver = false;
