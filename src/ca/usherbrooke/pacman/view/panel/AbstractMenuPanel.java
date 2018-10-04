@@ -50,7 +50,7 @@ public abstract class AbstractMenuPanel extends AbstractPanel {
   }
 
   protected void setJLabel(JLabel jLabel, String text, int y, double scaleFactor) {
-    final BufferedImage image = getJLabelImage(text, SPRITE_COLOR, scaleFactor);
+    final BufferedImage image = getLabelImage(text, SPRITE_COLOR, scaleFactor);
     final int levelWidth = model.getCurrentLevel().getWidth() * pixelTileSize;
     final int x = (levelWidth / 2) - (image.getWidth() / 2) + offsetX;
     final Point location = new Point(x, y);
