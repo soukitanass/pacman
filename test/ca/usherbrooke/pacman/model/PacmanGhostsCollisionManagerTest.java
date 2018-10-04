@@ -65,6 +65,7 @@ public class PacmanGhostsCollisionManagerTest {
     level.setPacMan(new PacMan(new Position(0, 0)));
     ghost.setPosition(new Position(0, 0));
     level.getGhosts().add(ghost);
-    pacmanGhostCollisionManager = new PacmanGhostCollisionManager(level, model.getCurrentLevel(),model);
+    pacmanGhostCollisionManager =
+        new PacmanGhostCollisionManager(level, model.getCurrentLevel(), model);
   }
 }
