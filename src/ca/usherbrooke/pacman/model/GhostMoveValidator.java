@@ -26,8 +26,18 @@ public class GhostMoveValidator implements IMoveValidator {
   }
 
   private boolean isDirectionValid(IMoveRequest moveRequest) throws InvalidDirectionException {
+    final Position currentPosition = moveRequest.getPosition();
     final Position targetPosition = getTargetPosition(moveRequest);
-    return !level.isWall(targetPosition) && !level.isTunnel(targetPosition);
+    return !level.isWall(targetPosition) && !level.isTunnel(targetPosition)
+        && !isUsingGhostGateTheWrongWay(currentPosition, targetPosition);
+  }
+
+  private boolean isUsingGhostGateTheWrongWay(Position currentPosition, Position targetPosition) {
+    final boolean isGoingFromGhostGateToGhostRoom =
+        level.isGhostGate(currentPosition) && level.isGhostRoom(targetPosition);
+    final boolean isGoingFromAnythingButGhostRoomToGhostGate =
+        !level.isGhostRoom(currentPosition) && level.isGhostGate(targetPosition);
+    return isGoingFromGhostGateToGhostRoom || isGoingFromAnythingButGhostRoomToGhostGate;
   }
 
 }
