@@ -28,6 +28,9 @@ public class GameModel implements IGameModel {
   private static final int GHOSTS_DIRECTION_CHANGE_PERIOD = 3;
   private static final int RANDOM_GENERATOR_SEED = 8544574;
   private static final int JOIN_TIMER = 1000; // ms
+  private static final int INITIAL_SCORE=0;
+  private static final int INITIAL_LIVES=3;
+  
 
   private Levels levelsList;
   private int currentGameFrame = 0;
@@ -105,7 +108,7 @@ public class GameModel implements IGameModel {
     }
     ++currentGameFrame;
     if (!isGameStarted) {
-      initializeLevel();
+      initializeLevel(INITIAL_SCORE,INITIAL_LIVES);
     }
 
     while (!eventQueue.isEmpty()) {
@@ -140,8 +143,10 @@ public class GameModel implements IGameModel {
 
   private void goToNextLevel() {
     isLevelCompleted = false;
+    int currentScore = getCurrentLevel().getScore();
+    int currentLives = getCurrentLevel().getLives();
     levelsList.incrementCurrentLevel();
-    initializeLevel();
+    initializeLevel(currentScore,currentLives);
   }
 
   private void updateIsLevelCompleted() {
@@ -159,8 +164,10 @@ public class GameModel implements IGameModel {
     }
   }
 
-  private void initializeLevel() {
+  private void initializeLevel(int score,int lives) {
     Level level = getCurrentLevel();
+    level.setScore(score);
+    level.setLives(lives);
     Level actualLevel = getCurrentLevel();
     pacman = level.getPacMan();
 
@@ -180,7 +187,7 @@ public class GameModel implements IGameModel {
   @Override
   public void startNewGame() {
     loadLevels(LEVEL_PATH);
-    initializeLevel();
+    initializeLevel(INITIAL_SCORE,INITIAL_LIVES);
   }
 
   @Override
