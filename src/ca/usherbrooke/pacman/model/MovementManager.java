@@ -18,7 +18,7 @@ public class MovementManager {
   public Position getPosition() {
     Position gameObjectPosition = gameObject.getPosition();
     MoveRequest desiredMoveRequest =
-        new MoveRequest(gameObject.getPosition(), gameObject.getDesiredDirection());
+        new MoveRequest(gameObjectPosition, gameObject.getDesiredDirection());
     try {
       if (moveValidator.isDesiredDirectionValid(desiredMoveRequest)
           && moveValidator.isValid(desiredMoveRequest)) {
@@ -29,7 +29,7 @@ public class MovementManager {
     }
 
     MoveRequest fallbackMoveRequest =
-        new MoveRequest(gameObject.getPosition(), gameObject.getDirection());
+        new MoveRequest(gameObjectPosition, gameObject.getDirection());
     try {
       if (moveValidator.isValid(fallbackMoveRequest)) {
         gameObjectPosition = moveValidator.getTargetPosition(fallbackMoveRequest);

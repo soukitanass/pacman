@@ -152,39 +152,6 @@ public class MovementManagerTest {
     assertEquals(new Position(1, 1), movementManager.getPosition());
   }
 
-  @Test
-  public void turnTowardsDesiredDirectionAsSoonAsThereIsNoWall() {
-    List<List<Integer>> map =
-        Arrays.asList(Arrays.asList(0, 0, 0), Arrays.asList(0, 1, 0), Arrays.asList(0, 0, 0));
-    initializeMovementManager(map);
-    gameObject.setPosition(new Position(0, 0));
-    movementManager.setDirection(Direction.RIGHT);
-
-    gameObject.setPosition(movementManager.getPosition());
-    movementManager.setDirection(Direction.DOWN);
-    assertEquals(Direction.RIGHT, gameObject.getDirection());
-    gameObject.setPosition(movementManager.getPosition());
-    assertEquals(Direction.DOWN, gameObject.getDirection());
-
-    gameObject.setPosition(movementManager.getPosition());
-    movementManager.setDirection(Direction.LEFT);
-    assertEquals(Direction.DOWN, gameObject.getDirection());
-    gameObject.setPosition(movementManager.getPosition());
-    assertEquals(Direction.LEFT, gameObject.getDirection());
-
-    gameObject.setPosition(movementManager.getPosition());
-    movementManager.setDirection(Direction.UP);
-    assertEquals(Direction.LEFT, gameObject.getDirection());
-    gameObject.setPosition(movementManager.getPosition());
-    assertEquals(Direction.UP, gameObject.getDirection());
-
-    gameObject.setPosition(movementManager.getPosition());
-    movementManager.setDirection(Direction.RIGHT);
-    assertEquals(Direction.UP, gameObject.getDirection());
-    gameObject.setPosition(movementManager.getPosition());
-    assertEquals(Direction.RIGHT, gameObject.getDirection());
-  }
-
   private void initializeMovementManager(List<List<Integer>> map) {
     level.setMap(map);
     IMoveValidator moveValidator = new PacmanMoveValidator(level);
