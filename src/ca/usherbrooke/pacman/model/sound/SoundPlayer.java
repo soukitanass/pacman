@@ -68,12 +68,13 @@ public class SoundPlayer implements ISoundPlayer {
         FloatControl gainControl = (FloatControl) clip.getControl(FloatControl.Type.MASTER_GAIN);
         float range = gainControl.getMaximum() - gainControl.getMinimum();
         float gain = (range * volume) + gainControl.getMinimum();
-        if (gain > gainControl.getMaximum())
+        if (gain > gainControl.getMaximum()) {
           gainControl.setValue(gainControl.getMaximum());
-        else
+        } else {
           gainControl.setValue(gain);
+        }
       } else
-        System.out.println("No Volume controls available");
+        WarningDialog.display("No Volume controls available");
     }
   }
 

@@ -11,9 +11,10 @@ public class GameView implements IGameView {
   private IGameModel model;
   private List<CloseObserver> closeObservers = new ArrayList<>();
 
-  public GameView(IGameModel model, int ghostSpriteTogglePeriod, int pacmanSpriteTogglePeriod,AudioThread audioThread) {
+  public GameView(IGameModel model, int ghostSpriteTogglePeriod, int pacmanSpriteTogglePeriod,
+      AudioThread audioThread) {
     this.model = model;
-    canvas = new GameCanvas(model, ghostSpriteTogglePeriod, pacmanSpriteTogglePeriod,audioThread);
+    canvas = new GameCanvas(model, ghostSpriteTogglePeriod, pacmanSpriteTogglePeriod, audioThread);
   }
 
   public void update() {

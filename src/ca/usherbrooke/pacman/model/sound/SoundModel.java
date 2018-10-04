@@ -35,7 +35,6 @@ public class SoundModel extends Observer implements ISoundModel {
 
   @Override
   public void setSoundVolumeChanged(int volume) {
-    backgroundSoundPlayer.setVolume(volume);
     actionSoundPlayer.setVolume(volume);
   }
 

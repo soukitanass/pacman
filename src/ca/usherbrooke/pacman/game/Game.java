@@ -7,38 +7,38 @@ import ca.usherbrooke.pacman.controller.PlayerKeyboardController;
 import ca.usherbrooke.pacman.model.GameModel;
 import ca.usherbrooke.pacman.model.IGameModel;
 import ca.usherbrooke.pacman.threads.AudioThread;
+import ca.usherbrooke.pacman.threads.RenderThread;
 import ca.usherbrooke.pacman.view.GameView;
 import ca.usherbrooke.pacman.view.IGameView;
+import ca.usherbrooke.pacman.view.utilities.WarningDialog;
 
 public class Game implements IGame {
 
   private static final int GHOST_SPRITE_TOGGLE_PERIOD = 10;
   private static final int PACMAN_SPRITE_TOGGLE_PERIOD = 2;
-  private static final int JOIN_TIMER = 1000;
 
   private final long modelUpdatePeriod;
-  private final long viewUpdatePeriod;
   private long lastModelUpdateTime;
-  private long lastViewUpdateTime;
   private IGameModel model;
-  private IGameView view;
   private List<IGameController> controllers;
   private static AudioThread audioThread;
 
 
-  public Game(IGameModel model, IGameView view, List<IGameController> controllers,
-      long modelUpdatePeriod, long viewUpdatePeriod, long initialTime) {
+  public Game(IGameModel model, List<IGameController> controllers, long modelUpdatePeriod,
+      long initialTime) {
     this.model = model;
-    this.view = view;
     this.controllers = controllers;
     this.modelUpdatePeriod = modelUpdatePeriod;
-    this.viewUpdatePeriod = viewUpdatePeriod;
     this.lastModelUpdateTime = initialTime;
-    this.lastViewUpdateTime = initialTime;
   }
 
   public static void main(String[] args) {
+
     final String LEVELS_PATH = "Levels.json";
+    final int gameUpdatesPerSecond = 7;
+    final int viewUpdatesPerSecond = 30;
+    final int gameUpdatePeriodMilliseconds = (int) (1000.0 / gameUpdatesPerSecond);
+    final int viewUpdatePeriodMilliseconds = (int) (1000.0 / viewUpdatesPerSecond);
     IGameModel model = new GameModel();
     model.loadLevels(LEVELS_PATH);
     audioThread = new AudioThread(model);
@@ -48,30 +48,27 @@ public class Game implements IGame {
         new GameView(model, GHOST_SPRITE_TOGGLE_PERIOD, PACMAN_SPRITE_TOGGLE_PERIOD, audioThread);
     audioThread.addKeyListenner(view);
     audioThread.addCloseListenner(view);
+    ITimeGetter timeGetter = new TimeGetter();
+    RenderThread renderThread = new RenderThread(view, viewUpdatePeriodMilliseconds, timeGetter);
+    view.addCloseObserver(renderThread);
     List<IGameController> controllers = new ArrayList<>();
     PlayerKeyboardController playerKeyboardController = new PlayerKeyboardController(model, view);
     controllers.add(playerKeyboardController);
-
-
-
-    final int gameUpdatesPerSecond = 7;
-    final int frameUpdatesPerSecond = 30;
-    final int gameUpdatePeriodMilliseconds = (int) (1000.0 / gameUpdatesPerSecond);
-    final int frameUpdatePeriodMilliseconds = (int) (1000.0 / frameUpdatesPerSecond);
-    IGame game = new Game(model, view, controllers, gameUpdatePeriodMilliseconds,
-        frameUpdatePeriodMilliseconds, System.currentTimeMillis());
-
+    IGame game =
+        new Game(model, controllers, gameUpdatePeriodMilliseconds, System.currentTimeMillis());
     view.addKeyListener(playerKeyboardController);
     game.setRunning(true);
-
+    Thread viewThread = new Thread(renderThread);
+    viewThread.start();
     while (game.isRunning()) {
       game.update(System.currentTimeMillis());
     }
     view.close();
     try {
-      audioThread.join(JOIN_TIMER);
+      viewThread.join();
     } catch (InterruptedException e) {
-      e.printStackTrace();
+      viewThread.interrupt();
+      WarningDialog.display("An error occured when waiting for the view to stop", e);
     }
   }
 
@@ -82,10 +79,6 @@ public class Game implements IGame {
         controller.update();
       }
       this.model.update();
-    }
-    if (currentTime >= this.lastViewUpdateTime + this.viewUpdatePeriod) {
-      this.lastViewUpdateTime = currentTime;
-      this.view.update();
     }
   }
 

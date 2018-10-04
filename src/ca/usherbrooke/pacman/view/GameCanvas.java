@@ -49,7 +49,8 @@ public class GameCanvas extends JPanel {
   private JLayeredPane layeredPane = new JLayeredPane();
   private JFrame window = new JFrame(GAME_TITLE);
 
-  GameCanvas(IGameModel model, int ghostSpriteTogglePeriod, int pacmanSpriteTogglePeriod,AudioThread audioThread) {
+  GameCanvas(IGameModel model, int ghostSpriteTogglePeriod, int pacmanSpriteTogglePeriod,
+      AudioThread audioThread) {
     this.model = model;
     window.setSize(FRAME_WIDTH, FRAME_HEIGHT);
     window.setMinimumSize(new Dimension(FRAME_WIDTH, FRAME_HEIGHT));
@@ -79,7 +80,7 @@ public class GameCanvas extends JPanel {
     gameMenu = new GameMenuPanel(model);
     gameMenu.setVisible(false);
 
-    audioMenu = new AudioMenuPanel(model,audioThread);
+    audioMenu = new AudioMenuPanel(model, audioThread);
     audioMenu.setVisible(false);
 
     levelPanel = new LevelPanel(model);

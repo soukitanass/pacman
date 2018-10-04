@@ -17,4 +17,9 @@ public class WarningDialog {
     Logger.getGlobal().log(Level.WARNING, warningMessage, e);
     displayWarningDialog(warningMessage);
   }
+
+  public static void display(String warningMessage) {
+    Logger.getGlobal().log(Level.WARNING, warningMessage);
+    displayWarningDialog(warningMessage);
+  }
 }

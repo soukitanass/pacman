@@ -48,8 +48,8 @@ public class AudioMenuPanel extends AbstractMenuPanel {
     this.add(goBackMenuOption);
 
     addMouseListeners();
-    addChangeListenners();
-    addItemListenners();
+    addChangeListeners();
+    addItemListeners();
   }
 
 
@@ -97,7 +97,7 @@ public class AudioMenuPanel extends AbstractMenuPanel {
 
   }
 
-  private void addChangeListenners() {
+  private void addChangeListeners() {
     musicSlider.addChangeListener(new ChangeListener() {
       @Override
       public void stateChanged(ChangeEvent e) {
@@ -121,7 +121,7 @@ public class AudioMenuPanel extends AbstractMenuPanel {
     });
   }
 
-  private void addItemListenners() {
+  private void addItemListeners() {
     musicCheckbox.addItemListener(new ItemListener() {
       @Override
       public void itemStateChanged(ItemEvent e) {

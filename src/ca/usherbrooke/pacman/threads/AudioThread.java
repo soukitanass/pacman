@@ -7,6 +7,7 @@ import ca.usherbrooke.pacman.model.sound.ISoundModel;
 import ca.usherbrooke.pacman.model.sound.SoundModel;
 import ca.usherbrooke.pacman.view.CloseObserver;
 import ca.usherbrooke.pacman.view.IGameView;
+import ca.usherbrooke.pacman.view.utilities.WarningDialog;
 
 public class AudioThread extends Thread implements CloseObserver {
 
@@ -63,6 +64,7 @@ public class AudioThread extends Thread implements CloseObserver {
         }
 
       } catch (InterruptedException e) {
+        WarningDialog.display("Error while interrupting " + this.getName(), e);
       }
     }
     System.out.println("STOP - " + getName());
@@ -146,7 +148,6 @@ public class AudioThread extends Thread implements CloseObserver {
     synchronized (lock) {
       lock.notifyAll();
     }
-
   }
 
   public void setStop() {
@@ -154,6 +155,5 @@ public class AudioThread extends Thread implements CloseObserver {
     synchronized (lock) {
       lock.notifyAll();
     }
-    
   }
 }
