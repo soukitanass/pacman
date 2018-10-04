@@ -15,8 +15,12 @@ import javax.swing.JLayeredPane;
 import javax.swing.JPanel;
 import ca.usherbrooke.pacman.model.GameState;
 import ca.usherbrooke.pacman.model.IGameModel;
+import ca.usherbrooke.pacman.model.Position;
 import ca.usherbrooke.pacman.view.panel.AbstractMenuPanel;
 import ca.usherbrooke.pacman.view.panel.AudioMenuPanel;
+import ca.usherbrooke.pacman.view.panel.CenteredInLevelPositioningStrategy;
+import ca.usherbrooke.pacman.view.panel.FixedPositioningStrategy;
+import ca.usherbrooke.pacman.view.panel.FpsOptionListener;
 import ca.usherbrooke.pacman.view.panel.GameMenuPanel;
 import ca.usherbrooke.pacman.view.panel.GhostsPanel;
 import ca.usherbrooke.pacman.view.panel.LevelPanel;
@@ -25,9 +29,18 @@ import ca.usherbrooke.pacman.view.panel.TextPanel;
 
 @SuppressWarnings({"serial", "squid:S1948"})
 public class GameCanvas extends JPanel {
+
   private static final String LEVEL_PANEL_TEXT = "Level ";
+  private static final double FPS_TEXT_SCALE_FACTOR = 1.0;
+  private static final ca.usherbrooke.pacman.view.Color GAME_TEXT_COLOR =
+      ca.usherbrooke.pacman.view.Color.YELLOW;
+  private static final ca.usherbrooke.pacman.view.Color FPS_COLOR =
+      ca.usherbrooke.pacman.view.Color.WHITE;
+
   private static final double RATIO_LEVEL_HEIGHT_TO_TOTAL_HEIGHT = 0.9;
   private static final Color TEXT_PANEL_COLOR = new Color(0, 0, 0, 80);
+  private static final double TEXT_SCALE_FACTOR = 2.2;
+
 
   private final IGameModel model;
   private GhostsPanel ghostsPanel;
@@ -38,6 +51,7 @@ public class GameCanvas extends JPanel {
   private TextPanel levelCompletedPanel;
   private GameMenuPanel gameMenu;
   private AudioMenuPanel audioMenu;
+  private TextPanel fpsPanel;
 
   private static final int FRAME_WIDTH = 600;
   private static final int FRAME_HEIGHT = 800;
@@ -47,8 +61,11 @@ public class GameCanvas extends JPanel {
 
   private JLayeredPane layeredPane = new JLayeredPane();
   private JFrame window = new JFrame(GAME_TITLE);
+  private int fps;
+  private boolean isFpsEnabled = false;
 
-  GameCanvas(IGameModel model, int ghostSpriteTogglePeriod, int pacmanSpriteTogglePeriod) {
+  GameCanvas(IGameModel model, int ghostSpriteTogglePeriod, int pacmanSpriteTogglePeriod,
+      FpsOptionListener fpsOptionListener) {
     this.model = model;
     window.setSize(FRAME_WIDTH, FRAME_HEIGHT);
     window.setMinimumSize(new Dimension(FRAME_WIDTH, FRAME_HEIGHT));
@@ -75,7 +92,7 @@ public class GameCanvas extends JPanel {
       }
     });
 
-    gameMenu = new GameMenuPanel(model);
+    gameMenu = new GameMenuPanel(model, fpsOptionListener);
     gameMenu.setVisible(false);
 
     audioMenu = new AudioMenuPanel(model);
@@ -193,6 +210,18 @@ public class GameCanvas extends JPanel {
         removePausePanel();
       }
     }
+    if (isFpsEnabled()) {
+      setFpsPanel();
+      fpsPanel.setBounds(0, 0, window.getWidth(), window.getHeight());
+      fpsPanel.setOffsetX(getOffsetX());
+      fpsPanel.setOffsetY(getOffsetY());
+      fpsPanel.setPixelTileSize(pixelTileSize);
+      fpsPanel.paint(graphic);
+    } else {
+      if (fpsPanel != null) {
+        removeFpsPanel();
+      }
+    }
     if (model.isGameOver()) {
       setGameOverPanel();
       gameOverPanel.setPixelTileSize(pixelTileSize);
@@ -201,6 +230,30 @@ public class GameCanvas extends JPanel {
       gameOverPanel.setBounds(0, 0, window.getWidth(), window.getHeight());
       gameOverPanel.paint(graphic);
     }
+  }
+
+  private void removeFpsPanel() {
+    layeredPane.remove(fpsPanel);
+    fpsPanel = null;
+  }
+
+  private boolean isFpsEnabled() {
+    return isFpsEnabled;
+  }
+
+  private void setFpsPanel() {
+    fpsPanel = new TextPanel(model, String.valueOf(getFps()), FPS_COLOR, FPS_TEXT_SCALE_FACTOR,
+        new FixedPositioningStrategy(new Position(0, 0)));
+    fpsPanel.setOpaque(false);
+    layeredPane.add(fpsPanel, Integer.valueOf(1));
+  }
+
+  public int getFps() {
+    return fps;
+  }
+
+  public void setFps(int fps) {
+    this.fps = fps;
   }
 
   public void dispose() {
@@ -236,7 +289,8 @@ public class GameCanvas extends JPanel {
   }
 
   public void setPausePanel() {
-    pausePanel = new TextPanel(model, PAUSE_TEXT);
+    pausePanel = new TextPanel(model, PAUSE_TEXT, GAME_TEXT_COLOR, TEXT_SCALE_FACTOR,
+        new CenteredInLevelPositioningStrategy());
     pausePanel.setBackground(TEXT_PANEL_COLOR);
     pausePanel.setOpaque(true);
     layeredPane.add(pausePanel, Integer.valueOf(1));
@@ -251,14 +305,16 @@ public class GameCanvas extends JPanel {
     final int levelNumber = model.getCurrentLevelIndex() + levelNumberOffset;
     final String levelText = LEVEL_PANEL_TEXT + levelNumber;
 
-    levelCompletedPanel = new TextPanel(model, levelText);
+    levelCompletedPanel = new TextPanel(model, levelText, GAME_TEXT_COLOR, TEXT_SCALE_FACTOR,
+        new CenteredInLevelPositioningStrategy());
     levelCompletedPanel.setBackground(TEXT_PANEL_COLOR);
     levelCompletedPanel.setOpaque(true);
     layeredPane.add(levelCompletedPanel, Integer.valueOf(1));
   }
 
   public void setGameOverPanel() {
-    gameOverPanel = new TextPanel(model, GAMEOVER_TEXT);
+    gameOverPanel = new TextPanel(model, GAMEOVER_TEXT, GAME_TEXT_COLOR, TEXT_SCALE_FACTOR,
+        new CenteredInLevelPositioningStrategy());
     gameOverPanel.setBackground(TEXT_PANEL_COLOR);
     gameOverPanel.setOpaque(true);
     layeredPane.add(gameOverPanel, Integer.valueOf(1));
@@ -267,5 +323,9 @@ public class GameCanvas extends JPanel {
   public void removePausePanel() {
     layeredPane.remove(pausePanel);
     pausePanel = null;
+  }
+
+  public void setFpsEnabled(boolean isFpsEnabled) {
+    this.isFpsEnabled = isFpsEnabled;
   }
 }
