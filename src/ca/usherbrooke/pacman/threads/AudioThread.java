@@ -6,12 +6,11 @@ import ca.usherbrooke.pacman.model.IGameModel;
 import ca.usherbrooke.pacman.model.sound.ISoundModel;
 import ca.usherbrooke.pacman.model.sound.SoundModel;
 import ca.usherbrooke.pacman.view.CloseObserver;
-import ca.usherbrooke.pacman.view.IGameView;
 import ca.usherbrooke.pacman.view.utilities.WarningDialog;
 
 public class AudioThread extends Thread implements CloseObserver {
 
-  private static final int THREAD_SLEEP = 2;
+  private static final int THREAD_SLEEP = 3;
   private volatile boolean isRunning = false;
   private ISoundModel soundPlayer;
   private ISoundController soundController;
@@ -47,17 +46,16 @@ public class AudioThread extends Thread implements CloseObserver {
           soundPlayer.setMusicVolumeChanged(musicVolume);
           musicVolumeChanged = false;
         }
-
         if (isMusicPlay() || isSoundPlay()) {
           if (isMuted) {
             soundPlayer.mute();
           } else {
             soundPlayer.unmute();
           }
-
           musicPlay = false;
           soundPlay = false;
         }
+        
         Thread.sleep(THREAD_SLEEP);
         synchronized (lock) {
           lock.wait();
@@ -82,7 +80,7 @@ public class AudioThread extends Thread implements CloseObserver {
     }
   }
 
-  public synchronized int getSoundVolume() {
+  public int getSoundVolume() {
     return soundVolume;
   }
 
@@ -90,11 +88,11 @@ public class AudioThread extends Thread implements CloseObserver {
     this.soundVolume = soundVolume;
   }
 
-  public synchronized int getMusicVolume() {
+  public int getMusicVolume() {
     return musicVolume;
   }
 
-  public void setMusicVolume(int musicVolume) {
+  public synchronized void setMusicVolume(int musicVolume) {
     this.musicVolume = musicVolume;
   }
 
@@ -121,8 +119,11 @@ public class AudioThread extends Thread implements CloseObserver {
       lock.notifyAll();
     }
   }
+  public synchronized void setTheSoundPlay(boolean soundPlay) {
+    this.soundPlay = soundPlay;
+  }
 
-  public synchronized boolean isMusicPlay() {
+  public boolean isMusicPlay() {
     return musicPlay;
   }
 
@@ -133,13 +134,16 @@ public class AudioThread extends Thread implements CloseObserver {
       lock.notifyAll();
     }
   }
-
-  public void addKeyListenner(IGameView view) {
-    view.addKeyListener(soundController);
+  public synchronized void setTheMusicPlay(boolean musicPlay) {
+    this.soundPlay = musicPlay;
   }
 
-  public void addCloseListenner(IGameView view) {
-    view.addCloseObserver(this);
+  public ISoundController getSoundController() {
+    return soundController;
+  }
+
+  public void setSoundController(ISoundController soundController) {
+    this.soundController = soundController;
   }
 
   @Override
@@ -154,6 +158,9 @@ public class AudioThread extends Thread implements CloseObserver {
     isRunning = false;
     synchronized (lock) {
       lock.notifyAll();
+    }
+    synchronized (this) {
+      this.notifyAll();
     }
   }
 }

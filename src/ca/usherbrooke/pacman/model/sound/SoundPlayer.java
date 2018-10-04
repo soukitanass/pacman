@@ -62,7 +62,7 @@ public class SoundPlayer implements ISoundPlayer {
   }
 
   @Override
-  public void setVolume(float volume) {
+  public void setVolume(int volume) {
     if (clip != null) {
       if (clip.isControlSupported(FloatControl.Type.MASTER_GAIN)) {
         FloatControl gainControl = (FloatControl) clip.getControl(FloatControl.Type.MASTER_GAIN);

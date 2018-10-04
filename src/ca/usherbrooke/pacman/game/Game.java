@@ -46,8 +46,8 @@ public class Game implements IGame {
     audioThread.start();
     IGameView view =
         new GameView(model, GHOST_SPRITE_TOGGLE_PERIOD, PACMAN_SPRITE_TOGGLE_PERIOD, audioThread);
-    audioThread.addKeyListenner(view);
-    audioThread.addCloseListenner(view);
+    view.addKeyListener(audioThread.getSoundController());;
+    view.addCloseObserver(audioThread);
     ITimeGetter timeGetter = new TimeGetter();
     RenderThread renderThread = new RenderThread(view, viewUpdatePeriodMilliseconds, timeGetter);
     view.addCloseObserver(renderThread);
