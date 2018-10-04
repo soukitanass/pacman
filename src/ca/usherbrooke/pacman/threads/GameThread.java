@@ -17,16 +17,15 @@ import ca.usherbrooke.pacman.view.GameView;
 import ca.usherbrooke.pacman.view.IGameView;
 import ca.usherbrooke.pacman.view.utilities.WarningDialog;
 
-public class GameThread extends Thread implements IGame,CloseObserver {
+public class GameThread extends Thread implements IGame, CloseObserver {
 
   private static final int GHOST_SPRITE_TOGGLE_PERIOD = 10;
   private static final int PACMAN_SPRITE_TOGGLE_PERIOD = 2;
   private static final long THREAD_SLEEP = 2;
 
   private final long modelUpdatePeriod;
-  private long lastModelUpdateTime;
   private final IGameModel model;
-  private final  List<IGameController> controllers;
+  private final List<IGameController> controllers;
 
   private final String LEVELS_PATH = "Levels.json";
   private final int gameUpdatesPerSecond = 7;
@@ -39,29 +38,28 @@ public class GameThread extends Thread implements IGame,CloseObserver {
 
   public GameThread() {
     this.modelUpdatePeriod = this.gameUpdatePeriodMilliseconds;
-    this.lastModelUpdateTime = System.currentTimeMillis();
-  
+
     model = new GameModel();
     model.loadLevels(LEVELS_PATH);
-    
+
     view = new GameView(model, GHOST_SPRITE_TOGGLE_PERIOD, PACMAN_SPRITE_TOGGLE_PERIOD);
-    
+
     ITimeGetter timeGetter = new TimeGetter();
     renderThread = new RenderThread(view, viewUpdatePeriodMilliseconds, timeGetter);
     view.addCloseObserver(renderThread);
-    
+
     controllers = new ArrayList<>();
     PlayerKeyboardController playerKeyboardController = new PlayerKeyboardController(model, view);
     controllers.add(playerKeyboardController);
-    
+
     ISoundModel soundPlayer = new SoundModel(model);
     SoundController soundController = new SoundController(soundPlayer);
     view.addKeyListener(playerKeyboardController);
     view.addKeyListener(soundController);
-    
+
     Thread viewThread = new Thread(renderThread);
     viewThread.start();
-    
+
     view.addCloseObserver(this);
   }
 
@@ -70,8 +68,6 @@ public class GameThread extends Thread implements IGame,CloseObserver {
     System.out.println("START - " + this.getName());
     setRunning(true);
     while (isRunning()) {
-      long current = System.currentTimeMillis();
-      this.lastModelUpdateTime = (long) current;
       update();
       try {
         Thread.sleep(THREAD_SLEEP + modelUpdatePeriod);
@@ -84,6 +80,7 @@ public class GameThread extends Thread implements IGame,CloseObserver {
   }
 
   public void update() {
+
     for (IGameController controller : controllers) {
       controller.update();
     }
@@ -107,7 +104,7 @@ public class GameThread extends Thread implements IGame,CloseObserver {
 
   public void closeGame() {
     view.close();
-    if(viewThread != null) {
+    if (viewThread != null) {
       try {
         viewThread.join();
       } catch (InterruptedException e) {
@@ -115,9 +112,8 @@ public class GameThread extends Thread implements IGame,CloseObserver {
         WarningDialog.display("An error occured when waiting for the view to stop", e);
       }
     }
-    
-  }
 
+  }
 
   @Override
   public void onClosingView() {
