@@ -93,6 +93,9 @@ public class GameMenuPanel extends AbstractMenuPanel {
     startGameMenuOption.addMouseListener(new MouseAdapter() {
       @Override
       public void mouseClicked(MouseEvent e) {
+        if (model.isGameOver()) {
+          model.startNewGame();
+        }
         model.setGameState(GameState.GAME);
       }
     });
