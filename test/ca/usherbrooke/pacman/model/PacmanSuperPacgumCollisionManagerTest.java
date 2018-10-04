@@ -20,12 +20,14 @@ public class PacmanSuperPacgumCollisionManagerTest {
   private static final int SUPER_PACGUM_CODE = 40;
   private PacMan pacman;
   private Level level;
+  private IGameModel model;
   private PacmanSuperPacgumCollisionManager pacmanSuperPacgumCollisionManager;
 
   @Before
   public void setUp() {
     this.pacman = new PacMan();
     this.level = new Level();
+    this.model = new GameModel();
   }
 
   @Test
@@ -44,6 +46,6 @@ public class PacmanSuperPacgumCollisionManagerTest {
   private void initializeSuperPacgumCollisionManager(List<List<Integer>> map) {
     level.setMap(map);
     level.setPacMan(pacman);
-    pacmanSuperPacgumCollisionManager = new PacmanSuperPacgumCollisionManager(level);
+    pacmanSuperPacgumCollisionManager = new PacmanSuperPacgumCollisionManager(level,model);
   }
 }

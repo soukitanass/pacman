@@ -11,8 +11,10 @@ package ca.usherbrooke.pacman.threads;
 import java.util.Queue;
 import ca.usherbrooke.pacman.model.GameEvent;
 import ca.usherbrooke.pacman.model.GameEventObject;
+import ca.usherbrooke.pacman.model.GameModel;
 import ca.usherbrooke.pacman.model.Ghost;
 import ca.usherbrooke.pacman.model.GhostMoveValidator;
+import ca.usherbrooke.pacman.model.IGameModel;
 import ca.usherbrooke.pacman.model.IGameObject;
 import ca.usherbrooke.pacman.model.Level;
 import ca.usherbrooke.pacman.model.MovementManager;
@@ -88,8 +90,9 @@ public class PhysicsThread extends Thread {
   }
 
   private void validPacmanGhostsCollisionEvent(Level level) {
+    IGameModel model = new GameModel();
     PacmanGhostCollisionManager pacmanGhostCollisionManager =
-        new PacmanGhostCollisionManager(level, level);
+        new PacmanGhostCollisionManager(level, level,model);
     if (pacmanGhostCollisionManager.isCollision()) {
       PacMan pacman = level.getPacMan();
       addEventToQueue(pacman, GameEvent.PACMAN_GHOST_COLLISON, pacman.getPosition());

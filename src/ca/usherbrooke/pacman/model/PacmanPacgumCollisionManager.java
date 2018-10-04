@@ -12,15 +12,17 @@ public class PacmanPacgumCollisionManager {
 
   private final Level level;
   private static final Integer POINT = 10;
+  private final IGameModel model;
 
-  public PacmanPacgumCollisionManager(Level level) {
+  public PacmanPacgumCollisionManager(Level level,IGameModel model) {
     this.level = level;
+    this.model = model;
   }
 
 
   public void update() {
     Position position = level.getPacMan().getPosition();
-    level.setScore(level.getScore() + POINT);
+    model.setScore(model.getScore() + POINT);
     level.setEmptyMapTile(position);
   }
 }

@@ -17,6 +17,7 @@ import org.junit.Test;
 public class PacmanGhostsCollisionManagerTest {
   private Level level;
   private Ghost ghost;
+  private IGameModel model;
   private PacmanGhostCollisionManager pacmanGhostCollisionManager;
 
 
@@ -24,6 +25,7 @@ public class PacmanGhostsCollisionManagerTest {
   public void setUp() {
     this.level = new Level();
     this.ghost = new Ghost();
+    this.model = new GameModel();
   }
 
   @Test
@@ -35,21 +37,21 @@ public class PacmanGhostsCollisionManagerTest {
     level.getPacMan().setPosition(new Position(0, 0));
     pacmanGhostCollisionManager.update();
     actualValue = 2;
-    assertEquals(actualValue, level.getLives());
+    assertEquals(actualValue, model.getLives());
 
     ghost.setPosition(new Position(0, 1));
     level.getGhosts().add(ghost);
     level.getPacMan().setPosition(new Position(0, 1));
     pacmanGhostCollisionManager.update();
     actualValue = 1;
-    assertEquals(actualValue, level.getLives());
+    assertEquals(actualValue, model.getLives());
 
     ghost.setPosition(new Position(1, 0));
     level.getGhosts().add(ghost);
     level.getPacMan().setPosition(new Position(1, 0));
     pacmanGhostCollisionManager.update();
     actualValue = 0;
-    assertEquals(actualValue, level.getLives());
+    assertEquals(actualValue, model.getLives());
 
   }
 
@@ -63,6 +65,6 @@ public class PacmanGhostsCollisionManagerTest {
     level.setPacMan(new PacMan(new Position(0, 0)));
     ghost.setPosition(new Position(0, 0));
     level.getGhosts().add(ghost);
-    pacmanGhostCollisionManager = new PacmanGhostCollisionManager(level, model.getCurrentLevel());
+    pacmanGhostCollisionManager = new PacmanGhostCollisionManager(level, model.getCurrentLevel(),model);
   }
 }
