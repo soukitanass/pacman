@@ -32,9 +32,8 @@ public class PacmanGhostCollisionManager {
 
   public boolean isCollision() {
     for (Ghost ghost : level.getGhosts()) {
-      if (pacman.getPosition().equals(ghost.getPosition())) {
-        return true;
-      } else if (isOppositeDirection(pacman, ghost) && isSideBySide(pacman, ghost)) {
+      if (pacman.getPosition().equals(ghost.getPosition())
+          || isOppositeDirection(pacman, ghost) && isSideBySide(pacman, ghost)) {
         return true;
       }
     }
@@ -53,10 +52,9 @@ public class PacmanGhostCollisionManager {
     if (gameObject1.getDirection() == Direction.LEFT
         && gameObject2.getDirection() == Direction.RIGHT
         || gameObject2.getDirection() == Direction.LEFT
-            && gameObject1.getDirection() == Direction.RIGHT) {
-      return true;
-    } else if (gameObject1.getDirection() == Direction.UP
-        && gameObject2.getDirection() == Direction.DOWN
+            && gameObject1.getDirection() == Direction.RIGHT
+        || gameObject1.getDirection() == Direction.UP
+            && gameObject2.getDirection() == Direction.DOWN
         || gameObject2.getDirection() == Direction.UP
             && gameObject1.getDirection() == Direction.DOWN) {
       return true;
@@ -69,16 +67,13 @@ public class PacmanGhostCollisionManager {
     Position gameObject2Position = gameObject2.getPosition();
 
     if (gameObject1Position.getX() + 1 == gameObject2Position.getX()
-        && isOntheSameColumn(gameObject1, gameObject2)) {
-      return true;
-    } else if (gameObject1Position.getX() - 1 == gameObject2Position.getX()
-        && isOntheSameColumn(gameObject1, gameObject2)) {
-      return true;
-    } else if (gameObject1Position.getY() + 1 == gameObject2Position.getY()
-        && isOnTheSameRow(gameObject1, gameObject2)) {
-      return true;
-    } else if (gameObject1Position.getY() - 1 == gameObject2Position.getY()
-        && isOnTheSameRow(gameObject1, gameObject2)) {
+        && isOntheSameColumn(gameObject1, gameObject2)
+        || gameObject1Position.getX() - 1 == gameObject2Position.getX()
+            && isOntheSameColumn(gameObject1, gameObject2)
+        || gameObject1Position.getY() + 1 == gameObject2Position.getY()
+            && isOnTheSameRow(gameObject1, gameObject2)
+        || gameObject1Position.getY() - 1 == gameObject2Position.getY()
+            && isOnTheSameRow(gameObject1, gameObject2)) {
       return true;
     }
     return false;

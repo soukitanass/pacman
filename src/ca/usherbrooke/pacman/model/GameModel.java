@@ -124,7 +124,7 @@ public class GameModel implements IGameModel {
 
     synchronized (moveQueue) {
       moveQueue.add(level);
-      moveQueue.notify();
+      moveQueue.notifyAll();
     }
 
     updateGameObjectsPosition();

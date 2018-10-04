@@ -10,7 +10,7 @@ import javax.swing.JLabel;
 import ca.usherbrooke.pacman.model.GameState;
 import ca.usherbrooke.pacman.model.IGameModel;
 
-@SuppressWarnings("serial")
+@SuppressWarnings({"serial", "squid:S1948"})
 public class GameMenuPanel extends AbstractMenuPanel {
 
   private static final double Y_OFFSET_FACTOR = 0.6;

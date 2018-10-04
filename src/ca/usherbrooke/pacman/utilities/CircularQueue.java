@@ -5,7 +5,7 @@ import java.util.LinkedList;
 
 public class CircularQueue<T> implements Iterable<T> {
 
-  LinkedList<T> values = new LinkedList<T>();
+  LinkedList<T> values = new LinkedList<>();
   private int maxSize;
 
   public CircularQueue(int maxSize) {
