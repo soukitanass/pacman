@@ -83,6 +83,23 @@ public class LevelTest {
   }
 
   @Test
+  public void isGhostRoomOnlyForCode38() {
+    List<List<Integer>> map = Arrays.asList(Arrays.asList(-1, 0, 1, 2, 35, 36, 37, 38, 39, 40));
+    level.setMap(map);
+
+    assertFalse(level.isGhostRoom(new Position(0, 0)));
+    assertFalse(level.isGhostRoom(new Position(1, 0)));
+    assertFalse(level.isGhostRoom(new Position(2, 0)));
+    assertFalse(level.isGhostRoom(new Position(3, 0)));
+    assertFalse(level.isGhostRoom(new Position(4, 0)));
+    assertFalse(level.isGhostRoom(new Position(5, 0)));
+    assertFalse(level.isGhostRoom(new Position(6, 0)));
+    assertTrue(level.isGhostRoom(new Position(7, 0)));
+    assertFalse(level.isGhostRoom(new Position(8, 0)));
+    assertFalse(level.isGhostRoom(new Position(9, 0)));
+  }
+
+  @Test
   public void isCompleted() {
     List<List<Integer>> map = Arrays.asList(Arrays.asList(EMPTY_CODE, EMPTY_CODE),
         Arrays.asList(EMPTY_CODE, EMPTY_CODE), Arrays.asList(EMPTY_CODE, EMPTY_CODE));

@@ -17,6 +17,8 @@ import ca.usherbrooke.pacman.view.utilities.WarningDialog;
 @SuppressWarnings({"serial", "squid:S1948"})
 public class LevelPanel extends JPanel {
 
+  private static final int EMPTY_TILE_CODE = 0;
+  private static final int GHOST_ROOM_TILE_CODE = 38;
   public static final int PANEL_WIDTH_IN_SCORE_TILES = 25;
   private static final String PAINTING_ERROR = "Error while painting the level. ";
   private IGameModel model;
@@ -53,6 +55,8 @@ public class LevelPanel extends JPanel {
             image = spriteFacade.getPacGum(PacGumState.STATE1);
           } else if (code == 40) {
             image = spriteFacade.getPacGum(PacGumState.STATE5);
+          } else if (code == GHOST_ROOM_TILE_CODE) {
+            image = spriteFacade.getWall(EMPTY_TILE_CODE);
           } else {
             image = spriteFacade.getWall(code);
           }
