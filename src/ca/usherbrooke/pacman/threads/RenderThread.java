@@ -16,7 +16,7 @@ public class RenderThread implements Runnable, CloseObserver {
   private IGameView view;
   private ITimeGetter timeGetter;
   private CircularQueue<Long> timesBetweenUpdatesMilliseconds =
-      new CircularQueue<Long>(NB_UPDATE_TIMES_TO_REMEMBER);
+      new CircularQueue<>(NB_UPDATE_TIMES_TO_REMEMBER);
   private AtomicBoolean isFpsEnabled = new AtomicBoolean(false);
 
   public RenderThread(IGameView view, int updatePeriodMilliseconds, ITimeGetter timeGetter) {

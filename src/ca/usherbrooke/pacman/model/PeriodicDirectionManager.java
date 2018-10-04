@@ -1,8 +1,5 @@
 package ca.usherbrooke.pacman.model;
 
-import ca.usherbrooke.pacman.model.exceptions.GameObjectCannotChangeDirectionException;
-import ca.usherbrooke.pacman.view.utilities.WarningDialog;
-
 public class PeriodicDirectionManager {
   private int updatesCounter;
   private int period;
@@ -25,10 +22,6 @@ public class PeriodicDirectionManager {
     }
     updatesCounter = 0;
     Direction direction = directionGenerator.get();
-    try {
-      gameModel.setDirection(gameObject, direction);
-    } catch (GameObjectCannotChangeDirectionException exception) {
-      WarningDialog.display("Failed to set game object's direction", exception);
-    }
+    gameModel.setDirection(gameObject, direction);
   }
 }
