@@ -4,20 +4,25 @@ import java.awt.event.KeyListener;
 import java.util.ArrayList;
 import java.util.List;
 import ca.usherbrooke.pacman.model.IGameModel;
+import ca.usherbrooke.pacman.view.panel.FpsOptionListener;
 
 public class GameView implements IGameView {
   private GameCanvas canvas;
   private IGameModel model;
   private List<CloseObserver> closeObservers = new ArrayList<>();
+  private boolean isFpsEnabled = false;
 
-  public GameView(IGameModel model, int ghostSpriteTogglePeriod, int pacmanSpriteTogglePeriod) {
+  public GameView(IGameModel model, int ghostSpriteTogglePeriod, int pacmanSpriteTogglePeriod,
+      FpsOptionListener fpsOptionListener) {
     this.model = model;
-    canvas = new GameCanvas(model, ghostSpriteTogglePeriod, pacmanSpriteTogglePeriod);
+    canvas =
+        new GameCanvas(model, ghostSpriteTogglePeriod, pacmanSpriteTogglePeriod, fpsOptionListener);
   }
 
   public void update() {
+    canvas.setFpsEnabled(isFpsEnabled);
     if (!model.isGameCompleted()) {
-      this.canvas.repaint();
+      canvas.repaint();
     }
   }
 
@@ -28,7 +33,7 @@ public class GameView implements IGameView {
 
   @Override
   public void display() {
-    this.canvas.repaint();
+    canvas.repaint();
   }
 
   @Override
@@ -54,6 +59,17 @@ public class GameView implements IGameView {
   @Override
   public void addCloseObserver(CloseObserver closeObserver) {
     closeObservers.add(closeObserver);
+  }
+
+  @Override
+  public void setFps(int fps) {
+    canvas.setFps(fps);
+  }
+
+  @Override
+  public void setFpsEnabled(boolean isFpsEnabled) {
+    this.isFpsEnabled = isFpsEnabled;
+
   }
 
 }

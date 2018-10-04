@@ -1,5 +1,6 @@
 package ca.usherbrooke.pacman.threads;
 
+import java.util.concurrent.atomic.AtomicBoolean;
 import ca.usherbrooke.pacman.game.ITimeGetter;
 import ca.usherbrooke.pacman.utilities.CircularQueue;
 import ca.usherbrooke.pacman.view.CloseObserver;
@@ -16,6 +17,7 @@ public class RenderThread implements Runnable, CloseObserver {
   private ITimeGetter timeGetter;
   private CircularQueue<Long> timesBetweenUpdatesMilliseconds =
       new CircularQueue<Long>(NB_UPDATE_TIMES_TO_REMEMBER);
+  private AtomicBoolean isFpsEnabled = new AtomicBoolean(false);
 
   public RenderThread(IGameView view, int updatePeriodMilliseconds, ITimeGetter timeGetter) {
     this.view = view;
@@ -29,17 +31,23 @@ public class RenderThread implements Runnable, CloseObserver {
   public void run() {
     System.out.println("START - " + this.getName());
     while (shouldRun) {
-      final long currentTimeMilliseconds = timeGetter.getMilliseconds();
-      if (isTimeToUpdate(currentTimeMilliseconds)) {
-        final long timeSinceLastUpdateMilliseconds =
-            currentTimeMilliseconds - lastUpdateTimeMilliseconds;
-        timesBetweenUpdatesMilliseconds.add(Long.valueOf(timeSinceLastUpdateMilliseconds));
-        lastUpdateTimeMilliseconds = currentTimeMilliseconds;
-        view.update();
-      }
+      runStep();
       sleepUntilNextUpdate();
     }
     System.out.println("STOP - " + this.getName());
+  }
+
+  private void runStep() {
+    final long currentTimeMilliseconds = timeGetter.getMilliseconds();
+    if (isTimeToUpdate(currentTimeMilliseconds)) {
+      final long timeSinceLastUpdateMilliseconds =
+          currentTimeMilliseconds - lastUpdateTimeMilliseconds;
+      timesBetweenUpdatesMilliseconds.add(Long.valueOf(timeSinceLastUpdateMilliseconds));
+      lastUpdateTimeMilliseconds = currentTimeMilliseconds;
+      view.setFpsEnabled(isFpsEnabled.get());
+      view.setFps(getFps());
+      view.update();
+    }
   }
 
   private boolean isTimeToUpdate(long currentTimeMilliseconds) {
@@ -67,17 +75,24 @@ public class RenderThread implements Runnable, CloseObserver {
   }
 
   @Override
-  public void onClosingView() {
+  public synchronized void onClosingView() {
     shouldRun = false;
   }
 
-  public int getFps() {
-    int sumTimeBetweenUpdatesMilliseconds = 0;
+  public synchronized int getFps() {
+    long sumTimeBetweenUpdatesMilliseconds = 0;
     for (Long timeBetweenUpdatesMilliseconds : timesBetweenUpdatesMilliseconds) {
       sumTimeBetweenUpdatesMilliseconds += timeBetweenUpdatesMilliseconds;
     }
+    if (0 == sumTimeBetweenUpdatesMilliseconds) {
+      return 0;
+    }
     return (int) (timesBetweenUpdatesMilliseconds.size() * 1000.0
         / sumTimeBetweenUpdatesMilliseconds);
+  }
+
+  public synchronized void setFpsEnabled(boolean isFpsEnabled) {
+    this.isFpsEnabled.set(isFpsEnabled);
   }
 
 }
