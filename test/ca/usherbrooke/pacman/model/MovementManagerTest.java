@@ -25,9 +25,8 @@ public class MovementManagerTest {
     gameObject.setPosition(new Position(0, 0));
 
     movementManager.setDirection(Direction.RIGHT);
-  //  movementManager.updatePosition();
 
-    assertEquals(new Position(1, 0), gameObject.getPosition());
+    assertEquals(new Position(1, 0), movementManager.getPosition());
   }
 
   @Test
@@ -37,9 +36,8 @@ public class MovementManagerTest {
     initializeMovementManager(map);
 
     gameObject.setDirection(Direction.LEFT);
-  //  movementManager.updatePosition();
 
-    assertEquals(new Position(0, 0), gameObject.getPosition());
+    assertEquals(new Position(0, 0), movementManager.getPosition());
   }
 
   @Test
@@ -49,9 +47,8 @@ public class MovementManagerTest {
     initializeMovementManager(map);
 
     gameObject.setDirection(Direction.UP);
-  //  movementManager.updatePosition();
 
-    assertEquals(new Position(0, 0), gameObject.getPosition());
+    assertEquals(new Position(0, 0), movementManager.getPosition());
   }
 
   @Test
@@ -61,9 +58,8 @@ public class MovementManagerTest {
     initializeMovementManager(map);
 
     gameObject.setDirection(Direction.DOWN);
- //   movementManager.updatePosition();
 
-    assertEquals(new Position(0, 1), gameObject.getPosition());
+    assertEquals(new Position(0, 1), movementManager.getPosition());
   }
 
   @Test
@@ -73,9 +69,8 @@ public class MovementManagerTest {
     initializeMovementManager(map);
 
     gameObject.setDirection(Direction.RIGHT);
-//    movementManager.updatePosition();
 
-    assertEquals(new Position(0, 0), gameObject.getPosition());
+    assertEquals(new Position(0, 0), movementManager.getPosition());
   }
 
   @Test
@@ -85,9 +80,8 @@ public class MovementManagerTest {
     initializeMovementManager(map);
 
     gameObject.setDirection(Direction.LEFT);
- //   movementManager.updatePosition();
 
-    assertEquals(new Position(1, 0), gameObject.getPosition());
+    assertEquals(new Position(1, 0), movementManager.getPosition());
   }
 
   @Test
@@ -97,9 +91,8 @@ public class MovementManagerTest {
     initializeMovementManager(map);
 
     gameObject.setDirection(Direction.DOWN);
-  //  movementManager.updatePosition();
 
-    assertEquals(new Position(0, 0), gameObject.getPosition());
+    assertEquals(new Position(0, 0), movementManager.getPosition());
   }
 
   @Test
@@ -109,9 +102,8 @@ public class MovementManagerTest {
     initializeMovementManager(map);
 
     gameObject.setDirection(Direction.UP);
- //   movementManager.updatePosition();
 
-    assertEquals(new Position(0, 1), gameObject.getPosition());
+    assertEquals(new Position(0, 1), movementManager.getPosition());
   }
 
   @Test
@@ -144,20 +136,20 @@ public class MovementManagerTest {
     initializeMovementManager(map);
 
     gameObject.setDirection(Direction.UP);
- //   movementManager.updatePosition();
-    assertEquals(new Position(1, 1), gameObject.getPosition());
+
+    assertEquals(new Position(1, 1), movementManager.getPosition());
 
     gameObject.setDirection(Direction.DOWN);
- //   movementManager.updatePosition();
-    assertEquals(new Position(1, 1), gameObject.getPosition());
+
+    assertEquals(new Position(1, 1), movementManager.getPosition());
 
     gameObject.setDirection(Direction.LEFT);
- //   movementManager.updatePosition();
-    assertEquals(new Position(1, 1), gameObject.getPosition());
+
+    assertEquals(new Position(1, 1), movementManager.getPosition());
 
     gameObject.setDirection(Direction.RIGHT);
- //   movementManager.updatePosition();
-    assertEquals(new Position(1, 1), gameObject.getPosition());
+
+    assertEquals(new Position(1, 1), movementManager.getPosition());
   }
 
   @Test
@@ -168,28 +160,28 @@ public class MovementManagerTest {
     gameObject.setPosition(new Position(0, 0));
     movementManager.setDirection(Direction.RIGHT);
 
- //   movementManager.updatePosition();
+    gameObject.setPosition(movementManager.getPosition());
     movementManager.setDirection(Direction.DOWN);
     assertEquals(Direction.RIGHT, gameObject.getDirection());
- //   movementManager.updatePosition();
+    gameObject.setPosition(movementManager.getPosition());
     assertEquals(Direction.DOWN, gameObject.getDirection());
 
- //   movementManager.updatePosition();
+    gameObject.setPosition(movementManager.getPosition());
     movementManager.setDirection(Direction.LEFT);
     assertEquals(Direction.DOWN, gameObject.getDirection());
-//    movementManager.updatePosition();
+    gameObject.setPosition(movementManager.getPosition());
     assertEquals(Direction.LEFT, gameObject.getDirection());
 
- //   movementManager.updatePosition();
+    gameObject.setPosition(movementManager.getPosition());
     movementManager.setDirection(Direction.UP);
     assertEquals(Direction.LEFT, gameObject.getDirection());
- //   movementManager.updatePosition();
+    gameObject.setPosition(movementManager.getPosition());
     assertEquals(Direction.UP, gameObject.getDirection());
 
- //   movementManager.updatePosition();
+    gameObject.setPosition(movementManager.getPosition());
     movementManager.setDirection(Direction.RIGHT);
     assertEquals(Direction.UP, gameObject.getDirection());
-//    movementManager.updatePosition();
+    gameObject.setPosition(movementManager.getPosition());
     assertEquals(Direction.RIGHT, gameObject.getDirection());
   }
 

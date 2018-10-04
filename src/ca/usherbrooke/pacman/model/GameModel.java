@@ -114,13 +114,14 @@ public class GameModel implements IGameModel {
       if (gameEventObject.getGameEvent() == GameEvent.PACMAN_GHOST_COLLISON) {
         pacmanGhostCollisionManager.update();
         consumingGhost();
+        eventQueue.clear();
       }
       if (gameEventObject.getGameEvent() == GameEvent.ENTITY_MOVE) {
         IGameObject gameObject = gameEventObject.getGameObject();
         gameObject.setPosition(gameEventObject.getPosition());
       }
     }
-    
+
     synchronized (moveQueue) {
       moveQueue.add(level);
       moveQueue.notify();
