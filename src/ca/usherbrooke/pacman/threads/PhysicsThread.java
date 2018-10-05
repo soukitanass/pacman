@@ -6,6 +6,14 @@
  * nass2801 - Soukaina Nassib
  * royb2006 - Benjamin Roy
  ******************************************************************************/
+
+/*******************************************************************************
+ * FSP Code
+ * PhysicsThread = (validPacgumConsumedEvent->validSuperPacgumConsumedEvent->validPacmanGhostsCollisionEvent->validPacmanMovement->validGhostMovement->waitNotEmpty->PhysicsThread).
+ * GameModel = (validGameStates->processPhysicsEvent->notifyPhysicsThread->updateGameObjectsPosition->GameModel).
+ * || Threads = (PhysicsThread || GameModel).
+ *
+ ******************************************************************************/
 package ca.usherbrooke.pacman.threads;
 
 import java.util.Queue;
@@ -33,7 +41,8 @@ public class PhysicsThread extends Thread {
   private final Queue<Level> moveQueue;
   private final IGameModel model;
 
-  public PhysicsThread(Queue<Level> moveQueue, Queue<GameEventObject> eventQueue,IGameModel model) {
+  public PhysicsThread(Queue<Level> moveQueue, Queue<GameEventObject> eventQueue,
+      IGameModel model) {
     this.setName(THREAD_NAME);
     this.eventQueue = eventQueue;
     this.moveQueue = moveQueue;
@@ -53,7 +62,7 @@ public class PhysicsThread extends Thread {
     while (isRunning) {
       try {
         synchronized (moveQueue) {
-          while (!moveQueue.isEmpty()) {
+          while (!moveQueue.isEmpty() && isRunning) {
             Level level = moveQueue.poll();
 
             validPacgumConsumedEvent(level);

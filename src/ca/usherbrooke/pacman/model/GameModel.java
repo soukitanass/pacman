@@ -51,7 +51,7 @@ public class GameModel implements IGameModel {
   private int isLevelCompletedUpdatesCounter = 0;
   private Queue<Level> moveQueue = new ConcurrentLinkedQueue<>(); // Thread Safe
   private Queue<GameEventObject> eventQueue = new ConcurrentLinkedQueue<>(); // Thread Safe
-  private PhysicsThread physicsThread = new PhysicsThread(moveQueue, eventQueue,this);
+  private PhysicsThread physicsThread = new PhysicsThread(moveQueue, eventQueue, this);
   private Integer score = INITIAL_SCORE;
   private int lives = INITIAL_NUMBER_OF_LIVES;
 
@@ -127,6 +127,17 @@ public class GameModel implements IGameModel {
       initializeLevel();
     }
 
+    processPhysicsEvent();
+
+    synchronized (moveQueue) {
+      moveQueue.add(level);
+      moveQueue.notifyAll();
+    }
+
+    updateGameObjectsPosition();
+  }
+
+  private void processPhysicsEvent() {
     while (!eventQueue.isEmpty()) {
       GameEventObject gameEventObject = eventQueue.poll();
       if (gameEventObject.getGameEvent() == GameEvent.PACGUM_CONSUMED) {
@@ -148,13 +159,6 @@ public class GameModel implements IGameModel {
         gameObject.setPosition(gameEventObject.getPosition());
       }
     }
-
-    synchronized (moveQueue) {
-      moveQueue.add(level);
-      moveQueue.notifyAll();
-    }
-
-    updateGameObjectsPosition();
   }
 
   private void goToNextLevel() {
