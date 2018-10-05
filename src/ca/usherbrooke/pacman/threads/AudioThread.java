@@ -117,13 +117,11 @@ public class AudioThread extends Thread implements CloseObserver {
   }
 
   public synchronized boolean isSoundPlay() {
-    System.out.println("issound play"+soundPlay);
     return soundPlay;
   }
 
   public synchronized void setSoundPlay(boolean isMuted) {
     this.soundPlay = true;
-    System.out.println(soundPlay);
     this.isSoundMuted = isMuted;
     synchronized (lock) {
       lock.notifyAll();
