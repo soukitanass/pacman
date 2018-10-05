@@ -73,7 +73,7 @@ public class LevelPanel extends AbstractPanel {
         drawLevel(image, graphic, iPos + offsetX, yPos + offsetY, pixelTileSize, pixelTileSize);
       }
 
-      drawScorePanel(graphic, map.size() * pixelTileSize, level);
+      drawScorePanel(graphic, map.size() * pixelTileSize);
       drawLevelNumber(graphic);
     }
 
@@ -84,7 +84,7 @@ public class LevelPanel extends AbstractPanel {
     graphics.drawImage(source, x, y, x + width, y + height, 0, 0, tileSize, tileSize, null);
   }
 
-  private void drawScorePanel(Graphics graphic, int y, Level level) {
+  private void drawScorePanel(Graphics graphic, int y) {
     int xPos = 0;
     drawText(graphic, y, xPos, this.scoreText);
 
