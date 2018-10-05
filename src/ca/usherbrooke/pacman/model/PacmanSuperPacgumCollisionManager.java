@@ -11,7 +11,7 @@ package ca.usherbrooke.pacman.model;
 public class PacmanSuperPacgumCollisionManager {
   private final Level level;
   private static final int POINT = 50;
-  private final IGameModel model;
+  private IGameModel model;
 
   public PacmanSuperPacgumCollisionManager(Level level,IGameModel model) {
     this.level = level;

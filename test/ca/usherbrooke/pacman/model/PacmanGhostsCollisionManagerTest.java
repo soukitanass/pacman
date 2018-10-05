@@ -23,9 +23,11 @@ public class PacmanGhostsCollisionManagerTest {
 
   @Before
   public void setUp() {
-    this.level = new Level();
+    
     this.ghost = new Ghost();
     this.model = new GameModel();
+    this.model.loadLevels("Levels.json");
+    this.level =model.getCurrentLevel();
   }
 
   @Test
@@ -66,6 +68,6 @@ public class PacmanGhostsCollisionManagerTest {
     ghost.setPosition(new Position(0, 0));
     level.getGhosts().add(ghost);
     pacmanGhostCollisionManager =
-        new PacmanGhostCollisionManager(level, model.getCurrentLevel(), model);
+        new PacmanGhostCollisionManager(level, model.getCurrentLevel(), this.model);
   }
 }

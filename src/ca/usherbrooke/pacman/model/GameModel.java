@@ -51,7 +51,7 @@ public class GameModel implements IGameModel {
   private int isLevelCompletedUpdatesCounter = 0;
   private Queue<Level> moveQueue = new ConcurrentLinkedQueue<>(); // Thread Safe
   private Queue<GameEventObject> eventQueue = new ConcurrentLinkedQueue<>(); // Thread Safe
-  private PhysicsThread physicsThread = new PhysicsThread(moveQueue, eventQueue);
+  private PhysicsThread physicsThread = new PhysicsThread(moveQueue, eventQueue,this);
   private Integer score = INITIAL_SCORE;
   private int lives = INITIAL_NUMBER_OF_LIVES;
 
