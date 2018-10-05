@@ -21,9 +21,9 @@ public class Level {
   private static final int GHOST_GATE_CODE = 37;
   private static final int GHOST_ROOM_CODE = 38;
   private static final int TUNNEL_CODE = 325;
-  private static final int INITIAL_NUMBER_OF_LIVES = 3;
 
-  private Integer score = 0;
+
+  
   @SerializedName("id")
   @Expose
   private Integer id;
@@ -45,15 +45,7 @@ public class Level {
   @SerializedName("map")
   @Expose
   private List<List<Integer>> map = null;
-  private int lives = INITIAL_NUMBER_OF_LIVES;
-
-  public int getLives() {
-    return lives;
-  }
-
-  public void setLives(int lives) {
-    this.lives = lives;
-  }
+  
 
   public Integer getId() {
     return id;
@@ -148,13 +140,6 @@ public class Level {
     return SUPER_PACGUM_CODE == getCodeAtPosition(position);
   }
 
-  public Integer getScore() {
-    return score;
-  }
-
-  public void setScore(Integer score) {
-    this.score = score;
-  }
 
   public boolean isCompleted() {
     for (int i = 0; i < width; i++) {

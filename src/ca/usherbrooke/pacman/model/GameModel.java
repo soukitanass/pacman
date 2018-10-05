@@ -1,10 +1,8 @@
 /*******************************************************************************
  * Team agilea18b, Pacman
  * 
- * beam2039 - Marc-Antoine Beaudoin
- * dupm2216 - Maxime Dupuis
- * nass2801 - Soukaina Nassib
- * royb2006 - Benjamin Roy
+ * beam2039 - Marc-Antoine Beaudoin dupm2216 - Maxime Dupuis nass2801 - Soukaina Nassib royb2006 -
+ * Benjamin Roy
  ******************************************************************************/
 package ca.usherbrooke.pacman.model;
 
@@ -28,6 +26,9 @@ public class GameModel implements IGameModel {
   private static final int GHOSTS_DIRECTION_CHANGE_PERIOD = 3;
   private static final int RANDOM_GENERATOR_SEED = 8544574;
   private static final int JOIN_TIMER = 1000; // ms
+  private static final int INITIAL_SCORE = 0;
+  private static final int INITIAL_NUMBER_OF_LIVES = 3;
+
 
   private Levels levelsList;
   private int currentGameFrame = 0;
@@ -50,7 +51,25 @@ public class GameModel implements IGameModel {
   private int isLevelCompletedUpdatesCounter = 0;
   private Queue<Level> moveQueue = new ConcurrentLinkedQueue<>(); // Thread Safe
   private Queue<GameEventObject> eventQueue = new ConcurrentLinkedQueue<>(); // Thread Safe
-  private PhysicsThread physicsThread = new PhysicsThread(moveQueue, eventQueue);
+  private PhysicsThread physicsThread = new PhysicsThread(moveQueue, eventQueue,this);
+  private Integer score = INITIAL_SCORE;
+  private int lives = INITIAL_NUMBER_OF_LIVES;
+
+  public Integer getScore() {
+    return score;
+  }
+
+  public void setScore(Integer score) {
+    this.score = score;
+  }
+
+  public int getLives() {
+    return lives;
+  }
+
+  public void setLives(int lives) {
+    this.lives = lives;
+  }
 
   public GameModel() {
     physicsThread.start();
@@ -169,9 +188,9 @@ public class GameModel implements IGameModel {
           GHOSTS_DIRECTION_CHANGE_PERIOD));
     }
 
-    pacmanPacgumCollisionManager = new PacmanPacgumCollisionManager(level);
-    pacmanSuperPacgumCollisionManager = new PacmanSuperPacgumCollisionManager(level);
-    pacmanGhostCollisionManager = new PacmanGhostCollisionManager(level, actualLevel);
+    pacmanPacgumCollisionManager = new PacmanPacgumCollisionManager(level, this);
+    pacmanSuperPacgumCollisionManager = new PacmanSuperPacgumCollisionManager(level, this);
+    pacmanGhostCollisionManager = new PacmanGhostCollisionManager(level, actualLevel, this);
 
     isGameStarted = true;
     isGameOver = false;

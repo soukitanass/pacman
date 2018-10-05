@@ -14,12 +14,14 @@ import java.util.List;
 public class PacmanGhostCollisionManager {
   private final PacMan pacman;
   private final Level level;
+  private final IGameModel model;
   private final Level initialLevel;
   private List<Position> listPositions;
   private Position pacmanInitialPosition;
 
-  public PacmanGhostCollisionManager(Level level, Level initialLevel) {
+  public PacmanGhostCollisionManager(Level level, Level initialLevel,IGameModel model) {
     listPositions = new ArrayList<>();
+    this.model = model;
     this.pacman = level.getPacMan();
     this.level = level;
     this.initialLevel = initialLevel;
@@ -28,7 +30,7 @@ public class PacmanGhostCollisionManager {
   }
 
   public void update() {
-    level.setLives(level.getLives() - 1);
+    model.setLives(model.getLives() - 1);
     pacman.setPosition(pacmanInitialPosition);
     pacman.setDirection(Direction.LEFT);
     int i = 0;

@@ -69,4 +69,12 @@ public interface IGameModel {
 
   void startNewGame();
 
+  int getLives();
+
+  void setLives(int i);
+
+  Integer getScore();
+
+  void setScore(Integer i);
+
 }
