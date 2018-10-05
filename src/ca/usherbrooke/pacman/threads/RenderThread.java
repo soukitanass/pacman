@@ -6,6 +6,13 @@
  * nass2801 - Soukaina Nassib
  * royb2006 - Benjamin Roy
  ******************************************************************************/
+
+/*******************************************************************************
+ * FSP Code
+ * RenderThread = (runStep->sleepUntilNextUpdate->RenderThread).
+ * || Threads = (RenderThread).
+ *
+ ******************************************************************************/
 package ca.usherbrooke.pacman.threads;
 
 import java.util.concurrent.atomic.AtomicBoolean;
