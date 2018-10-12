@@ -29,7 +29,6 @@ public class GameModel implements IGameModel {
   private static final int INITIAL_SCORE = 0;
   private static final int INITIAL_NUMBER_OF_LIVES = 3;
 
-
   private Levels levelsList;
   private int currentGameFrame = 0;
   private boolean isManuallyPaused = false;
@@ -37,7 +36,6 @@ public class GameModel implements IGameModel {
   private boolean isRunning = false;
   private boolean isLevelCompleted = false;
   private boolean isGameOver = false;
-  private boolean isGameStarted = false;
   private PacmanGhostCollisionManager pacmanGhostCollisionManager;
   private GameState gameState = GameState.GAME_MENU;
   private PacMan pacman;
@@ -123,9 +121,6 @@ public class GameModel implements IGameModel {
       return;
     }
     ++currentGameFrame;
-    if (!isGameStarted) {
-      initializeLevel();
-    }
 
     processPhysicsEvent();
 
@@ -196,7 +191,6 @@ public class GameModel implements IGameModel {
     pacmanSuperPacgumCollisionManager = new PacmanSuperPacgumCollisionManager(level, this);
     pacmanGhostCollisionManager = new PacmanGhostCollisionManager(level, actualLevel, this);
 
-    isGameStarted = true;
     isGameOver = false;
   }
 
