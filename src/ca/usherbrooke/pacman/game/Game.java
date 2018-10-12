@@ -1,10 +1,8 @@
 /*******************************************************************************
  * Team agilea18b, Pacman
  * 
- * beam2039 - Marc-Antoine Beaudoin
- * dupm2216 - Maxime Dupuis
- * nass2801 - Soukaina Nassib
- * royb2006 - Benjamin Roy
+ * beam2039 - Marc-Antoine Beaudoin dupm2216 - Maxime Dupuis nass2801 - Soukaina Nassib royb2006 -
+ * Benjamin Roy
  ******************************************************************************/
 package ca.usherbrooke.pacman.game;
 
@@ -44,16 +42,14 @@ public class Game implements IGame {
   public static void main(String[] args) {
     final String LEVELS_PATH = "Levels.json";
     final int gameUpdatesPerSecond = 7;
-    final int viewUpdatesPerSecond = 30;
     final int gameUpdatePeriodMilliseconds = (int) (1000.0 / gameUpdatesPerSecond);
-    final int viewUpdatePeriodMilliseconds = (int) (1000.0 / viewUpdatesPerSecond);
     IGameModel model = new GameModel();
     model.loadLevels(LEVELS_PATH);
     FpsOptionListener fpsOptionListener = new FpsOptionListener();
     IGameView view = new GameView(model, GHOST_SPRITE_TOGGLE_PERIOD, PACMAN_SPRITE_TOGGLE_PERIOD,
         fpsOptionListener);
     ITimeGetter timeGetter = new TimeGetter();
-    RenderThread renderThread = new RenderThread(view, viewUpdatePeriodMilliseconds, timeGetter);
+    RenderThread renderThread = new RenderThread(view, timeGetter);
     fpsOptionListener.setRenderThread(renderThread);
     view.addCloseObserver(renderThread);
     List<IGameController> controllers = new ArrayList<>();
