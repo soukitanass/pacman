@@ -1,10 +1,8 @@
 /*******************************************************************************
  * Team agilea18b, Pacman
  * 
- * beam2039 - Marc-Antoine Beaudoin
- * dupm2216 - Maxime Dupuis
- * nass2801 - Soukaina Nassib
- * royb2006 - Benjamin Roy
+ * beam2039 - Marc-Antoine Beaudoin dupm2216 - Maxime Dupuis nass2801 - Soukaina Nassib royb2006 -
+ * Benjamin Roy
  ******************************************************************************/
 package ca.usherbrooke.pacman.view.panel;
 
@@ -14,8 +12,12 @@ import java.awt.Point;
 import java.awt.image.BufferedImage;
 import javax.swing.ImageIcon;
 import javax.swing.JCheckBox;
+import javax.swing.JFormattedTextField;
 import javax.swing.JLabel;
 import javax.swing.JSlider;
+import javax.swing.JSpinner;
+import javax.swing.JTextField;
+import javax.swing.SpinnerModel;
 import ca.usherbrooke.pacman.model.IGameModel;
 
 @SuppressWarnings({"serial", "squid:S1948"})
@@ -25,6 +27,7 @@ public abstract class AbstractMenuPanel extends AbstractPanel {
   protected static final int DELTA_Y = 40;
   protected static final int CHECKBOX_X_OFFSET = 10;
 
+  private static final int NUMBER_OF_TEXT_FIELD_COLUMNS = 2;
   private static final int SLIDER_WIDTH = 360;
   private static final int MINOR_TICK_SPACING = 2;
   private static final int MAJOR_TICK_SPACING = 10;
@@ -67,5 +70,16 @@ public abstract class AbstractMenuPanel extends AbstractPanel {
     jLabel.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
     jLabel.setLocation(location);
     jLabel.setIcon(imageIcon);
+  }
+
+  protected void setJSpinner(JSpinner jSpinner, SpinnerModel spinnerModel, int x, int y) {
+    final Point location = new Point(x, y);
+
+    JFormattedTextField textField = ((JSpinner.DefaultEditor) jSpinner.getEditor()).getTextField();
+    textField.setColumns(NUMBER_OF_TEXT_FIELD_COLUMNS);
+    textField.setEditable(false);
+    textField.setHorizontalAlignment(JTextField.CENTER);
+
+    jSpinner.setLocation(location);
   }
 }
