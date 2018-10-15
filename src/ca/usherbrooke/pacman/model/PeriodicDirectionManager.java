@@ -1,7 +1,12 @@
+/*******************************************************************************
+ * Team agilea18b, Pacman
+ * 
+ * beam2039 - Marc-Antoine Beaudoin
+ * dupm2216 - Maxime Dupuis
+ * nass2801 - Soukaina Nassib
+ * royb2006 - Benjamin Roy
+ ******************************************************************************/
 package ca.usherbrooke.pacman.model;
-
-import ca.usherbrooke.pacman.model.exceptions.GameObjectCannotChangeDirectionException;
-import ca.usherbrooke.pacman.view.utilities.WarningDialog;
 
 public class PeriodicDirectionManager {
   private int updatesCounter;
@@ -25,10 +30,6 @@ public class PeriodicDirectionManager {
     }
     updatesCounter = 0;
     Direction direction = directionGenerator.get();
-    try {
-      gameModel.setDirection(gameObject, direction);
-    } catch (GameObjectCannotChangeDirectionException exception) {
-      WarningDialog.display("Failed to set game object's direction", exception);
-    }
+    gameModel.setDirection(gameObject, direction);
   }
 }

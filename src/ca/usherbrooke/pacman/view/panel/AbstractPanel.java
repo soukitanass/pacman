@@ -1,3 +1,11 @@
+/*******************************************************************************
+ * Team agilea18b, Pacman
+ * 
+ * beam2039 - Marc-Antoine Beaudoin
+ * dupm2216 - Maxime Dupuis
+ * nass2801 - Soukaina Nassib
+ * royb2006 - Benjamin Roy
+ ******************************************************************************/
 package ca.usherbrooke.pacman.view.panel;
 
 import java.awt.image.BufferedImage;
@@ -18,7 +26,7 @@ public abstract class AbstractPanel extends JPanel {
   protected int offsetX;
   protected int offsetY;
 
-  protected BufferedImage getJLabelImage(final String label, ca.usherbrooke.pacman.view.Color color,
+  protected BufferedImage getLabelImage(final String label, ca.usherbrooke.pacman.view.Color color,
       final double scaleFactor) {
     List<BufferedImage> images = new ArrayList<>();
 

@@ -1,7 +1,16 @@
+/*******************************************************************************
+ * Team agilea18b, Pacman
+ * 
+ * beam2039 - Marc-Antoine Beaudoin
+ * dupm2216 - Maxime Dupuis
+ * nass2801 - Soukaina Nassib
+ * royb2006 - Benjamin Roy
+ ******************************************************************************/
 package ca.usherbrooke.pacman.threads;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
@@ -27,6 +36,13 @@ public class RenderThreadTest {
     renderThread = new RenderThread(viewUpdateSpy, UPDATE_PERIOD_MILLISECONDS, timeGetter);
     masterThread = new Thread(renderThread);
     masterThread.start();
+    try {
+      masterThread.join(100);
+    } catch (InterruptedException e) {
+      masterThread.interrupt();
+      e.printStackTrace();
+    }
+    assertTrue("thread dead", masterThread.isAlive());
   }
 
   @After

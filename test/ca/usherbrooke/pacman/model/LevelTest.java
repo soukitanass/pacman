@@ -1,3 +1,11 @@
+/*******************************************************************************
+ * Team agilea18b, Pacman
+ * 
+ * beam2039 - Marc-Antoine Beaudoin
+ * dupm2216 - Maxime Dupuis
+ * nass2801 - Soukaina Nassib
+ * royb2006 - Benjamin Roy
+ ******************************************************************************/
 package ca.usherbrooke.pacman.model;
 
 import static org.junit.Assert.assertEquals;
@@ -80,6 +88,23 @@ public class LevelTest {
     assertTrue(level.isGhostGate(new Position(7, 0)));
     assertFalse(level.isGhostGate(new Position(8, 0)));
     assertFalse(level.isGhostGate(new Position(9, 0)));
+  }
+
+  @Test
+  public void isGhostRoomOnlyForCode38() {
+    List<List<Integer>> map = Arrays.asList(Arrays.asList(-1, 0, 1, 2, 35, 36, 37, 38, 39, 40));
+    level.setMap(map);
+
+    assertFalse(level.isGhostRoom(new Position(0, 0)));
+    assertFalse(level.isGhostRoom(new Position(1, 0)));
+    assertFalse(level.isGhostRoom(new Position(2, 0)));
+    assertFalse(level.isGhostRoom(new Position(3, 0)));
+    assertFalse(level.isGhostRoom(new Position(4, 0)));
+    assertFalse(level.isGhostRoom(new Position(5, 0)));
+    assertFalse(level.isGhostRoom(new Position(6, 0)));
+    assertTrue(level.isGhostRoom(new Position(7, 0)));
+    assertFalse(level.isGhostRoom(new Position(8, 0)));
+    assertFalse(level.isGhostRoom(new Position(9, 0)));
   }
 
   @Test

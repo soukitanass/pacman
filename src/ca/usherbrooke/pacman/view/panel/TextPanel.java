@@ -1,36 +1,45 @@
+/*******************************************************************************
+ * Team agilea18b, Pacman
+ * 
+ * beam2039 - Marc-Antoine Beaudoin
+ * dupm2216 - Maxime Dupuis
+ * nass2801 - Soukaina Nassib
+ * royb2006 - Benjamin Roy
+ ******************************************************************************/
 package ca.usherbrooke.pacman.view.panel;
 
 import java.awt.Graphics;
 import java.awt.image.BufferedImage;
 import ca.usherbrooke.pacman.model.IGameModel;
+import ca.usherbrooke.pacman.model.Position;
 import ca.usherbrooke.pacman.view.Color;
 
 @SuppressWarnings({"serial", "squid:S1948"})
 public class TextPanel extends AbstractPanel {
 
-  private static final Color COLOR = Color.YELLOW;
-  private static final double TEXT_SCALE_FACTOR = 2.2;
-  private static final int Y_TILES_OFFSET = 2;
-
+  private double textScaleFactor;
   private IGameModel model;
   private String text;
+  private Color textColor;
+  private TextPanelPositioningStrategy positioningStrategy;
 
-  public TextPanel(IGameModel model, String text) {
+  public TextPanel(IGameModel model, String text, Color textColor, double textScaleFactor,
+      TextPanelPositioningStrategy positioningStrategy) {
     this.model = model;
     this.text = text;
+    this.textColor = textColor;
+    this.textScaleFactor = textScaleFactor;
+    this.positioningStrategy = positioningStrategy;
     setFocusable(true);
   }
 
   @Override
   public void paint(Graphics graphic) {
     super.paint(graphic);
-    final BufferedImage image = getJLabelImage(text, COLOR, TEXT_SCALE_FACTOR);
-    final int height = model.getCurrentLevel().getHeight() * pixelTileSize;
-    final int width = model.getCurrentLevel().getWidth() * pixelTileSize;
-    final int y = (height / 2) - (image.getHeight() / 2) + offsetY;
-    final int x = (width / 2) - (image.getWidth() / 2) + offsetX;
-    final int yOffset = Y_TILES_OFFSET * pixelTileSize;
-
-    graphic.drawImage(image, x, y + yOffset, null);
+    final BufferedImage image = getLabelImage(text, textColor, textScaleFactor);
+    final Position position =
+        positioningStrategy.getPosition(image, model, pixelTileSize, offsetX, offsetY);
+    graphic.drawImage(image, position.getX(), position.getY(), null);
   }
+
 }

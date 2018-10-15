@@ -1,3 +1,11 @@
+/*******************************************************************************
+ * Team agilea18b, Pacman
+ * 
+ * beam2039 - Marc-Antoine Beaudoin
+ * dupm2216 - Maxime Dupuis
+ * nass2801 - Soukaina Nassib
+ * royb2006 - Benjamin Roy
+ ******************************************************************************/
 package ca.usherbrooke.pacman.game;
 
 import java.util.ArrayList;
@@ -10,12 +18,13 @@ import ca.usherbrooke.pacman.threads.AudioThread;
 import ca.usherbrooke.pacman.threads.RenderThread;
 import ca.usherbrooke.pacman.view.GameView;
 import ca.usherbrooke.pacman.view.IGameView;
+import ca.usherbrooke.pacman.view.panel.FpsOptionListener;
 import ca.usherbrooke.pacman.view.utilities.WarningDialog;
 
 public class Game implements IGame {
 
-  private static final int GHOST_SPRITE_TOGGLE_PERIOD = 10;
-  private static final int PACMAN_SPRITE_TOGGLE_PERIOD = 2;
+  private static final int GHOST_SPRITE_TOGGLE_PERIOD = 4;
+  private static final int PACMAN_SPRITE_TOGGLE_PERIOD = 1;
 
   private final long modelUpdatePeriod;
   private long lastModelUpdateTime;
@@ -44,12 +53,15 @@ public class Game implements IGame {
     audioThread = new AudioThread(model);
     audioThread.setName("Audio_Thread");
     audioThread.start();
+    
+    FpsOptionListener fpsOptionListener = new FpsOptionListener();
     IGameView view =
-        new GameView(model, GHOST_SPRITE_TOGGLE_PERIOD, PACMAN_SPRITE_TOGGLE_PERIOD, audioThread);
+        new GameView(model, GHOST_SPRITE_TOGGLE_PERIOD, PACMAN_SPRITE_TOGGLE_PERIOD, audioThread,fpsOptionListener);
     view.addKeyListener(audioThread.getSoundController());;
-    view.addCloseObserver(audioThread);
+    view.addCloseObserver(audioThread);;
     ITimeGetter timeGetter = new TimeGetter();
     RenderThread renderThread = new RenderThread(view, viewUpdatePeriodMilliseconds, timeGetter);
+    fpsOptionListener.setRenderThread(renderThread);
     view.addCloseObserver(renderThread);
     List<IGameController> controllers = new ArrayList<>();
     PlayerKeyboardController playerKeyboardController = new PlayerKeyboardController(model, view);

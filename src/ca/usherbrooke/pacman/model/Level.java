@@ -1,3 +1,11 @@
+/*******************************************************************************
+ * Team agilea18b, Pacman
+ * 
+ * beam2039 - Marc-Antoine Beaudoin
+ * dupm2216 - Maxime Dupuis
+ * nass2801 - Soukaina Nassib
+ * royb2006 - Benjamin Roy
+ ******************************************************************************/
 package ca.usherbrooke.pacman.model;
 
 import java.util.List;
@@ -11,6 +19,7 @@ public class Level {
   private static final int WALL_CODE_MIN = 1;
   private static final int WALL_CODE_MAX = 36;
   private static final int GHOST_GATE_CODE = 37;
+  private static final int GHOST_ROOM_CODE = 38;
   private static final int TUNNEL_CODE = 325;
   private static final int INITIAL_NUMBER_OF_LIVES = 3;
 
@@ -156,6 +165,11 @@ public class Level {
       }
     }
     return true;
+  }
+
+  public boolean isGhostRoom(Position position) {
+    final int code = getCodeAtPosition(position);
+    return GHOST_ROOM_CODE == code;
   }
 
 }

@@ -1,6 +1,16 @@
+/*******************************************************************************
+ * Team agilea18b, Pacman
+ * 
+ * beam2039 - Marc-Antoine Beaudoin
+ * dupm2216 - Maxime Dupuis
+ * nass2801 - Soukaina Nassib
+ * royb2006 - Benjamin Roy
+ ******************************************************************************/
 package ca.usherbrooke.pacman.view.panel;
 
 import java.awt.Graphics;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import javax.swing.JCheckBox;
@@ -8,7 +18,7 @@ import javax.swing.JLabel;
 import ca.usherbrooke.pacman.model.GameState;
 import ca.usherbrooke.pacman.model.IGameModel;
 
-@SuppressWarnings("serial")
+@SuppressWarnings({"serial", "squid:S1948"})
 public class GameMenuPanel extends AbstractMenuPanel {
 
   private static final double Y_OFFSET_FACTOR = 0.6;
@@ -23,9 +33,11 @@ public class GameMenuPanel extends AbstractMenuPanel {
   private JLabel exitGameMenuOption = new JLabel();
   private JLabel fpsMenuOption = new JLabel();
   private JCheckBox fpsCheckBox = new JCheckBox("On/Off");
+  private FpsOptionListener fpsOptionListener;
 
-  public GameMenuPanel(IGameModel model) {
+  public GameMenuPanel(IGameModel model, FpsOptionListener fpsOptionListener) {
     this.model = model;
+    this.fpsOptionListener = fpsOptionListener;
     this.add(startGameMenuOption);
     this.add(audioMenuOption);
     this.add(fpsMenuOption);
@@ -33,6 +45,20 @@ public class GameMenuPanel extends AbstractMenuPanel {
     this.add(exitGameMenuOption);
 
     addMouseListeners();
+    addFpsOptionListeners();
+  }
+
+  private void addFpsOptionListeners() {
+    fpsCheckBox.addActionListener(new ActionListener() {
+      @Override
+      public void actionPerformed(ActionEvent e) {
+        fpsOptionListener.setFpsEnabled(fpsCheckBox.isSelected());
+      }
+    });
+  }
+
+  public void setFpsEnableListener(FpsOptionListener fpsOptionListener) {
+    this.fpsOptionListener = fpsOptionListener;
   }
 
   @Override

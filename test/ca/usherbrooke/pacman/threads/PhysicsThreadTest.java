@@ -1,3 +1,11 @@
+/*******************************************************************************
+ * Team agilea18b, Pacman
+ * 
+ * beam2039 - Marc-Antoine Beaudoin
+ * dupm2216 - Maxime Dupuis
+ * nass2801 - Soukaina Nassib
+ * royb2006 - Benjamin Roy
+ ******************************************************************************/
 package ca.usherbrooke.pacman.threads;
 
 import static org.junit.Assert.*;
@@ -8,90 +16,154 @@ import java.util.Queue;
 import java.util.concurrent.ConcurrentLinkedQueue;
 import org.junit.After;
 import org.junit.Before;
-import org.junit.BeforeClass;
 import org.junit.Test;
+import ca.usherbrooke.pacman.model.Direction;
 import ca.usherbrooke.pacman.model.GameEvent;
+import ca.usherbrooke.pacman.model.GameEventObject;
 import ca.usherbrooke.pacman.model.Ghost;
 import ca.usherbrooke.pacman.model.Level;
 import ca.usherbrooke.pacman.model.PacMan;
 import ca.usherbrooke.pacman.model.Position;
 
 public class PhysicsThreadTest {
+  private final int SLEEP_TIME = 250;
+  private final int JOIN_TIME = 1500;
+
   private static final int PACGUM_CODE = 39;
   private static final int SUPER_PACGUM_CODE = 40;
-  private final int SLEEP_TIME = 100;
 
-  private PhysicsThread physicsThread;
-  private Queue<Level> moveQueue = new ConcurrentLinkedQueue<>();
-  private Queue<GameEvent> eventQueue = new ConcurrentLinkedQueue<>();
-  private static List<Ghost> ghosts = new ArrayList<>();
-  private static PacMan pacman = new PacMan();
-  private static Ghost ghost = new Ghost();
-  private static Level level = new Level();
-
-  @BeforeClass
-  public static void createLevel() {
-    List<List<Integer>> map = Arrays.asList(Arrays.asList(0, PACGUM_CODE, SUPER_PACGUM_CODE, 0));
-    ghosts.add(ghost);
-    level.setPacMan(pacman);
-    level.setGhost(ghosts);
-    level.setMap(map);
-  }
+  private final Queue<Level> moveQueue = new ConcurrentLinkedQueue<>();
+  private final Queue<GameEventObject> eventQueue = new ConcurrentLinkedQueue<>();
+  private final PhysicsThread physicsThread = new PhysicsThread(moveQueue, eventQueue);
 
   @Before
-  public void setUp() throws Exception {
-    physicsThread = new PhysicsThread(moveQueue, eventQueue);
+  public void setUp() {
     physicsThread.start();
-    physicsThread.join(100);
+    try {
+      physicsThread.join(100);
+    } catch (InterruptedException e) {
+      physicsThread.interrupt();
+      e.printStackTrace();
+    }
     assertTrue("thread dead", physicsThread.isAlive());
   }
 
   @After
   public void tearDown() {
-    boolean expectedStop = true;
     boolean actualStop = physicsThread.isAlive();
     if (actualStop) {
       physicsThread.stopThread();
       try {
-        physicsThread.join(1500);
+        physicsThread.join(JOIN_TIME);
         actualStop = !physicsThread.isAlive();
       } catch (InterruptedException e) {
+        physicsThread.interrupt();
         e.printStackTrace();
       }
-      assertEquals("Thread not stopped", expectedStop, actualStop);
+      assertTrue(actualStop);
     }
   }
 
   @Test
   public void pacmanPacgumConsumedTest() throws InterruptedException {
-    pacman.setPosition(new Position(1, 0));
-    moveQueue.add(level);
+    Level level = getLevel();
+    level.getPacMan().setPosition(new Position(2, 0));
+
+    synchronized (moveQueue) {
+      moveQueue.add(level);
+      moveQueue.notify();
+    }
     Thread.sleep(SLEEP_TIME);
-    assertEquals(GameEvent.PACGUM_CONSUMED, eventQueue.poll());
+
+    assertEquals(3, eventQueue.size());
+    GameEventObject gameEventObject = eventQueue.poll();
+    assertEquals(GameEvent.PACGUM_CONSUMED, gameEventObject.getGameEvent());
+    gameEventObject = eventQueue.poll();
+    assertEquals(GameEvent.ENTITY_MOVE, gameEventObject.getGameEvent());
+    gameEventObject = eventQueue.poll();
+    assertEquals(GameEvent.ENTITY_MOVE, gameEventObject.getGameEvent());
   }
 
   @Test
   public void pacmanSuperPacgumConsumedTest() throws InterruptedException {
-    pacman.setPosition(new Position(2, 0));
-    moveQueue.add(level);
+    Level level = getLevel();
+    level.getPacMan().setPosition(new Position(3, 0));
+
+    synchronized (moveQueue) {
+      moveQueue.add(level);
+      moveQueue.notify();
+    }
     Thread.sleep(SLEEP_TIME);
-    assertEquals(GameEvent.SUPER_PACGUM_CONSUMED, eventQueue.poll());
+
+    assertEquals(3, eventQueue.size());
+    GameEventObject gameEventObject = eventQueue.poll();
+    assertEquals(GameEvent.SUPER_PACGUM_CONSUMED, gameEventObject.getGameEvent());
+    gameEventObject = eventQueue.poll();
+    assertEquals(GameEvent.ENTITY_MOVE, gameEventObject.getGameEvent());
+    gameEventObject = eventQueue.poll();
+    assertEquals(GameEvent.ENTITY_MOVE, gameEventObject.getGameEvent());
   }
 
   @Test
   public void pacmanGhostColision() throws InterruptedException {
-    pacman.setPosition(new Position(3, 0));
-    ghost.setPosition(new Position(3, 0));
-    moveQueue.add(level);
+    Level level = getLevel();
+    level.getPacMan().setPosition(new Position(5, 0));
+    level.getGhosts().get(0).setPosition(new Position(5, 0));
+
+    synchronized (moveQueue) {
+      moveQueue.add(level);
+      moveQueue.notify();
+    }
     Thread.sleep(SLEEP_TIME);
-    assertEquals(GameEvent.PACMAN_GHOST_COLLISON, eventQueue.poll());
+
+    assertEquals(3, eventQueue.size());
+    GameEventObject gameEventObject = eventQueue.poll();
+    assertEquals(GameEvent.PACMAN_GHOST_COLLISON, gameEventObject.getGameEvent());
+    gameEventObject = eventQueue.poll();
+    assertEquals(GameEvent.ENTITY_MOVE, gameEventObject.getGameEvent());
+    gameEventObject = eventQueue.poll();
+    assertEquals(GameEvent.ENTITY_MOVE, gameEventObject.getGameEvent());
   }
 
   @Test
-  public void pacmanNothingConsumedTest() throws InterruptedException {
-    pacman.setPosition(new Position(0, 0));
-    moveQueue.add(level);
+  public void EntitiesMoveTest() throws InterruptedException {
+    Level level = getLevel();
+    level.getPacMan().setPosition(new Position(0, 0));
+
+    synchronized (moveQueue) {
+      moveQueue.add(level);
+      moveQueue.notify();
+    }
     Thread.sleep(SLEEP_TIME);
-    assertNull(eventQueue.poll());
+
+    assertEquals(2, eventQueue.size());
+    GameEventObject gameEventObject = eventQueue.poll();
+    assertEquals(GameEvent.ENTITY_MOVE, gameEventObject.getGameEvent());
+    gameEventObject = eventQueue.poll();
+    assertEquals(GameEvent.ENTITY_MOVE, gameEventObject.getGameEvent());
+  }
+
+  private Level getLevel() {
+    List<List<Integer>> map =
+        Arrays.asList(Arrays.asList(0, 0, PACGUM_CODE, SUPER_PACGUM_CODE, 0, 0));
+    List<Ghost> ghosts = new ArrayList<>();
+
+    Ghost ghost = new Ghost();
+    ghost.setDesiredDirection(Direction.RIGHT);
+    ghost.setDirection(Direction.RIGHT);
+    ghost.setPosition(new Position(5, 0));
+    ghosts.add(ghost);
+
+    PacMan pacman = new PacMan();
+    pacman.setDesiredDirection(Direction.LEFT);
+    pacman.setDirection(Direction.LEFT);
+    pacman.setPosition(new Position(0, 0));
+
+    Level level = new Level();
+    level.setPacMan(pacman);
+    level.setGhost(ghosts);
+    level.setMap(map);
+
+    return level;
   }
 }

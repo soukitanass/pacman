@@ -1,3 +1,11 @@
+/*******************************************************************************
+ * Team agilea18b, Pacman
+ * 
+ * beam2039 - Marc-Antoine Beaudoin
+ * dupm2216 - Maxime Dupuis
+ * nass2801 - Soukaina Nassib
+ * royb2006 - Benjamin Roy
+ ******************************************************************************/
 package ca.usherbrooke.pacman.model;
 
 import java.io.BufferedReader;
@@ -9,8 +17,6 @@ import java.util.Queue;
 import java.util.Random;
 import java.util.concurrent.ConcurrentLinkedQueue;
 import com.google.gson.Gson;
-import ca.usherbrooke.pacman.model.exceptions.GameObjectCannotChangeDirectionException;
-import ca.usherbrooke.pacman.model.exceptions.MovementManagerNotFoundException;
 import ca.usherbrooke.pacman.model.random.RandomDirectionGenerator;
 import ca.usherbrooke.pacman.model.sound.Observer;
 import ca.usherbrooke.pacman.threads.PhysicsThread;
@@ -26,14 +32,12 @@ public class GameModel implements IGameModel {
   private Levels levelsList;
   private int currentGameFrame = 0;
   private boolean isManuallyPaused = false;
-  private boolean isPaused;
-  private boolean isRunning;
-  private boolean isLevelCompleted;
-  private boolean isGameOver;
-  private MovementManager pacmanMovementManager;
-  private List<MovementManager> ghostMovementManagers;
-  private PacmanGhostCollisionManager pacmanGhostCollisionManager;
+  private boolean isPaused = false;
+  private boolean isRunning = false;
+  private boolean isLevelCompleted = false;
+  private boolean isGameOver = false;
   private boolean isGameStarted = false;
+  private PacmanGhostCollisionManager pacmanGhostCollisionManager;
   private GameState gameState = GameState.GAME_MENU;
   private PacMan pacman;
   private PacmanPacgumCollisionManager pacmanPacgumCollisionManager;
@@ -42,10 +46,10 @@ public class GameModel implements IGameModel {
   Random randomNumberGenerator = new Random(RANDOM_GENERATOR_SEED);
   IDirectionGenerator randomDirectionGenerator =
       new RandomDirectionGenerator(randomNumberGenerator);
-  private List<PeriodicDirectionManager> ghostDirectionManagers;
+  private List<PeriodicDirectionManager> ghostDirectionManagers = new ArrayList<>();
   private int isLevelCompletedUpdatesCounter = 0;
-  private Queue<Level> moveQueue = new ConcurrentLinkedQueue<>();
-  private Queue<GameEvent> eventQueue = new ConcurrentLinkedQueue<>();
+  private Queue<Level> moveQueue = new ConcurrentLinkedQueue<>(); // Thread Safe
+  private Queue<GameEventObject> eventQueue = new ConcurrentLinkedQueue<>(); // Thread Safe
   private PhysicsThread physicsThread = new PhysicsThread(moveQueue, eventQueue);
 
   public GameModel() {
@@ -104,26 +108,31 @@ public class GameModel implements IGameModel {
       initializeLevel();
     }
 
-    moveQueue.add(getCurrentLevel());
-
-    synchronized (eventQueue) {
-      while (!eventQueue.isEmpty()) {
-        GameEvent gameEvent = eventQueue.poll();
-        if (gameEvent == GameEvent.PACGUM_CONSUMED) {
-          pacmanPacgumCollisionManager.update();
-          consumingPacGums();
-        } else {
-          movingToEmptySpace();
-        }
-        if (gameEvent == GameEvent.SUPER_PACGUM_CONSUMED) {
-          pacmanSuperPacgumCollisionManager.update();
-          consumingPacGums();
-        }
-        if (gameEvent == GameEvent.PACMAN_GHOST_COLLISON) {
-          pacmanGhostCollisionManager.update();
-          consumingGhost();
-        }
+    while (!eventQueue.isEmpty()) {
+      GameEventObject gameEventObject = eventQueue.poll();
+      if (gameEventObject.getGameEvent() == GameEvent.PACGUM_CONSUMED) {
+        pacmanPacgumCollisionManager.update();
+        consumingPacGums();
+      } else {
+        movingToEmptySpace();
       }
+      if (gameEventObject.getGameEvent() == GameEvent.SUPER_PACGUM_CONSUMED) {
+        pacmanSuperPacgumCollisionManager.update();
+      }
+      if (gameEventObject.getGameEvent() == GameEvent.PACMAN_GHOST_COLLISON) {
+        pacmanGhostCollisionManager.update();
+        consumingGhost();
+        eventQueue.clear();
+      }
+      if (gameEventObject.getGameEvent() == GameEvent.ENTITY_MOVE) {
+        IGameObject gameObject = gameEventObject.getGameObject();
+        gameObject.setPosition(gameEventObject.getPosition());
+      }
+    }
+
+    synchronized (moveQueue) {
+      moveQueue.add(level);
+      moveQueue.notifyAll();
     }
 
     updateGameObjectsPosition();
@@ -133,7 +142,6 @@ public class GameModel implements IGameModel {
     isLevelCompleted = false;
     levelsList.incrementCurrentLevel();
     initializeLevel();
-    updateGameObjectsPosition();
   }
 
   private void updateIsLevelCompleted() {
@@ -146,35 +154,24 @@ public class GameModel implements IGameModel {
   }
 
   private void updateGameObjectsPosition() {
-    pacmanMovementManager.updatePosition();
     for (PeriodicDirectionManager ghostDirectionManager : ghostDirectionManagers) {
       ghostDirectionManager.update();
-    }
-    for (MovementManager ghostMovementManager : ghostMovementManagers) {
-      ghostMovementManager.updatePosition();
     }
   }
 
   private void initializeLevel() {
     Level level = getCurrentLevel();
-    Level initialLevel = getCurrentLevel();
-    IMoveValidator pacmanMoveValidator = new PacmanMoveValidator(level);
-    IMoveValidator ghostMoveValidator = new GhostMoveValidator(level);
+    Level actualLevel = getCurrentLevel();
     pacman = level.getPacMan();
-    pacmanMovementManager = new MovementManager(pacman, pacmanMoveValidator);
-
-    ghostMovementManagers = new ArrayList<>();
-    ghostDirectionManagers = new ArrayList<>();
 
     for (Ghost ghost : level.getGhosts()) {
       ghostDirectionManagers.add(new PeriodicDirectionManager(this, randomDirectionGenerator, ghost,
           GHOSTS_DIRECTION_CHANGE_PERIOD));
-      ghostMovementManagers.add(new MovementManager(ghost, ghostMoveValidator));
     }
 
     pacmanPacgumCollisionManager = new PacmanPacgumCollisionManager(level);
     pacmanSuperPacgumCollisionManager = new PacmanSuperPacgumCollisionManager(level);
-    pacmanGhostCollisionManager = new PacmanGhostCollisionManager(level, initialLevel);
+    pacmanGhostCollisionManager = new PacmanGhostCollisionManager(level, actualLevel);
 
     isGameStarted = true;
     isGameOver = false;
@@ -257,8 +254,7 @@ public class GameModel implements IGameModel {
     File file = new File(GameModel.class.getClassLoader().getResource(levelsPath).getFile());
 
     try (FileReader fileReader = new FileReader(file)) {
-      this.levelsList = gson.fromJson(new BufferedReader(fileReader), Levels.class);
-      this.pacman = getCurrentLevel().getPacMan();
+      levelsList = gson.fromJson(new BufferedReader(fileReader), Levels.class);
     } catch (Exception exception) {
       WarningDialog.display("Error while opening level file. ", exception);
     }
@@ -270,19 +266,11 @@ public class GameModel implements IGameModel {
   }
 
   @Override
-  public void setDirection(IHasDesiredDirection gameObject, Direction direction)
-      throws GameObjectCannotChangeDirectionException {
+  public void setDirection(IHasDesiredDirection gameObject, Direction direction) {
     if (isPaused()) {
       return;
     }
-    MovementManager movementManager;
-    try {
-      movementManager = getMovementManagerFromGameObject(gameObject);
-    } catch (MovementManagerNotFoundException e) {
-      throw new GameObjectCannotChangeDirectionException(
-          "Could not find a movement manager for the given game object", e);
-    }
-    movementManager.setDirection(direction);
+    gameObject.setDesiredDirection(direction);
   }
 
   @Override
@@ -295,21 +283,6 @@ public class GameModel implements IGameModel {
     return isManuallyPaused;
   }
 
-  private MovementManager getMovementManagerFromGameObject(IHasDesiredDirection gameObject)
-      throws MovementManagerNotFoundException {
-    if (gameObject == pacmanMovementManager.getManagedGameObject()) {
-      return pacmanMovementManager;
-    }
-    for (MovementManager ghostMovementManager : ghostMovementManagers) {
-      if (gameObject == ghostMovementManager.getManagedGameObject()) {
-        return ghostMovementManager;
-      }
-    }
-    throw new MovementManagerNotFoundException(
-        "Could not find a movement manager for the given game object");
-  }
-
-  @Override
   public boolean isGameOver() {
     return isGameOver;
   }

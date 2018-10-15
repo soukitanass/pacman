@@ -1,3 +1,11 @@
+/*******************************************************************************
+ * Team agilea18b, Pacman
+ * 
+ * beam2039 - Marc-Antoine Beaudoin
+ * dupm2216 - Maxime Dupuis
+ * nass2801 - Soukaina Nassib
+ * royb2006 - Benjamin Roy
+ ******************************************************************************/
 package ca.usherbrooke.pacman.view.utilities;
 
 import java.util.logging.Level;
@@ -9,7 +17,7 @@ public class WarningDialog {
 
   }
 
-  private static void displayWarningDialog(String warningMessage) {
+  public static void displayWarningDialog(String warningMessage) {
     JOptionPane.showMessageDialog(null, warningMessage, "Error!", JOptionPane.ERROR_MESSAGE);
   }
 

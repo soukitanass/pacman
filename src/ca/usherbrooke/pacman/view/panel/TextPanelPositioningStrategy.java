@@ -6,20 +6,13 @@
  * nass2801 - Soukaina Nassib
  * royb2006 - Benjamin Roy
  ******************************************************************************/
-package ca.usherbrooke.pacman.model.sound;
+package ca.usherbrooke.pacman.view.panel;
 
+import java.awt.image.BufferedImage;
 import ca.usherbrooke.pacman.model.IGameModel;
+import ca.usherbrooke.pacman.model.Position;
 
-public abstract class Observer {
-  protected IGameModel subject;
-
-  public abstract void consumingPacGums();
-
-  public abstract void consumingGhost();
-
-  public abstract void consumingFruit();
-
-  public abstract void movingToEmptySpace();
-
-  public abstract void onGameInterruption();
+public interface TextPanelPositioningStrategy {
+  Position getPosition(BufferedImage image, IGameModel model, int pixelTileSize, int offsetX,
+      int offsetY);
 }

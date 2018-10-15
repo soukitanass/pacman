@@ -1,3 +1,11 @@
+/*******************************************************************************
+ * Team agilea18b, Pacman
+ * 
+ * beam2039 - Marc-Antoine Beaudoin
+ * dupm2216 - Maxime Dupuis
+ * nass2801 - Soukaina Nassib
+ * royb2006 - Benjamin Roy
+ ******************************************************************************/
 package ca.usherbrooke.pacman.model;
 
 import ca.usherbrooke.pacman.model.exceptions.InvalidDirectionException;
@@ -14,30 +22,32 @@ public class MovementManager {
     this.moveValidator = moveValidator;
   }
 
-  public void updatePosition() {
+
+  public Position getPosition() {
+    Position gameObjectPosition = gameObject.getPosition();
     MoveRequest desiredMoveRequest =
-        new MoveRequest(gameObject.getPosition(), gameObject.getDesiredDirection());
+        new MoveRequest(gameObjectPosition, gameObject.getDesiredDirection());
     try {
       if (moveValidator.isDesiredDirectionValid(desiredMoveRequest)
           && moveValidator.isValid(desiredMoveRequest)) {
-        gameObject.setPosition(moveValidator.getTargetPosition(desiredMoveRequest));
-        return;
+        return moveValidator.getTargetPosition(desiredMoveRequest);
       }
     } catch (InvalidDirectionException exception) {
       WarningDialog.display(INVALID_DIRECTION_MSG, exception);
     }
 
     MoveRequest fallbackMoveRequest =
-        new MoveRequest(gameObject.getPosition(), gameObject.getDirection());
+        new MoveRequest(gameObjectPosition, gameObject.getDirection());
     try {
       if (moveValidator.isValid(fallbackMoveRequest)) {
-        gameObject.setPosition(moveValidator.getTargetPosition(fallbackMoveRequest));
+        gameObjectPosition = moveValidator.getTargetPosition(fallbackMoveRequest);
       }
     } catch (InvalidDirectionException exception) {
       WarningDialog.display(INVALID_DIRECTION_MSG, exception);
     }
 
     setDirection(gameObject.getDesiredDirection());
+    return gameObjectPosition;
   }
 
   public void setDirection(Direction direction) {

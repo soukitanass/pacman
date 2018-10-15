@@ -1,3 +1,11 @@
+/*******************************************************************************
+ * Team agilea18b, Pacman
+ * 
+ * beam2039 - Marc-Antoine Beaudoin
+ * dupm2216 - Maxime Dupuis
+ * nass2801 - Soukaina Nassib
+ * royb2006 - Benjamin Roy
+ ******************************************************************************/
 package ca.usherbrooke.pacman.model;
 
 import static org.junit.Assert.assertEquals;
@@ -25,9 +33,8 @@ public class MovementManagerTest {
     gameObject.setPosition(new Position(0, 0));
 
     movementManager.setDirection(Direction.RIGHT);
-    movementManager.updatePosition();
 
-    assertEquals(new Position(1, 0), gameObject.getPosition());
+    assertEquals(new Position(1, 0), movementManager.getPosition());
   }
 
   @Test
@@ -37,9 +44,8 @@ public class MovementManagerTest {
     initializeMovementManager(map);
 
     gameObject.setDirection(Direction.LEFT);
-    movementManager.updatePosition();
 
-    assertEquals(new Position(0, 0), gameObject.getPosition());
+    assertEquals(new Position(0, 0), movementManager.getPosition());
   }
 
   @Test
@@ -49,9 +55,8 @@ public class MovementManagerTest {
     initializeMovementManager(map);
 
     gameObject.setDirection(Direction.UP);
-    movementManager.updatePosition();
 
-    assertEquals(new Position(0, 0), gameObject.getPosition());
+    assertEquals(new Position(0, 0), movementManager.getPosition());
   }
 
   @Test
@@ -61,9 +66,8 @@ public class MovementManagerTest {
     initializeMovementManager(map);
 
     gameObject.setDirection(Direction.DOWN);
-    movementManager.updatePosition();
 
-    assertEquals(new Position(0, 1), gameObject.getPosition());
+    assertEquals(new Position(0, 1), movementManager.getPosition());
   }
 
   @Test
@@ -73,9 +77,8 @@ public class MovementManagerTest {
     initializeMovementManager(map);
 
     gameObject.setDirection(Direction.RIGHT);
-    movementManager.updatePosition();
 
-    assertEquals(new Position(0, 0), gameObject.getPosition());
+    assertEquals(new Position(0, 0), movementManager.getPosition());
   }
 
   @Test
@@ -85,9 +88,8 @@ public class MovementManagerTest {
     initializeMovementManager(map);
 
     gameObject.setDirection(Direction.LEFT);
-    movementManager.updatePosition();
 
-    assertEquals(new Position(1, 0), gameObject.getPosition());
+    assertEquals(new Position(1, 0), movementManager.getPosition());
   }
 
   @Test
@@ -97,9 +99,8 @@ public class MovementManagerTest {
     initializeMovementManager(map);
 
     gameObject.setDirection(Direction.DOWN);
-    movementManager.updatePosition();
 
-    assertEquals(new Position(0, 0), gameObject.getPosition());
+    assertEquals(new Position(0, 0), movementManager.getPosition());
   }
 
   @Test
@@ -109,9 +110,8 @@ public class MovementManagerTest {
     initializeMovementManager(map);
 
     gameObject.setDirection(Direction.UP);
-    movementManager.updatePosition();
 
-    assertEquals(new Position(0, 1), gameObject.getPosition());
+    assertEquals(new Position(0, 1), movementManager.getPosition());
   }
 
   @Test
@@ -144,53 +144,20 @@ public class MovementManagerTest {
     initializeMovementManager(map);
 
     gameObject.setDirection(Direction.UP);
-    movementManager.updatePosition();
-    assertEquals(new Position(1, 1), gameObject.getPosition());
+
+    assertEquals(new Position(1, 1), movementManager.getPosition());
 
     gameObject.setDirection(Direction.DOWN);
-    movementManager.updatePosition();
-    assertEquals(new Position(1, 1), gameObject.getPosition());
+
+    assertEquals(new Position(1, 1), movementManager.getPosition());
 
     gameObject.setDirection(Direction.LEFT);
-    movementManager.updatePosition();
-    assertEquals(new Position(1, 1), gameObject.getPosition());
+
+    assertEquals(new Position(1, 1), movementManager.getPosition());
 
     gameObject.setDirection(Direction.RIGHT);
-    movementManager.updatePosition();
-    assertEquals(new Position(1, 1), gameObject.getPosition());
-  }
 
-  @Test
-  public void turnTowardsDesiredDirectionAsSoonAsThereIsNoWall() {
-    List<List<Integer>> map =
-        Arrays.asList(Arrays.asList(0, 0, 0), Arrays.asList(0, 1, 0), Arrays.asList(0, 0, 0));
-    initializeMovementManager(map);
-    gameObject.setPosition(new Position(0, 0));
-    movementManager.setDirection(Direction.RIGHT);
-
-    movementManager.updatePosition();
-    movementManager.setDirection(Direction.DOWN);
-    assertEquals(Direction.RIGHT, gameObject.getDirection());
-    movementManager.updatePosition();
-    assertEquals(Direction.DOWN, gameObject.getDirection());
-
-    movementManager.updatePosition();
-    movementManager.setDirection(Direction.LEFT);
-    assertEquals(Direction.DOWN, gameObject.getDirection());
-    movementManager.updatePosition();
-    assertEquals(Direction.LEFT, gameObject.getDirection());
-
-    movementManager.updatePosition();
-    movementManager.setDirection(Direction.UP);
-    assertEquals(Direction.LEFT, gameObject.getDirection());
-    movementManager.updatePosition();
-    assertEquals(Direction.UP, gameObject.getDirection());
-
-    movementManager.updatePosition();
-    movementManager.setDirection(Direction.RIGHT);
-    assertEquals(Direction.UP, gameObject.getDirection());
-    movementManager.updatePosition();
-    assertEquals(Direction.RIGHT, gameObject.getDirection());
+    assertEquals(new Position(1, 1), movementManager.getPosition());
   }
 
   private void initializeMovementManager(List<List<Integer>> map) {

@@ -1,3 +1,11 @@
+/*******************************************************************************
+ * Team agilea18b, Pacman
+ * 
+ * beam2039 - Marc-Antoine Beaudoin
+ * dupm2216 - Maxime Dupuis
+ * nass2801 - Soukaina Nassib
+ * royb2006 - Benjamin Roy
+ ******************************************************************************/
 package ca.usherbrooke.pacman.model;
 
 import static org.junit.Assert.assertEquals;
@@ -50,7 +58,7 @@ public class PacmanGhostsCollisionManagerTest {
     List<Ghost> ghosts = new ArrayList<Ghost>();
     IGameModel model = new GameModel();
     String levelsPath = "Levels.json";
-    model.loadLevels(levelsPath );
+    model.loadLevels(levelsPath);
     level.setGhost(ghosts);
     level.setPacMan(new PacMan(new Position(0, 0)));
     ghost.setPosition(new Position(0, 0));

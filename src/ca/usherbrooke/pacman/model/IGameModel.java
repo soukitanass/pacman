@@ -1,6 +1,13 @@
+/*******************************************************************************
+ * Team agilea18b, Pacman
+ * 
+ * beam2039 - Marc-Antoine Beaudoin
+ * dupm2216 - Maxime Dupuis
+ * nass2801 - Soukaina Nassib
+ * royb2006 - Benjamin Roy
+ ******************************************************************************/
 package ca.usherbrooke.pacman.model;
 
-import ca.usherbrooke.pacman.model.exceptions.GameObjectCannotChangeDirectionException;
 import ca.usherbrooke.pacman.model.sound.Observer;
 
 public interface IGameModel {
@@ -32,8 +39,7 @@ public interface IGameModel {
 
   PacMan getPacman();
 
-  void setDirection(IHasDesiredDirection gameObject, Direction direction)
-      throws GameObjectCannotChangeDirectionException;
+  void setDirection(IHasDesiredDirection gameObject, Direction direction);
 
   void attach(Observer observer);
 

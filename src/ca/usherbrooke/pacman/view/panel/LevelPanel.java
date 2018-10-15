@@ -1,13 +1,21 @@
+/*******************************************************************************
+ * Team agilea18b, Pacman
+ * 
+ * beam2039 - Marc-Antoine Beaudoin
+ * dupm2216 - Maxime Dupuis
+ * nass2801 - Soukaina Nassib
+ * royb2006 - Benjamin Roy
+ ******************************************************************************/
 package ca.usherbrooke.pacman.view.panel;
 
 import java.awt.Graphics;
 import java.awt.Image;
 import java.awt.image.BufferedImage;
 import java.util.List;
-import javax.swing.JPanel;
 import ca.usherbrooke.pacman.model.Direction;
 import ca.usherbrooke.pacman.model.IGameModel;
 import ca.usherbrooke.pacman.model.Level;
+import ca.usherbrooke.pacman.model.Position;
 import ca.usherbrooke.pacman.view.Color;
 import ca.usherbrooke.pacman.view.PacGumState;
 import ca.usherbrooke.pacman.view.PacManState;
@@ -15,21 +23,22 @@ import ca.usherbrooke.pacman.view.SpriteFacade;
 import ca.usherbrooke.pacman.view.utilities.WarningDialog;
 
 @SuppressWarnings({"serial", "squid:S1948"})
-public class LevelPanel extends JPanel {
+public class LevelPanel extends AbstractPanel {
 
+  private static final String LEVEL_TEXT = "Level ";
+  private static final Color LEVEL_COLOR = Color.WHITE;
+  private static final int LEVEL_SCALE_FACTOR = 2;
+  private static final int LEVEL_OFFSET = 1;
+  private static final int Y_DELTA_TILES = 2;
+
+  private static final int EMPTY_TILE_CODE = 0;
+  private static final int GHOST_ROOM_TILE_CODE = 38;
   public static final int PANEL_WIDTH_IN_SCORE_TILES = 25;
   private static final String PAINTING_ERROR = "Error while painting the level. ";
   private IGameModel model;
-  private int pixelTileSize;
   private String scoreText = "SCORE";
   private String liveText = "LIVES";
   private SpriteFacade spriteFacade = new SpriteFacade();
-  private int offsetX = 0;
-  private int offsetY = 0;
-
-  public void setPixelTileSize(int pixelTileSize) {
-    this.pixelTileSize = pixelTileSize;
-  }
 
   public LevelPanel(IGameModel model) {
     this.model = model;
@@ -53,6 +62,8 @@ public class LevelPanel extends JPanel {
             image = spriteFacade.getPacGum(PacGumState.STATE1);
           } else if (code == 40) {
             image = spriteFacade.getPacGum(PacGumState.STATE5);
+          } else if (code == GHOST_ROOM_TILE_CODE) {
+            image = spriteFacade.getWall(EMPTY_TILE_CODE);
           } else {
             image = spriteFacade.getWall(code);
           }
@@ -63,7 +74,9 @@ public class LevelPanel extends JPanel {
         int yPos = i * pixelTileSize;
         drawLevel(image, graphic, iPos + offsetX, yPos + offsetY, pixelTileSize, pixelTileSize);
       }
+
       drawScorePanel(graphic, map.size() * pixelTileSize, level);
+      drawLevelNumber(graphic);
     }
 
   }
@@ -93,6 +106,21 @@ public class LevelPanel extends JPanel {
 
   }
 
+  private void drawLevelNumber(Graphics graphic) {
+    final int bottomMargin = Y_DELTA_TILES * pixelTileSize;
+    final int height = (int) this.getBounds().getHeight();
+    final int levelNumber = model.getCurrentLevelIndex() + LEVEL_OFFSET;
+    final String levelLabel = LEVEL_TEXT + levelNumber;
+    BufferedImage image = getLabelImage(levelLabel, LEVEL_COLOR, LEVEL_SCALE_FACTOR);
+
+    TextPanelPositioningStrategy positioningStrategy =
+        new BottomCenteredInLevelPositionStrategy(height, bottomMargin);
+    final Position position =
+        positioningStrategy.getPosition(image, model, pixelTileSize, offsetX, offsetY);
+
+    graphic.drawImage(image, position.getX(), position.getY(), null);
+  }
+
   private int getScoreTileSizePixels() {
     final double totalWidthPixels = (double) getWidthTiles() * pixelTileSize;
     return (int) (totalWidthPixels / PANEL_WIDTH_IN_SCORE_TILES);
@@ -100,14 +128,6 @@ public class LevelPanel extends JPanel {
 
   public int getWidthTiles() {
     return model.getCurrentLevel().getWidth();
-  }
-
-  public void setOffsetX(int offsetX) {
-    this.offsetX = offsetX;
-  }
-
-  public void setOffsetY(int offsetY) {
-    this.offsetY = offsetY;
   }
 
   public void drawScore(Graphics graphic, int y, Level level, int x) {
