@@ -21,12 +21,14 @@ public class PacmanPacgumCollisionManagerTest {
   private static final int PACGUM_CODE = 39;
   private PacMan pacman;
   private Level level;
+  private IGameModel model;
   private PacmanPacgumCollisionManager pacmanPacgumCollisionManager;
 
   @Before
   public void setUp() {
     this.pacman = new PacMan();
     this.level = new Level();
+    this.model = new GameModel();
   }
 
   @Test
@@ -38,7 +40,7 @@ public class PacmanPacgumCollisionManagerTest {
     assertTrue(level.isPacgum(new Position(0, 0)));
     assertTrue(level.isPacgum(new Position(1, 0)));
     pacmanPacgumCollisionManager.update();
-    assertEquals(Integer.valueOf(10), level.getScore());
+    assertEquals(Integer.valueOf(10), model.getScore());
     assertFalse(level.isPacgum(new Position(0, 0)));
     assertTrue(level.isPacgum(new Position(1, 0)));
   }
@@ -46,6 +48,6 @@ public class PacmanPacgumCollisionManagerTest {
   private void initializePacmanPacgumCollisionManager(List<List<Integer>> map) {
     level.setMap(map);
     level.setPacMan(pacman);
-    pacmanPacgumCollisionManager = new PacmanPacgumCollisionManager(level);
+    pacmanPacgumCollisionManager = new PacmanPacgumCollisionManager(level, model);
   }
 }

@@ -6,6 +6,14 @@
  * nass2801 - Soukaina Nassib
  * royb2006 - Benjamin Roy
  ******************************************************************************/
+
+/*******************************************************************************
+ * FSP Code
+ * PhysicsThread = (validPacgumConsumedEvent->validSuperPacgumConsumedEvent->validPacmanGhostsCollisionEvent->validPacmanMovement->validGhostMovement->waitNotEmpty->PhysicsThread).
+ * GameModel = (validGameStates->processPhysicsEvent->notifyPhysicsThread->updateGameObjectsPosition->GameModel).
+ * || Threads = (PhysicsThread || GameModel).
+ *
+ ******************************************************************************/
 package ca.usherbrooke.pacman.threads;
 
 import java.util.Queue;
@@ -13,6 +21,7 @@ import ca.usherbrooke.pacman.model.GameEvent;
 import ca.usherbrooke.pacman.model.GameEventObject;
 import ca.usherbrooke.pacman.model.Ghost;
 import ca.usherbrooke.pacman.model.GhostMoveValidator;
+import ca.usherbrooke.pacman.model.IGameModel;
 import ca.usherbrooke.pacman.model.IGameObject;
 import ca.usherbrooke.pacman.model.Level;
 import ca.usherbrooke.pacman.model.MovementManager;
@@ -30,11 +39,14 @@ public class PhysicsThread extends Thread {
   private static final String THREAD_NAME = "Physic_Thread";
   private final Queue<GameEventObject> eventQueue;
   private final Queue<Level> moveQueue;
+  private final IGameModel model;
 
-  public PhysicsThread(Queue<Level> moveQueue, Queue<GameEventObject> eventQueue) {
+  public PhysicsThread(Queue<Level> moveQueue, Queue<GameEventObject> eventQueue,
+      IGameModel model) {
     this.setName(THREAD_NAME);
     this.eventQueue = eventQueue;
     this.moveQueue = moveQueue;
+    this.model = model;
   }
 
   public synchronized void stopThread() {
@@ -50,7 +62,7 @@ public class PhysicsThread extends Thread {
     while (isRunning) {
       try {
         synchronized (moveQueue) {
-          while (!moveQueue.isEmpty()) {
+          while (!moveQueue.isEmpty() && isRunning) {
             Level level = moveQueue.poll();
 
             validPacgumConsumedEvent(level);
@@ -89,7 +101,7 @@ public class PhysicsThread extends Thread {
 
   private void validPacmanGhostsCollisionEvent(Level level) {
     PacmanGhostCollisionManager pacmanGhostCollisionManager =
-        new PacmanGhostCollisionManager(level, level);
+        new PacmanGhostCollisionManager(level, level, model);
     if (pacmanGhostCollisionManager.isCollision()) {
       PacMan pacman = level.getPacMan();
       addEventToQueue(pacman, GameEvent.PACMAN_GHOST_COLLISON, pacman.getPosition());

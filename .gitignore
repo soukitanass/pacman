@@ -2,7 +2,6 @@
 junit/
 
 # Eclipse
-.project
 .settings/
 bin/
 

@@ -1,10 +1,8 @@
 /*******************************************************************************
  * Team agilea18b, Pacman
  * 
- * beam2039 - Marc-Antoine Beaudoin
- * dupm2216 - Maxime Dupuis
- * nass2801 - Soukaina Nassib
- * royb2006 - Benjamin Roy
+ * beam2039 - Marc-Antoine Beaudoin dupm2216 - Maxime Dupuis nass2801 - Soukaina Nassib royb2006 -
+ * Benjamin Roy
  ******************************************************************************/
 package ca.usherbrooke.pacman.view.panel;
 
@@ -75,7 +73,7 @@ public class LevelPanel extends AbstractPanel {
         drawLevel(image, graphic, iPos + offsetX, yPos + offsetY, pixelTileSize, pixelTileSize);
       }
 
-      drawScorePanel(graphic, map.size() * pixelTileSize, level);
+      drawScorePanel(graphic, map.size() * pixelTileSize);
       drawLevelNumber(graphic);
     }
 
@@ -86,23 +84,23 @@ public class LevelPanel extends AbstractPanel {
     graphics.drawImage(source, x, y, x + width, y + height, 0, 0, tileSize, tileSize, null);
   }
 
-  private void drawScorePanel(Graphics graphic, int y, Level level) {
+  private void drawScorePanel(Graphics graphic, int y) {
     int xPos = 0;
     drawText(graphic, y, xPos, this.scoreText);
 
     xPos = scoreText.length() * getScoreTileSizePixels() + offsetX;
-    drawScore(graphic, y, level, xPos);
+    drawScore(graphic, y, xPos);
 
     xPos = xPos + 4 * getScoreTileSizePixels();
     drawTextLive(graphic, y, xPos, this.liveText);
 
 
     xPos = xPos + liveText.length() * getScoreTileSizePixels();
-    if (level.getLives() == 0) {
+    if (model.getLives() == 0) {
       model.setGameOver();
-      level.setLives(-1);
+      model.setLives(-1);
     }
-    drawLives(graphic, y, xPos, level.getLives());
+    drawLives(graphic, y, xPos, model.getLives());
 
   }
 
@@ -130,8 +128,8 @@ public class LevelPanel extends AbstractPanel {
     return model.getCurrentLevel().getWidth();
   }
 
-  public void drawScore(Graphics graphic, int y, Level level, int x) {
-    Integer score = level.getScore();
+  public void drawScore(Graphics graphic, int y, int x) {
+    Integer score = model.getScore();
     String scoreString = String.valueOf(score);
     for (int i = 0; i < scoreString.length(); i++) {
       int pos;

@@ -8,7 +8,8 @@
  ******************************************************************************/
 package ca.usherbrooke.pacman.threads;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -20,7 +21,9 @@ import org.junit.Test;
 import ca.usherbrooke.pacman.model.Direction;
 import ca.usherbrooke.pacman.model.GameEvent;
 import ca.usherbrooke.pacman.model.GameEventObject;
+import ca.usherbrooke.pacman.model.GameModel;
 import ca.usherbrooke.pacman.model.Ghost;
+import ca.usherbrooke.pacman.model.IGameModel;
 import ca.usherbrooke.pacman.model.Level;
 import ca.usherbrooke.pacman.model.PacMan;
 import ca.usherbrooke.pacman.model.Position;
@@ -34,7 +37,8 @@ public class PhysicsThreadTest {
 
   private final Queue<Level> moveQueue = new ConcurrentLinkedQueue<>();
   private final Queue<GameEventObject> eventQueue = new ConcurrentLinkedQueue<>();
-  private final PhysicsThread physicsThread = new PhysicsThread(moveQueue, eventQueue);
+  private final IGameModel model = new GameModel();
+  private final PhysicsThread physicsThread = new PhysicsThread(moveQueue, eventQueue,model);
 
   @Before
   public void setUp() {

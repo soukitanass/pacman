@@ -1,10 +1,8 @@
 /*******************************************************************************
  * Team agilea18b, Pacman
  * 
- * beam2039 - Marc-Antoine Beaudoin
- * dupm2216 - Maxime Dupuis
- * nass2801 - Soukaina Nassib
- * royb2006 - Benjamin Roy
+ * beam2039 - Marc-Antoine Beaudoin dupm2216 - Maxime Dupuis nass2801 - Soukaina Nassib royb2006 -
+ * Benjamin Roy
  ******************************************************************************/
 package ca.usherbrooke.pacman.model;
 
@@ -28,6 +26,8 @@ public class GameModel implements IGameModel {
   private static final int GHOSTS_DIRECTION_CHANGE_PERIOD = 3;
   private static final int RANDOM_GENERATOR_SEED = 8544574;
   private static final int JOIN_TIMER = 1000; // ms
+  private static final int INITIAL_SCORE = 0;
+  private static final int INITIAL_NUMBER_OF_LIVES = 3;
 
   private Levels levelsList;
   private int currentGameFrame = 0;
@@ -36,7 +36,6 @@ public class GameModel implements IGameModel {
   private boolean isRunning = false;
   private boolean isLevelCompleted = false;
   private boolean isGameOver = false;
-  private boolean isGameStarted = false;
   private PacmanGhostCollisionManager pacmanGhostCollisionManager;
   private GameState gameState = GameState.GAME_MENU;
   private PacMan pacman;
@@ -50,7 +49,25 @@ public class GameModel implements IGameModel {
   private int isLevelCompletedUpdatesCounter = 0;
   private Queue<Level> moveQueue = new ConcurrentLinkedQueue<>(); // Thread Safe
   private Queue<GameEventObject> eventQueue = new ConcurrentLinkedQueue<>(); // Thread Safe
-  private PhysicsThread physicsThread = new PhysicsThread(moveQueue, eventQueue);
+  private PhysicsThread physicsThread = new PhysicsThread(moveQueue, eventQueue, this);
+  private Integer score = INITIAL_SCORE;
+  private int lives = INITIAL_NUMBER_OF_LIVES;
+
+  public Integer getScore() {
+    return score;
+  }
+
+  public void setScore(Integer score) {
+    this.score = score;
+  }
+
+  public int getLives() {
+    return lives;
+  }
+
+  public void setLives(int lives) {
+    this.lives = lives;
+  }
 
   public GameModel() {
     physicsThread.start();
@@ -104,10 +121,18 @@ public class GameModel implements IGameModel {
       return;
     }
     ++currentGameFrame;
-    if (!isGameStarted) {
-      initializeLevel();
+
+    processPhysicsEvent();
+
+    synchronized (moveQueue) {
+      moveQueue.add(level);
+      moveQueue.notifyAll();
     }
 
+    updateGameObjectsPosition();
+  }
+
+  private void processPhysicsEvent() {
     while (!eventQueue.isEmpty()) {
       GameEventObject gameEventObject = eventQueue.poll();
       if (gameEventObject.getGameEvent() == GameEvent.PACGUM_CONSUMED) {
@@ -129,13 +154,6 @@ public class GameModel implements IGameModel {
         gameObject.setPosition(gameEventObject.getPosition());
       }
     }
-
-    synchronized (moveQueue) {
-      moveQueue.add(level);
-      moveQueue.notifyAll();
-    }
-
-    updateGameObjectsPosition();
   }
 
   private void goToNextLevel() {
@@ -169,11 +187,10 @@ public class GameModel implements IGameModel {
           GHOSTS_DIRECTION_CHANGE_PERIOD));
     }
 
-    pacmanPacgumCollisionManager = new PacmanPacgumCollisionManager(level);
-    pacmanSuperPacgumCollisionManager = new PacmanSuperPacgumCollisionManager(level);
-    pacmanGhostCollisionManager = new PacmanGhostCollisionManager(level, actualLevel);
+    pacmanPacgumCollisionManager = new PacmanPacgumCollisionManager(level, this);
+    pacmanSuperPacgumCollisionManager = new PacmanSuperPacgumCollisionManager(level, this);
+    pacmanGhostCollisionManager = new PacmanGhostCollisionManager(level, actualLevel, this);
 
-    isGameStarted = true;
     isGameOver = false;
   }
 

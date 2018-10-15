@@ -14,12 +14,14 @@ import java.util.List;
 public class PacmanGhostCollisionManager {
   private final PacMan pacman;
   private final Level level;
+  private final IGameModel model;
   private final Level initialLevel;
   private List<Position> listPositions;
   private Position pacmanInitialPosition;
 
-  public PacmanGhostCollisionManager(Level level, Level initialLevel) {
+  public PacmanGhostCollisionManager(Level level, Level initialLevel, IGameModel model) {
     listPositions = new ArrayList<>();
+    this.model = model;
     this.pacman = level.getPacMan();
     this.level = level;
     this.initialLevel = initialLevel;
@@ -28,7 +30,7 @@ public class PacmanGhostCollisionManager {
   }
 
   public void update() {
-    level.setLives(level.getLives() - 1);
+    model.setLives(model.getLives() - 1);
     pacman.setPosition(pacmanInitialPosition);
     pacman.setDirection(Direction.LEFT);
     int i = 0;
@@ -57,34 +59,28 @@ public class PacmanGhostCollisionManager {
   }
 
   private boolean isOppositeDirection(IGameObject gameObject1, IGameObject gameObject2) {
-    if (gameObject1.getDirection() == Direction.LEFT
+    return gameObject1.getDirection() == Direction.LEFT
         && gameObject2.getDirection() == Direction.RIGHT
         || gameObject2.getDirection() == Direction.LEFT
             && gameObject1.getDirection() == Direction.RIGHT
         || gameObject1.getDirection() == Direction.UP
             && gameObject2.getDirection() == Direction.DOWN
         || gameObject2.getDirection() == Direction.UP
-            && gameObject1.getDirection() == Direction.DOWN) {
-      return true;
-    }
-    return false;
+            && gameObject1.getDirection() == Direction.DOWN;
   }
 
   private boolean isSideBySide(IGameObject gameObject1, IGameObject gameObject2) {
     Position gameObject1Position = gameObject1.getPosition();
     Position gameObject2Position = gameObject2.getPosition();
 
-    if (gameObject1Position.getX() + 1 == gameObject2Position.getX()
+    return gameObject1Position.getX() + 1 == gameObject2Position.getX()
         && isOntheSameColumn(gameObject1, gameObject2)
         || gameObject1Position.getX() - 1 == gameObject2Position.getX()
             && isOntheSameColumn(gameObject1, gameObject2)
         || gameObject1Position.getY() + 1 == gameObject2Position.getY()
             && isOnTheSameRow(gameObject1, gameObject2)
         || gameObject1Position.getY() - 1 == gameObject2Position.getY()
-            && isOnTheSameRow(gameObject1, gameObject2)) {
-      return true;
-    }
-    return false;
+            && isOnTheSameRow(gameObject1, gameObject2);
   }
 
   private void loadPacmanInitialPosition() {

@@ -1,10 +1,8 @@
 /*******************************************************************************
  * Team agilea18b, Pacman
  * 
- * beam2039 - Marc-Antoine Beaudoin
- * dupm2216 - Maxime Dupuis
- * nass2801 - Soukaina Nassib
- * royb2006 - Benjamin Roy
+ * beam2039 - Marc-Antoine Beaudoin dupm2216 - Maxime Dupuis nass2801 - Soukaina Nassib royb2006 -
+ * Benjamin Roy
  ******************************************************************************/
 package ca.usherbrooke.pacman.view.panel;
 
@@ -15,6 +13,11 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import javax.swing.JCheckBox;
 import javax.swing.JLabel;
+import javax.swing.JSpinner;
+import javax.swing.SpinnerModel;
+import javax.swing.SpinnerNumberModel;
+import javax.swing.event.ChangeEvent;
+import javax.swing.event.ChangeListener;
 import ca.usherbrooke.pacman.model.GameState;
 import ca.usherbrooke.pacman.model.IGameModel;
 
@@ -27,12 +30,18 @@ public class GameMenuPanel extends AbstractMenuPanel {
   private static final String AUDIO_LABEL = "AUDIO";
   private static final String EXIT_GAME_LABEL = "EXIT GAME";
   private static final String FPS_LABEL = "FPS";
+  private static final int FPS_STEP = 1;
+  private static final int MINIMUM_FPS_VALUE = 30;
+  private static final int MAXIMUM_FPS_VALUE = 60;
 
   private JLabel startGameMenuOption = new JLabel();
   private JLabel audioMenuOption = new JLabel();
   private JLabel exitGameMenuOption = new JLabel();
   private JLabel fpsMenuOption = new JLabel();
   private JCheckBox fpsCheckBox = new JCheckBox("On/Off");
+  private SpinnerModel spinnerModel =
+      new SpinnerNumberModel(MINIMUM_FPS_VALUE, MINIMUM_FPS_VALUE, MAXIMUM_FPS_VALUE, FPS_STEP);
+  private JSpinner fpsSpinner = new JSpinner(spinnerModel);
   private FpsOptionListener fpsOptionListener;
 
   public GameMenuPanel(IGameModel model, FpsOptionListener fpsOptionListener) {
@@ -42,17 +51,28 @@ public class GameMenuPanel extends AbstractMenuPanel {
     this.add(audioMenuOption);
     this.add(fpsMenuOption);
     this.add(fpsCheckBox);
+    this.add(fpsSpinner);
     this.add(exitGameMenuOption);
 
     addMouseListeners();
-    addFpsOptionListeners();
+    addFpsOptionListener();
+    addFpsSpinnerListener();
   }
 
-  private void addFpsOptionListeners() {
+  private void addFpsOptionListener() {
     fpsCheckBox.addActionListener(new ActionListener() {
       @Override
       public void actionPerformed(ActionEvent e) {
         fpsOptionListener.setFpsEnabled(fpsCheckBox.isSelected());
+      }
+    });
+  }
+
+  private void addFpsSpinnerListener() {
+    fpsSpinner.addChangeListener(new ChangeListener() {
+      @Override
+      public void stateChanged(ChangeEvent e) {
+        fpsOptionListener.setFps((int) fpsSpinner.getValue());
       }
     });
   }
@@ -89,8 +109,10 @@ public class GameMenuPanel extends AbstractMenuPanel {
 
   private void paintFpsOption(int y) {
     setJLabel(fpsMenuOption, FPS_LABEL, y, IMAGE_SCALE_FACTOR);
-    final int x = fpsMenuOption.getX() + fpsMenuOption.getWidth() + CHECKBOX_X_OFFSET;
+    int x = fpsMenuOption.getX() + fpsMenuOption.getWidth() + CHECKBOX_X_OFFSET;
     setJCheckBox(fpsCheckBox, x, y);
+    x += fpsCheckBox.getWidth() + CHECKBOX_X_OFFSET;
+    setJSpinner(fpsSpinner, spinnerModel, x, y);
   }
 
   private void paintExitGameOption(int y) {

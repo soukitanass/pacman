@@ -11,14 +11,16 @@ package ca.usherbrooke.pacman.model;
 public class PacmanSuperPacgumCollisionManager {
   private final Level level;
   private static final int POINT = 50;
+  private IGameModel model;
 
-  public PacmanSuperPacgumCollisionManager(Level level) {
+  public PacmanSuperPacgumCollisionManager(Level level,IGameModel model) {
     this.level = level;
+    this.model = model;
   }
 
   public void update() {
     Position position = level.getPacMan().getPosition();
-    level.setScore(level.getScore() + POINT);
+    model.setScore(model.getScore() + POINT);
     level.setEmptyMapTile(position);
   }
 }
