@@ -16,6 +16,8 @@ import javax.swing.JLabel;
 import javax.swing.JSpinner;
 import javax.swing.SpinnerModel;
 import javax.swing.SpinnerNumberModel;
+import javax.swing.event.ChangeEvent;
+import javax.swing.event.ChangeListener;
 import ca.usherbrooke.pacman.model.GameState;
 import ca.usherbrooke.pacman.model.IGameModel;
 
@@ -53,14 +55,24 @@ public class GameMenuPanel extends AbstractMenuPanel {
     this.add(exitGameMenuOption);
 
     addMouseListeners();
-    addFpsOptionListeners();
+    addFpsOptionListener();
+    addFpsSpinnerListener();
   }
 
-  private void addFpsOptionListeners() {
+  private void addFpsOptionListener() {
     fpsCheckBox.addActionListener(new ActionListener() {
       @Override
       public void actionPerformed(ActionEvent e) {
         fpsOptionListener.setFpsEnabled(fpsCheckBox.isSelected());
+      }
+    });
+  }
+
+  private void addFpsSpinnerListener() {
+    fpsSpinner.addChangeListener(new ChangeListener() {
+      @Override
+      public void stateChanged(ChangeEvent e) {
+        fpsOptionListener.setFps((int) fpsSpinner.getValue());
       }
     });
   }

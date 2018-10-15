@@ -1,10 +1,8 @@
 /*******************************************************************************
  * Team agilea18b, Pacman
  * 
- * beam2039 - Marc-Antoine Beaudoin
- * dupm2216 - Maxime Dupuis
- * nass2801 - Soukaina Nassib
- * royb2006 - Benjamin Roy
+ * beam2039 - Marc-Antoine Beaudoin dupm2216 - Maxime Dupuis nass2801 - Soukaina Nassib royb2006 -
+ * Benjamin Roy
  ******************************************************************************/
 package ca.usherbrooke.pacman.view.panel;
 
@@ -17,7 +15,11 @@ public class FpsOptionListener {
     this.renderThread = renderThread;
   }
 
-  public void setFpsEnabled(boolean isFpsEnabled) {
+  public void setFpsEnabled(final boolean isFpsEnabled) {
     renderThread.setFpsEnabled(isFpsEnabled);
+  }
+
+  public void setFps(final int fps) {
+    renderThread.setFps(fps);
   }
 }

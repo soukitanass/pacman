@@ -1,16 +1,13 @@
 /*******************************************************************************
  * Team agilea18b, Pacman
  * 
- * beam2039 - Marc-Antoine Beaudoin
- * dupm2216 - Maxime Dupuis
- * nass2801 - Soukaina Nassib
- * royb2006 - Benjamin Roy
+ * beam2039 - Marc-Antoine Beaudoin dupm2216 - Maxime Dupuis nass2801 - Soukaina Nassib royb2006 -
+ * Benjamin Roy
  ******************************************************************************/
 
 /*******************************************************************************
- * FSP Code
- * RenderThread = (runStep->sleepUntilNextUpdate->RenderThread).
- * || Threads = (RenderThread).
+ * FSP Code RenderThread = (runStep->sleepUntilNextUpdate->RenderThread). || Threads =
+ * (RenderThread).
  *
  ******************************************************************************/
 package ca.usherbrooke.pacman.threads;
@@ -23,8 +20,10 @@ import ca.usherbrooke.pacman.view.IGameView;
 import ca.usherbrooke.pacman.view.utilities.WarningDialog;
 
 public class RenderThread implements Runnable, CloseObserver {
+  private static final int INITIAL_FPS = 30;
   private static final int NB_UPDATE_TIMES_TO_REMEMBER = 5;
   private static final String NAME = "RenderThread";
+
   private volatile boolean shouldRun = true;
   private long lastUpdateTimeMilliseconds;
   private int updatePeriodMilliseconds;
@@ -34,10 +33,10 @@ public class RenderThread implements Runnable, CloseObserver {
       new CircularQueue<>(NB_UPDATE_TIMES_TO_REMEMBER);
   private AtomicBoolean isFpsEnabled = new AtomicBoolean(false);
 
-  public RenderThread(IGameView view, int updatePeriodMilliseconds, ITimeGetter timeGetter) {
+  public RenderThread(IGameView view, ITimeGetter timeGetter) {
     this.view = view;
-    this.updatePeriodMilliseconds = updatePeriodMilliseconds;
     this.timeGetter = timeGetter;
+    setFps(INITIAL_FPS);
     lastUpdateTimeMilliseconds = timeGetter.getMilliseconds();
   }
 
@@ -108,6 +107,10 @@ public class RenderThread implements Runnable, CloseObserver {
 
   public synchronized void setFpsEnabled(boolean isFpsEnabled) {
     this.isFpsEnabled.set(isFpsEnabled);
+  }
+
+  public synchronized void setFps(final int fps) {
+    updatePeriodMilliseconds = (int) (1000.0 / fps);
   }
 
 }

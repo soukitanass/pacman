@@ -1,10 +1,8 @@
 /*******************************************************************************
  * Team agilea18b, Pacman
  * 
- * beam2039 - Marc-Antoine Beaudoin
- * dupm2216 - Maxime Dupuis
- * nass2801 - Soukaina Nassib
- * royb2006 - Benjamin Roy
+ * beam2039 - Marc-Antoine Beaudoin dupm2216 - Maxime Dupuis nass2801 - Soukaina Nassib royb2006 -
+ * Benjamin Roy
  ******************************************************************************/
 package ca.usherbrooke.pacman.threads;
 
@@ -22,7 +20,7 @@ import ca.usherbrooke.pacman.view.IGameView;
 
 public class RenderThreadTest {
 
-  final int UPDATE_PERIOD_MILLISECONDS = 10;
+  final int FPS = 100;
   private static final int WAIT_TIME_MILLISECONDS = 50;
   private static final int TEARDOWN_WAIT_TIME_MILLISECONDS = 500;
   FakeTimeGetter timeGetter;
@@ -33,7 +31,8 @@ public class RenderThreadTest {
   @Before
   public void setUp() {
     timeGetter = new FakeTimeGetter(0);
-    renderThread = new RenderThread(viewUpdateSpy, UPDATE_PERIOD_MILLISECONDS, timeGetter);
+    renderThread = new RenderThread(viewUpdateSpy, timeGetter);
+    renderThread.setFps(FPS);
     masterThread = new Thread(renderThread);
     masterThread.start();
     try {
