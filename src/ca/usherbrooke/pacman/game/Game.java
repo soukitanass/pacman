@@ -43,7 +43,7 @@ public class Game implements IGame {
     final String LEVELS_PATH = "Levels.json";
     final int gameUpdatesPerSecond = 7;
     final int gameUpdatePeriodMilliseconds = (int) (1000.0 / gameUpdatesPerSecond);
-    IGameModel model = new GameModel()
+    IGameModel model = new GameModel();
     model.loadLevels(LEVELS_PATH);
     audioThread = new AudioThread(model);
     audioThread.setName("Audio_Thread");
