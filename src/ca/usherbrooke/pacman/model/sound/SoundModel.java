@@ -127,7 +127,6 @@ public class SoundModel extends Observer implements ISoundModel {
   }
   
   private void playSound(ISoundPlayer soundPlayer, Sound sound, boolean looping) {
-    
     File soundFile;
     try {
       soundFile = soundFactory.getFile(sound);

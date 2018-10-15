@@ -138,6 +138,7 @@ public class GameModel implements IGameModel {
       if (gameEventObject.getGameEvent() == GameEvent.PACGUM_CONSUMED) {
         pacmanPacgumCollisionManager.update();
         consumingPacGums();
+        eventQueue.clear();
       } else {
         movingToEmptySpace();
       }
