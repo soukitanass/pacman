@@ -64,8 +64,7 @@ public class AudioThreadTest {
     boolean expected = true;
     audioThread.setTheSoundPlay(expected);
     Thread.sleep(THREAD_SLEEP);
-    boolean actual = audioThread.isSoundPlay();
-    System.out.println("actual" + actual);
+    boolean actual = audioThread.isSoundPlaying();
     assertEquals(expected, actual);
   }
 

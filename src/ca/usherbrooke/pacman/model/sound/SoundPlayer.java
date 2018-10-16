@@ -71,7 +71,9 @@ public class SoundPlayer implements ISoundPlayer {
 
   @Override
   public void setVolume(int volume) {
-    if (clip != null) {
+    if (clip == null) {
+      return;
+    }
       if (clip.isControlSupported(FloatControl.Type.MASTER_GAIN)) {
         FloatControl gainControl = (FloatControl) clip.getControl(FloatControl.Type.MASTER_GAIN);
         float range = gainControl.getMaximum() - gainControl.getMinimum();
@@ -81,9 +83,9 @@ public class SoundPlayer implements ISoundPlayer {
         } else {
           gainControl.setValue(gain);
         }
-      } else
+      } else {
         WarningDialog.display("No Volume controls available");
-    }
+      }
   }
 
 }

@@ -102,7 +102,6 @@ public class AudioMenuPanel extends AbstractMenuPanel {
         model.setGameState(GameState.GAME_MENU);
       }
     });
-
   }
 
   private void addChangeListeners() {
@@ -113,7 +112,6 @@ public class AudioMenuPanel extends AbstractMenuPanel {
           int value = musicSlider.getValue();
           audioThread.setMusicVolumeChanged(value);
         }
-
       }
     });
 
@@ -124,7 +122,6 @@ public class AudioMenuPanel extends AbstractMenuPanel {
           int value = soundSlider.getValue();
           audioThread.setSoundVolumeChanged(value);
         }
-
       }
     });
   }
@@ -145,7 +142,7 @@ public class AudioMenuPanel extends AbstractMenuPanel {
       public void itemStateChanged(ItemEvent e) {
         if(e.getSource() == soundCheckbox) {
         boolean value = soundCheckbox.isSelected();
-        audioThread.setSoundPlay(value);
+        audioThread.setIsSoundPlaying(value);
         }
       }
     });
