@@ -23,7 +23,7 @@ import javax.swing.JLayeredPane;
 import javax.swing.JPanel;
 import ca.usherbrooke.pacman.model.GameState;
 import ca.usherbrooke.pacman.model.IGameModel;
-import ca.usherbrooke.pacman.model.direction.Position;
+import ca.usherbrooke.pacman.model.Position;
 import ca.usherbrooke.pacman.view.panel.AbstractMenuPanel;
 import ca.usherbrooke.pacman.view.panel.AudioMenuPanel;
 import ca.usherbrooke.pacman.view.panel.CenteredInLevelPositioningStrategy;
@@ -40,10 +40,10 @@ public class GameCanvas extends JPanel {
 
   private static final String LEVEL_PANEL_TEXT = "Level ";
   private static final double FPS_TEXT_SCALE_FACTOR = 1.0;
-  private static final ca.usherbrooke.pacman.view.utilities.Color GAME_TEXT_COLOR =
-      ca.usherbrooke.pacman.view.utilities.Color.YELLOW;
-  private static final ca.usherbrooke.pacman.view.utilities.Color FPS_COLOR =
-      ca.usherbrooke.pacman.view.utilities.Color.WHITE;
+  private static final ca.usherbrooke.pacman.view.Color GAME_TEXT_COLOR =
+      ca.usherbrooke.pacman.view.Color.YELLOW;
+  private static final ca.usherbrooke.pacman.view.Color FPS_COLOR =
+      ca.usherbrooke.pacman.view.Color.WHITE;
 
   private static final double RATIO_LEVEL_HEIGHT_TO_TOTAL_HEIGHT = 0.9;
   private static final Color TEXT_PANEL_COLOR = new Color(0, 0, 0, 80);

@@ -10,8 +10,6 @@ package ca.usherbrooke.pacman.view;
 
 import static org.junit.Assert.assertEquals;
 import org.junit.Test;
-import ca.usherbrooke.pacman.view.spirite.PacmanSpriteToggler;
-import ca.usherbrooke.pacman.view.states.PacManState;
 
 public class PacmanSpriteTogglerTest {
 

@@ -10,9 +10,6 @@ package ca.usherbrooke.pacman.model;
 
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
-import ca.usherbrooke.pacman.model.direction.Direction;
-import ca.usherbrooke.pacman.model.direction.IGameObject;
-import ca.usherbrooke.pacman.model.direction.Position;
 
 public class PacMan implements IGameObject {
 

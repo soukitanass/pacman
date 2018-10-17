@@ -18,15 +18,15 @@ import java.util.concurrent.ConcurrentLinkedQueue;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
+import ca.usherbrooke.pacman.model.Direction;
+import ca.usherbrooke.pacman.model.GameEvent;
+import ca.usherbrooke.pacman.model.GameEventObject;
 import ca.usherbrooke.pacman.model.GameModel;
 import ca.usherbrooke.pacman.model.Ghost;
 import ca.usherbrooke.pacman.model.IGameModel;
 import ca.usherbrooke.pacman.model.Level;
 import ca.usherbrooke.pacman.model.PacMan;
-import ca.usherbrooke.pacman.model.direction.Direction;
-import ca.usherbrooke.pacman.model.direction.Position;
-import ca.usherbrooke.pacman.model.events.GameEvent;
-import ca.usherbrooke.pacman.model.events.GameEventObject;
+import ca.usherbrooke.pacman.model.Position;
 
 public class PhysicsThreadTest {
   private final int SLEEP_TIME = 250;

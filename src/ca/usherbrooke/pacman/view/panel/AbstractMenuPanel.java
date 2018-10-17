@@ -33,8 +33,8 @@ public abstract class AbstractMenuPanel extends AbstractPanel {
   private static final int MAJOR_TICK_SPACING = 10;
   private static final Color FOREGROUND_COLOR = Color.WHITE;
   private static final Color BACKGROUND_COLOR = Color.BLACK;
-  private static final ca.usherbrooke.pacman.view.utilities.Color SPRITE_COLOR =
-      ca.usherbrooke.pacman.view.utilities.Color.WHITE;
+  private static final ca.usherbrooke.pacman.view.Color SPRITE_COLOR =
+      ca.usherbrooke.pacman.view.Color.WHITE;
 
   protected IGameModel model;
 

@@ -13,8 +13,6 @@ import java.util.ArrayList;
 import java.util.List;
 import org.junit.Before;
 import org.junit.Test;
-import ca.usherbrooke.pacman.model.collision.PacmanGhostCollisionManager;
-import ca.usherbrooke.pacman.model.direction.Position;
 
 public class PacmanGhostsCollisionManagerTest {
   private Level level;

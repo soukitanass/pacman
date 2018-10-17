@@ -13,9 +13,6 @@ import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 import org.junit.Test;
-import ca.usherbrooke.pacman.model.direction.Direction;
-import ca.usherbrooke.pacman.model.direction.IDirectionGenerator;
-import ca.usherbrooke.pacman.model.direction.PeriodicDirectionManager;
 import ca.usherbrooke.pacman.model.exceptions.GameObjectCannotChangeDirectionException;
 import ca.usherbrooke.pacman.model.random.RandomDirectionGenerator;
 

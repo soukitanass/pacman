@@ -15,7 +15,8 @@ import java.util.List;
 import org.junit.Test;
 import ca.usherbrooke.pacman.model.exceptions.InvalidColorException;
 import ca.usherbrooke.pacman.model.exceptions.InvalidLetterException;
-import ca.usherbrooke.pacman.view.spirite.SpriteFacade;
+import ca.usherbrooke.pacman.view.Color;
+import ca.usherbrooke.pacman.view.SpriteFacade;
 
 public class ImageUtilitiesTest {
 

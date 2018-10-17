@@ -9,8 +9,8 @@
 package ca.usherbrooke.pacman.model.random;
 
 import java.util.Random;
-import ca.usherbrooke.pacman.model.direction.Direction;
-import ca.usherbrooke.pacman.model.direction.IDirectionGenerator;
+import ca.usherbrooke.pacman.model.Direction;
+import ca.usherbrooke.pacman.model.IDirectionGenerator;
 
 public class RandomDirectionGenerator implements IDirectionGenerator {
 
