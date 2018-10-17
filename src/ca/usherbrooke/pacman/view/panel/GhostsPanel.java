@@ -13,16 +13,16 @@ import java.awt.Image;
 import java.util.HashMap;
 import java.util.Map;
 import javax.swing.JPanel;
-import ca.usherbrooke.pacman.model.Direction;
 import ca.usherbrooke.pacman.model.Ghost;
 import ca.usherbrooke.pacman.model.IGameModel;
+import ca.usherbrooke.pacman.model.direction.Direction;
 import ca.usherbrooke.pacman.model.exceptions.InvalidColorException;
 import ca.usherbrooke.pacman.model.exceptions.InvalidDirectionException;
 import ca.usherbrooke.pacman.model.exceptions.InvalidStateException;
-import ca.usherbrooke.pacman.view.Color;
-import ca.usherbrooke.pacman.view.GhostSpriteToggler;
-import ca.usherbrooke.pacman.view.GhostState;
-import ca.usherbrooke.pacman.view.SpriteFacade;
+import ca.usherbrooke.pacman.view.spirites.GhostSpriteToggler;
+import ca.usherbrooke.pacman.view.spirites.SpriteFacade;
+import ca.usherbrooke.pacman.view.states.GhostState;
+import ca.usherbrooke.pacman.view.utilities.Color;
 import ca.usherbrooke.pacman.view.utilities.WarningDialog;
 
 @SuppressWarnings({"serial", "squid:S1948"})

@@ -13,6 +13,12 @@ import java.util.Arrays;
 import java.util.List;
 import org.junit.Before;
 import org.junit.Test;
+import ca.usherbrooke.pacman.model.direction.Direction;
+import ca.usherbrooke.pacman.model.direction.IGameObject;
+import ca.usherbrooke.pacman.model.direction.Position;
+import ca.usherbrooke.pacman.model.movements.IMoveValidator;
+import ca.usherbrooke.pacman.model.movements.MovementManager;
+import ca.usherbrooke.pacman.model.movements.PacmanMoveValidator;
 
 public class MovementManagerTest {
 
