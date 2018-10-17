@@ -10,14 +10,14 @@ package ca.usherbrooke.pacman.view.panel;
 
 import java.awt.Graphics;
 import java.awt.Image;
-import ca.usherbrooke.pacman.model.Direction;
 import ca.usherbrooke.pacman.model.IGameModel;
 import ca.usherbrooke.pacman.model.PacMan;
+import ca.usherbrooke.pacman.model.direction.Direction;
 import ca.usherbrooke.pacman.model.exceptions.InvalidDirectionException;
 import ca.usherbrooke.pacman.model.exceptions.InvalidStateException;
-import ca.usherbrooke.pacman.view.PacManState;
-import ca.usherbrooke.pacman.view.PacmanSpriteToggler;
-import ca.usherbrooke.pacman.view.SpriteFacade;
+import ca.usherbrooke.pacman.view.spirite.PacmanSpriteToggler;
+import ca.usherbrooke.pacman.view.spirite.SpriteFacade;
+import ca.usherbrooke.pacman.view.states.PacManState;
 import ca.usherbrooke.pacman.view.utilities.WarningDialog;
 
 @SuppressWarnings({"serial", "squid:S1948"})

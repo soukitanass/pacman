@@ -14,7 +14,13 @@ import static org.junit.Assert.assertTrue;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 import org.junit.Test;
+import ca.usherbrooke.pacman.model.direction.Direction;
+import ca.usherbrooke.pacman.model.direction.Position;
 import ca.usherbrooke.pacman.model.exceptions.InvalidDirectionException;
+import ca.usherbrooke.pacman.model.movement.IMoveRequest;
+import ca.usherbrooke.pacman.model.movement.IMoveValidator;
+import ca.usherbrooke.pacman.model.movement.MoveRequest;
+import ca.usherbrooke.pacman.model.movement.PacmanMoveValidator;
 
 public class PacmanMoveValidatorTest {
 

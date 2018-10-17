@@ -15,6 +15,8 @@ import java.util.Arrays;
 import java.util.List;
 import org.junit.Before;
 import org.junit.Test;
+import ca.usherbrooke.pacman.model.collision.PacmanPacgumCollisionManager;
+import ca.usherbrooke.pacman.model.direction.Position;
 
 public class PacmanPacgumCollisionManagerTest {
 

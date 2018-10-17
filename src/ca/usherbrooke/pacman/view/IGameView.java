@@ -9,6 +9,7 @@
 package ca.usherbrooke.pacman.view;
 
 import java.awt.event.KeyListener;
+import ca.usherbrooke.pacman.view.utilities.CloseObserver;
 
 public interface IGameView {
   void update();

@@ -17,18 +17,18 @@
 package ca.usherbrooke.pacman.threads;
 
 import java.util.Queue;
-import ca.usherbrooke.pacman.model.GameEvent;
-import ca.usherbrooke.pacman.model.GameEventObject;
 import ca.usherbrooke.pacman.model.Ghost;
-import ca.usherbrooke.pacman.model.GhostMoveValidator;
 import ca.usherbrooke.pacman.model.IGameModel;
-import ca.usherbrooke.pacman.model.IGameObject;
 import ca.usherbrooke.pacman.model.Level;
-import ca.usherbrooke.pacman.model.MovementManager;
 import ca.usherbrooke.pacman.model.PacMan;
-import ca.usherbrooke.pacman.model.PacmanGhostCollisionManager;
-import ca.usherbrooke.pacman.model.PacmanMoveValidator;
-import ca.usherbrooke.pacman.model.Position;
+import ca.usherbrooke.pacman.model.collision.PacmanGhostCollisionManager;
+import ca.usherbrooke.pacman.model.direction.IGameObject;
+import ca.usherbrooke.pacman.model.direction.Position;
+import ca.usherbrooke.pacman.model.events.GameEvent;
+import ca.usherbrooke.pacman.model.events.GameEventObject;
+import ca.usherbrooke.pacman.model.movement.GhostMoveValidator;
+import ca.usherbrooke.pacman.model.movement.MovementManager;
+import ca.usherbrooke.pacman.model.movement.PacmanMoveValidator;
 import ca.usherbrooke.pacman.view.utilities.WarningDialog;
 
 public class PhysicsThread extends Thread {

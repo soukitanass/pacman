@@ -13,6 +13,7 @@ import java.util.ArrayList;
 import java.util.List;
 import ca.usherbrooke.pacman.model.IGameModel;
 import ca.usherbrooke.pacman.view.panel.FpsOptionListener;
+import ca.usherbrooke.pacman.view.utilities.CloseObserver;
 
 public class GameView implements IGameView {
   private GameCanvas canvas;

@@ -11,6 +11,7 @@ package ca.usherbrooke.pacman.view;
 import static org.junit.Assert.assertEquals;
 import java.awt.image.BufferedImage;
 import org.junit.Test;
+import ca.usherbrooke.pacman.view.spirite.Sprite;
 
 public class SpriteTest {
   @Test

@@ -12,9 +12,9 @@ import static java.awt.event.KeyEvent.VK_P;
 import static java.awt.event.KeyEvent.VK_Q;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
-import ca.usherbrooke.pacman.model.Direction;
 import ca.usherbrooke.pacman.model.GameState;
 import ca.usherbrooke.pacman.model.IGameModel;
+import ca.usherbrooke.pacman.model.direction.Direction;
 import ca.usherbrooke.pacman.view.IGameView;
 
 public class PlayerKeyboardController implements IGameController, KeyListener {

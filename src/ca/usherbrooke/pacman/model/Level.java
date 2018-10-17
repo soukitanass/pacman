@@ -11,6 +11,7 @@ package ca.usherbrooke.pacman.model;
 import java.util.List;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
+import ca.usherbrooke.pacman.model.direction.Position;
 
 public class Level {
   private static final int EMPTY_CODE = 0;
