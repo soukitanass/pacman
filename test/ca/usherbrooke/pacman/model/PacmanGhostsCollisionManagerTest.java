@@ -28,11 +28,11 @@ public class PacmanGhostsCollisionManagerTest {
 
   @Before
   public void setUp() {
-    
+
     this.ghost = new Ghost();
     this.model = new GameModel();
     this.model.loadLevels("Levels.json");
-    this.level =model.getCurrentLevel();
+    this.level = model.getCurrentLevel();
   }
 
   @Test

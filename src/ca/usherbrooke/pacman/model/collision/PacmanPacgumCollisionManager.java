@@ -18,7 +18,7 @@ public class PacmanPacgumCollisionManager {
   private static final Integer POINT = 10;
   private IGameModel model;
 
-  public PacmanPacgumCollisionManager(Level level,IGameModel model) {
+  public PacmanPacgumCollisionManager(Level level, IGameModel model) {
     this.level = level;
     this.model = model;
   }

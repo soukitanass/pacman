@@ -38,7 +38,7 @@ public class PhysicsThreadTest {
   private final Queue<Level> moveQueue = new ConcurrentLinkedQueue<>();
   private final Queue<GameEventObject> eventQueue = new ConcurrentLinkedQueue<>();
   private final IGameModel model = new GameModel();
-  private final PhysicsThread physicsThread = new PhysicsThread(moveQueue, eventQueue,model);
+  private final PhysicsThread physicsThread = new PhysicsThread(moveQueue, eventQueue, model);
 
   @Before
   public void setUp() {
