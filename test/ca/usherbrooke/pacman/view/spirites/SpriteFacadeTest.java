@@ -6,7 +6,7 @@
  * nass2801 - Soukaina Nassib
  * royb2006 - Benjamin Roy
  ******************************************************************************/
-package ca.usherbrooke.pacman.view;
+package ca.usherbrooke.pacman.view.spirites;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
