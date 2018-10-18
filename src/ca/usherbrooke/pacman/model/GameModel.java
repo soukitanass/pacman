@@ -67,18 +67,22 @@ public class GameModel implements IGameModel {
   private Integer score = INITIAL_SCORE;
   private int lives = INITIAL_NUMBER_OF_LIVES;
 
+  @Override
   public Integer getScore() {
     return score;
   }
 
+  @Override
   public void setScore(Integer score) {
     this.score = score;
   }
 
+  @Override
   public int getLives() {
     return lives;
   }
 
+  @Override
   public void setLives(int lives) {
     this.lives = lives;
   }
@@ -87,6 +91,7 @@ public class GameModel implements IGameModel {
     physicsThread.start();
   }
 
+  @Override
   public void attach(Observer observer) {
     observers.add(observer);
   }
@@ -274,12 +279,14 @@ public class GameModel implements IGameModel {
     this.isRunning = isRunning;
   }
 
+  @Override
   public Level getCurrentLevel() {
     final int currentLevel = this.levelsList.getCurrentLevel();
     final List<Level> levels = this.levelsList.getLevels();
     return levels.get(currentLevel);
   }
 
+  @Override
   public void loadLevels(String levelsPath) {
     Gson gson = new Gson();
     File file = new File(GameModel.class.getClassLoader().getResource(levelsPath).getFile());
@@ -314,6 +321,7 @@ public class GameModel implements IGameModel {
     return isManuallyPaused;
   }
 
+  @Override
   public boolean isGameOver() {
     return isGameOver;
   }
@@ -328,6 +336,7 @@ public class GameModel implements IGameModel {
     return levelsList.isGameCompleted();
   }
 
+  @Override
   public void stopPhysicsThread() {
     if (physicsThread == null) {
       return;

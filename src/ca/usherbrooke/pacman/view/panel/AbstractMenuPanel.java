@@ -16,8 +16,8 @@ import javax.swing.JFormattedTextField;
 import javax.swing.JLabel;
 import javax.swing.JSlider;
 import javax.swing.JSpinner;
-import javax.swing.JTextField;
 import javax.swing.SpinnerModel;
+import javax.swing.SwingConstants;
 import ca.usherbrooke.pacman.model.IGameModel;
 
 @SuppressWarnings({"serial", "squid:S1948"})
@@ -78,7 +78,7 @@ public abstract class AbstractMenuPanel extends AbstractPanel {
     JFormattedTextField textField = ((JSpinner.DefaultEditor) jSpinner.getEditor()).getTextField();
     textField.setColumns(NUMBER_OF_TEXT_FIELD_COLUMNS);
     textField.setEditable(false);
-    textField.setHorizontalAlignment(JTextField.CENTER);
+    textField.setHorizontalAlignment(SwingConstants.CENTER);
 
     jSpinner.setLocation(location);
   }

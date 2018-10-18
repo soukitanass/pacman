@@ -152,7 +152,7 @@ public class LevelPanel extends AbstractPanel {
     for (int i = 0; i < text.length(); i++) {
       BufferedImage image = null;
       try {
-        image = spriteFacade.getLetter((char) text.charAt(i), Color.WHITE);
+        image = spriteFacade.getLetter(text.charAt(i), Color.WHITE);
       } catch (Exception exception) {
         WarningDialog.display(PAINTING_ERROR, exception);
       }
@@ -167,7 +167,7 @@ public class LevelPanel extends AbstractPanel {
     for (int i = 0; i < text.length(); i++) {
       BufferedImage image = null;
       try {
-        image = spriteFacade.getLetter((char) text.charAt(i), Color.WHITE);
+        image = spriteFacade.getLetter(text.charAt(i), Color.WHITE);
       } catch (Exception exception) {
         WarningDialog.display(PAINTING_ERROR, exception);
       }

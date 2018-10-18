@@ -25,6 +25,7 @@ public class GhostMoveValidator implements IMoveValidator {
     return isDirectionValid(moveRequest);
   }
 
+  @Override
   public Position getTargetPosition(IMoveRequest moveRequest) throws InvalidDirectionException {
     return new WrapAroundMoveRequestSolver(level).getTargetPosition(moveRequest);
   }
