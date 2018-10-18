@@ -10,7 +10,7 @@ package ca.usherbrooke.pacman.view.panel;
 
 import java.awt.image.BufferedImage;
 import ca.usherbrooke.pacman.model.IGameModel;
-import ca.usherbrooke.pacman.model.direction.Position;
+import ca.usherbrooke.pacman.model.position.Position;
 
 public class BottomCenteredInLevelPositionStrategy implements TextPanelPositioningStrategy {
 

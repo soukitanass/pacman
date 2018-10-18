@@ -10,13 +10,13 @@ package ca.usherbrooke.pacman.model.collision;
 
 import java.util.ArrayList;
 import java.util.List;
-import ca.usherbrooke.pacman.model.Ghost;
 import ca.usherbrooke.pacman.model.IGameModel;
-import ca.usherbrooke.pacman.model.Level;
-import ca.usherbrooke.pacman.model.PacMan;
 import ca.usherbrooke.pacman.model.direction.Direction;
-import ca.usherbrooke.pacman.model.direction.IGameObject;
-import ca.usherbrooke.pacman.model.direction.Position;
+import ca.usherbrooke.pacman.model.objects.Ghost;
+import ca.usherbrooke.pacman.model.objects.IGameObject;
+import ca.usherbrooke.pacman.model.objects.Level;
+import ca.usherbrooke.pacman.model.objects.PacMan;
+import ca.usherbrooke.pacman.model.position.Position;
 
 public class PacmanGhostCollisionManager {
   private final PacMan pacman;

@@ -6,11 +6,9 @@
  * nass2801 - Soukaina Nassib
  * royb2006 - Benjamin Roy
  ******************************************************************************/
-package ca.usherbrooke.pacman.model.random;
+package ca.usherbrooke.pacman.model.direction;
 
 import java.util.Random;
-import ca.usherbrooke.pacman.model.direction.Direction;
-import ca.usherbrooke.pacman.model.direction.IDirectionGenerator;
 
 public class RandomDirectionGenerator implements IDirectionGenerator {
 

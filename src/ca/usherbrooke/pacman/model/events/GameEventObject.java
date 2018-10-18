@@ -8,8 +8,8 @@
  ******************************************************************************/
 package ca.usherbrooke.pacman.model.events;
 
-import ca.usherbrooke.pacman.model.direction.IGameObject;
-import ca.usherbrooke.pacman.model.direction.Position;
+import ca.usherbrooke.pacman.model.objects.IGameObject;
+import ca.usherbrooke.pacman.model.position.Position;
 
 public class GameEventObject {
 

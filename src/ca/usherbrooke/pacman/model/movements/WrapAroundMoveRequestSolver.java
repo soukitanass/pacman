@@ -8,9 +8,9 @@
  ******************************************************************************/
 package ca.usherbrooke.pacman.model.movements;
 
-import ca.usherbrooke.pacman.model.Level;
-import ca.usherbrooke.pacman.model.direction.Position;
 import ca.usherbrooke.pacman.model.exceptions.InvalidDirectionException;
+import ca.usherbrooke.pacman.model.objects.Level;
+import ca.usherbrooke.pacman.model.position.Position;
 
 public class WrapAroundMoveRequestSolver {
   private Level level;

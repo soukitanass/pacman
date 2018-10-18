@@ -9,9 +9,9 @@
 package ca.usherbrooke.pacman.model.movements;
 
 import ca.usherbrooke.pacman.model.direction.Direction;
-import ca.usherbrooke.pacman.model.direction.IGameObject;
-import ca.usherbrooke.pacman.model.direction.Position;
 import ca.usherbrooke.pacman.model.exceptions.InvalidDirectionException;
+import ca.usherbrooke.pacman.model.objects.IGameObject;
+import ca.usherbrooke.pacman.model.position.Position;
 import ca.usherbrooke.pacman.view.utilities.WarningDialog;
 
 public class MovementManager {

@@ -6,31 +6,30 @@
  * nass2801 - Soukaina Nassib
  * royb2006 - Benjamin Roy
  ******************************************************************************/
-package ca.usherbrooke.pacman.model;
+package ca.usherbrooke.pacman.model.objects;
 
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 import ca.usherbrooke.pacman.model.direction.Direction;
-import ca.usherbrooke.pacman.model.direction.IGameObject;
-import ca.usherbrooke.pacman.model.direction.Position;
+import ca.usherbrooke.pacman.model.position.Position;
 
-public class PacMan implements IGameObject {
+public class Ghost implements IGameObject {
 
   @SerializedName("id")
   @Expose
   private Integer id;
+  @SerializedName("speed")
+  @Expose
+  private Integer speed;
+
   @SerializedName("start_pos")
   @Expose
   private Position position;
   private Direction direction;
   private Direction desiredDirection;
 
-  public PacMan() {
-    setDirection(Direction.LEFT);
-  }
-
-  public PacMan(Position position) {
-    this.position = position;
+  public Ghost() {
+    setDirection(Direction.UP);
   }
 
   public Integer getId() {
@@ -39,6 +38,14 @@ public class PacMan implements IGameObject {
 
   public void setId(Integer id) {
     this.id = id;
+  }
+
+  public Integer getSpeed() {
+    return speed;
+  }
+
+  public void setSpeed(Integer speed) {
+    this.speed = speed;
   }
 
   @Override

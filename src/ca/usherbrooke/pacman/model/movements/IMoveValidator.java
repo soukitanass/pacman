@@ -8,8 +8,8 @@
  ******************************************************************************/
 package ca.usherbrooke.pacman.model.movements;
 
-import ca.usherbrooke.pacman.model.direction.Position;
 import ca.usherbrooke.pacman.model.exceptions.InvalidDirectionException;
+import ca.usherbrooke.pacman.model.position.Position;
 
 public interface IMoveValidator {
   boolean isValid(IMoveRequest moveRequest) throws InvalidDirectionException;

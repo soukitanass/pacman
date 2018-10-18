@@ -6,7 +6,11 @@
  * nass2801 - Soukaina Nassib
  * royb2006 - Benjamin Roy
  ******************************************************************************/
-package ca.usherbrooke.pacman.model.direction;
+package ca.usherbrooke.pacman.model.objects;
+
+import ca.usherbrooke.pacman.model.direction.IHasDesiredDirection;
+import ca.usherbrooke.pacman.model.direction.IHasDirection;
+import ca.usherbrooke.pacman.model.position.IHasPosition;
 
 public interface IGameObject extends IHasDesiredDirection, IHasPosition, IHasDirection {
 

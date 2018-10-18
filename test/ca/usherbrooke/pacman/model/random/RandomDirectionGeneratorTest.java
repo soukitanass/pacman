@@ -14,6 +14,7 @@ import static org.mockito.Mockito.when;
 import java.util.Random;
 import org.junit.Test;
 import ca.usherbrooke.pacman.model.direction.Direction;
+import ca.usherbrooke.pacman.model.direction.RandomDirectionGenerator;
 
 public class RandomDirectionGeneratorTest {
 

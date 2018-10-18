@@ -9,8 +9,8 @@
 package ca.usherbrooke.pacman.model.collision;
 
 import ca.usherbrooke.pacman.model.IGameModel;
-import ca.usherbrooke.pacman.model.Level;
-import ca.usherbrooke.pacman.model.direction.Position;
+import ca.usherbrooke.pacman.model.objects.Level;
+import ca.usherbrooke.pacman.model.position.Position;
 
 public class PacmanPacgumCollisionManager {
 

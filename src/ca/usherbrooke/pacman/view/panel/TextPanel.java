@@ -11,7 +11,7 @@ package ca.usherbrooke.pacman.view.panel;
 import java.awt.Graphics;
 import java.awt.image.BufferedImage;
 import ca.usherbrooke.pacman.model.IGameModel;
-import ca.usherbrooke.pacman.model.direction.Position;
+import ca.usherbrooke.pacman.model.position.Position;
 import ca.usherbrooke.pacman.view.utilities.Color;
 
 @SuppressWarnings({"serial", "squid:S1948"})

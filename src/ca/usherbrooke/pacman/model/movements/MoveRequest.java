@@ -9,7 +9,7 @@
 package ca.usherbrooke.pacman.model.movements;
 
 import ca.usherbrooke.pacman.model.direction.Direction;
-import ca.usherbrooke.pacman.model.direction.Position;
+import ca.usherbrooke.pacman.model.position.Position;
 
 public class MoveRequest implements IMoveRequest {
   private final Direction direction;
