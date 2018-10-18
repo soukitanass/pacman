@@ -6,13 +6,15 @@
  * nass2801 - Soukaina Nassib
  * royb2006 - Benjamin Roy
  ******************************************************************************/
-package ca.usherbrooke.pacman.model;
+package ca.usherbrooke.pacman.model.collision;
 
 import static org.junit.Assert.assertEquals;
 import java.util.ArrayList;
 import java.util.List;
 import org.junit.Before;
 import org.junit.Test;
+import ca.usherbrooke.pacman.model.GameModel;
+import ca.usherbrooke.pacman.model.IGameModel;
 import ca.usherbrooke.pacman.model.collision.PacmanGhostCollisionManager;
 import ca.usherbrooke.pacman.model.objects.Ghost;
 import ca.usherbrooke.pacman.model.objects.Level;

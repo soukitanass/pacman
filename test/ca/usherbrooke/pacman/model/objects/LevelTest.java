@@ -6,7 +6,7 @@
  * nass2801 - Soukaina Nassib
  * royb2006 - Benjamin Roy
  ******************************************************************************/
-package ca.usherbrooke.pacman.model;
+package ca.usherbrooke.pacman.model.objects;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
