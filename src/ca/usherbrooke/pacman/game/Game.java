@@ -75,6 +75,7 @@ public class Game implements IGame {
     }
   }
 
+  @Override
   public void update(long currentTime) {
     if (currentTime >= this.lastModelUpdateTime + this.modelUpdatePeriod) {
       this.lastModelUpdateTime = currentTime;

@@ -28,6 +28,7 @@ public class GameView implements IGameView {
         new GameCanvas(model, ghostSpriteTogglePeriod, pacmanSpriteTogglePeriod, fpsOptionListener);
   }
 
+  @Override
   public void update() {
     canvas.setFpsEnabled(isFpsEnabled);
     if (!model.isGameCompleted()) {
@@ -57,10 +58,12 @@ public class GameView implements IGameView {
     }
   }
 
+  @Override
   public GameCanvas getCanvas() {
     return canvas;
   }
 
+  @Override
   public void setCanvas(GameCanvas canvas) {
     this.canvas = canvas;
   }
