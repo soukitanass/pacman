@@ -1,13 +1,15 @@
 /*******************************************************************************
  * Team agilea18b, Pacman
- * 
- * beam2039 - Marc-Antoine Beaudoin dupm2216 - Maxime Dupuis nass2801 - Soukaina Nassib royb2006 -
- * Benjamin Roy
+ *
+ * beam2039 - Marc-Antoine Beaudoin
+ * dupm2216 - Maxime Dupuis
+ * nass2801 - Soukaina Nassib
+ * royb2006 - Benjamin Roy
  ******************************************************************************/
 
 /*******************************************************************************
- * FSP Code RenderThread = (runStep->sleepUntilNextUpdate->RenderThread). || Threads =
- * (RenderThread).
+ * FSP Code RenderThread = (runStep->sleepUntilNextUpdate->RenderThread).
+ * || Threads = (RenderThread).
  *
  ******************************************************************************/
 package ca.usherbrooke.pacman.threads;

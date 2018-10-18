@@ -24,7 +24,7 @@ public class Level {
   private static final int TUNNEL_CODE = 325;
 
 
-  
+
   @SerializedName("id")
   @Expose
   private Integer id;
@@ -46,7 +46,7 @@ public class Level {
   @SerializedName("map")
   @Expose
   private List<List<Integer>> map = null;
-  
+
 
   public Integer getId() {
     return id;

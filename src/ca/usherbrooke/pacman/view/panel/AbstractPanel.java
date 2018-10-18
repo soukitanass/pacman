@@ -26,8 +26,8 @@ public abstract class AbstractPanel extends JPanel {
   protected int offsetX;
   protected int offsetY;
 
-  protected BufferedImage getLabelImage(final String label, ca.usherbrooke.pacman.view.utilities.Color color,
-      final double scaleFactor) {
+  protected BufferedImage getLabelImage(final String label,
+      ca.usherbrooke.pacman.view.utilities.Color color, final double scaleFactor) {
     List<BufferedImage> images = new ArrayList<>();
 
     for (int i = 0; i < label.length(); i++) {
