@@ -1,6 +1,6 @@
 /*******************************************************************************
  * Team agilea18b, Pacman
- * 
+ *
  * beam2039 - Marc-Antoine Beaudoin
  * dupm2216 - Maxime Dupuis
  * nass2801 - Soukaina Nassib
@@ -15,11 +15,9 @@ import ca.usherbrooke.pacman.model.position.Position;
 public class BottomCenteredInLevelPositionStrategy implements TextPanelPositioningStrategy {
 
   private int panelHeight;
-  private int bottomMargin;
 
-  public BottomCenteredInLevelPositionStrategy(int panelHeight, int bottomMargin) {
+  public BottomCenteredInLevelPositionStrategy(int panelHeight) {
     this.panelHeight = panelHeight;
-    this.bottomMargin = bottomMargin;
   }
 
   @Override
@@ -27,7 +25,7 @@ public class BottomCenteredInLevelPositionStrategy implements TextPanelPositioni
       int offsetY) {
     final int width = model.getCurrentLevel().getWidth() * pixelTileSize;
     final int x = (width / 2) - (image.getWidth() / 2) + offsetX;
-    final int y = panelHeight - image.getHeight() - offsetY - bottomMargin;
+    final int y = panelHeight - image.getHeight() - offsetY;
 
     return new Position(x, y);
   }

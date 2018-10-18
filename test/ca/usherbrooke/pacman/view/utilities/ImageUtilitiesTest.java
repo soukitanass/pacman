@@ -1,6 +1,6 @@
 /*******************************************************************************
  * Team agilea18b, Pacman
- * 
+ *
  * beam2039 - Marc-Antoine Beaudoin
  * dupm2216 - Maxime Dupuis
  * nass2801 - Soukaina Nassib
@@ -9,6 +9,7 @@
 package ca.usherbrooke.pacman.view.utilities;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNull;
 import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 import java.util.List;
@@ -19,23 +20,19 @@ import ca.usherbrooke.pacman.view.spirites.SpriteFacade;
 
 public class ImageUtilitiesTest {
 
-  private ImageUtilities utilities = new ImageUtilities();
-
   @Test
-  public void resizeImageTest() throws InvalidLetterException, InvalidColorException {
+  public void resizeImage() throws InvalidLetterException, InvalidColorException {
     SpriteFacade spriteFacade = new SpriteFacade();
     BufferedImage image = spriteFacade.getLetter('a', Color.WHITE);
 
-    final int newWidth = 200;
-    final int newHeight = 200;
-    BufferedImage resizedImage = utilities.resize(image, newHeight, newWidth);
+    BufferedImage resizedImage = ImageUtilities.resize(image, 200, 300);
 
     assertEquals(resizedImage.getWidth(), 200);
-    assertEquals(resizedImage.getHeight(), 200);
+    assertEquals(resizedImage.getHeight(), 300);
   }
 
   @Test
-  public void joinImagesTest() throws InvalidLetterException, InvalidColorException {
+  public void joinImages() throws InvalidLetterException, InvalidColorException {
     SpriteFacade spriteFacade = new SpriteFacade();
     BufferedImage image1 = spriteFacade.getLetter('a', Color.WHITE);
     BufferedImage image2 = spriteFacade.getLetter('b', Color.WHITE);
@@ -44,15 +41,40 @@ public class ImageUtilitiesTest {
     images.add(image1);
     images.add(image2);
 
-    BufferedImage image = utilities.joinImages(images);
+    BufferedImage image = ImageUtilities.joinImages(images);
     BufferedImage subimage1 = image.getSubimage(0, 0, image1.getWidth(), image1.getHeight());
     BufferedImage subimage2 =
         image.getSubimage(image1.getWidth(), 0, image2.getWidth(), image2.getHeight());
 
-    assertEquals(16, image.getHeight());
     assertEquals(32, image.getWidth());
+    assertEquals(16, image.getHeight());
     compareImage(image1, subimage1);
     compareImage(image2, subimage2);
+  }
+
+  @Test
+  public void joinZeroImagesReturnNull() throws InvalidLetterException, InvalidColorException {
+    assertNull(ImageUtilities.joinImages(new ArrayList<>()));
+  }
+
+  @Test
+  public void getTextImage() throws InvalidLetterException, InvalidColorException {
+    SpriteFacade spriteFacade = new SpriteFacade();
+    BufferedImage expectedImageA = spriteFacade.getLetter('a', Color.WHITE);
+    assertEquals(16, expectedImageA.getHeight());
+    assertEquals(16, expectedImageA.getWidth());
+    BufferedImage expectedImageB = spriteFacade.getLetter('b', Color.WHITE);
+    assertEquals(16, expectedImageB.getHeight());
+    assertEquals(16, expectedImageB.getWidth());
+
+    BufferedImage imageAB = ImageUtilities.getTextImage("ab", Color.WHITE, 1);
+    assertEquals(32, imageAB.getWidth());
+    assertEquals(16, imageAB.getHeight());
+    BufferedImage subimageA = imageAB.getSubimage(0, 0, 16, 16);
+    BufferedImage subimageB = imageAB.getSubimage(16, 0, 16, 16);
+
+    compareImage(expectedImageA, subimageA);
+    compareImage(expectedImageB, subimageB);
   }
 
   private void compareImage(BufferedImage image1, BufferedImage image2) {
