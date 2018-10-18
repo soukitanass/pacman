@@ -10,14 +10,14 @@ import java.awt.Graphics;
 import java.awt.Image;
 import java.awt.image.BufferedImage;
 import java.util.List;
-import ca.usherbrooke.pacman.model.Direction;
 import ca.usherbrooke.pacman.model.IGameModel;
-import ca.usherbrooke.pacman.model.Level;
-import ca.usherbrooke.pacman.model.Position;
-import ca.usherbrooke.pacman.view.Color;
-import ca.usherbrooke.pacman.view.PacGumState;
-import ca.usherbrooke.pacman.view.PacManState;
-import ca.usherbrooke.pacman.view.SpriteFacade;
+import ca.usherbrooke.pacman.model.direction.Direction;
+import ca.usherbrooke.pacman.model.objects.Level;
+import ca.usherbrooke.pacman.model.position.Position;
+import ca.usherbrooke.pacman.view.spirites.SpriteFacade;
+import ca.usherbrooke.pacman.view.states.PacGumState;
+import ca.usherbrooke.pacman.view.states.PacManState;
+import ca.usherbrooke.pacman.view.utilities.Color;
 import ca.usherbrooke.pacman.view.utilities.WarningDialog;
 
 @SuppressWarnings({"serial", "squid:S1948"})

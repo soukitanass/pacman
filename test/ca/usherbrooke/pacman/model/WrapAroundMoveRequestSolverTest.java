@@ -13,7 +13,13 @@ import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 import org.junit.Before;
 import org.junit.Test;
+import ca.usherbrooke.pacman.model.direction.Direction;
 import ca.usherbrooke.pacman.model.exceptions.InvalidDirectionException;
+import ca.usherbrooke.pacman.model.movements.IMoveRequest;
+import ca.usherbrooke.pacman.model.movements.MoveRequest;
+import ca.usherbrooke.pacman.model.movements.WrapAroundMoveRequestSolver;
+import ca.usherbrooke.pacman.model.objects.Level;
+import ca.usherbrooke.pacman.model.position.Position;
 
 public class WrapAroundMoveRequestSolverTest {
 

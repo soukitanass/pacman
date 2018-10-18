@@ -12,7 +12,7 @@ import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 import java.util.List;
 import javax.swing.JPanel;
-import ca.usherbrooke.pacman.view.SpriteFacade;
+import ca.usherbrooke.pacman.view.spirites.SpriteFacade;
 import ca.usherbrooke.pacman.view.utilities.ImageUtilities;
 import ca.usherbrooke.pacman.view.utilities.WarningDialog;
 
@@ -26,7 +26,7 @@ public abstract class AbstractPanel extends JPanel {
   protected int offsetX;
   protected int offsetY;
 
-  protected BufferedImage getLabelImage(final String label, ca.usherbrooke.pacman.view.Color color,
+  protected BufferedImage getLabelImage(final String label, ca.usherbrooke.pacman.view.utilities.Color color,
       final double scaleFactor) {
     List<BufferedImage> images = new ArrayList<>();
 

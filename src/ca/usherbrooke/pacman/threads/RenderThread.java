@@ -15,8 +15,8 @@ package ca.usherbrooke.pacman.threads;
 import java.util.concurrent.atomic.AtomicBoolean;
 import ca.usherbrooke.pacman.game.ITimeGetter;
 import ca.usherbrooke.pacman.utilities.CircularQueue;
-import ca.usherbrooke.pacman.view.CloseObserver;
 import ca.usherbrooke.pacman.view.IGameView;
+import ca.usherbrooke.pacman.view.utilities.CloseObserver;
 import ca.usherbrooke.pacman.view.utilities.WarningDialog;
 
 public class RenderThread implements Runnable, CloseObserver {

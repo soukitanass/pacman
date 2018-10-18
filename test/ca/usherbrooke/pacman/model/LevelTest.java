@@ -15,6 +15,8 @@ import java.util.Arrays;
 import java.util.List;
 import org.junit.Before;
 import org.junit.Test;
+import ca.usherbrooke.pacman.model.objects.Level;
+import ca.usherbrooke.pacman.model.position.Position;
 
 public class LevelTest {
   private static final int EMPTY_CODE = 0;
