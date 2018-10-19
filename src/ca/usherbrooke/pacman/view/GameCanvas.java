@@ -23,7 +23,7 @@ import javax.swing.JLayeredPane;
 import javax.swing.JPanel;
 import ca.usherbrooke.pacman.model.GameState;
 import ca.usherbrooke.pacman.model.IGameModel;
-import ca.usherbrooke.pacman.model.Position;
+import ca.usherbrooke.pacman.model.position.Position;
 import ca.usherbrooke.pacman.threads.AudioThread;
 import ca.usherbrooke.pacman.view.panel.AbstractMenuPanel;
 import ca.usherbrooke.pacman.view.panel.AudioMenuPanel;
