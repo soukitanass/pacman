@@ -47,7 +47,6 @@ public class Level {
   @Expose
   private List<List<Integer>> map = null;
 
-
   public Integer getId() {
     return id;
   }
@@ -157,5 +156,4 @@ public class Level {
     final int code = getCodeAtPosition(position);
     return GHOST_ROOM_CODE == code;
   }
-
 }

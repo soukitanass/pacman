@@ -30,7 +30,6 @@ import ca.usherbrooke.pacman.model.events.GameEventObject;
 import ca.usherbrooke.pacman.model.objects.Ghost;
 import ca.usherbrooke.pacman.model.objects.IGameObject;
 import ca.usherbrooke.pacman.model.objects.Level;
-import ca.usherbrooke.pacman.model.objects.Levels;
 import ca.usherbrooke.pacman.model.objects.PacMan;
 import ca.usherbrooke.pacman.model.sound.Observer;
 import ca.usherbrooke.pacman.threads.PhysicsThread;
@@ -44,14 +43,16 @@ public class GameModel implements IGameModel {
   private static final int JOIN_TIMER = 1000; // ms
   private static final int INITIAL_SCORE = 0;
   private static final int INITIAL_NUMBER_OF_LIVES = 3;
+  private static final int NUMBER_OF_LEVELS = 5;
 
-  private Levels levelsList;
+  private Level level;
   private int currentGameFrame = 0;
   private boolean isManuallyPaused = false;
   private boolean isPaused = false;
   private boolean isRunning = false;
   private boolean isLevelCompleted = false;
   private boolean isGameOver = false;
+  private boolean isGameCompleted = false;
   private PacmanGhostCollisionManager pacmanGhostCollisionManager;
   private GameState gameState = GameState.GAME_MENU;
   private PacMan pacman;
@@ -68,6 +69,8 @@ public class GameModel implements IGameModel {
   private PhysicsThread physicsThread = new PhysicsThread(moveQueue, eventQueue, this);
   private Integer score = INITIAL_SCORE;
   private int lives = INITIAL_NUMBER_OF_LIVES;
+  private int currentLevelIndex = 0;
+
 
   @Override
   public Integer getScore() {
@@ -180,8 +183,16 @@ public class GameModel implements IGameModel {
 
   private void goToNextLevel() {
     isLevelCompleted = false;
-    levelsList.incrementCurrentLevel();
+    incrementCurrentLevel();
+    loadLevel(LEVEL_PATH);
     initializeLevel();
+  }
+
+  public void incrementCurrentLevel() {
+    currentLevelIndex++;
+    if (currentLevelIndex == NUMBER_OF_LEVELS) {
+      isGameCompleted = true;
+    }
   }
 
   private void updateIsLevelCompleted() {
@@ -218,7 +229,7 @@ public class GameModel implements IGameModel {
 
   @Override
   public void startNewGame() {
-    loadLevels(LEVEL_PATH);
+    loadLevel(LEVEL_PATH);
     initializeLevel();
   }
 
@@ -239,7 +250,7 @@ public class GameModel implements IGameModel {
 
   @Override
   public int getCurrentLevelIndex() {
-    return levelsList.getCurrentLevel();
+    return currentLevelIndex;
   }
 
   @Override
@@ -284,18 +295,16 @@ public class GameModel implements IGameModel {
 
   @Override
   public Level getCurrentLevel() {
-    final int currentLevel = this.levelsList.getCurrentLevel();
-    final List<Level> levels = this.levelsList.getLevels();
-    return levels.get(currentLevel);
+    return level;
   }
 
   @Override
-  public void loadLevels(String levelsPath) {
+  public void loadLevel(String levelsPath) {
     Gson gson = new Gson();
     File file = new File(GameModel.class.getClassLoader().getResource(levelsPath).getFile());
 
     try (FileReader fileReader = new FileReader(file)) {
-      levelsList = gson.fromJson(new BufferedReader(fileReader), Levels.class);
+      level = gson.fromJson(new BufferedReader(fileReader), Level.class);
     } catch (Exception exception) {
       WarningDialog.display("Error while opening level file. ", exception);
     }
@@ -336,7 +345,7 @@ public class GameModel implements IGameModel {
 
   @Override
   public boolean isGameCompleted() {
-    return levelsList.isGameCompleted();
+    return isGameCompleted;
   }
 
   @Override
