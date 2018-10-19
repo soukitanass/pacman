@@ -5,7 +5,7 @@ import ca.usherbrooke.pacman.controller.SoundController;
 import ca.usherbrooke.pacman.model.IGameModel;
 import ca.usherbrooke.pacman.model.sound.ISoundModel;
 import ca.usherbrooke.pacman.model.sound.SoundModel;
-import ca.usherbrooke.pacman.view.CloseObserver;
+import ca.usherbrooke.pacman.view.utilities.CloseObserver;
 import ca.usherbrooke.pacman.view.utilities.WarningDialog;
 
 public class AudioThread extends Thread implements CloseObserver {
