@@ -1,6 +1,6 @@
 /*******************************************************************************
  * Team agilea18b, Pacman
- * 
+ *
  * beam2039 - Marc-Antoine Beaudoin
  * dupm2216 - Maxime Dupuis
  * nass2801 - Soukaina Nassib
@@ -218,6 +218,8 @@ public class GameModel implements IGameModel {
 
   @Override
   public void startNewGame() {
+    setScore(0);
+    setLives(INITIAL_NUMBER_OF_LIVES);
     loadLevels(LEVEL_PATH);
     initializeLevel();
   }
