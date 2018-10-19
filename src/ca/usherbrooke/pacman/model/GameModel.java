@@ -1,8 +1,10 @@
 /*******************************************************************************
  * Team agilea18b, Pacman
  * 
- * beam2039 - Marc-Antoine Beaudoin dupm2216 - Maxime Dupuis nass2801 - Soukaina Nassib royb2006 -
- * Benjamin Roy
+ * beam2039 - Marc-Antoine Beaudoin
+ * dupm2216 - Maxime Dupuis
+ * nass2801 - Soukaina Nassib
+ * royb2006 - Benjamin Roy
  ******************************************************************************/
 package ca.usherbrooke.pacman.model;
 
@@ -15,7 +17,21 @@ import java.util.Queue;
 import java.util.Random;
 import java.util.concurrent.ConcurrentLinkedQueue;
 import com.google.gson.Gson;
-import ca.usherbrooke.pacman.model.random.RandomDirectionGenerator;
+import ca.usherbrooke.pacman.model.collision.PacmanGhostCollisionManager;
+import ca.usherbrooke.pacman.model.collision.PacmanPacgumCollisionManager;
+import ca.usherbrooke.pacman.model.collision.PacmanSuperPacgumCollisionManager;
+import ca.usherbrooke.pacman.model.direction.Direction;
+import ca.usherbrooke.pacman.model.direction.IDirectionGenerator;
+import ca.usherbrooke.pacman.model.direction.IHasDesiredDirection;
+import ca.usherbrooke.pacman.model.direction.PeriodicDirectionManager;
+import ca.usherbrooke.pacman.model.direction.RandomDirectionGenerator;
+import ca.usherbrooke.pacman.model.events.GameEvent;
+import ca.usherbrooke.pacman.model.events.GameEventObject;
+import ca.usherbrooke.pacman.model.objects.Ghost;
+import ca.usherbrooke.pacman.model.objects.IGameObject;
+import ca.usherbrooke.pacman.model.objects.Level;
+import ca.usherbrooke.pacman.model.objects.Levels;
+import ca.usherbrooke.pacman.model.objects.PacMan;
 import ca.usherbrooke.pacman.model.sound.Observer;
 import ca.usherbrooke.pacman.threads.PhysicsThread;
 import ca.usherbrooke.pacman.view.utilities.WarningDialog;
@@ -53,18 +69,22 @@ public class GameModel implements IGameModel {
   private Integer score = INITIAL_SCORE;
   private int lives = INITIAL_NUMBER_OF_LIVES;
 
+  @Override
   public Integer getScore() {
     return score;
   }
 
+  @Override
   public void setScore(Integer score) {
     this.score = score;
   }
 
+  @Override
   public int getLives() {
     return lives;
   }
 
+  @Override
   public void setLives(int lives) {
     this.lives = lives;
   }
@@ -73,6 +93,7 @@ public class GameModel implements IGameModel {
     physicsThread.start();
   }
 
+  @Override
   public void attach(Observer observer) {
     observers.add(observer);
   }
@@ -261,12 +282,14 @@ public class GameModel implements IGameModel {
     this.isRunning = isRunning;
   }
 
+  @Override
   public Level getCurrentLevel() {
     final int currentLevel = this.levelsList.getCurrentLevel();
     final List<Level> levels = this.levelsList.getLevels();
     return levels.get(currentLevel);
   }
 
+  @Override
   public void loadLevels(String levelsPath) {
     Gson gson = new Gson();
     File file = new File(GameModel.class.getClassLoader().getResource(levelsPath).getFile());
@@ -301,6 +324,7 @@ public class GameModel implements IGameModel {
     return isManuallyPaused;
   }
 
+  @Override
   public boolean isGameOver() {
     return isGameOver;
   }
@@ -315,6 +339,7 @@ public class GameModel implements IGameModel {
     return levelsList.isGameCompleted();
   }
 
+  @Override
   public void stopPhysicsThread() {
     if (physicsThread == null) {
       return;

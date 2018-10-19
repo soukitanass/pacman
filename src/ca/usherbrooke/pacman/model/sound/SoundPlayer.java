@@ -22,6 +22,7 @@ public class SoundPlayer implements ISoundPlayer {
   private Clip clip;
   private boolean isPlaying = false;
 
+  @Override
   @SuppressWarnings("squid:S1141")
   public void setClip(File file) {
     try {

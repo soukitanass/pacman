@@ -14,6 +14,7 @@ import java.util.List;
 import ca.usherbrooke.pacman.model.IGameModel;
 import ca.usherbrooke.pacman.threads.AudioThread;
 import ca.usherbrooke.pacman.view.panel.FpsOptionListener;
+import ca.usherbrooke.pacman.view.utilities.CloseObserver;
 
 public class GameView implements IGameView {
   private GameCanvas canvas;
@@ -27,6 +28,7 @@ public class GameView implements IGameView {
     canvas = new GameCanvas(model, ghostSpriteTogglePeriod, pacmanSpriteTogglePeriod,fpsOptionListener ,audioThread);
   }
 
+  @Override
   public void update() {
     canvas.setFpsEnabled(isFpsEnabled);
     if (!model.isGameCompleted()) {
@@ -56,10 +58,12 @@ public class GameView implements IGameView {
     }
   }
 
+  @Override
   public GameCanvas getCanvas() {
     return canvas;
   }
 
+  @Override
   public void setCanvas(GameCanvas canvas) {
     this.canvas = canvas;
   }

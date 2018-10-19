@@ -1,8 +1,10 @@
 /*******************************************************************************
  * Team agilea18b, Pacman
- * 
- * beam2039 - Marc-Antoine Beaudoin dupm2216 - Maxime Dupuis nass2801 - Soukaina Nassib royb2006 -
- * Benjamin Roy
+ *
+ * beam2039 - Marc-Antoine Beaudoin
+ * dupm2216 - Maxime Dupuis
+ * nass2801 - Soukaina Nassib
+ * royb2006 - Benjamin Roy
  ******************************************************************************/
 package ca.usherbrooke.pacman.view.panel;
 
@@ -16,9 +18,10 @@ import javax.swing.JFormattedTextField;
 import javax.swing.JLabel;
 import javax.swing.JSlider;
 import javax.swing.JSpinner;
-import javax.swing.JTextField;
 import javax.swing.SpinnerModel;
+import javax.swing.SwingConstants;
 import ca.usherbrooke.pacman.model.IGameModel;
+import ca.usherbrooke.pacman.view.utilities.ImageUtilities;
 
 @SuppressWarnings({"serial", "squid:S1948"})
 public abstract class AbstractMenuPanel extends AbstractPanel {
@@ -33,8 +36,8 @@ public abstract class AbstractMenuPanel extends AbstractPanel {
   private static final int MAJOR_TICK_SPACING = 10;
   private static final Color FOREGROUND_COLOR = Color.WHITE;
   private static final Color BACKGROUND_COLOR = Color.BLACK;
-  private static final ca.usherbrooke.pacman.view.Color SPRITE_COLOR =
-      ca.usherbrooke.pacman.view.Color.WHITE;
+  private static final ca.usherbrooke.pacman.view.utilities.Color SPRITE_COLOR =
+      ca.usherbrooke.pacman.view.utilities.Color.WHITE;
 
   protected IGameModel model;
 
@@ -61,7 +64,7 @@ public abstract class AbstractMenuPanel extends AbstractPanel {
   }
 
   protected void setJLabel(JLabel jLabel, String text, int y, double scaleFactor) {
-    final BufferedImage image = getLabelImage(text, SPRITE_COLOR, scaleFactor);
+    final BufferedImage image = ImageUtilities.getTextImage(text, SPRITE_COLOR, scaleFactor);
     final int levelWidth = model.getCurrentLevel().getWidth() * pixelTileSize;
     final int x = (levelWidth / 2) - (image.getWidth() / 2) + offsetX;
     final Point location = new Point(x, y);
@@ -78,7 +81,7 @@ public abstract class AbstractMenuPanel extends AbstractPanel {
     JFormattedTextField textField = ((JSpinner.DefaultEditor) jSpinner.getEditor()).getTextField();
     textField.setColumns(NUMBER_OF_TEXT_FIELD_COLUMNS);
     textField.setEditable(false);
-    textField.setHorizontalAlignment(JTextField.CENTER);
+    textField.setHorizontalAlignment(SwingConstants.CENTER);
 
     jSpinner.setLocation(location);
   }

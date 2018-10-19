@@ -8,6 +8,10 @@
  ******************************************************************************/
 package ca.usherbrooke.pacman.model;
 
+import ca.usherbrooke.pacman.model.direction.Direction;
+import ca.usherbrooke.pacman.model.direction.IHasDesiredDirection;
+import ca.usherbrooke.pacman.model.objects.Level;
+import ca.usherbrooke.pacman.model.objects.PacMan;
 import ca.usherbrooke.pacman.model.sound.Observer;
 
 public interface IGameModel {

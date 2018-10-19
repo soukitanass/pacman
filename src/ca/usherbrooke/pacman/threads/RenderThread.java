@@ -1,13 +1,15 @@
 /*******************************************************************************
  * Team agilea18b, Pacman
- * 
- * beam2039 - Marc-Antoine Beaudoin dupm2216 - Maxime Dupuis nass2801 - Soukaina Nassib royb2006 -
- * Benjamin Roy
+ *
+ * beam2039 - Marc-Antoine Beaudoin
+ * dupm2216 - Maxime Dupuis
+ * nass2801 - Soukaina Nassib
+ * royb2006 - Benjamin Roy
  ******************************************************************************/
 
 /*******************************************************************************
- * FSP Code RenderThread = (runStep->sleepUntilNextUpdate->RenderThread). || Threads =
- * (RenderThread).
+ * FSP Code RenderThread = (runStep->sleepUntilNextUpdate->RenderThread).
+ * || Threads = (RenderThread).
  *
  ******************************************************************************/
 package ca.usherbrooke.pacman.threads;
@@ -15,8 +17,8 @@ package ca.usherbrooke.pacman.threads;
 import java.util.concurrent.atomic.AtomicBoolean;
 import ca.usherbrooke.pacman.game.ITimeGetter;
 import ca.usherbrooke.pacman.utilities.CircularQueue;
-import ca.usherbrooke.pacman.view.CloseObserver;
 import ca.usherbrooke.pacman.view.IGameView;
+import ca.usherbrooke.pacman.view.utilities.CloseObserver;
 import ca.usherbrooke.pacman.view.utilities.WarningDialog;
 
 public class RenderThread implements Runnable, CloseObserver {
