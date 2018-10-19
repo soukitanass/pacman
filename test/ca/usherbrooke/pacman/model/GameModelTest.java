@@ -1,6 +1,6 @@
 /*******************************************************************************
  * Team agilea18b, Pacman
- * 
+ *
  * beam2039 - Marc-Antoine Beaudoin
  * dupm2216 - Maxime Dupuis
  * nass2801 - Soukaina Nassib
@@ -87,5 +87,20 @@ public class GameModelTest {
     assertTrue(model.isRunning());
     model.setRunning(false);
     assertFalse(model.isRunning());
+  }
+
+  @Test
+  public void startNewGameResetsScoreToZero() {
+    model.setScore(42);
+    model.startNewGame();
+    assertEquals(Integer.valueOf(0), model.getScore());
+  }
+
+  @Test
+  public void startNewGameResetsToFullLives() {
+    final int initialNumberOfLives = model.getLives();
+    model.setLives(initialNumberOfLives - 1);
+    model.startNewGame();
+    assertEquals(initialNumberOfLives, model.getLives());
   }
 }
