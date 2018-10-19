@@ -9,13 +9,18 @@
 package ca.usherbrooke.pacman.view.panel;
 
 import java.awt.Graphics;
+import java.awt.event.ItemEvent;
+import java.awt.event.ItemListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import javax.swing.JCheckBox;
 import javax.swing.JLabel;
 import javax.swing.JSlider;
+import javax.swing.event.ChangeEvent;
+import javax.swing.event.ChangeListener;
 import ca.usherbrooke.pacman.model.GameState;
 import ca.usherbrooke.pacman.model.IGameModel;
+import ca.usherbrooke.pacman.threads.AudioThread;
 
 @SuppressWarnings("serial")
 public class AudioMenuPanel extends AbstractMenuPanel {
@@ -34,12 +39,14 @@ public class AudioMenuPanel extends AbstractMenuPanel {
   private JCheckBox musicCheckbox = new JCheckBox(MUTE_LABEL);
   private JCheckBox soundCheckbox = new JCheckBox(MUTE_LABEL);
   private JSlider musicSlider =
-      new JSlider(JSlider.HORIZONTAL, MINIMAL_VOLUME, MAXIMAL_VOLUME, MINIMAL_VOLUME);
+      new JSlider(JSlider.HORIZONTAL, MINIMAL_VOLUME, MAXIMAL_VOLUME, MAXIMAL_VOLUME);
   private JSlider soundSlider =
-      new JSlider(JSlider.HORIZONTAL, MINIMAL_VOLUME, MAXIMAL_VOLUME, MINIMAL_VOLUME);
+      new JSlider(JSlider.HORIZONTAL, MINIMAL_VOLUME, MAXIMAL_VOLUME, MAXIMAL_VOLUME);
+  private AudioThread audioThread;
 
-  public AudioMenuPanel(IGameModel model) {
+  public AudioMenuPanel(IGameModel model, AudioThread audioThread) {
     this.model = model;
+    this.audioThread = audioThread;
     this.add(musicMenuOption);
     this.add(musicCheckbox);
     this.add(musicSlider);
@@ -49,7 +56,10 @@ public class AudioMenuPanel extends AbstractMenuPanel {
     this.add(goBackMenuOption);
 
     addMouseListeners();
+    addChangeListeners();
+    addItemListeners();
   }
+
 
   @Override
   public void paint(Graphics graphic) {
@@ -92,6 +102,51 @@ public class AudioMenuPanel extends AbstractMenuPanel {
         model.setGameState(GameState.GAME_MENU);
       }
     });
+  }
+
+  private void addChangeListeners() {
+    musicSlider.addChangeListener(new ChangeListener() {
+      @Override
+      public void stateChanged(ChangeEvent e) {
+        if (musicSlider.getValueIsAdjusting()) {
+          int value = musicSlider.getValue();
+          audioThread.setMusicVolumeChanged(value);
+        }
+      }
+    });
+
+    soundSlider.addChangeListener(new ChangeListener() {
+      @Override
+      public void stateChanged(ChangeEvent e) {
+        if (soundSlider.getValueIsAdjusting()) {
+          int value = soundSlider.getValue();
+          audioThread.setSoundVolumeChanged(value);
+        }
+      }
+    });
+  }
+
+  private void addItemListeners() {
+    musicCheckbox.addItemListener(new ItemListener() {
+      @Override
+      public void itemStateChanged(ItemEvent e) {
+        if(e.getSource() == musicCheckbox) {
+          boolean value = musicCheckbox.isSelected();
+          audioThread.setMusicPlay(value);
+        }
+      }
+    });
+
+    soundCheckbox.addItemListener(new ItemListener() {
+      @Override
+      public void itemStateChanged(ItemEvent e) {
+        if(e.getSource() == soundCheckbox) {
+        boolean value = soundCheckbox.isSelected();
+        audioThread.setIsSoundPlaying(value);
+        }
+      }
+    });
+
   }
 
 }

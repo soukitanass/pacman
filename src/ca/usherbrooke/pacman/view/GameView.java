@@ -12,6 +12,7 @@ import java.awt.event.KeyListener;
 import java.util.ArrayList;
 import java.util.List;
 import ca.usherbrooke.pacman.model.IGameModel;
+import ca.usherbrooke.pacman.threads.AudioThread;
 import ca.usherbrooke.pacman.view.panel.FpsOptionListener;
 import ca.usherbrooke.pacman.view.utilities.CloseObserver;
 
@@ -22,10 +23,9 @@ public class GameView implements IGameView {
   private boolean isFpsEnabled = false;
 
   public GameView(IGameModel model, int ghostSpriteTogglePeriod, int pacmanSpriteTogglePeriod,
-      FpsOptionListener fpsOptionListener) {
+      AudioThread audioThread, FpsOptionListener fpsOptionListener) {
     this.model = model;
-    canvas =
-        new GameCanvas(model, ghostSpriteTogglePeriod, pacmanSpriteTogglePeriod, fpsOptionListener);
+    canvas = new GameCanvas(model, ghostSpriteTogglePeriod, pacmanSpriteTogglePeriod,fpsOptionListener ,audioThread);
   }
 
   @Override

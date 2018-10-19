@@ -23,7 +23,8 @@ import javax.swing.JLayeredPane;
 import javax.swing.JPanel;
 import ca.usherbrooke.pacman.model.GameState;
 import ca.usherbrooke.pacman.model.IGameModel;
-import ca.usherbrooke.pacman.model.position.Position;
+import ca.usherbrooke.pacman.model.Position;
+import ca.usherbrooke.pacman.threads.AudioThread;
 import ca.usherbrooke.pacman.view.panel.AbstractMenuPanel;
 import ca.usherbrooke.pacman.view.panel.AudioMenuPanel;
 import ca.usherbrooke.pacman.view.panel.CenteredInLevelPositioningStrategy;
@@ -73,7 +74,7 @@ public class GameCanvas extends JPanel {
   private boolean isFpsEnabled = false;
 
   GameCanvas(IGameModel model, int ghostSpriteTogglePeriod, int pacmanSpriteTogglePeriod,
-      FpsOptionListener fpsOptionListener) {
+      FpsOptionListener fpsOptionListener,AudioThread audioThread) {
     this.model = model;
     window.setSize(FRAME_WIDTH, FRAME_HEIGHT);
     window.setMinimumSize(new Dimension(FRAME_WIDTH, FRAME_HEIGHT));
@@ -103,7 +104,7 @@ public class GameCanvas extends JPanel {
     gameMenu = new GameMenuPanel(model, fpsOptionListener);
     gameMenu.setVisible(false);
 
-    audioMenu = new AudioMenuPanel(model);
+    audioMenu = new AudioMenuPanel(model, audioThread);
     audioMenu.setVisible(false);
 
     levelPanel = new LevelPanel(model);

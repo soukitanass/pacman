@@ -8,12 +8,11 @@
  ******************************************************************************/
 package ca.usherbrooke.pacman.threads;
 
-import org.junit.runners.Suite;
 import org.junit.runner.RunWith;
+import org.junit.runners.Suite;
 
 @RunWith(Suite.class)
 
-@Suite.SuiteClasses({PhysicsThreadTest.class, RenderThreadTest.class})
-
+@Suite.SuiteClasses({PhysicsThreadTest.class, RenderThreadTest.class,AudioThreadTest.class})
 public class AllTests {
 }

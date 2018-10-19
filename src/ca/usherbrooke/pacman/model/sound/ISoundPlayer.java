@@ -22,4 +22,6 @@ public interface ISoundPlayer {
 
   public void stop();
 
+  public void setVolume(int volume);
+
 }
