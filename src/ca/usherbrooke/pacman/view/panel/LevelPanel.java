@@ -33,7 +33,6 @@ public class LevelPanel extends AbstractPanel {
   private static String SCORE_TEXT = "SCORE";
   private static String LIVES_TEXT = "LIVES";
   private static final int LEVEL_OFFSET = 1;
-  private static final int Y_DELTA_TILES = 2;
 
   private static final int EMPTY_TILE_CODE = 0;
   private static final int GHOST_ROOM_TILE_CODE = 38;
@@ -97,11 +96,6 @@ public class LevelPanel extends AbstractPanel {
     final int yPos = y + offsetY;
     graphics.drawImage(scoreImage, xLeftPos, yPos, null);
     graphics.drawImage(livesImage, xMiddlePos, yPos, null);
-    // TODO: Move to the model
-    if (model.getLives() == 0) {
-      model.setGameOver();
-      model.setLives(-1);
-    }
   }
 
   private Image getLivesPanelImage(final double scaleFactor) {
