@@ -32,7 +32,7 @@ public class PacmanGhostsCollisionManagerTest {
 
     this.ghost = new Ghost();
     this.model = new GameModel();
-    this.model.loadLevel("Levels.json");
+    this.model.loadLevel("Level.json");
     this.level = model.getCurrentLevel();
   }
 
@@ -67,8 +67,8 @@ public class PacmanGhostsCollisionManagerTest {
   private void initializeGhostsList() {
     List<Ghost> ghosts = new ArrayList<Ghost>();
     IGameModel model = new GameModel();
-    String levelsPath = "Levels.json";
-    model.loadLevel(levelsPath);
+    String levelPath = "Level.json";
+    model.loadLevel(levelPath);
     level.setGhost(ghosts);
     level.setPacMan(new PacMan(new Position(0, 0)));
     ghost.setPosition(new Position(0, 0));

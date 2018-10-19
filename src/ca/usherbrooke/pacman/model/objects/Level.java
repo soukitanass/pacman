@@ -23,20 +23,13 @@ public class Level {
   private static final int GHOST_ROOM_CODE = 38;
   private static final int TUNNEL_CODE = 325;
 
-
-
-  @SerializedName("id")
-  @Expose
-  private Integer id;
+  
   @SerializedName("width")
   @Expose
   private Integer width;
   @SerializedName("height")
   @Expose
   private Integer height;
-  @SerializedName("super_pac_gum")
-  @Expose
-  private SuperPacgum superPacgum;
   @SerializedName("pac-man")
   @Expose
   private PacMan pacMan;
@@ -46,14 +39,6 @@ public class Level {
   @SerializedName("map")
   @Expose
   private List<List<Integer>> map = null;
-
-  public Integer getId() {
-    return id;
-  }
-
-  public void setId(Integer id) {
-    this.id = id;
-  }
 
   public Integer getWidth() {
     return width;
@@ -69,14 +54,6 @@ public class Level {
 
   public void setHeight(Integer height) {
     this.height = height;
-  }
-
-  public SuperPacgum getSuperPacgum() {
-    return superPacgum;
-  }
-
-  public void setSuperPacgum(SuperPacgum superPacgum) {
-    this.superPacgum = superPacgum;
   }
 
   public PacMan getPacMan() {

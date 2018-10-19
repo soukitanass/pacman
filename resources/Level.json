@@ -1,12 +1,7 @@
 {
-            "id": 0,
             "width": 28,
             "height": 31,
-            "super_pac_gum": {
-                "duration": 10
-            },
             "pac-man": {
-                "id": 1,
                 "start_pos": {
                     "x": 13,
                     "y": 23
@@ -14,28 +9,24 @@
             },
             "ghost": [{
                 "id": 1,
-                "speed": 1,
                 "start_pos": {
                     "x": 13,
                     "y": 11
                 }
             }, {
                 "id": 2,
-                "speed": 1,
                 "start_pos": {
                     "x": 11,
                     "y": 15
                 }
             }, {
                 "id": 3,
-                "speed": 1,
                 "start_pos": {
                     "x": 13,
                     "y": 15
                 }
             }, {
                 "id": 4,
-                "speed": 1,
                 "start_pos": {
                     "x": 15,
                     "y": 15
