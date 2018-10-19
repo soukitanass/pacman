@@ -1,6 +1,6 @@
 /*******************************************************************************
  * Team agilea18b, Pacman
- * 
+ *
  * beam2039 - Marc-Antoine Beaudoin
  * dupm2216 - Maxime Dupuis
  * nass2801 - Soukaina Nassib
@@ -11,11 +11,15 @@ package ca.usherbrooke.pacman.view.utilities;
 import java.awt.Graphics2D;
 import java.awt.Image;
 import java.awt.image.BufferedImage;
+import java.util.ArrayList;
 import java.util.List;
+import ca.usherbrooke.pacman.view.spirites.SpriteFacade;
 
 public class ImageUtilities {
 
-  public BufferedImage resize(BufferedImage img, int height, int width) {
+  private static SpriteFacade spriteFacade = new SpriteFacade();
+
+  public static BufferedImage resize(BufferedImage img, int width, int height) {
     Image tmp = img.getScaledInstance(width, height, Image.SCALE_SMOOTH);
     BufferedImage resized = new BufferedImage(width, height, BufferedImage.TYPE_INT_ARGB);
     Graphics2D g2d = resized.createGraphics();
@@ -24,7 +28,10 @@ public class ImageUtilities {
     return resized;
   }
 
-  public BufferedImage joinImages(List<BufferedImage> images) {
+  public static BufferedImage joinImages(List<BufferedImage> images) {
+    if (images.isEmpty()) {
+      return null;
+    }
     final int height = images.get(0).getHeight();
     int width = 0;
     int x = 0;
@@ -41,6 +48,29 @@ public class ImageUtilities {
     }
     g2d.dispose();
     return image;
+  }
+
+  public static BufferedImage getTextImage(String text,
+      ca.usherbrooke.pacman.view.utilities.Color color, final double scaleFactor) {
+    List<BufferedImage> images = new ArrayList<>();
+
+    for (int i = 0; i < text.length(); i++) {
+      BufferedImage image = null;
+      try {
+        if (Character.isLetter(text.charAt(i)) || text.charAt(i) == ' ') {
+          image = spriteFacade.getLetter(text.charAt(i), color);
+        } else {
+          image = spriteFacade.getDigit(Character.getNumericValue(text.charAt(i)), color);
+        }
+        images.add(image);
+      } catch (Exception exception) {
+        WarningDialog.display("Error while painting the panel. ", exception);
+      }
+    }
+    BufferedImage textImageNotScaled = ImageUtilities.joinImages(images);
+    final int newWidth = (int) (scaleFactor * textImageNotScaled.getWidth());
+    final int newHeight = (int) (scaleFactor * textImageNotScaled.getHeight());
+    return ImageUtilities.resize(textImageNotScaled, newWidth, newHeight);
   }
 
 }

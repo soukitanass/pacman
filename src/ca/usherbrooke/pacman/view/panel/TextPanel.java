@@ -1,6 +1,6 @@
 /*******************************************************************************
  * Team agilea18b, Pacman
- * 
+ *
  * beam2039 - Marc-Antoine Beaudoin
  * dupm2216 - Maxime Dupuis
  * nass2801 - Soukaina Nassib
@@ -13,6 +13,7 @@ import java.awt.image.BufferedImage;
 import ca.usherbrooke.pacman.model.IGameModel;
 import ca.usherbrooke.pacman.model.position.Position;
 import ca.usherbrooke.pacman.view.utilities.Color;
+import ca.usherbrooke.pacman.view.utilities.ImageUtilities;
 
 @SuppressWarnings({"serial", "squid:S1948"})
 public class TextPanel extends AbstractPanel {
@@ -36,7 +37,7 @@ public class TextPanel extends AbstractPanel {
   @Override
   public void paint(Graphics graphic) {
     super.paint(graphic);
-    final BufferedImage image = getLabelImage(text, textColor, textScaleFactor);
+    final BufferedImage image = ImageUtilities.getTextImage(text, textColor, textScaleFactor);
     final Position position =
         positioningStrategy.getPosition(image, model, pixelTileSize, offsetX, offsetY);
     graphic.drawImage(image, position.getX(), position.getY(), null);

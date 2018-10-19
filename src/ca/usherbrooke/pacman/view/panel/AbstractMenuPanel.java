@@ -1,6 +1,6 @@
 /*******************************************************************************
  * Team agilea18b, Pacman
- * 
+ *
  * beam2039 - Marc-Antoine Beaudoin
  * dupm2216 - Maxime Dupuis
  * nass2801 - Soukaina Nassib
@@ -21,6 +21,7 @@ import javax.swing.JSpinner;
 import javax.swing.SpinnerModel;
 import javax.swing.SwingConstants;
 import ca.usherbrooke.pacman.model.IGameModel;
+import ca.usherbrooke.pacman.view.utilities.ImageUtilities;
 
 @SuppressWarnings({"serial", "squid:S1948"})
 public abstract class AbstractMenuPanel extends AbstractPanel {
@@ -63,7 +64,7 @@ public abstract class AbstractMenuPanel extends AbstractPanel {
   }
 
   protected void setJLabel(JLabel jLabel, String text, int y, double scaleFactor) {
-    final BufferedImage image = getLabelImage(text, SPRITE_COLOR, scaleFactor);
+    final BufferedImage image = ImageUtilities.getTextImage(text, SPRITE_COLOR, scaleFactor);
     final int levelWidth = model.getCurrentLevel().getWidth() * pixelTileSize;
     final int x = (levelWidth / 2) - (image.getWidth() / 2) + offsetX;
     final Point location = new Point(x, y);
