@@ -87,6 +87,9 @@ public class GameModel implements IGameModel {
   @Override
   public void setLives(int lives) {
     this.lives = lives;
+    if (getLives() == 0) {
+      setGameOver();
+    }
   }
 
   public GameModel() {

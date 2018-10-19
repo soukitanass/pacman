@@ -96,11 +96,6 @@ public class LevelPanel extends AbstractPanel {
     final int yPos = y + offsetY;
     graphics.drawImage(scoreImage, xLeftPos, yPos, null);
     graphics.drawImage(livesImage, xMiddlePos, yPos, null);
-    // TODO: Move to the model
-    if (model.getLives() == 0) {
-      model.setGameOver();
-      model.setLives(-1);
-    }
   }
 
   private Image getLivesPanelImage(final double scaleFactor) {
