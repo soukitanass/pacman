@@ -9,15 +9,11 @@
 package ca.usherbrooke.pacman.view.panel;
 
 import java.awt.Graphics;
-import java.awt.event.ItemEvent;
-import java.awt.event.ItemListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import javax.swing.JCheckBox;
 import javax.swing.JLabel;
 import javax.swing.JSlider;
-import javax.swing.event.ChangeEvent;
-import javax.swing.event.ChangeListener;
 import ca.usherbrooke.pacman.model.GameState;
 import ca.usherbrooke.pacman.model.IGameModel;
 import ca.usherbrooke.pacman.threads.AudioThread;
@@ -105,48 +101,35 @@ public class AudioMenuPanel extends AbstractMenuPanel {
   }
 
   private void addChangeListeners() {
-    musicSlider.addChangeListener(new ChangeListener() {
-      @Override
-      public void stateChanged(ChangeEvent e) {
-        if (musicSlider.getValueIsAdjusting()) {
-          int value = musicSlider.getValue();
-          audioThread.setMusicVolumeChanged(value);
-        }
+    musicSlider.addChangeListener(e -> {
+      if (musicSlider.getValueIsAdjusting()) {
+        int value = musicSlider.getValue();
+        audioThread.setMusicVolumeChanged(value);
       }
     });
 
-    soundSlider.addChangeListener(new ChangeListener() {
-      @Override
-      public void stateChanged(ChangeEvent e) {
-        if (soundSlider.getValueIsAdjusting()) {
-          int value = soundSlider.getValue();
-          audioThread.setSoundVolumeChanged(value);
-        }
+    soundSlider.addChangeListener(e -> {
+      if (soundSlider.getValueIsAdjusting()) {
+        int value = soundSlider.getValue();
+        audioThread.setSoundVolumeChanged(value);
       }
     });
   }
 
   private void addItemListeners() {
-    musicCheckbox.addItemListener(new ItemListener() {
-      @Override
-      public void itemStateChanged(ItemEvent e) {
-        if(e.getSource() == musicCheckbox) {
-          boolean value = musicCheckbox.isSelected();
-          audioThread.setMusicPlay(value);
-        }
+    musicCheckbox.addItemListener(e -> {
+      if (e.getSource() == musicCheckbox) {
+        boolean value = musicCheckbox.isSelected();
+        audioThread.setMusicPlay(value);
       }
     });
 
-    soundCheckbox.addItemListener(new ItemListener() {
-      @Override
-      public void itemStateChanged(ItemEvent e) {
-        if(e.getSource() == soundCheckbox) {
+    soundCheckbox.addItemListener(e -> {
+      if (e.getSource() == soundCheckbox) {
         boolean value = soundCheckbox.isSelected();
         audioThread.setIsSoundPlaying(value);
-        }
       }
     });
-
   }
 
 }
