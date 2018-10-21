@@ -30,8 +30,8 @@ public class LevelPanel extends AbstractPanel {
 
   private static final double LEVEL_NUMBER_OVER_SCORE_PANEL_TILE_SIZE_RATIO = 2.0;
   private static final String LEVEL_TEXT = "LEVEL";
-  private static String SCORE_TEXT = "SCORE";
-  private static String LIVES_TEXT = "LIVES";
+  private static final String SCORE_TEXT = "SCORE";
+  private static final String LIVES_TEXT = "LIVES";
   private static final int LEVEL_OFFSET = 1;
 
   private static final int EMPTY_TILE_CODE = 0;
@@ -118,7 +118,7 @@ public class LevelPanel extends AbstractPanel {
   }
 
   private BufferedImage getLivesIconsImage(int lives, double scaleFactor) {
-    List<BufferedImage> livesImages = new ArrayList<BufferedImage>();
+    List<BufferedImage> livesImages = new ArrayList<>();
     for (int i = 0; i < lives; i++) {
       try {
         BufferedImage image = spriteFacade.getPacman(Direction.LEFT, PacManState.STATE3);
@@ -157,9 +157,8 @@ public class LevelPanel extends AbstractPanel {
         ImageUtilities.getTextImage(LEVEL_TEXT, Color.WHITE, scaleFactor);
     BufferedImage levelNumberValueImage =
         ImageUtilities.getTextImage(Integer.toString(levelNumber), Color.YELLOW, scaleFactor);
-    BufferedImage levelNumberImage =
-        ImageUtilities.joinImages(Arrays.asList(levelNumberTextImage, levelNumberValueImage));
-    return levelNumberImage;
+
+    return ImageUtilities.joinImages(Arrays.asList(levelNumberTextImage, levelNumberValueImage));
   }
 
   public int getWidthTiles() {

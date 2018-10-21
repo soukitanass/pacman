@@ -34,6 +34,8 @@ public class AudioThread extends Thread implements CloseObserver {
     soundController = new SoundController(soundPlayer);
   }
 
+  @Override
+  @SuppressWarnings("squid:S106")
   public void run() {
     System.out.println("START - " + getName());
     isRunning = true;
@@ -70,6 +72,7 @@ public class AudioThread extends Thread implements CloseObserver {
         }
 
       } catch (InterruptedException e) {
+        Thread.currentThread().interrupt();
         WarningDialog.display("Error while interrupting " + this.getName(), e);
       }
     }
@@ -148,29 +151,23 @@ public class AudioThread extends Thread implements CloseObserver {
     this.musicPlay = musicPlay;
   }
 
-  public ISoundController getSoundController() {
+  public synchronized ISoundController getSoundController() {
     return soundController;
   }
 
-  public void setSoundController(ISoundController soundController) {
+  public synchronized void setSoundController(ISoundController soundController) {
     this.soundController = soundController;
   }
 
   @Override
-  public void onClosingView() {
-    isRunning = false;
-    synchronized (lock) {
-      lock.notifyAll();
-    }
+  public synchronized void onClosingView() {
+    stopThread();
   }
 
-  public void setStop() {
+  public synchronized void stopThread() {
     isRunning = false;
     synchronized (lock) {
       lock.notifyAll();
-    }
-    synchronized (this) {
-      this.notifyAll();
     }
   }
 }

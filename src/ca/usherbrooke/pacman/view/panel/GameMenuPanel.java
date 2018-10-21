@@ -9,8 +9,6 @@
 package ca.usherbrooke.pacman.view.panel;
 
 import java.awt.Graphics;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import javax.swing.JCheckBox;
@@ -18,8 +16,6 @@ import javax.swing.JLabel;
 import javax.swing.JSpinner;
 import javax.swing.SpinnerModel;
 import javax.swing.SpinnerNumberModel;
-import javax.swing.event.ChangeEvent;
-import javax.swing.event.ChangeListener;
 import ca.usherbrooke.pacman.model.GameState;
 import ca.usherbrooke.pacman.model.IGameModel;
 
@@ -62,21 +58,11 @@ public class GameMenuPanel extends AbstractMenuPanel {
   }
 
   private void addFpsOptionListener() {
-    fpsCheckBox.addActionListener(new ActionListener() {
-      @Override
-      public void actionPerformed(ActionEvent e) {
-        fpsOptionListener.setFpsEnabled(fpsCheckBox.isSelected());
-      }
-    });
+    fpsCheckBox.addActionListener(e -> fpsOptionListener.setFpsEnabled(fpsCheckBox.isSelected()));
   }
 
   private void addFpsSpinnerListener() {
-    fpsSpinner.addChangeListener(new ChangeListener() {
-      @Override
-      public void stateChanged(ChangeEvent e) {
-        fpsOptionListener.setFps((int) fpsSpinner.getValue());
-      }
-    });
+    fpsSpinner.addChangeListener(e -> fpsOptionListener.setFps((int) fpsSpinner.getValue()));
   }
 
   public void setFpsEnableListener(FpsOptionListener fpsOptionListener) {
@@ -114,7 +100,7 @@ public class GameMenuPanel extends AbstractMenuPanel {
     int x = fpsMenuOption.getX() + fpsMenuOption.getWidth() + CHECKBOX_X_OFFSET;
     setJCheckBox(fpsCheckBox, x, y);
     x += fpsCheckBox.getWidth() + CHECKBOX_X_OFFSET;
-    setJSpinner(fpsSpinner, spinnerModel, x, y);
+    setJSpinner(fpsSpinner, x, y);
   }
 
   private void paintExitGameOption(int y) {

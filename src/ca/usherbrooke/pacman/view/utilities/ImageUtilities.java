@@ -17,6 +17,10 @@ import ca.usherbrooke.pacman.view.spirites.SpriteFacade;
 
 public class ImageUtilities {
 
+  private ImageUtilities() {
+    throw new IllegalStateException("Utility class");
+  }
+  
   private static SpriteFacade spriteFacade = new SpriteFacade();
 
   public static BufferedImage resize(BufferedImage img, int width, int height) {
