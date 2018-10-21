@@ -43,7 +43,7 @@ public class GameModel implements IGameModel {
   private static final int JOIN_TIMER = 1000; // ms
   private static final int INITIAL_SCORE = 0;
   private static final int INITIAL_NUMBER_OF_LIVES = 3;
-  private static final int NUMBER_OF_LEVELS = 5;
+  private static final int NUMBER_OF_LEVEL = 5;
 
   private Level level;
   private int currentGameFrame = 0;
@@ -193,7 +193,7 @@ public class GameModel implements IGameModel {
 
   public void incrementCurrentLevel() {
     currentLevelIndex++;
-    if (currentLevelIndex == NUMBER_OF_LEVELS) {
+    if (currentLevelIndex == NUMBER_OF_LEVEL) {
       isGameCompleted = true;
     }
   }
@@ -304,9 +304,9 @@ public class GameModel implements IGameModel {
   }
 
   @Override
-  public void loadLevel(String levelsPath) {
+  public void loadLevel(String levelPath) {
     Gson gson = new Gson();
-    File file = new File(GameModel.class.getClassLoader().getResource(levelsPath).getFile());
+    File file = new File(GameModel.class.getClassLoader().getResource(levelPath).getFile());
 
     try (FileReader fileReader = new FileReader(file)) {
       level = gson.fromJson(new BufferedReader(fileReader), Level.class);
