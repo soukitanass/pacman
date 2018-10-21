@@ -20,6 +20,8 @@ public interface IGameModel {
   void loadLevel(String levelPath);
 
   Level getCurrentLevel();
+  
+  Level getLevel();
 
   int getCurrentGameFrame();
 

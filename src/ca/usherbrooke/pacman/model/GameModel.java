@@ -46,6 +46,7 @@ public class GameModel implements IGameModel {
   private static final int NUMBER_OF_LEVEL = 5;
 
   private Level level;
+  private Level initialLevel;
   private int currentGameFrame = 0;
   private boolean isManuallyPaused = false;
   private boolean isPaused = false;
@@ -187,7 +188,6 @@ public class GameModel implements IGameModel {
   private void goToNextLevel() {
     isLevelCompleted = false;
     incrementCurrentLevel();
-    loadLevel(LEVEL_PATH);
     initializeLevel();
   }
 
@@ -214,8 +214,8 @@ public class GameModel implements IGameModel {
   }
 
   private void initializeLevel() {
-    Level level = getCurrentLevel();
-    Level actualLevel = getCurrentLevel();
+    Level level = getLevel();
+    Level actualLevel = getLevel();
     pacman = level.getPacMan();
 
     for (Ghost ghost : level.getGhosts()) {
@@ -302,6 +302,8 @@ public class GameModel implements IGameModel {
   public Level getCurrentLevel() {
     return level;
   }
+  
+  
 
   @Override
   public void loadLevel(String levelPath) {
@@ -310,6 +312,8 @@ public class GameModel implements IGameModel {
 
     try (FileReader fileReader = new FileReader(file)) {
       level = gson.fromJson(new BufferedReader(fileReader), Level.class);
+      initialLevel = new Level(level);
+      
     } catch (Exception exception) {
       WarningDialog.display("Error while opening level file. ", exception);
     }
@@ -379,6 +383,11 @@ public class GameModel implements IGameModel {
   @Override
   public void setGameState(GameState gameState) {
     this.gameState = gameState;
+  }
+
+  @Override
+  public Level getLevel() {
+    return initialLevel;
   }
 
 }

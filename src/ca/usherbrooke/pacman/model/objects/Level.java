@@ -40,6 +40,18 @@ public class Level {
   @Expose
   private List<List<Integer>> map = null;
 
+  public Level(Level level) {
+    this.width = level.width;
+    this.height = level.height;
+    this.pacMan = level.pacMan;
+    this.ghosts = level.ghosts;
+    this.map = level.map;
+  }
+
+  public Level() {
+    
+  }
+
   public Integer getWidth() {
     return width;
   }
