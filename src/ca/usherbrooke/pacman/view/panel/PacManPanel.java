@@ -10,6 +10,9 @@ package ca.usherbrooke.pacman.view.panel;
 
 import java.awt.Graphics;
 import java.awt.Image;
+import java.awt.image.BufferedImage;
+import java.util.ArrayList;
+import java.util.List;
 import ca.usherbrooke.pacman.model.IGameModel;
 import ca.usherbrooke.pacman.model.direction.Direction;
 import ca.usherbrooke.pacman.model.exceptions.InvalidDirectionException;
@@ -28,30 +31,51 @@ public class PacManPanel extends AbstractPanel {
 
   public PacManPanel(IGameModel model, int spriteTogglePeriod) {
     this.model = model;
-    pacmanSpritePeriodicToggler = new PacmanSpriteToggler(spriteTogglePeriod);
+    pacmanSpritePeriodicToggler = new PacmanSpriteToggler(spriteTogglePeriod, model);
   }
 
   @Override
   public void paint(Graphics graphic) {
     super.paint(graphic);
     pacmanSpritePeriodicToggler.update();
+    PacManState pacmanSpriteState = pacmanSpritePeriodicToggler.getPacmanState();
     try {
-      drawPacman(graphic, model.getPacman());
+      drawPacman(graphic, model.getPacman(), pacmanSpriteState);
     } catch (InvalidDirectionException | InvalidStateException e) {
       WarningDialog.display("Could not draw pacman", e);
     }
   }
 
-  public void drawPacman(Graphics graphic, PacMan pacman)
+  public void drawPacman(Graphics graphic, PacMan pacman, PacManState state)
       throws InvalidStateException, InvalidDirectionException {
-    Direction direction = pacman.getDirection();
-    PacManState pacmanSpriteState = pacmanSpritePeriodicToggler.getPacmanState();
-    Image ghostImage = spriteFacade.getPacman(direction, pacmanSpriteState);
+    Image pacmanImage = getPacmanImage(pacman, state);
     final int x = pacman.getPosition().getX() * pixelTileSize + offsetX;
     final int y = pacman.getPosition().getY() * pixelTileSize + offsetY;
     final int width = pixelTileSize;
     final int height = pixelTileSize;
     final int tileSize = spriteFacade.getTileSize();
-    graphic.drawImage(ghostImage, x, y, x + width, y + height, 0, 0, tileSize, tileSize, null);
+    graphic.drawImage(pacmanImage, x, y, x + width, y + height, 0, 0, tileSize, tileSize, null);
+  }
+
+  private BufferedImage getPacmanImage(PacMan pacman, PacManState state)
+      throws InvalidStateException, InvalidDirectionException {
+    Direction direction = pacman.getDirection();
+    List<PacManState> alivePacManStates = getAlivePacmanStates();
+
+    if (alivePacManStates.contains(state)) {
+      return spriteFacade.getPacman(direction, state);
+    } else {
+      return spriteFacade.getDeadPacman(state);
+    }
+  }
+
+  private List<PacManState> getAlivePacmanStates() {
+    List<PacManState> alivePacManStates = new ArrayList<>();
+    alivePacManStates.add(PacManState.STATE1);
+    alivePacManStates.add(PacManState.STATE2);
+    alivePacManStates.add(PacManState.STATE3);
+    alivePacManStates.add(PacManState.STATE4);
+    alivePacManStates.add(PacManState.STATE5);
+    return alivePacManStates;
   }
 }
