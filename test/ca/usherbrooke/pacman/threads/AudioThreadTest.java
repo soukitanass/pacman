@@ -29,7 +29,7 @@ public class AudioThreadTest {
     boolean expectedStop = true;
     boolean actualStop = audioThread.isAlive();
     if (actualStop) {
-      audioThread.setStop();
+      audioThread.stopThread();
       try {
         audioThread.join(1500);
         actualStop = !audioThread.isAlive();
@@ -46,7 +46,7 @@ public class AudioThreadTest {
     audioThread.setSoundVolumeChanged(expectedVolume);
     Thread.sleep(THREAD_SLEEP);
     int actualVolume = audioThread.getSoundVolume();
-    audioThread.setStop();
+    audioThread.stopThread();
     assertEquals(expectedVolume, actualVolume);
   }
 

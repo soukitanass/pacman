@@ -18,7 +18,6 @@ import javax.swing.JFormattedTextField;
 import javax.swing.JLabel;
 import javax.swing.JSlider;
 import javax.swing.JSpinner;
-import javax.swing.SpinnerModel;
 import javax.swing.SwingConstants;
 import ca.usherbrooke.pacman.model.IGameModel;
 import ca.usherbrooke.pacman.view.utilities.ImageUtilities;
@@ -75,7 +74,7 @@ public abstract class AbstractMenuPanel extends AbstractPanel {
     jLabel.setIcon(imageIcon);
   }
 
-  protected void setJSpinner(JSpinner jSpinner, SpinnerModel spinnerModel, int x, int y) {
+  protected void setJSpinner(JSpinner jSpinner, int x, int y) {
     final Point location = new Point(x, y);
 
     JFormattedTextField textField = ((JSpinner.DefaultEditor) jSpinner.getEditor()).getTextField();

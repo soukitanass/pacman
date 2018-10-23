@@ -30,8 +30,6 @@ public class Game implements IGame {
   private long lastModelUpdateTime;
   private IGameModel model;
   private List<IGameController> controllers;
-  private static AudioThread audioThread;
-
 
   public Game(IGameModel model, List<IGameController> controllers, long modelUpdatePeriod,
       long initialTime) {
@@ -42,20 +40,20 @@ public class Game implements IGame {
   }
 
   public static void main(String[] args) {
-    final String LEVELS_PATH = "Levels.json";
+    final String LEVEL_PATH = "Level.json";
     final int gameUpdatesPerSecond = 7;
     final int gameUpdatePeriodMilliseconds = (int) (1000.0 / gameUpdatesPerSecond);
     IGameModel model = new GameModel();
-    model.loadLevels(LEVELS_PATH);
+    model.loadLevel(LEVEL_PATH);
     audioThread = new AudioThread(model);
     audioThread.setName("Audio_Thread");
     audioThread.start();
     model.startNewGame();
     FpsOptionListener fpsOptionListener = new FpsOptionListener();
-    IGameView view =
-        new GameView(model, GHOST_SPRITE_TOGGLE_PERIOD, PACMAN_SPRITE_TOGGLE_PERIOD, audioThread,fpsOptionListener);
-    view.addKeyListener(audioThread.getSoundController());;
-    view.addCloseObserver(audioThread);;
+    IGameView view = new GameView(model, GHOST_SPRITE_TOGGLE_PERIOD, PACMAN_SPRITE_TOGGLE_PERIOD,
+        audioThread, fpsOptionListener);
+    view.addKeyListener(audioThread.getSoundController());
+    view.addCloseObserver(audioThread);
     ITimeGetter timeGetter = new TimeGetter();
     RenderThread renderThread = new RenderThread(view, timeGetter);
     fpsOptionListener.setRenderThread(renderThread);
