@@ -82,4 +82,9 @@ public interface IGameModel {
   Integer getScore();
 
   void setScore(Integer i);
+
+  boolean isPacmanDead();
+
+  void setIsPacmanDead(boolean isPacmanDead);
+
 }

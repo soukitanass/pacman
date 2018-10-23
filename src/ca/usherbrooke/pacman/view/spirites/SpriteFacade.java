@@ -56,6 +56,37 @@ public class SpriteFacade {
     }
   }
 
+  public BufferedImage getDeadPacman(PacManState state) throws InvalidDirectionException {
+    final int y = 6;
+
+    switch (state) {
+      case STATE6:
+        return sprite.getSprite(0, y);
+      case STATE7:
+        return sprite.getSprite(1, y);
+      case STATE8:
+        return sprite.getSprite(2, y);
+      case STATE9:
+        return sprite.getSprite(3, y);
+      case STATE10:
+        return sprite.getSprite(4, y);
+      case STATE11:
+        return sprite.getSprite(5, y);
+      case STATE12:
+        return sprite.getSprite(6, y);
+      case STATE13:
+        return sprite.getSprite(7, y);
+      case STATE14:
+        return sprite.getSprite(8, y);
+      case STATE15:
+        return sprite.getSprite(9, y);
+      case STATE16:
+        return sprite.getSprite(10, y);
+      default:
+        throw new InvalidDirectionException("Invalid Pac-Man state");
+    }
+  }
+
   @SuppressWarnings("squid:RedundantThrowsDeclarationCheck")
   public BufferedImage getPacman(Direction direction, PacManState state)
       throws InvalidStateException, InvalidDirectionException {

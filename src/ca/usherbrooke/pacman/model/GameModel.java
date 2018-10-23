@@ -53,6 +53,7 @@ public class GameModel implements IGameModel {
   private boolean isRunning = false;
   private boolean isLevelCompleted = false;
   private boolean isGameOver = false;
+  private boolean isPacmanDead = false;
   private boolean isGameCompleted = false;
   private PacmanGhostCollisionManager pacmanGhostCollisionManager;
   private GameState gameState = GameState.GAME_MENU;
@@ -141,6 +142,9 @@ public class GameModel implements IGameModel {
       onInterruption();
       return;
     }
+    if (isPacmanDead) {
+      return;
+    }
     Level level = getCurrentLevel();
     if (level.isCompleted()) {
       isLevelCompleted = true;
@@ -174,7 +178,7 @@ public class GameModel implements IGameModel {
         pacmanSuperPacgumCollisionManager.update();
       }
       if (gameEventObject.getGameEvent() == GameEvent.PACMAN_GHOST_COLLISON) {
-        pacmanGhostCollisionManager.update();
+        setIsPacmanDead(true);
         consumingGhost();
         eventQueue.clear();
       }
@@ -182,6 +186,19 @@ public class GameModel implements IGameModel {
         IGameObject gameObject = gameEventObject.getGameObject();
         gameObject.setPosition(gameEventObject.getPosition());
       }
+    }
+  }
+
+  @Override
+  public boolean isPacmanDead() {
+    return isPacmanDead;
+  }
+
+  @Override
+  public void setIsPacmanDead(boolean isPacmanDead) {
+    this.isPacmanDead = isPacmanDead;
+    if (!isPacmanDead) {
+      pacmanGhostCollisionManager.update();
     }
   }
 
@@ -228,6 +245,7 @@ public class GameModel implements IGameModel {
     pacmanGhostCollisionManager = new PacmanGhostCollisionManager(level, actualLevel, this);
 
     isGameOver = false;
+    isPacmanDead = false;
   }
 
   @Override
