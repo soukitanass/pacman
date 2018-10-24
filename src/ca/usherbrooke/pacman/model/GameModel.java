@@ -8,15 +8,11 @@
  ******************************************************************************/
 package ca.usherbrooke.pacman.model;
 
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileReader;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Queue;
 import java.util.Random;
 import java.util.concurrent.ConcurrentLinkedQueue;
-import com.google.gson.Gson;
 import ca.usherbrooke.pacman.model.collision.PacmanGhostCollisionManager;
 import ca.usherbrooke.pacman.model.collision.PacmanPacgumCollisionManager;
 import ca.usherbrooke.pacman.model.collision.PacmanSuperPacgumCollisionManager;
@@ -36,7 +32,6 @@ import ca.usherbrooke.pacman.threads.PhysicsThread;
 import ca.usherbrooke.pacman.view.utilities.WarningDialog;
 
 public class GameModel implements IGameModel {
-  private static final String LEVEL_PATH = "Level.json";
   private static final int IS_LEVEL_COMPLETED_PERIOD = 20;
   private static final int GHOSTS_DIRECTION_CHANGE_PERIOD = 3;
   private static final int RANDOM_GENERATOR_SEED = 8544574;
@@ -96,8 +91,8 @@ public class GameModel implements IGameModel {
     }
   }
 
-  public GameModel(Level level) {
-    initialLevel = level;
+  public GameModel(Level initialLevel) {
+    this.initialLevel = initialLevel;
     this.level = new Level(initialLevel);
     physicsThread.start();
   }
@@ -303,22 +298,6 @@ public class GameModel implements IGameModel {
 
   @Override
   public Level getCurrentLevel() {
-    return level;
-  }
-
-
-
-  @Override
-  public Level loadLevel(String levelPath) {
-    Level level = null;
-    Gson gson = new Gson();
-    File file = new File(GameModel.class.getClassLoader().getResource(levelPath).getFile());
-
-    try (FileReader fileReader = new FileReader(file)) {
-      level = gson.fromJson(new BufferedReader(fileReader), Level.class);
-    } catch (Exception exception) {
-      WarningDialog.display("Error while opening level file. ", exception);
-    }
     return level;
   }
 

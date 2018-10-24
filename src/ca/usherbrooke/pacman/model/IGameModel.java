@@ -17,8 +17,6 @@ import ca.usherbrooke.pacman.model.sound.Observer;
 public interface IGameModel {
   void update();
 
-  Level loadLevel(String levelPath);
-
   Level getCurrentLevel();
 
   int getCurrentGameFrame();
