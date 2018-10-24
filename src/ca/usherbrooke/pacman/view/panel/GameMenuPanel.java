@@ -26,6 +26,7 @@ public class GameMenuPanel extends AbstractMenuPanel {
   private static final String START_GAME_LABEL = "START GAME";
   private static final String PAUSE_GAME_LABEL = "RESUME GAME";
   private static final String AUDIO_LABEL = "AUDIO";
+  private static final String HIGHSCORES_LABEL = "HIGHSCORES";
   private static final String EXIT_GAME_LABEL = "EXIT GAME";
   private static final String FPS_LABEL = "FPS";
   private static final int FPS_STEP = 1;
@@ -34,6 +35,7 @@ public class GameMenuPanel extends AbstractMenuPanel {
 
   private JLabel startGameMenuOption = new JLabel();
   private JLabel audioMenuOption = new JLabel();
+  private JLabel highScoresMenuOption = new JLabel();
   private JLabel exitGameMenuOption = new JLabel();
   private JLabel fpsMenuOption = new JLabel();
   private JCheckBox fpsCheckBox = new JCheckBox("On/Off");
@@ -46,6 +48,7 @@ public class GameMenuPanel extends AbstractMenuPanel {
     this.model = model;
     this.fpsOptionListener = fpsOptionListener;
     this.add(startGameMenuOption);
+    this.add(highScoresMenuOption);
     this.add(audioMenuOption);
     this.add(fpsMenuOption);
     this.add(fpsCheckBox);
@@ -76,35 +79,33 @@ public class GameMenuPanel extends AbstractMenuPanel {
     int y = (int) (model.getCurrentLevel().getHeight() * pixelTileSize * Y_OFFSET_FACTOR);
     paintStartGameOption(y);
     y += startGameMenuOption.getHeight() + DELTA_Y;
-    paintAudioOption(y);
+    paintMenuOption(audioMenuOption, AUDIO_LABEL, y);
     y += audioMenuOption.getHeight() + DELTA_Y;
+    paintMenuOption(highScoresMenuOption, HIGHSCORES_LABEL, y);
+    y += highScoresMenuOption.getHeight() + DELTA_Y;
+    paintMenuOption(fpsMenuOption, FPS_LABEL, y);
     paintFpsOption(y);
     y += fpsMenuOption.getHeight() + DELTA_Y;
-    paintExitGameOption(y);
+    paintMenuOption(exitGameMenuOption, EXIT_GAME_LABEL, y);
   }
 
   private void paintStartGameOption(int y) {
     if (model.isPaused()) {
-      setJLabel(startGameMenuOption, PAUSE_GAME_LABEL, y, IMAGE_SCALE_FACTOR);
+      paintMenuOption(startGameMenuOption, PAUSE_GAME_LABEL, y);
     } else {
-      setJLabel(startGameMenuOption, START_GAME_LABEL, y, IMAGE_SCALE_FACTOR);
+      paintMenuOption(startGameMenuOption, START_GAME_LABEL, y);
     }
   }
 
-  private void paintAudioOption(int y) {
-    setJLabel(audioMenuOption, AUDIO_LABEL, y, IMAGE_SCALE_FACTOR);
+  private void paintMenuOption(JLabel jLabel, String label, int y) {
+    setJLabel(jLabel, label, LABEL_COLOR, y, IMAGE_SCALE_FACTOR);
   }
 
   private void paintFpsOption(int y) {
-    setJLabel(fpsMenuOption, FPS_LABEL, y, IMAGE_SCALE_FACTOR);
     int x = fpsMenuOption.getX() + fpsMenuOption.getWidth() + CHECKBOX_X_OFFSET;
     setJCheckBox(fpsCheckBox, x, y);
     x += fpsCheckBox.getWidth() + CHECKBOX_X_OFFSET;
     setJSpinner(fpsSpinner, x, y);
-  }
-
-  private void paintExitGameOption(int y) {
-    setJLabel(exitGameMenuOption, EXIT_GAME_LABEL, y, IMAGE_SCALE_FACTOR);
   }
 
   private void addMouseListeners() {
@@ -122,6 +123,13 @@ public class GameMenuPanel extends AbstractMenuPanel {
       @Override
       public void mouseClicked(MouseEvent e) {
         model.setGameState(GameState.AUDIO_MENU);
+      }
+    });
+
+    highScoresMenuOption.addMouseListener(new MouseAdapter() {
+      @Override
+      public void mouseClicked(MouseEvent e) {
+        model.setGameState(GameState.HIGHSCORES_MENU);
       }
     });
 
