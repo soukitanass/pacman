@@ -16,6 +16,8 @@ import java.util.Arrays;
 import java.util.List;
 import org.junit.Before;
 import org.junit.Test;
+import ca.usherbrooke.pacman.game.ITimeGetter;
+import ca.usherbrooke.pacman.game.TimeGetter;
 import ca.usherbrooke.pacman.model.GameModel;
 import ca.usherbrooke.pacman.model.IGameModel;
 import ca.usherbrooke.pacman.model.objects.Level;
@@ -54,17 +56,22 @@ public class PacmanSuperPacgumCollisionManagerTest {
 
   @Test
   public void updateIsPacManInvincible() throws InterruptedException {
+    ITimeGetter timeGetter = mock(TimeGetter.class);
+
     List<List<Integer>> map = Arrays.asList(Arrays.asList(SUPER_PACGUM_CODE, SUPER_PACGUM_CODE));
     initializeSuperPacgumCollisionManager(map);
+    pacmanSuperPacgumCollisionManager.setTimeGetter(timeGetter);
 
+    when(timeGetter.getMilliseconds()).thenReturn((long) 0);
     pacman.setPosition(new Position(0, 0));
     pacmanSuperPacgumCollisionManager.update();
+    assertTrue(model.getPacman().isInvincible());
 
-    Thread.sleep(1000);
+    when(timeGetter.getMilliseconds()).thenReturn((long) 1000);
     pacmanSuperPacgumCollisionManager.updateIsPacManInvincible();
     assertTrue(model.getPacman().isInvincible());
 
-    Thread.sleep(7000);
+    when(timeGetter.getMilliseconds()).thenReturn((long) 8000);
     pacmanSuperPacgumCollisionManager.updateIsPacManInvincible();
     assertFalse(model.getPacman().isInvincible());
   }

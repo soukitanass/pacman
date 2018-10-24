@@ -30,6 +30,10 @@ public class PacmanSuperPacgumCollisionManager {
     this.pacman = model.getPacman();
   }
 
+  public void setTimeGetter(ITimeGetter timeGetter) {
+    this.timeGetter = timeGetter;
+  }
+
   public void update() {
     Position position = level.getPacMan().getPosition();
     model.setScore(model.getScore() + POINT);
