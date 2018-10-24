@@ -46,7 +46,7 @@ public class GameModel implements IGameModel {
   private static final int NUMBER_OF_LEVEL = 5;
 
   private Level level;
-  private Level initialLevel;
+  private final Level initialLevel;
   private int currentGameFrame = 0;
   private boolean isManuallyPaused = false;
   private boolean isPaused = false;
@@ -97,6 +97,8 @@ public class GameModel implements IGameModel {
   }
 
   public GameModel() {
+    initialLevel = loadLevel(LEVEL_PATH);
+    this.level = new Level(initialLevel);
     physicsThread.start();
   }
 
@@ -214,10 +216,8 @@ public class GameModel implements IGameModel {
   }
 
   private void initializeLevel() {
-    Level level = getLevel();
-    Level actualLevel = getLevel();
+    this.level = new Level(getInitialLevel());
     pacman = level.getPacMan();
-
     for (Ghost ghost : level.getGhosts()) {
       ghostDirectionManagers.add(new PeriodicDirectionManager(this, randomDirectionGenerator, ghost,
           GHOSTS_DIRECTION_CHANGE_PERIOD));
@@ -225,7 +225,7 @@ public class GameModel implements IGameModel {
 
     pacmanPacgumCollisionManager = new PacmanPacgumCollisionManager(level, this);
     pacmanSuperPacgumCollisionManager = new PacmanSuperPacgumCollisionManager(level, this);
-    pacmanGhostCollisionManager = new PacmanGhostCollisionManager(level, actualLevel, this);
+    pacmanGhostCollisionManager = new PacmanGhostCollisionManager(level, initialLevel, this);
 
     isGameOver = false;
   }
@@ -234,7 +234,6 @@ public class GameModel implements IGameModel {
   public void startNewGame() {
     setScore(0);
     setLives(INITIAL_NUMBER_OF_LIVES);
-    loadLevel(LEVEL_PATH);
     initializeLevel();
   }
 
@@ -306,17 +305,17 @@ public class GameModel implements IGameModel {
 
 
   @Override
-  public void loadLevel(String levelPath) {
+  public Level loadLevel(String levelPath) {
+    Level level = null;
     Gson gson = new Gson();
     File file = new File(GameModel.class.getClassLoader().getResource(levelPath).getFile());
 
     try (FileReader fileReader = new FileReader(file)) {
       level = gson.fromJson(new BufferedReader(fileReader), Level.class);
-      initialLevel = new Level(level);
-
     } catch (Exception exception) {
       WarningDialog.display("Error while opening level file. ", exception);
     }
+    return level;
   }
 
   @Override
@@ -386,7 +385,7 @@ public class GameModel implements IGameModel {
   }
 
   @Override
-  public Level getLevel() {
+  public Level getInitialLevel() {
     return initialLevel;
   }
 

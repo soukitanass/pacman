@@ -18,10 +18,6 @@ public class Ghost implements IGameObject {
   @SerializedName("id")
   @Expose
   private Integer id;
-  @SerializedName("speed")
-  @Expose
-  private Integer speed;
-
   @SerializedName("start_pos")
   @Expose
   private Position position;
@@ -32,20 +28,19 @@ public class Ghost implements IGameObject {
     setDirection(Direction.UP);
   }
 
+  public Ghost(Ghost ghost) {
+    this.id = ghost.getId();
+    this.position = new Position(ghost.getPosition().getX(), ghost.getPosition().getY());
+    this.direction = ghost.getDirection();
+    this.desiredDirection = ghost.getDesiredDirection();
+  }
+
   public Integer getId() {
     return id;
   }
 
   public void setId(Integer id) {
     this.id = id;
-  }
-
-  public Integer getSpeed() {
-    return speed;
-  }
-
-  public void setSpeed(Integer speed) {
-    this.speed = speed;
   }
 
   @Override

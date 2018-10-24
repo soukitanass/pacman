@@ -32,6 +32,12 @@ public class PacMan implements IGameObject {
     this.position = position;
   }
 
+  public PacMan(PacMan pacMan) {
+    this.position = new Position(pacMan.getPosition().getX(), pacMan.getPosition().getY());
+    this.direction = pacMan.getDirection();
+    this.desiredDirection = pacMan.getDesiredDirection();
+  }
+
   public Integer getId() {
     return id;
   }
