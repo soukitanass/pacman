@@ -82,4 +82,8 @@ public interface IGameModel {
   Level getInitialLevel();
 
   void setCurrentLevel(Level level);
+  
+  boolean isPacmanDead();
+
+  void setIsPacmanDead(boolean isPacmanDead);
 }

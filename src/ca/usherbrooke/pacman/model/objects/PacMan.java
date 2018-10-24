@@ -23,8 +23,10 @@ public class PacMan implements IGameObject {
   private Position position;
   private Direction direction;
   private Direction desiredDirection;
+  private boolean isInvincible;
 
   public PacMan() {
+    isInvincible = false;
     setDirection(Direction.LEFT);
   }
 
@@ -75,6 +77,14 @@ public class PacMan implements IGameObject {
   @Override
   public Direction getDesiredDirection() {
     return desiredDirection;
+  }
+
+  public boolean isInvincible() {
+    return isInvincible;
+  }
+
+  public void setIsInvincible(final boolean isInvincible) {
+    this.isInvincible = isInvincible;
   }
 
 }

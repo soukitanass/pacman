@@ -67,13 +67,13 @@ public class Game implements IGame {
     PlayerKeyboardController playerKeyboardController = new PlayerKeyboardController(model, view);
     controllers.add(playerKeyboardController);
     IGame game =
-        new Game(model, controllers, gameUpdatePeriodMilliseconds, System.currentTimeMillis());
+        new Game(model, controllers, gameUpdatePeriodMilliseconds, timeGetter.getMilliseconds());
     view.addKeyListener(playerKeyboardController);
     game.setRunning(true);
     Thread viewThread = new Thread(renderThread);
     viewThread.start();
     while (game.isRunning()) {
-      game.update(System.currentTimeMillis());
+      game.update(timeGetter.getMilliseconds());
     }
     view.close();
     try {

@@ -128,7 +128,9 @@ public class PhysicsThread extends Thread {
   private void addEventToQueue(IGameObject gameObject, GameEvent gameEvent, Position position) {
     GameEventObject gameEventObject = new GameEventObject(gameObject, gameEvent, position);
     synchronized (eventQueue) {
-      eventQueue.add(gameEventObject);
+      if (!model.isPacmanDead()) {
+        eventQueue.add(gameEventObject);
+      }
     }
   }
 }
