@@ -10,9 +10,13 @@ package ca.usherbrooke.pacman.model;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertNotEquals;
 import static org.junit.Assert.assertTrue;
 import org.junit.Before;
 import org.junit.Test;
+import ca.usherbrooke.pacman.game.Game;
+import ca.usherbrooke.pacman.model.objects.Level;
+import ca.usherbrooke.pacman.model.position.Position;
 
 public class GameModelTest {
   private IGameModel model;
@@ -20,8 +24,7 @@ public class GameModelTest {
   @Before
   public void setUp() {
     final String LEVEL_PATH = "Level.json";
-    model = new GameModel();
-    model.loadLevel(LEVEL_PATH);
+    model = new GameModel(Game.loadLevel(LEVEL_PATH));
     model.setGameState(GameState.GAME);
   }
 
@@ -102,5 +105,16 @@ public class GameModelTest {
     model.setLives(initialNumberOfLives - 1);
     model.startNewGame();
     assertEquals(initialNumberOfLives, model.getLives());
+  }
+
+  @Test
+  public void initialLevelDoesNotChange() {
+    Level level = model.getCurrentLevel();
+    Level initialLevel = model.getInitialLevel();
+    level.getPacMan().setPosition(new Position(0, 0));
+    assertNotEquals(initialLevel.getPacMan().getPosition(), level.getPacMan().getPosition());
+    level.getGhosts().get(0).setPosition(new Position(0, 0));
+    assertNotEquals(initialLevel.getGhosts().get(0).getPosition(),
+        level.getGhosts().get(0).getPosition());
   }
 }

@@ -96,10 +96,14 @@ public class GameModel implements IGameModel {
     }
   }
 
-  public GameModel() {
-    initialLevel = loadLevel(LEVEL_PATH);
+  public GameModel(Level level) {
+    initialLevel = level;
     this.level = new Level(initialLevel);
     physicsThread.start();
+  }
+
+  public GameModel() {
+    initialLevel = new Level();
   }
 
   @Override
@@ -387,6 +391,11 @@ public class GameModel implements IGameModel {
   @Override
   public Level getInitialLevel() {
     return initialLevel;
+  }
+
+  @Override
+  public void setCurrentLevel(Level level) {
+    this.level = level;
   }
 
 }

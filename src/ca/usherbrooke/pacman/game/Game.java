@@ -8,12 +8,17 @@
  ******************************************************************************/
 package ca.usherbrooke.pacman.game;
 
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileReader;
 import java.util.ArrayList;
 import java.util.List;
+import com.google.gson.Gson;
 import ca.usherbrooke.pacman.controller.IGameController;
 import ca.usherbrooke.pacman.controller.PlayerKeyboardController;
 import ca.usherbrooke.pacman.model.GameModel;
 import ca.usherbrooke.pacman.model.IGameModel;
+import ca.usherbrooke.pacman.model.objects.Level;
 import ca.usherbrooke.pacman.threads.AudioThread;
 import ca.usherbrooke.pacman.threads.RenderThread;
 import ca.usherbrooke.pacman.view.GameView;
@@ -44,8 +49,8 @@ public class Game implements IGame {
     final String LEVEL_PATH = "Level.json";
     final int gameUpdatesPerSecond = 7;
     final int gameUpdatePeriodMilliseconds = (int) (1000.0 / gameUpdatesPerSecond);
-    IGameModel model = new GameModel();
-    model.loadLevel(LEVEL_PATH);
+    IGameModel model = new GameModel(Game.loadLevel(LEVEL_PATH));
+    // model.loadLevel(LEVEL_PATH);
     audioThread = new AudioThread(model);
     audioThread.setName("Audio_Thread");
     audioThread.start();
@@ -99,6 +104,19 @@ public class Game implements IGame {
   @Override
   public void setRunning(boolean isRunning) {
     model.setRunning(isRunning);
+  }
+
+  public static Level loadLevel(String levelPath) {
+    Level level = null;
+    Gson gson = new Gson();
+    File file = new File(GameModel.class.getClassLoader().getResource(levelPath).getFile());
+
+    try (FileReader fileReader = new FileReader(file)) {
+      level = gson.fromJson(new BufferedReader(fileReader), Level.class);
+    } catch (Exception exception) {
+      WarningDialog.display("Error while opening level file. ", exception);
+    }
+    return level;
   }
 
 }

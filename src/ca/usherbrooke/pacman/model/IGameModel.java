@@ -82,4 +82,6 @@ public interface IGameModel {
   void setScore(Integer i);
 
   Level getInitialLevel();
+
+  void setCurrentLevel(Level level);
 }

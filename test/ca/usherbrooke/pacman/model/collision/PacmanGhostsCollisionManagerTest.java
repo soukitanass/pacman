@@ -13,6 +13,7 @@ import java.util.ArrayList;
 import java.util.List;
 import org.junit.Before;
 import org.junit.Test;
+import ca.usherbrooke.pacman.game.Game;
 import ca.usherbrooke.pacman.model.GameModel;
 import ca.usherbrooke.pacman.model.IGameModel;
 import ca.usherbrooke.pacman.model.objects.Ghost;
@@ -21,6 +22,7 @@ import ca.usherbrooke.pacman.model.objects.PacMan;
 import ca.usherbrooke.pacman.model.position.Position;
 
 public class PacmanGhostsCollisionManagerTest {
+  private static final String LEVEL_PATH = "Level.json";
   private Level level;
   private Ghost ghost;
   private IGameModel model;
@@ -31,8 +33,7 @@ public class PacmanGhostsCollisionManagerTest {
   public void setUp() {
 
     this.ghost = new Ghost();
-    this.model = new GameModel();
-    this.model.loadLevel("Level.json");
+    this.model = new GameModel(Game.loadLevel(LEVEL_PATH));
     this.level = model.getCurrentLevel();
   }
 
@@ -66,9 +67,7 @@ public class PacmanGhostsCollisionManagerTest {
 
   private void initializeGhostsList() {
     List<Ghost> ghosts = new ArrayList<Ghost>();
-    IGameModel model = new GameModel();
-    String levelPath = "Level.json";
-    model.loadLevel(levelPath);
+    IGameModel model = new GameModel(Game.loadLevel(LEVEL_PATH));
     level.setGhost(ghosts);
     level.setPacMan(new PacMan(new Position(0, 0)));
     ghost.setPosition(new Position(0, 0));
