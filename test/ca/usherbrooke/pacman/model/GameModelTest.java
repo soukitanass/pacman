@@ -19,9 +19,8 @@ public class GameModelTest {
 
   @Before
   public void setUp() {
-    final String LEVEL_PATH = "Level.json";
     model = new GameModel();
-    model.loadLevel(LEVEL_PATH);
+    model.startNewGame();
     model.setGameState(GameState.GAME);
   }
 

@@ -73,6 +73,9 @@ public class GameModel implements IGameModel {
   private int lives = INITIAL_NUMBER_OF_LIVES;
   private int currentLevelIndex = 0;
 
+  public GameModel() {
+    physicsThread.start();
+  }
 
   @Override
   public Integer getScore() {
@@ -95,10 +98,6 @@ public class GameModel implements IGameModel {
     if (getLives() == 0) {
       setGameOver();
     }
-  }
-
-  public GameModel() {
-    physicsThread.start();
   }
 
   @Override
@@ -187,6 +186,7 @@ public class GameModel implements IGameModel {
         gameObject.setPosition(gameEventObject.getPosition());
       }
     }
+    pacmanSuperPacgumCollisionManager.updateIsPacManInvincible();
   }
 
   @Override
