@@ -30,6 +30,7 @@ public class Game implements IGame {
   private long lastModelUpdateTime;
   private IGameModel model;
   private List<IGameController> controllers;
+  private static AudioThread audioThread;
 
   public Game(IGameModel model, List<IGameController> controllers, long modelUpdatePeriod,
       long initialTime) {

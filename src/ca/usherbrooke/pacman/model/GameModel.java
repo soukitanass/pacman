@@ -320,8 +320,8 @@ public class GameModel implements IGameModel {
   public Level getCurrentLevel() {
     return level;
   }
-  
-  
+
+
 
   @Override
   public void loadLevel(String levelPath) {
@@ -331,7 +331,7 @@ public class GameModel implements IGameModel {
     try (FileReader fileReader = new FileReader(file)) {
       level = gson.fromJson(new BufferedReader(fileReader), Level.class);
       initialLevel = new Level(level);
-      
+
     } catch (Exception exception) {
       WarningDialog.display("Error while opening level file. ", exception);
     }
