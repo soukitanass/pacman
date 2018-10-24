@@ -8,6 +8,7 @@
  ******************************************************************************/
 package ca.usherbrooke.pacman.model.objects;
 
+import java.util.ArrayList;
 import java.util.List;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
@@ -23,7 +24,7 @@ public class Level {
   private static final int GHOST_ROOM_CODE = 38;
   private static final int TUNNEL_CODE = 325;
 
-  
+
   @SerializedName("width")
   @Expose
   private Integer width;
@@ -43,13 +44,19 @@ public class Level {
   public Level(Level level) {
     this.width = level.width;
     this.height = level.height;
-    this.pacMan = level.pacMan;
-    this.ghosts = level.ghosts;
-    this.map = level.map;
+    this.pacMan = new PacMan(level.pacMan);
+    this.ghosts = new ArrayList<Ghost>();
+    for (Ghost ghost : level.getGhosts()) {
+      this.ghosts.add(new Ghost(ghost));
+    }
+    this.map = new ArrayList<List<Integer>>();
+    for (List<Integer> list : level.getMap()) {
+      this.map.add(new ArrayList<Integer>(list));
+    }
   }
 
   public Level() {
-    
+
   }
 
   public Integer getWidth() {

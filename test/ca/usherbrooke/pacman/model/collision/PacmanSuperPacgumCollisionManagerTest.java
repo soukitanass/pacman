@@ -16,6 +16,7 @@ import java.util.Arrays;
 import java.util.List;
 import org.junit.Before;
 import org.junit.Test;
+import ca.usherbrooke.pacman.game.Game;
 import ca.usherbrooke.pacman.game.ITimeGetter;
 import ca.usherbrooke.pacman.game.TimeGetter;
 import ca.usherbrooke.pacman.model.GameModel;
@@ -27,6 +28,7 @@ import ca.usherbrooke.pacman.model.position.Position;
 public class PacmanSuperPacgumCollisionManagerTest {
 
   private static final int SUPER_PACGUM_CODE = 40;
+  private static final String LEVEL_PATH = "Level.json";
   private PacMan pacman;
   private Level level;
   private IGameModel model;
@@ -36,8 +38,7 @@ public class PacmanSuperPacgumCollisionManagerTest {
   public void setUp() {
     this.pacman = new PacMan();
     this.level = new Level();
-    this.model = mock(GameModel.class);
-
+    this.model = mock(GameModel.class)
     when(model.getPacman()).thenReturn(pacman);
   }
 

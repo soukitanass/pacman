@@ -17,11 +17,7 @@ import ca.usherbrooke.pacman.model.sound.Observer;
 public interface IGameModel {
   void update();
 
-  void loadLevel(String levelPath);
-
   Level getCurrentLevel();
-  
-  Level getLevel();
 
   int getCurrentGameFrame();
 
@@ -83,8 +79,11 @@ public interface IGameModel {
 
   void setScore(Integer i);
 
+  Level getInitialLevel();
+
+  void setCurrentLevel(Level level);
+  
   boolean isPacmanDead();
 
   void setIsPacmanDead(boolean isPacmanDead);
-
 }
