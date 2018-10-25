@@ -32,6 +32,7 @@ import ca.usherbrooke.pacman.view.panel.FixedPositioningStrategy;
 import ca.usherbrooke.pacman.view.panel.FpsOptionListener;
 import ca.usherbrooke.pacman.view.panel.GameMenuPanel;
 import ca.usherbrooke.pacman.view.panel.GhostsPanel;
+import ca.usherbrooke.pacman.view.panel.HighScoresPanel;
 import ca.usherbrooke.pacman.view.panel.LevelPanel;
 import ca.usherbrooke.pacman.view.panel.PacManPanel;
 import ca.usherbrooke.pacman.view.panel.TextPanel;
@@ -60,6 +61,7 @@ public class GameCanvas extends JPanel {
   private TextPanel levelCompletedPanel;
   private GameMenuPanel gameMenu;
   private AudioMenuPanel audioMenu;
+  private HighScoresPanel highScoresMenu;
   private TextPanel fpsPanel;
 
   private static final int FRAME_WIDTH = 600;
@@ -74,7 +76,7 @@ public class GameCanvas extends JPanel {
   private boolean isFpsEnabled = false;
 
   GameCanvas(IGameModel model, int ghostSpriteTogglePeriod, int pacmanSpriteTogglePeriod,
-      FpsOptionListener fpsOptionListener,AudioThread audioThread) {
+      FpsOptionListener fpsOptionListener, AudioThread audioThread) {
     this.model = model;
     window.setSize(FRAME_WIDTH, FRAME_HEIGHT);
     window.setMinimumSize(new Dimension(FRAME_WIDTH, FRAME_HEIGHT));
@@ -107,6 +109,9 @@ public class GameCanvas extends JPanel {
     audioMenu = new AudioMenuPanel(model, audioThread);
     audioMenu.setVisible(false);
 
+    highScoresMenu = new HighScoresPanel(model);
+    highScoresMenu.setVisible(false);
+
     levelPanel = new LevelPanel(model);
     levelPanel.setBackground(Color.BLACK);
 
@@ -123,6 +128,7 @@ public class GameCanvas extends JPanel {
     window.add(layeredPane);
     window.add(gameMenu);
     window.add(audioMenu);
+    window.add(highScoresMenu);
     window.add(this);
     window.setVisible(true);
   }
@@ -143,6 +149,9 @@ public class GameCanvas extends JPanel {
       case AUDIO_MENU:
         paintMenu(graphic, audioMenu);
         break;
+      case HIGHSCORES_MENU:
+        paintMenu(graphic, highScoresMenu);
+        break;
       case GAME:
         paintGame(graphic);
         break;
@@ -154,6 +163,7 @@ public class GameCanvas extends JPanel {
   private void showComponent(Component panel) {
     List<Component> components = new ArrayList<>();
     components.add(audioMenu);
+    components.add(highScoresMenu);
     components.add(gameMenu);
     components.add(layeredPane);
 
