@@ -19,11 +19,14 @@ import ca.usherbrooke.pacman.model.collision.PacmanSuperPacgumCollisionManager;
 import ca.usherbrooke.pacman.model.direction.Direction;
 import ca.usherbrooke.pacman.model.direction.IDirectionGenerator;
 import ca.usherbrooke.pacman.model.direction.IHasDesiredDirection;
-import ca.usherbrooke.pacman.model.direction.PeriodicDirectionManager;
 import ca.usherbrooke.pacman.model.direction.RandomDirectionGenerator;
+import ca.usherbrooke.pacman.model.direction.ghostsDirectionManagers.BlinkyPeriodicDirectionManager;
+import ca.usherbrooke.pacman.model.direction.ghostsDirectionManagers.ClydePeriodicDirectionManager;
+import ca.usherbrooke.pacman.model.direction.ghostsDirectionManagers.IPeriodicDirectionManager;
+import ca.usherbrooke.pacman.model.direction.ghostsDirectionManagers.InkyPeriodicDirectionManager;
+import ca.usherbrooke.pacman.model.direction.ghostsDirectionManagers.PinkyPeriodicDirectionManager;
 import ca.usherbrooke.pacman.model.events.GameEvent;
 import ca.usherbrooke.pacman.model.events.GameEventObject;
-import ca.usherbrooke.pacman.model.objects.Ghost;
 import ca.usherbrooke.pacman.model.objects.IGameObject;
 import ca.usherbrooke.pacman.model.objects.Level;
 import ca.usherbrooke.pacman.model.objects.PacMan;
@@ -59,7 +62,7 @@ public class GameModel implements IGameModel {
   Random randomNumberGenerator = new Random(RANDOM_GENERATOR_SEED);
   IDirectionGenerator randomDirectionGenerator =
       new RandomDirectionGenerator(randomNumberGenerator);
-  private List<PeriodicDirectionManager> ghostDirectionManagers = new ArrayList<>();
+  private List<IPeriodicDirectionManager> ghostDirectionManagers = new ArrayList<>();
   private int isLevelCompletedUpdatesCounter = 0;
   private Queue<Level> moveQueue = new ConcurrentLinkedQueue<>(); // Thread Safe
   private Queue<GameEventObject> eventQueue = new ConcurrentLinkedQueue<>(); // Thread Safe
@@ -228,7 +231,7 @@ public class GameModel implements IGameModel {
   }
 
   private void updateGameObjectsPosition() {
-    for (PeriodicDirectionManager ghostDirectionManager : ghostDirectionManagers) {
+    for (IPeriodicDirectionManager ghostDirectionManager : ghostDirectionManagers) {
       ghostDirectionManager.update();
     }
   }
@@ -236,10 +239,14 @@ public class GameModel implements IGameModel {
   private void initializeLevel() {
     this.level = new Level(getInitialLevel());
     pacman = level.getPacMan();
-    for (Ghost ghost : level.getGhosts()) {
-      ghostDirectionManagers.add(new PeriodicDirectionManager(this, randomDirectionGenerator, ghost,
-          GHOSTS_DIRECTION_CHANGE_PERIOD));
-    }
+    ghostDirectionManagers.add(new BlinkyPeriodicDirectionManager(this, randomDirectionGenerator,
+        level.getGhosts().get(0), GHOSTS_DIRECTION_CHANGE_PERIOD));
+    ghostDirectionManagers.add(new InkyPeriodicDirectionManager(this, randomDirectionGenerator,
+        level.getGhosts().get(1), GHOSTS_DIRECTION_CHANGE_PERIOD));
+    ghostDirectionManagers.add(new PinkyPeriodicDirectionManager(this, randomDirectionGenerator,
+        level.getGhosts().get(2), GHOSTS_DIRECTION_CHANGE_PERIOD));
+    ghostDirectionManagers.add(new ClydePeriodicDirectionManager(this, randomDirectionGenerator,
+        level.getGhosts().get(3), GHOSTS_DIRECTION_CHANGE_PERIOD));
 
     pacmanPacgumCollisionManager = new PacmanPacgumCollisionManager(level, this);
     pacmanSuperPacgumCollisionManager = new PacmanSuperPacgumCollisionManager(level, this);
