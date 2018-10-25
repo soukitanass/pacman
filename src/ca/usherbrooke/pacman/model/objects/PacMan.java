@@ -13,7 +13,7 @@ import com.google.gson.annotations.SerializedName;
 import ca.usherbrooke.pacman.model.direction.Direction;
 import ca.usherbrooke.pacman.model.position.Position;
 
-public class PacMan implements IGameObject {
+public class PacMan implements IGameObject, IHasInvincibilityStatus {
 
   @SerializedName("id")
   @Expose
@@ -79,6 +79,7 @@ public class PacMan implements IGameObject {
     return desiredDirection;
   }
 
+  @Override
   public boolean isInvincible() {
     return isInvincible;
   }

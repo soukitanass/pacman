@@ -117,7 +117,7 @@ public class PhysicsThread extends Thread {
   }
 
   private void validGhostMovement(Level level) {
-    GhostMoveValidator moveValidator = new GhostMoveValidator(level);
+    GhostMoveValidator moveValidator = new GhostMoveValidator(level, level.getPacMan());
     for (Ghost ghost : level.getGhosts()) {
       MovementManager movementManager = new MovementManager(ghost, moveValidator);
       movementManager.setDirection(ghost.getDesiredDirection());
