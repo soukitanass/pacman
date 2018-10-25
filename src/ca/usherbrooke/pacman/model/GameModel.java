@@ -68,10 +68,6 @@ public class GameModel implements IGameModel {
   private int lives = INITIAL_NUMBER_OF_LIVES;
   private int currentLevelIndex = 0;
 
-  public GameModel() {
-    physicsThread.start();
-  }
-
   @Override
   public Integer getScore() {
     return score;
@@ -102,6 +98,7 @@ public class GameModel implements IGameModel {
   }
 
   public GameModel() {
+    physicsThread.start();
     initialLevel = new Level();
   }
 
