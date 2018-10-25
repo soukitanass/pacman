@@ -23,19 +23,21 @@ import javax.swing.JSpinner;
 import javax.swing.SwingConstants;
 import ca.usherbrooke.pacman.model.GameState;
 import ca.usherbrooke.pacman.model.IGameModel;
+import ca.usherbrooke.pacman.model.position.Position;
 import ca.usherbrooke.pacman.view.utilities.ImageUtilities;
 
 @SuppressWarnings({"serial", "squid:S1948"})
 public abstract class AbstractMenuPanel extends AbstractPanel {
 
+  protected static final double Y_OFFSET_FACTOR = 0.1;
   protected static final int IMAGE_SCALE_FACTOR = 2;
   protected static final int DELTA_Y = 40;
   protected static final int CHECKBOX_X_OFFSET = 10;
   protected static final ca.usherbrooke.pacman.view.utilities.Color LABEL_COLOR =
       ca.usherbrooke.pacman.view.utilities.Color.WHITE;
-  protected static final ca.usherbrooke.pacman.view.utilities.Color GO_BACK_COLOR =
-      ca.usherbrooke.pacman.view.utilities.Color.YELLOW;
 
+  private static final ca.usherbrooke.pacman.view.utilities.Color ACTION_LABEL_COLOR =
+      ca.usherbrooke.pacman.view.utilities.Color.YELLOW;
   private static final String GO_BACK_LABEL = "GO BACK";
   private static final int NUMBER_OF_TEXT_FIELD_COLUMNS = 2;
   private static final int SLIDER_WIDTH = 360;
@@ -81,6 +83,21 @@ public abstract class AbstractMenuPanel extends AbstractPanel {
     jLabel.setIcon(imageIcon);
   }
 
+  protected void setBottomActionJLabel(JLabel jLabel, String text, double scaleFactor) {
+    final BufferedImage image =
+        ImageUtilities.getTextImage(text, ACTION_LABEL_COLOR, IMAGE_SCALE_FACTOR);
+    final int height =
+        (int) (this.getBounds().getHeight() - (this.getBounds().getHeight() * Y_OFFSET_FACTOR));
+    final BottomCenteredInLevelPositioningStrategy strategy =
+        new BottomCenteredInLevelPositioningStrategy(height);
+    final ImageIcon imageIcon = new ImageIcon(image);
+    final Position position = strategy.getPosition(image, model, pixelTileSize, offsetX, offsetY);
+
+    jLabel.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+    jLabel.setLocation(position.getX(), position.getY());
+    jLabel.setIcon(imageIcon);
+  }
+
   protected void setJSpinner(JSpinner jSpinner, int x, int y) {
     final Point location = new Point(x, y);
 
@@ -92,10 +109,9 @@ public abstract class AbstractMenuPanel extends AbstractPanel {
     jSpinner.setLocation(location);
   }
 
-  protected void paintGoBackOption(JLabel label, int y) {
-    setJLabel(label, GO_BACK_LABEL, GO_BACK_COLOR, y, IMAGE_SCALE_FACTOR);
-
-    label.addMouseListener(new MouseAdapter() {
+  protected void paintGoBackOption(JLabel jLabel) {
+    setBottomActionJLabel(jLabel, GO_BACK_LABEL, IMAGE_SCALE_FACTOR);
+    jLabel.addMouseListener(new MouseAdapter() {
       @Override
       public void mouseClicked(MouseEvent e) {
         model.setGameState(GameState.GAME_MENU);

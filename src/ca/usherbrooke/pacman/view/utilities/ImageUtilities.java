@@ -17,10 +17,13 @@ import ca.usherbrooke.pacman.view.spirites.SpriteFacade;
 
 public class ImageUtilities {
 
+  private static final char DOT = '.';
+  private static final char SPACE = ' ';
+
   private ImageUtilities() {
     throw new IllegalStateException("Utility class");
   }
-  
+
   private static SpriteFacade spriteFacade = new SpriteFacade();
 
   public static BufferedImage resize(BufferedImage img, int width, int height) {
@@ -61,8 +64,12 @@ public class ImageUtilities {
     for (int i = 0; i < text.length(); i++) {
       BufferedImage image = null;
       try {
-        if (Character.isLetter(text.charAt(i)) || text.charAt(i) == ' ') {
+        if (Character.isLetter(text.charAt(i))) {
           image = spriteFacade.getLetter(text.charAt(i), color);
+        } else if (text.charAt(i) == SPACE) {
+          image = spriteFacade.getSpace();
+        } else if (text.charAt(i) == DOT) {
+          image = spriteFacade.getDot(color);
         } else {
           image = spriteFacade.getDigit(Character.getNumericValue(text.charAt(i)), color);
         }

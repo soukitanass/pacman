@@ -60,7 +60,7 @@ public class AudioMenuPanel extends AbstractMenuPanel {
     y += musicSlider.getHeight() + DELTA_Y;
     y = paintSoundOption(y);
     y += soundSlider.getHeight() + DELTA_Y;
-    paintGoBackOption(goBackMenuOption, y);
+    paintGoBackOption(goBackMenuOption);
   }
 
   private int paintMusicOption(int y) {
