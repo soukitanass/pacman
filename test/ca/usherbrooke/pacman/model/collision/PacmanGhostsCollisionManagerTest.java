@@ -36,11 +36,11 @@ public class PacmanGhostsCollisionManagerTest {
     this.ghost = new Ghost();
     this.model = new GameModel(Game.loadLevel(LEVEL_PATH));
     this.level = model.getCurrentLevel();
+    initializeGhostsList();
   }
 
   @Test
   public void pacmanGhostCollisionManagerLivesTest() {
-    initializeGhostsList();
     int actualValue;
     ghost.setPosition(new Position(0, 0));
     level.getGhosts().add(ghost);
@@ -67,7 +67,6 @@ public class PacmanGhostsCollisionManagerTest {
 
   @Test
   public void pacmanGhostCollisionPacManChangePositionTest() {
-    initializeGhostsList();
     Position expectedPacManPosition = new Position(13, 23);
     Direction expectedPacManDirection = Direction.LEFT;
     ghost.setPosition(new Position(0, 0));
@@ -80,7 +79,6 @@ public class PacmanGhostsCollisionManagerTest {
 
   @Test
   public void pacmanGhostCollisionGhostsChangePositionTest() {
-    initializeGhostsList();
     Position expectedGhost0Position = new Position(13, 11);
     Position expectedGhost1Position = new Position(11, 15);
     Ghost ghost = new Ghost();
