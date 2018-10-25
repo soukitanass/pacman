@@ -28,7 +28,7 @@ public class InkyPeriodicDirectionManager implements IPeriodicDirectionManager {
       return;
     }
     updatesCounter = 0;
-    //TODO:
+    // TODO:
     Direction direction = directionGenerator.get();
     gameModel.setDirection(gameObject, direction);
   }

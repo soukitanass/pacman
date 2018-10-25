@@ -5,7 +5,7 @@ import ca.usherbrooke.pacman.model.direction.Direction;
 import ca.usherbrooke.pacman.model.direction.IDirectionGenerator;
 import ca.usherbrooke.pacman.model.direction.IHasDesiredDirection;
 
-public class PinkyPeriodicDirectionManager implements IPeriodicDirectionManager{
+public class PinkyPeriodicDirectionManager implements IPeriodicDirectionManager {
 
   private int updatesCounter;
   private int period;
@@ -28,7 +28,7 @@ public class PinkyPeriodicDirectionManager implements IPeriodicDirectionManager{
       return;
     }
     updatesCounter = 0;
-    //TODO:
+    // TODO:
     Direction direction = directionGenerator.get();
     gameModel.setDirection(gameObject, direction);
   }

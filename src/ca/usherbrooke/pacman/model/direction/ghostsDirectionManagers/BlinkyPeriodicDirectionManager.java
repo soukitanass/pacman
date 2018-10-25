@@ -13,8 +13,8 @@ public class BlinkyPeriodicDirectionManager implements IPeriodicDirectionManager
   private IDirectionGenerator directionGenerator;
   private IGameModel gameModel;
 
-  public BlinkyPeriodicDirectionManager(IGameModel gameModel, IDirectionGenerator directionGenerator,
-      IHasDesiredDirection gameObject, int period) {
+  public BlinkyPeriodicDirectionManager(IGameModel gameModel,
+      IDirectionGenerator directionGenerator, IHasDesiredDirection gameObject, int period) {
     this.gameModel = gameModel;
     this.directionGenerator = directionGenerator;
     this.gameObject = gameObject;
@@ -28,7 +28,7 @@ public class BlinkyPeriodicDirectionManager implements IPeriodicDirectionManager
       return;
     }
     updatesCounter = 0;
-    //TODO:
+    // TODO:
     Direction direction = directionGenerator.get();
     gameModel.setDirection(gameObject, direction);
   }
