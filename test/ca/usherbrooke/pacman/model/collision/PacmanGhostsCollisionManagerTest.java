@@ -64,6 +64,31 @@ public class PacmanGhostsCollisionManagerTest {
 
   }
 
+  @Test
+  public void pacmanGhostCollisionPacManChangePositionTest() {
+    initializeGhostsList();
+    Position actualPacManPosition = new Position(13, 23);
+    ghost.setPosition(new Position(0, 0));
+    level.getGhosts().add(ghost);
+    level.getPacMan().setPosition(new Position(0, 0));
+    pacmanGhostCollisionManager.update();
+    assertEquals(actualPacManPosition, model.getCurrentLevel().getPacMan().getPosition());
+  }
+
+  @Test
+  public void pacmanGhostCollisionGhostsChangePositionTest() {
+    initializeGhostsList();
+    Position actualGhost0Position = new Position(13, 11);
+    Position actualGhost1Position = new Position(11, 15);
+    Ghost ghost = new Ghost();
+    ghost.setPosition(new Position(1, 0));
+    level.getGhosts().add(ghost);
+    level.getPacMan().setPosition(new Position(0, 0));
+    pacmanGhostCollisionManager.update();
+    assertEquals(actualGhost0Position, model.getCurrentLevel().getGhosts().get(0).getPosition());
+    assertEquals(actualGhost1Position, model.getCurrentLevel().getGhosts().get(1).getPosition());
+  }
+
 
   private void initializeGhostsList() {
     List<Ghost> ghosts = new ArrayList<Ghost>();
