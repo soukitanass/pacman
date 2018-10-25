@@ -15,38 +15,38 @@ import java.util.List;
 import ca.usherbrooke.pacman.model.IGameModel;
 import ca.usherbrooke.pacman.view.IGameView;
 
-public class PlayerKeyboardController implements IGameController,KeyListener {
+public class PlayerKeyboardController implements IGameController, KeyListener {
   private InputHandler inputHandler;
   private List<KeyEvent> commands;
+
   public PlayerKeyboardController(IGameModel model, IGameView view) {
     inputHandler = new InputHandler(model);
     view.getCanvas().setPausePanel();
     commands = new ArrayList<KeyEvent>();
   }
+
   @Override
   public void update() {
-      if(!commands.isEmpty()) {
-        for (KeyEvent keyEvent : commands) {
-          inputHandler.execute(keyEvent);
-          commands.remove(keyEvent);
-        }
-      }
+    for (KeyEvent keyEvent : commands) {
+      inputHandler.execute(keyEvent);
+    }
+    commands.clear();
   }
 
   @Override
   public void keyPressed(KeyEvent keyEvent) {
-   commands.add(keyEvent);
+    commands.add(keyEvent);
   }
 
   @Override
   public void keyReleased(KeyEvent e) {
-    //do not remove
-    
+    // do not remove
+
   }
 
   @Override
   public void keyTyped(KeyEvent e) {
-    //do not remove
+    // do not remove
   }
 
 }
