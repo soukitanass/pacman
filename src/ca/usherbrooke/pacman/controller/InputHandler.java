@@ -8,9 +8,9 @@ import ca.usherbrooke.pacman.model.IGameModel;
 import ca.usherbrooke.pacman.model.direction.Direction;
 
 
-public class InputHandler implements ICommand{
+public class InputHandler implements ICommand {
   private final IGameModel model;
-  
+
   public InputHandler(IGameModel model) {
     this.model = model;
   }
@@ -44,11 +44,12 @@ public class InputHandler implements ICommand{
         break;
     }
   }
+
   private void pauseGameInProgress() {
     if (!model.isGameOver()) {
       model.pause();
       model.setManuallyPaused(true);
     }
   }
-  
+
 }
