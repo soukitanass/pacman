@@ -16,6 +16,7 @@ import org.junit.Test;
 import ca.usherbrooke.pacman.game.Game;
 import ca.usherbrooke.pacman.model.GameModel;
 import ca.usherbrooke.pacman.model.IGameModel;
+import ca.usherbrooke.pacman.model.direction.Direction;
 import ca.usherbrooke.pacman.model.objects.Ghost;
 import ca.usherbrooke.pacman.model.objects.Level;
 import ca.usherbrooke.pacman.model.objects.PacMan;
@@ -67,26 +68,28 @@ public class PacmanGhostsCollisionManagerTest {
   @Test
   public void pacmanGhostCollisionPacManChangePositionTest() {
     initializeGhostsList();
-    Position actualPacManPosition = new Position(13, 23);
+    Position expectedPacManPosition = new Position(13, 23);
+    Direction expectedPacManDirection = Direction.LEFT;
     ghost.setPosition(new Position(0, 0));
     level.getGhosts().add(ghost);
     level.getPacMan().setPosition(new Position(0, 0));
     pacmanGhostCollisionManager.update();
-    assertEquals(actualPacManPosition, model.getCurrentLevel().getPacMan().getPosition());
+    assertEquals(expectedPacManPosition, model.getCurrentLevel().getPacMan().getPosition());
+    assertEquals(expectedPacManDirection, model.getCurrentLevel().getPacMan().getDirection());
   }
 
   @Test
   public void pacmanGhostCollisionGhostsChangePositionTest() {
     initializeGhostsList();
-    Position actualGhost0Position = new Position(13, 11);
-    Position actualGhost1Position = new Position(11, 15);
+    Position expectedGhost0Position = new Position(13, 11);
+    Position expectedGhost1Position = new Position(11, 15);
     Ghost ghost = new Ghost();
     ghost.setPosition(new Position(1, 0));
     level.getGhosts().add(ghost);
     level.getPacMan().setPosition(new Position(0, 0));
     pacmanGhostCollisionManager.update();
-    assertEquals(actualGhost0Position, model.getCurrentLevel().getGhosts().get(0).getPosition());
-    assertEquals(actualGhost1Position, model.getCurrentLevel().getGhosts().get(1).getPosition());
+    assertEquals(expectedGhost0Position, model.getCurrentLevel().getGhosts().get(0).getPosition());
+    assertEquals(expectedGhost1Position, model.getCurrentLevel().getGhosts().get(1).getPosition());
   }
 
 
