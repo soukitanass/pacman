@@ -9,8 +9,8 @@
 package ca.usherbrooke.pacman.model.collision;
 
 import static org.junit.Assert.assertEquals;
-import java.util.ArrayList;
-import java.util.List;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertNull;
 import org.junit.Before;
 import org.junit.Test;
 import ca.usherbrooke.pacman.game.Game;
@@ -23,47 +23,56 @@ import ca.usherbrooke.pacman.model.objects.PacMan;
 import ca.usherbrooke.pacman.model.position.Position;
 
 public class PacmanGhostsCollisionManagerTest {
-  private static final String LEVEL_PATH = "Level.json";
+  private static final String LEVEL_PATH = "ThreeByOneLevelWithPacmanAndTwoGhosts.json";
   private Level level;
-  private Ghost ghost;
   private IGameModel model;
   private PacmanGhostCollisionManager pacmanGhostCollisionManager;
 
-
   @Before
   public void setUp() {
-
-    this.ghost = new Ghost();
-    this.model = new GameModel(Game.loadLevel(LEVEL_PATH));
-    this.level = model.getCurrentLevel();
-    initializeGhostsList();
+    model = new GameModel(Game.loadLevel(LEVEL_PATH));
+    model.initializeGame();
+    level = model.getCurrentLevel();
+    pacmanGhostCollisionManager =
+        new PacmanGhostCollisionManager(level, Game.loadLevel(LEVEL_PATH), this.model);
+    verifyInitialLevel();
   }
 
   @Test
-  public void pacmanGhostCollisionManagerLivesTest() {
-    int actualValue;
+  public void whenNotInvincibleThenUpdateDoesNotChangeInitialLevel() {
+    pacmanGhostCollisionManager.update();
+    assertEquals(Game.loadLevel(LEVEL_PATH), model.getInitialLevel());
+  }
+
+  @Test
+  public void whenInvincibleThenUpdateDoesNotChangeInitialLevel() {
+    level.getPacMan().setIsInvincible(true);
+    pacmanGhostCollisionManager.update();
+    assertEquals(Game.loadLevel(LEVEL_PATH), model.getInitialLevel());
+  }
+
+  @Test
+  public void whenHitByGhostThenPacmanLosesLife() {
+    assertEquals(3, model.getLives());
+
     level.getPacMan().setPosition(new Position(0, 0));
     pacmanGhostCollisionManager.update();
-    actualValue = 2;
-    assertEquals(actualValue, model.getLives());
+    assertEquals(2, model.getLives());
 
     level.getGhosts().get(0).setPosition(new Position(0, 1));
     level.getPacMan().setPosition(new Position(0, 1));
     pacmanGhostCollisionManager.update();
-    actualValue = 1;
-    assertEquals(actualValue, model.getLives());
+    assertEquals(1, model.getLives());
 
     level.getGhosts().get(0).setPosition(new Position(1, 0));
     level.getPacMan().setPosition(new Position(1, 0));
     pacmanGhostCollisionManager.update();
-    actualValue = 0;
-    assertEquals(actualValue, model.getLives());
-
+    assertEquals(0, model.getLives());
   }
 
   @Test
   public void pacmanGhostCollisionPacManChangePositionTest() {
-    Position expectedPacManPosition = new Position(13, 23);
+    Position expectedPacManPosition = new Position(0, 0);
     Direction expectedPacManDirection = Direction.LEFT;
     level.getPacMan().setPosition(new Position(0, 0));
     pacmanGhostCollisionManager.update();
@@ -73,26 +82,67 @@ public class PacmanGhostsCollisionManagerTest {
 
   @Test
   public void pacmanGhostCollisionGhostsChangePositionTest() {
-    Position expectedGhost0Position = new Position(13, 11);
-    Position expectedGhost1Position = new Position(11, 15);
-    Ghost ghost = new Ghost();
-    ghost.setPosition(new Position(1, 0));
-    level.getGhosts().add(ghost);
+    Position expectedGhost0Position = new Position(1, 0);
+    Position expectedGhost1Position = new Position(2, 0);
     level.getPacMan().setPosition(new Position(0, 0));
     pacmanGhostCollisionManager.update();
     assertEquals(expectedGhost0Position, model.getCurrentLevel().getGhosts().get(0).getPosition());
     assertEquals(expectedGhost1Position, model.getCurrentLevel().getGhosts().get(1).getPosition());
   }
 
+  @Test
+  public void whenCollisionWithInvinciblePacmanThenPacmanIsUnchanged() {
+    level.getPacMan().setIsInvincible(true);
+    PacMan initialPacmanCopy = new PacMan(level.getPacMan());
+    pacmanGhostCollisionManager.update();
+    assertEquals(initialPacmanCopy, level.getPacMan());
+  }
 
-  private void initializeGhostsList() {
-    List<Ghost> ghosts = new ArrayList<Ghost>();
-    IGameModel model = new GameModel(Game.loadLevel(LEVEL_PATH));
-    level.setGhost(ghosts);
-    level.setPacMan(new PacMan(new Position(0, 0)));
-    ghost.setPosition(new Position(0, 0));
-    level.getGhosts().add(ghost);
-    pacmanGhostCollisionManager =
-        new PacmanGhostCollisionManager(level, model.getCurrentLevel(), this.model);
+  @Test
+  public void whenCollisionWithInvinciblePacmanThenGhostDies() {
+    level.getPacMan().setIsInvincible(true);
+    assertEquals(2, level.getGhosts().size());
+    model.getCurrentLevel().getPacMan().setPosition(new Position(1, 0));
+    pacmanGhostCollisionManager.update();
+    assertEquals(1, level.getGhosts().size());
+  }
+
+  @Test
+  public void getCollidingGhost() {
+    assertNull(pacmanGhostCollisionManager.getCollidingGhost());
+    Ghost firstGhost = model.getCurrentLevel().getGhosts().get(0);
+    Ghost secondGhost = model.getCurrentLevel().getGhosts().get(1);
+    model.getCurrentLevel().getPacMan().setPosition(new Position(1, 0));
+    assertEquals(firstGhost, pacmanGhostCollisionManager.getCollidingGhost());
+    model.getCurrentLevel().getPacMan().setPosition(new Position(2, 0));
+    assertEquals(secondGhost, pacmanGhostCollisionManager.getCollidingGhost());
+  }
+
+  @Test
+  public void whenPacmanDiesThenReviveGhostsAtTheirInitialPosition() {
+    model.getCurrentLevel().getPacMan().setIsInvincible(true);
+    model.getCurrentLevel().getPacMan().setPosition(new Position(1, 0));
+    assertEquals(2, model.getCurrentLevel().getGhosts().size());
+    pacmanGhostCollisionManager.update();
+    assertEquals(1, model.getCurrentLevel().getGhosts().size());
+    model.getCurrentLevel().getPacMan().setIsInvincible(false);
+    pacmanGhostCollisionManager.update();
+    assertEquals(2, model.getCurrentLevel().getGhosts().size());
+  }
+
+  private void verifyInitialLevel() {
+    assertEquals(new Position(0, 0), model.getCurrentLevel().getPacMan().getPosition());
+
+    assertEquals(2, model.getCurrentLevel().getGhosts().size());
+    assertEquals(new Position(1, 0), model.getCurrentLevel().getGhosts().get(0).getPosition());
+    assertEquals(new Position(2, 0), model.getCurrentLevel().getGhosts().get(1).getPosition());
+
+    assertEquals(Integer.valueOf(3), model.getCurrentLevel().getWidth());
+    assertEquals(Integer.valueOf(1), model.getCurrentLevel().getHeight());
+    assertFalse(model.getCurrentLevel().isWall(new Position(0, 0)));
+    assertFalse(model.getCurrentLevel().isWall(new Position(1, 0)));
+    assertFalse(model.getCurrentLevel().isWall(new Position(2, 0)));
+
+    assertFalse(model.getCurrentLevel().getPacMan().isInvincible());
   }
 }

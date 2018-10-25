@@ -10,6 +10,8 @@ package ca.usherbrooke.pacman.model.objects;
 
 import java.util.ArrayList;
 import java.util.List;
+import org.apache.commons.lang3.builder.EqualsBuilder;
+import org.apache.commons.lang3.builder.HashCodeBuilder;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 import ca.usherbrooke.pacman.model.position.Position;
@@ -23,7 +25,6 @@ public class Level {
   private static final int GHOST_GATE_CODE = 37;
   private static final int GHOST_ROOM_CODE = 38;
   private static final int TUNNEL_CODE = 325;
-
 
   @SerializedName("width")
   @Expose
@@ -136,7 +137,6 @@ public class Level {
     return SUPER_PACGUM_CODE == getCodeAtPosition(position);
   }
 
-
   public boolean isCompleted() {
     for (int i = 0; i < width; i++) {
       for (int j = 0; j < height; j++) {
@@ -151,5 +151,15 @@ public class Level {
   public boolean isGhostRoom(Position position) {
     final int code = getCodeAtPosition(position);
     return GHOST_ROOM_CODE == code;
+  }
+
+  @Override
+  public int hashCode() {
+    return HashCodeBuilder.reflectionHashCode(this);
+  }
+
+  @Override
+  public boolean equals(Object other) {
+    return EqualsBuilder.reflectionEquals(this, other);
   }
 }

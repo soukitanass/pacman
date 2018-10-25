@@ -16,7 +16,7 @@ import ca.usherbrooke.pacman.model.objects.PacMan;
 import ca.usherbrooke.pacman.model.position.Position;
 
 public class PacmanSuperPacgumCollisionManager {
-  private final Level level;
+  private Level level;
   private static final int POINT = 50;
   private static final int INVINCIBLE_TIME = 8000; // ms
   private IGameModel model;
@@ -50,5 +50,9 @@ public class PacmanSuperPacgumCollisionManager {
     if (timeGetter.getMilliseconds() - initialInvincibleTime >= INVINCIBLE_TIME) {
       pacman.setIsInvincible(false);
     }
+  }
+
+  public void setLevel(Level level) {
+    this.level = level;
   }
 }

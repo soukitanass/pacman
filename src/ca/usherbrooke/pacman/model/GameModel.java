@@ -129,6 +129,13 @@ public class GameModel implements IGameModel {
   }
 
   @Override
+  public void pacmanKilled() {
+    for (Observer observer : observers) {
+      observer.pacmanKilled();
+    }
+  }
+
+  @Override
   public void movingToEmptySpace() {
     for (Observer observer : observers) {
       observer.movingToEmptySpace();
@@ -155,7 +162,7 @@ public class GameModel implements IGameModel {
     }
     ++currentGameFrame;
 
-    processPhysicsEvent();
+    processAllPhysicsEvents();
 
     synchronized (moveQueue) {
       moveQueue.add(level);
@@ -165,30 +172,47 @@ public class GameModel implements IGameModel {
     updateGameObjectsPosition();
   }
 
-  private void processPhysicsEvent() {
+  private void processAllPhysicsEvents() {
     while (!eventQueue.isEmpty()) {
       GameEventObject gameEventObject = eventQueue.poll();
-      if (gameEventObject.getGameEvent() == GameEvent.PACGUM_CONSUMED) {
-        pacmanPacgumCollisionManager.update();
-        consumingPacGums();
-        eventQueue.clear();
-      } else {
-        movingToEmptySpace();
-      }
-      if (gameEventObject.getGameEvent() == GameEvent.SUPER_PACGUM_CONSUMED) {
-        pacmanSuperPacgumCollisionManager.update();
-      }
-      if (gameEventObject.getGameEvent() == GameEvent.PACMAN_GHOST_COLLISON) {
-        setIsPacmanDead(true);
-        consumingGhost();
-        eventQueue.clear();
-      }
-      if (gameEventObject.getGameEvent() == GameEvent.ENTITY_MOVE) {
-        IGameObject gameObject = gameEventObject.getGameObject();
-        gameObject.setPosition(gameEventObject.getPosition());
-      }
+      processPhysicEvent(gameEventObject);
     }
     pacmanSuperPacgumCollisionManager.updateIsPacManInvincible();
+  }
+
+  private void processPhysicEvent(GameEventObject gameEventObject) {
+    if (gameEventObject.getGameEvent() == GameEvent.PACGUM_CONSUMED) {
+      pacmanPacgumCollisionManager.update();
+      consumingPacGums();
+      eventQueue.clear();
+    } else {
+      movingToEmptySpace();
+    }
+    if (gameEventObject.getGameEvent() == GameEvent.SUPER_PACGUM_CONSUMED) {
+      pacmanSuperPacgumCollisionManager.update();
+    }
+    if (gameEventObject.getGameEvent() == GameEvent.PACMAN_GHOST_COLLISON) {
+      if (gameEventObject.getGameObject().getClass() == PacMan.class) {
+        processPacmanKilled();
+      } else {
+        processGhostKilled((Ghost) (gameEventObject.getGameObject()));
+      }
+    }
+    if (gameEventObject.getGameEvent() == GameEvent.ENTITY_MOVE) {
+      IGameObject gameObject = gameEventObject.getGameObject();
+      gameObject.setPosition(gameEventObject.getPosition());
+    }
+  }
+
+  private void processGhostKilled(Ghost ghost) {
+    getCurrentLevel().getGhosts().remove(ghost);
+    consumingGhost();
+  }
+
+  private void processPacmanKilled() {
+    setIsPacmanDead(true);
+    pacmanKilled();
+    eventQueue.clear();
   }
 
   @Override
@@ -232,27 +256,41 @@ public class GameModel implements IGameModel {
     }
   }
 
-  private void initializeLevel() {
+  @Override
+  public void initializeGame() {
+    initializeLevel();
+    isGameOver = false;
+  }
+
+  @Override
+  public void initializeLevel() {
     this.level = new Level(getInitialLevel());
     pacman = level.getPacMan();
+    initializeGhosts();
+    initializeCollisionManagers();
+    isPacmanDead = false;
+  }
+
+  private void initializeGhosts() {
     for (Ghost ghost : level.getGhosts()) {
       ghostDirectionManagers.add(new PeriodicDirectionManager(this, randomDirectionGenerator, ghost,
           GHOSTS_DIRECTION_CHANGE_PERIOD));
     }
+  }
 
-    pacmanPacgumCollisionManager = new PacmanPacgumCollisionManager(level, this);
-    pacmanSuperPacgumCollisionManager = new PacmanSuperPacgumCollisionManager(level, this);
-    pacmanGhostCollisionManager = new PacmanGhostCollisionManager(level, initialLevel, this);
-
-    isGameOver = false;
-    isPacmanDead = false;
+  private void initializeCollisionManagers() {
+    Level currentLevel = getCurrentLevel();
+    pacmanPacgumCollisionManager = new PacmanPacgumCollisionManager(currentLevel, this);
+    pacmanSuperPacgumCollisionManager = new PacmanSuperPacgumCollisionManager(currentLevel, this);
+    pacmanGhostCollisionManager =
+        new PacmanGhostCollisionManager(currentLevel, getInitialLevel(), this);
   }
 
   @Override
   public void startNewGame() {
     setScore(0);
     setLives(INITIAL_NUMBER_OF_LIVES);
-    initializeLevel();
+    initializeGame();
   }
 
   @Override
@@ -396,4 +434,14 @@ public class GameModel implements IGameModel {
     this.level = level;
   }
 
+  @Override
+  public void updateGhostDeath(Ghost ghost) {
+    level.getGhosts().remove(ghost);
+  }
+
+  @Override
+  public void updatePacmanDeath() {
+    setLives(getLives() - 1);
+    initializeLevel();
+  }
 }

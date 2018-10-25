@@ -118,4 +118,13 @@ public class GameModelTest {
     assertNotEquals(initialLevel.getGhosts().get(0).getPosition(),
         level.getGhosts().get(0).getPosition());
   }
+
+  @Test
+  public void whenLivesSetToZeroThenGameIsOver() {
+    assertFalse(model.isGameOver());
+    model.setLives(1);
+    assertFalse(model.isGameOver());
+    model.setLives(0);
+    assertTrue(model.isGameOver());
+  }
 }

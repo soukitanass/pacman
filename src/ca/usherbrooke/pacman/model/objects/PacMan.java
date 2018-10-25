@@ -8,6 +8,8 @@
  ******************************************************************************/
 package ca.usherbrooke.pacman.model.objects;
 
+import org.apache.commons.lang3.builder.EqualsBuilder;
+import org.apache.commons.lang3.builder.HashCodeBuilder;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 import ca.usherbrooke.pacman.model.direction.Direction;
@@ -15,9 +17,6 @@ import ca.usherbrooke.pacman.model.position.Position;
 
 public class PacMan implements IGameObject, IHasInvincibilityStatus {
 
-  @SerializedName("id")
-  @Expose
-  private Integer id;
   @SerializedName("start_pos")
   @Expose
   private Position position;
@@ -38,14 +37,7 @@ public class PacMan implements IGameObject, IHasInvincibilityStatus {
     this.position = new Position(pacMan.getPosition().getX(), pacMan.getPosition().getY());
     this.direction = pacMan.getDirection();
     this.desiredDirection = pacMan.getDesiredDirection();
-  }
-
-  public Integer getId() {
-    return id;
-  }
-
-  public void setId(Integer id) {
-    this.id = id;
+    this.isInvincible = pacMan.isInvincible();
   }
 
   @Override
@@ -86,6 +78,16 @@ public class PacMan implements IGameObject, IHasInvincibilityStatus {
 
   public void setIsInvincible(final boolean isInvincible) {
     this.isInvincible = isInvincible;
+  }
+
+  @Override
+  public int hashCode() {
+    return HashCodeBuilder.reflectionHashCode(this);
+  }
+
+  @Override
+  public boolean equals(Object other) {
+    return EqualsBuilder.reflectionEquals(this, other);
   }
 
 }
