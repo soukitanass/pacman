@@ -9,18 +9,18 @@
 package ca.usherbrooke.pacman.model.movements;
 
 import ca.usherbrooke.pacman.model.exceptions.InvalidDirectionException;
-import ca.usherbrooke.pacman.model.objects.InvincibilityStatusGetter;
+import ca.usherbrooke.pacman.model.objects.IHasInvincibilityStatus;
 import ca.usherbrooke.pacman.model.objects.Level;
 import ca.usherbrooke.pacman.model.position.Position;
 
 public class GhostMoveValidator implements IMoveValidator {
 
   private Level level;
-  private InvincibilityStatusGetter invincibilityStatusGetter;
+  private IHasInvincibilityStatus hasInvincibilityStatus;
 
-  public GhostMoveValidator(Level level, InvincibilityStatusGetter invincibilityStatusGetter) {
+  public GhostMoveValidator(Level level, IHasInvincibilityStatus hasInvincibilityStatus) {
     this.level = level;
-    this.invincibilityStatusGetter = invincibilityStatusGetter;
+    this.hasInvincibilityStatus = hasInvincibilityStatus;
   }
 
   @Override
@@ -53,7 +53,7 @@ public class GhostMoveValidator implements IMoveValidator {
         !level.isGhostRoom(currentPosition) && level.isGhostGate(targetPosition);
     final boolean isGoingFromGhostRoomToGhostGateDuringInvincibilityMode =
         level.isGhostRoom(currentPosition) && level.isGhostGate(targetPosition)
-            && invincibilityStatusGetter.isInvincible();
+            && hasInvincibilityStatus.isInvincible();
     return isGoingFromGhostGateToGhostRoom || isGoingFromAnythingButGhostRoomToGhostGate
         || isGoingFromGhostRoomToGhostGateDuringInvincibilityMode;
   }
