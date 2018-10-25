@@ -27,7 +27,6 @@ import ca.usherbrooke.pacman.model.position.Position;
 public class PacmanSuperPacgumCollisionManagerTest {
 
   private static final int SUPER_PACGUM_CODE = 40;
-  private static final String LEVEL_PATH = "Level.json";
   private PacMan pacman;
   private Level level;
   private IGameModel model;

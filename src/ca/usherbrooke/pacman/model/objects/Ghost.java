@@ -8,6 +8,8 @@
  ******************************************************************************/
 package ca.usherbrooke.pacman.model.objects;
 
+import org.apache.commons.lang3.builder.EqualsBuilder;
+import org.apache.commons.lang3.builder.HashCodeBuilder;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 import ca.usherbrooke.pacman.model.direction.Direction;
@@ -72,6 +74,16 @@ public class Ghost implements IGameObject {
   @Override
   public Direction getDesiredDirection() {
     return desiredDirection;
+  }
+
+  @Override
+  public int hashCode() {
+    return HashCodeBuilder.reflectionHashCode(this);
+  }
+
+  @Override
+  public boolean equals(Object other) {
+    return EqualsBuilder.reflectionEquals(this, other);
   }
 
 }

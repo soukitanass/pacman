@@ -8,9 +8,10 @@
  ******************************************************************************/
 package ca.usherbrooke.pacman.model.position;
 
+import org.apache.commons.lang3.builder.EqualsBuilder;
+import org.apache.commons.lang3.builder.HashCodeBuilder;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
-import java.util.Objects;
 
 public class Position {
 
@@ -48,17 +49,12 @@ public class Position {
   }
 
   @Override
-  public boolean equals(Object other) {
-    if (this == other)
-      return true;
-    if (other == null || getClass() != other.getClass())
-      return false;
-    Position position = (Position) other;
-    return Objects.equals(getX(), position.getX()) && Objects.equals(getY(), position.getY());
+  public int hashCode() {
+    return HashCodeBuilder.reflectionHashCode(this);
   }
 
   @Override
-  public int hashCode() {
-    return Objects.hash(getX(), getY());
+  public boolean equals(Object other) {
+    return EqualsBuilder.reflectionEquals(this, other);
   }
 }

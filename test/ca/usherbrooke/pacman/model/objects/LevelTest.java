@@ -15,10 +15,11 @@ import java.util.Arrays;
 import java.util.List;
 import org.junit.Before;
 import org.junit.Test;
-import ca.usherbrooke.pacman.model.objects.Level;
+import ca.usherbrooke.pacman.game.Game;
 import ca.usherbrooke.pacman.model.position.Position;
 
 public class LevelTest {
+  private static final String LEVEL_PATH = "ThreeByOneLevelWithPacmanAndTwoGhosts.json";
   private static final int EMPTY_CODE = 0;
   private static final int PACGUM_CODE = 39;
   private static final int SUPER_PACGUM_CODE = 40;
@@ -160,5 +161,23 @@ public class LevelTest {
 
     // Assert
     assertFalse(isTunnel);
+  }
+
+  @Test
+  public void copyConstructorCopiesGhosts() {
+    Level level = Game.loadLevel(LEVEL_PATH);
+    Level levelCopy = new Level(level);
+    assertEquals(2, level.getGhosts().size());
+    assertEquals(2, level.getGhosts().size());
+    levelCopy.getGhosts().remove(0);
+    assertEquals(2, level.getGhosts().size());
+    assertEquals(1, levelCopy.getGhosts().size());
+  }
+
+  @Test
+  public void equivalentLevelsAreEqual() {
+    Level levelA = Game.loadLevel(LEVEL_PATH);
+    Level levelB = Game.loadLevel(LEVEL_PATH);
+    assertEquals(levelA, levelB);
   }
 }
