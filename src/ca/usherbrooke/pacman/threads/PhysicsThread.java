@@ -26,6 +26,7 @@ import ca.usherbrooke.pacman.model.movements.MovementManager;
 import ca.usherbrooke.pacman.model.movements.PacmanMoveValidator;
 import ca.usherbrooke.pacman.model.objects.Ghost;
 import ca.usherbrooke.pacman.model.objects.IGameObject;
+import ca.usherbrooke.pacman.model.objects.InvincibilityStatusGetter;
 import ca.usherbrooke.pacman.model.objects.Level;
 import ca.usherbrooke.pacman.model.objects.PacMan;
 import ca.usherbrooke.pacman.model.position.Position;
@@ -117,7 +118,11 @@ public class PhysicsThread extends Thread {
   }
 
   private void validGhostMovement(Level level) {
-    GhostMoveValidator moveValidator = new GhostMoveValidator(level);
+    InvincibilityStatusGetter invincibilityStatusGetter = () -> {
+      return level.getPacMan().isInvincible();
+    };
+    GhostMoveValidator moveValidator =
+        new GhostMoveValidator(level, invincibilityStatusGetter);
     for (Ghost ghost : level.getGhosts()) {
       MovementManager movementManager = new MovementManager(ghost, moveValidator);
       movementManager.setDirection(ghost.getDesiredDirection());
