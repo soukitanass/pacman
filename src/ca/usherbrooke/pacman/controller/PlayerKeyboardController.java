@@ -8,73 +8,45 @@
  ******************************************************************************/
 package ca.usherbrooke.pacman.controller;
 
-import static java.awt.event.KeyEvent.VK_P;
-import static java.awt.event.KeyEvent.VK_Q;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
-import ca.usherbrooke.pacman.model.GameState;
+import java.util.ArrayList;
+import java.util.List;
 import ca.usherbrooke.pacman.model.IGameModel;
-import ca.usherbrooke.pacman.model.direction.Direction;
 import ca.usherbrooke.pacman.view.IGameView;
 
 public class PlayerKeyboardController implements IGameController, KeyListener {
-  private final IGameModel model;
+  private InputHandler inputHandler;
+  private List<KeyEvent> commands;
 
   public PlayerKeyboardController(IGameModel model, IGameView view) {
-    this.model = model;
+    inputHandler = new InputHandler(model);
     view.getCanvas().setPausePanel();
+    commands = new ArrayList<KeyEvent>();
   }
 
   @Override
   public void update() {
-    // Do not remove!
-  }
-
-  @Override
-  public void keyTyped(KeyEvent e) {
-    // Do not remove!
+    for (KeyEvent keyEvent : commands) {
+      inputHandler.execute(keyEvent);
+    }
+    commands.clear();
   }
 
   @Override
   public void keyPressed(KeyEvent keyEvent) {
-    switch (keyEvent.getKeyCode()) {
-      case VK_P:
-        model.togglePause(true);
-        break;
-      case VK_Q:
-        model.quit();
-        break;
-      case KeyEvent.VK_RIGHT:
-        model.setDirection(model.getPacman(), Direction.RIGHT);
-        break;
-      case KeyEvent.VK_LEFT:
-        model.setDirection(model.getPacman(), Direction.LEFT);
-        break;
-      case KeyEvent.VK_UP:
-        model.setDirection(model.getPacman(), Direction.UP);
-        break;
-      case KeyEvent.VK_DOWN:
-        model.setDirection(model.getPacman(), Direction.DOWN);
-        break;
-      case KeyEvent.VK_ESCAPE:
-        pauseGameInProgress();
-        model.setGameState(GameState.GAME_MENU);
-        break;
-      default:
-        break;
-    }
+    commands.add(keyEvent);
   }
 
   @Override
   public void keyReleased(KeyEvent e) {
-    // Do not remove!
+    // do not remove
+
   }
 
-  private void pauseGameInProgress() {
-    if (!model.isGameOver()) {
-      model.pause();
-      model.setManuallyPaused(true);
-    }
+  @Override
+  public void keyTyped(KeyEvent e) {
+    // do not remove
   }
 
 }
