@@ -42,22 +42,18 @@ public class PacmanGhostsCollisionManagerTest {
   @Test
   public void pacmanGhostCollisionManagerLivesTest() {
     int actualValue;
-    ghost.setPosition(new Position(0, 0));
-    level.getGhosts().add(ghost);
     level.getPacMan().setPosition(new Position(0, 0));
     pacmanGhostCollisionManager.update();
     actualValue = 2;
     assertEquals(actualValue, model.getLives());
 
-    ghost.setPosition(new Position(0, 1));
-    level.getGhosts().add(ghost);
+    level.getGhosts().get(0).setPosition(new Position(0, 1));
     level.getPacMan().setPosition(new Position(0, 1));
     pacmanGhostCollisionManager.update();
     actualValue = 1;
     assertEquals(actualValue, model.getLives());
 
-    ghost.setPosition(new Position(1, 0));
-    level.getGhosts().add(ghost);
+    level.getGhosts().get(0).setPosition(new Position(1, 0));
     level.getPacMan().setPosition(new Position(1, 0));
     pacmanGhostCollisionManager.update();
     actualValue = 0;
@@ -69,8 +65,6 @@ public class PacmanGhostsCollisionManagerTest {
   public void pacmanGhostCollisionPacManChangePositionTest() {
     Position expectedPacManPosition = new Position(13, 23);
     Direction expectedPacManDirection = Direction.LEFT;
-    ghost.setPosition(new Position(0, 0));
-    level.getGhosts().add(ghost);
     level.getPacMan().setPosition(new Position(0, 0));
     pacmanGhostCollisionManager.update();
     assertEquals(expectedPacManPosition, model.getCurrentLevel().getPacMan().getPosition());
