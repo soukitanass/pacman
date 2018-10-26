@@ -10,20 +10,26 @@ package ca.usherbrooke.pacman.controller;
 
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.Queue;
+import java.util.concurrent.ConcurrentLinkedQueue;
 import ca.usherbrooke.pacman.model.IGameModel;
 import ca.usherbrooke.pacman.view.IGameView;
 
 public class PlayerKeyboardController implements IGameController, KeyListener {
   private InputHandler inputHandler;
-  private List<KeyEvent> commands;
+  private Queue<KeyEvent> commands;
 
   public PlayerKeyboardController(IGameModel model, IGameView view) {
     inputHandler = new InputHandler(model);
     view.getCanvas().setPausePanel();
-    commands = new ArrayList<KeyEvent>();
+    commands = new ConcurrentLinkedQueue<>();
   }
+
+  public PlayerKeyboardController(IGameModel model) {
+    inputHandler = new InputHandler(model);
+    commands = new ConcurrentLinkedQueue<>();
+  }
+
 
   @Override
   public void update() {
@@ -47,6 +53,14 @@ public class PlayerKeyboardController implements IGameController, KeyListener {
   @Override
   public void keyTyped(KeyEvent e) {
     // do not remove
+  }
+
+  public synchronized Queue<KeyEvent> getCommands() {
+    return commands;
+  }
+
+  public synchronized void setCommands(Queue<KeyEvent> commands) {
+    this.commands = commands;
   }
 
 }
