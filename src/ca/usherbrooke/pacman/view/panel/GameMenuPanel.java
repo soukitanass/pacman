@@ -98,7 +98,7 @@ public class GameMenuPanel extends AbstractMenuPanel {
   }
 
   private void paintMenuOption(JLabel jLabel, String label, int y) {
-    setJLabel(jLabel, label, LABEL_COLOR, y, IMAGE_SCALE_FACTOR);
+    setMenuJLabel(jLabel, label, LABEL_COLOR, y, IMAGE_SCALE_FACTOR);
   }
 
   private void paintFpsOption(int y) {

@@ -64,7 +64,7 @@ public class AudioMenuPanel extends AbstractMenuPanel {
   }
 
   private int paintMusicOption(int y) {
-    setJLabel(musicMenuOption, MUSIC_LABEL, LABEL_COLOR, y, IMAGE_SCALE_FACTOR);
+    setMenuJLabel(musicMenuOption, MUSIC_LABEL, LABEL_COLOR, y, IMAGE_SCALE_FACTOR);
     final int x = musicMenuOption.getX() + musicMenuOption.getWidth() + CHECKBOX_X_OFFSET;
     setJCheckBox(musicCheckbox, x, y);
     y += musicMenuOption.getHeight() + DELTA_Y;
@@ -73,7 +73,7 @@ public class AudioMenuPanel extends AbstractMenuPanel {
   }
 
   private int paintSoundOption(int y) {
-    setJLabel(soundMenuOption, SOUND_LABEL, LABEL_COLOR, y, IMAGE_SCALE_FACTOR);
+    setMenuJLabel(soundMenuOption, SOUND_LABEL, LABEL_COLOR, y, IMAGE_SCALE_FACTOR);
     final int x = soundMenuOption.getX() + soundMenuOption.getWidth() + CHECKBOX_X_OFFSET;
     setJCheckBox(soundCheckbox, x, y);
     y += soundMenuOption.getHeight() + DELTA_Y;

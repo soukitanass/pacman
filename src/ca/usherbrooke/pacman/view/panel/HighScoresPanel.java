@@ -55,7 +55,7 @@ public class HighScoresPanel extends AbstractMenuPanel {
     JLabel jLabel = scoreLabels.get(index);
     HighScore score = highscores.get(index);
     String label = index + "." + String.valueOf(score.getName()) + SPACE + score.getScore();
-    setJLabel(jLabel, label, LABEL_COLOR, y, IMAGE_SCALE_FACTOR);
+    setMenuJLabel(jLabel, label, LABEL_COLOR, y, IMAGE_SCALE_FACTOR);
   }
 
 }

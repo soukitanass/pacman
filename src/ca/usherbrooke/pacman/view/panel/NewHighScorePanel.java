@@ -81,7 +81,7 @@ public class NewHighScorePanel extends AbstractMenuPanel implements KeyListener 
 
   private void paintNewHighScore(JLabel jLabel, int newHighScore, int y) {
     final String label = NEW_HIGH_SCORE_LABEL + SPACE + newHighScore;
-    setJLabel(jLabel, label, LABEL_COLOR, y, IMAGE_SCALE_FACTOR);
+    setMenuJLabel(jLabel, label, LABEL_COLOR, y, IMAGE_SCALE_FACTOR);
   }
 
   private void paintLetter(int currentIndex) {
@@ -107,7 +107,7 @@ public class NewHighScorePanel extends AbstractMenuPanel implements KeyListener 
   }
 
   private void paintSaveOption(JLabel jLabel, String label, int y) {
-    setBottomActionJLabel(jLabel, label, IMAGE_SCALE_FACTOR);
+    setBottomMenuJLabel(jLabel, label, IMAGE_SCALE_FACTOR);
     jLabel.addMouseListener(new MouseAdapter() {
       @Override
       public void mouseClicked(MouseEvent e) {
