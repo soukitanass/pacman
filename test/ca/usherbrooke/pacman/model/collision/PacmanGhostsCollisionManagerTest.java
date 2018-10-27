@@ -33,8 +33,7 @@ public class PacmanGhostsCollisionManagerTest {
     model = new GameModel(Game.loadLevel(LEVEL_PATH));
     model.initializeGame();
     level = model.getCurrentLevel();
-    pacmanGhostCollisionManager =
-        new PacmanGhostCollisionManager(level, Game.loadLevel(LEVEL_PATH), this.model);
+    pacmanGhostCollisionManager = new PacmanGhostCollisionManager(level, this.model);
     verifyInitialLevel();
   }
 

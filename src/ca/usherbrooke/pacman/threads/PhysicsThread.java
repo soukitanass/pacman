@@ -101,7 +101,7 @@ public class PhysicsThread extends Thread {
 
   private void validPacmanGhostsCollisionEvent(Level level) {
     PacmanGhostCollisionManager pacmanGhostCollisionManager =
-        new PacmanGhostCollisionManager(level, level, model);
+        new PacmanGhostCollisionManager(level, model);
     Ghost collidingGhost = pacmanGhostCollisionManager.getCollidingGhost();
     if (collidingGhost == null) {
       return;

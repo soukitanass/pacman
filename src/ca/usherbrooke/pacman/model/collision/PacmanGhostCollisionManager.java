@@ -21,7 +21,7 @@ public class PacmanGhostCollisionManager {
   private Level level;
   private final IGameModel model;
 
-  public PacmanGhostCollisionManager(Level level, Level initialLevel, IGameModel model) {
+  public PacmanGhostCollisionManager(Level level, IGameModel model) {
     this.model = model;
     this.pacman = level.getPacMan();
     setLevel(level);

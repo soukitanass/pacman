@@ -35,7 +35,6 @@ public class Game implements IGame {
   private long lastModelUpdateTime;
   private IGameModel model;
   private List<IGameController> controllers;
-  private static AudioThread audioThread;
 
   public Game(IGameModel model, List<IGameController> controllers, long modelUpdatePeriod,
       long initialTime) {
@@ -49,8 +48,8 @@ public class Game implements IGame {
     final String LEVEL_PATH = "Level.json";
     final int gameUpdatesPerSecond = 7;
     final int gameUpdatePeriodMilliseconds = (int) (1000.0 / gameUpdatesPerSecond);
-    IGameModel model = new GameModel(Game.loadLevel(LEVEL_PATH));
-    audioThread = new AudioThread(model);
+    final IGameModel model = new GameModel(Game.loadLevel(LEVEL_PATH));
+    final AudioThread audioThread = new AudioThread(model);
     audioThread.setName("Audio_Thread");
     audioThread.start();
     model.startNewGame();
