@@ -1,5 +1,6 @@
 package ca.usherbrooke.pacman.controller;
 
+import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 import java.awt.event.KeyEvent;
@@ -23,16 +24,15 @@ public class PlayerKeyboardControllerTest {
   }
 
   @Test
-  public void EventsAreaddedToTheQueueTest() {
+  public void eventsAreaddedToTheQueueTest() {
     LevelPanel levelPanel = new LevelPanel(model);
     KeyEvent key = new KeyEvent(levelPanel, KeyEvent.KEY_PRESSED, System.currentTimeMillis(), 0,
         KeyEvent.VK_P, 'P');
     playerKeyboardController.keyPressed(key);
     assertFalse(playerKeyboardController.getCommands().isEmpty());
+    assertEquals(key, playerKeyboardController.getCommands().poll());
     playerKeyboardController.update();
     assertTrue(playerKeyboardController.getCommands().isEmpty());
-
-
   }
 
 }
