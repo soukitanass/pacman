@@ -104,4 +104,10 @@ public interface IGameModel {
   HighScores getHighScores();
 
   void setHighScores(HighScores highScores);
+
+  boolean isHighScore(int score);
+
+  void setHighScore(int score, String name);
+
+  void saveHighScores(String highScoresPath);
 }

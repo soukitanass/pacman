@@ -15,6 +15,7 @@ import static org.junit.Assert.assertTrue;
 import org.junit.Before;
 import org.junit.Test;
 import ca.usherbrooke.pacman.game.Game;
+import ca.usherbrooke.pacman.model.highscores.HighScores;
 import ca.usherbrooke.pacman.model.objects.Level;
 import ca.usherbrooke.pacman.model.position.Position;
 
@@ -130,7 +131,28 @@ public class GameModelTest {
 
   @Test
   public void highScoresAreLoaded() {
-    int expectedSize = 5;
+    assertFalse(model.getHighScores().getListHighScores().isEmpty());
+  }
+
+
+  @Test
+  public void highScoresAreSaved() {
+    final String HIGH_SCORES_PATH = "HighScoresTestingFile.json";
+    HighScores highScores = new HighScores(model.getHighScores().getListHighScores());
+
+    model.loadHighScores(HIGH_SCORES_PATH);
+    int size = model.getHighScores().getListHighScores().size();
+    int expectedSize = size - 1;
+
+    model.getHighScores().getListHighScores().remove(size - 1);
+    model.saveHighScores(HIGH_SCORES_PATH);
+    model.loadHighScores(HIGH_SCORES_PATH);
     assertEquals(expectedSize, model.getHighScores().getListHighScores().size());
+
+    model.setHighScores(highScores);
+    model.saveHighScores(HIGH_SCORES_PATH);
+    model.loadHighScores(HIGH_SCORES_PATH);
+    assertEquals(highScores.getListHighScores().size(),
+        model.getHighScores().getListHighScores().size());
   }
 }
