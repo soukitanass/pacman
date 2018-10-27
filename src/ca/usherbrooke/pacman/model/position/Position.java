@@ -32,6 +32,10 @@ public class Position {
     this.y = y;
   }
 
+  public Position(Position position) {
+    this(position.getX(), position.getY());
+  }
+
   public Integer getX() {
     return x;
   }

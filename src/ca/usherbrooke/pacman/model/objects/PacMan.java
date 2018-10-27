@@ -23,6 +23,7 @@ public class PacMan implements IGameObject, IHasInvincibilityStatus {
   private Direction direction;
   private Direction desiredDirection;
   private boolean isInvincible;
+  private int ghostKillsSinceInvincible;
 
   public PacMan() {
     isInvincible = false;
@@ -77,6 +78,9 @@ public class PacMan implements IGameObject, IHasInvincibilityStatus {
   }
 
   public void setIsInvincible(final boolean isInvincible) {
+    if (!isInvincible) {
+      ghostKillsSinceInvincible = 0;
+    }
     this.isInvincible = isInvincible;
   }
 
@@ -88,6 +92,14 @@ public class PacMan implements IGameObject, IHasInvincibilityStatus {
   @Override
   public boolean equals(Object other) {
     return EqualsBuilder.reflectionEquals(this, other);
+  }
+
+  public int getGhostKillsSinceInvincible() {
+    return ghostKillsSinceInvincible;
+  }
+
+  public void setGhostKillsSinceInvincible(int ghostKillsSinceInvincible) {
+    this.ghostKillsSinceInvincible = ghostKillsSinceInvincible;
   }
 
 }

@@ -12,11 +12,11 @@ import java.awt.image.BufferedImage;
 import ca.usherbrooke.pacman.model.IGameModel;
 import ca.usherbrooke.pacman.model.position.Position;
 
-public class BottomCenteredInLevelPositionStrategy implements TextPanelPositioningStrategy {
+public class BottomCenteredInLevelPositioningStrategy implements TextPanelPositioningStrategy {
 
   private int panelHeight;
 
-  public BottomCenteredInLevelPositionStrategy(int panelHeight) {
+  public BottomCenteredInLevelPositioningStrategy(int panelHeight) {
     this.panelHeight = panelHeight;
   }
 

@@ -141,7 +141,7 @@ public class LevelPanel extends AbstractPanel {
     BufferedImage levelNumberImage = getLevelNumberImage();
 
     TextPanelPositioningStrategy positioningStrategy =
-        new BottomCenteredInLevelPositionStrategy(height);
+        new BottomCenteredInLevelPositioningStrategy(height);
     final Position positionToDrawInBottomCenter =
         positioningStrategy.getPosition(levelNumberImage, model, pixelTileSize, offsetX, offsetY);
 

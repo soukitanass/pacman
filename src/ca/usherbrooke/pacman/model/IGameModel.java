@@ -95,8 +95,6 @@ public interface IGameModel {
 
   void initializeLevel();
 
-  void updateGhostDeath(Ghost ghost);
-
   void updatePacmanDeath();
 
   void loadHighScores(String highScoresPath);
@@ -110,4 +108,6 @@ public interface IGameModel {
   void setHighScore(int score, String name);
 
   void saveHighScores(String highScoresPath);
+  
+  void processGhostKilled(Ghost ghost);
 }

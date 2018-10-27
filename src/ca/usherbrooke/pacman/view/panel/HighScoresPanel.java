@@ -31,6 +31,8 @@ public class HighScoresPanel extends AbstractMenuPanel {
       this.add(jLabel);
     }
     this.add(goBackMenuOption);
+
+    addGoBackMouseListeners(goBackMenuOption);
   }
 
   @Override
@@ -40,16 +42,18 @@ public class HighScoresPanel extends AbstractMenuPanel {
     int y = (int) (model.getCurrentLevel().getHeight() * pixelTileSize * Y_OFFSET_FACTOR);
 
     for (int i = 0; i < highscores.size(); i++) {
-      paintHighScore(scoreLabels.get(i), highscores.get(i), y);
+      paintHighScore(i, y);
       y += scoreLabels.get(i).getHeight() + DELTA_Y;
     }
 
-    paintGoBackOption(goBackMenuOption, y);
+    paintGoBackOption(goBackMenuOption);
   }
 
-  private void paintHighScore(JLabel jLabel, HighScore score, int y) {
-    String label = String.valueOf(score.getName()) + SPACE + score.getScore();
-    setJLabel(jLabel, label, LABEL_COLOR, y, IMAGE_SCALE_FACTOR);
+  private void paintHighScore(int index, int y) {
+    JLabel jLabel = scoreLabels.get(index);
+    HighScore score = highscores.get(index);
+    String label = index + "." + String.valueOf(score.getName()) + SPACE + score.getScore();
+    setMenuJLabel(jLabel, label, LABEL_COLOR, y, IMAGE_SCALE_FACTOR);
   }
 
 }
