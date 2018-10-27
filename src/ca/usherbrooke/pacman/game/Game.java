@@ -63,7 +63,7 @@ public class Game implements IGame {
     fpsOptionListener.setRenderThread(renderThread);
     view.addCloseObserver(renderThread);
     List<IGameController> controllers = new ArrayList<>();
-    PlayerKeyboardController playerKeyboardController = new PlayerKeyboardController(model, view);
+    PlayerKeyboardController playerKeyboardController = new PlayerKeyboardController(model);
     controllers.add(playerKeyboardController);
     IGame game =
         new Game(model, controllers, gameUpdatePeriodMilliseconds, timeGetter.getMilliseconds());

@@ -13,23 +13,15 @@ import java.awt.event.KeyListener;
 import java.util.Queue;
 import java.util.concurrent.ConcurrentLinkedQueue;
 import ca.usherbrooke.pacman.model.IGameModel;
-import ca.usherbrooke.pacman.view.IGameView;
 
 public class PlayerKeyboardController implements IGameController, KeyListener {
   private InputHandler inputHandler;
   private Queue<KeyEvent> commands;
 
-  public PlayerKeyboardController(IGameModel model, IGameView view) {
-    inputHandler = new InputHandler(model);
-    view.getCanvas().setPausePanel();
-    commands = new ConcurrentLinkedQueue<>();
-  }
-
   public PlayerKeyboardController(IGameModel model) {
     inputHandler = new InputHandler(model);
     commands = new ConcurrentLinkedQueue<>();
   }
-
 
   @Override
   public void update() {
