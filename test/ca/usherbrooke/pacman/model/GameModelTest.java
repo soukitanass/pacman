@@ -15,6 +15,7 @@ import static org.junit.Assert.assertTrue;
 import org.junit.Before;
 import org.junit.Test;
 import ca.usherbrooke.pacman.game.Game;
+import ca.usherbrooke.pacman.model.objects.Ghost;
 import ca.usherbrooke.pacman.model.objects.Level;
 import ca.usherbrooke.pacman.model.position.Position;
 
@@ -117,5 +118,55 @@ public class GameModelTest {
     level.getGhosts().get(0).setPosition(new Position(0, 0));
     assertNotEquals(initialLevel.getGhosts().get(0).getPosition(),
         level.getGhosts().get(0).getPosition());
+  }
+
+  @Test
+  public void whenLivesSetToZeroThenGameIsOver() {
+    assertFalse(model.isGameOver());
+    model.setLives(1);
+    assertFalse(model.isGameOver());
+    model.setLives(0);
+    assertTrue(model.isGameOver());
+  }
+
+  @Test
+  public void whenGhostIsKilledThenItIsRemoved() {
+    Ghost killedGhost = model.getCurrentLevel().getGhosts().get(0);
+    assertEquals(4, model.getCurrentLevel().getGhosts().size());
+    model.processGhostKilled(killedGhost);
+    assertEquals(4, model.getCurrentLevel().getGhosts().size());
+    assertTrue(model.getCurrentLevel().getGhosts().contains(killedGhost));
+    assertEquals(new Position(13, 15), killedGhost.getPosition());
+  }
+
+  @Test
+  public void whenFirstGhostIsKilledThenScoreIncreasesBy200() {
+    assertEquals(Integer.valueOf(0), model.getScore());
+    model.processGhostKilled(model.getCurrentLevel().getGhosts().get(0));
+    assertEquals(Integer.valueOf(200), model.getScore());
+  }
+
+  @Test
+  public void whenSubsequentGhostsAreKilledThenScoreIncreasesBy200Then400Then800Then1600IfPacmanIsInvincible() {
+    model.getPacman().setIsInvincible(true);
+    assertEquals(Integer.valueOf(0), model.getScore());
+    model.processGhostKilled(model.getCurrentLevel().getGhosts().get(0));
+    assertEquals(Integer.valueOf(200), model.getScore());
+    model.processGhostKilled(model.getCurrentLevel().getGhosts().get(0));
+    assertEquals(Integer.valueOf(600), model.getScore());
+    model.processGhostKilled(model.getCurrentLevel().getGhosts().get(0));
+    assertEquals(Integer.valueOf(1400), model.getScore());
+    model.processGhostKilled(model.getCurrentLevel().getGhosts().get(0));
+    assertEquals(Integer.valueOf(3000), model.getScore());
+  }
+
+  @Test
+  public void whenInitializingLevelThenEatenPacgumsRemainEaten() {
+    final Position positionWithInitialPacgum = new Position(1, 1);
+    assertTrue(model.getCurrentLevel().isPacgum(positionWithInitialPacgum));
+    model.getCurrentLevel().setEmptyMapTile(positionWithInitialPacgum);
+    assertFalse(model.getCurrentLevel().isPacgum(positionWithInitialPacgum));
+    model.initializeLevel();
+    assertFalse(model.getCurrentLevel().isPacgum(positionWithInitialPacgum));
   }
 }

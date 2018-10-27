@@ -6,8 +6,9 @@
  * nass2801 - Soukaina Nassib
  * royb2006 - Benjamin Roy
  ******************************************************************************/
-package ca.usherbrooke.pacman.model;
+package ca.usherbrooke.pacman.model.direction.ghostsdirectionmanagers;
 
-public enum GameState {
-  GAME_MENU, AUDIO_MENU, HIGHSCORES_MENU, NEW_HIGHSCORE, GAME
+public interface IPeriodicDirectionManager {
+  public void update();
+
 }

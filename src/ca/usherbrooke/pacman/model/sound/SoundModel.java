@@ -10,6 +10,7 @@ package ca.usherbrooke.pacman.model.sound;
 
 import java.io.File;
 import ca.usherbrooke.pacman.model.IGameModel;
+import ca.usherbrooke.pacman.model.exceptions.InvalidSoundException;
 import ca.usherbrooke.pacman.view.utilities.WarningDialog;
 
 public class SoundModel extends Observer implements ISoundModel {
@@ -89,17 +90,22 @@ public class SoundModel extends Observer implements ISoundModel {
 
   @Override
   public void consumingPacGums() {
-      soundPlay(actionSoundPlayer, Sound.CHOMP_SOUND, true);
+    soundPlay(actionSoundPlayer, Sound.CHOMP_SOUND, true);
+  }
+
+  @Override
+  public void pacmanKilled() {
+    soundPlay(actionSoundPlayer, Sound.DEATH_SOUND, false);
   }
 
   @Override
   public void consumingGhost() {
-      soundPlay(actionSoundPlayer, Sound.EAT_GHOST_SOUND, false);
+    soundPlay(actionSoundPlayer, Sound.EAT_GHOST_SOUND, false);
   }
 
   @Override
   public void consumingFruit() {
-      soundPlay(actionSoundPlayer, Sound.EAT_FRUIT_SOUND, false);
+    soundPlay(actionSoundPlayer, Sound.EAT_FRUIT_SOUND, false);
   }
 
   @Override
@@ -116,31 +122,31 @@ public class SoundModel extends Observer implements ISoundModel {
     if (isMusicMuted()) {
       return;
     }
-    playSound(soundPlayer,sound,looping);
+    playSound(soundPlayer, sound, looping);
   }
-  
+
   private void soundPlay(ISoundPlayer soundPlayer, Sound sound, boolean looping) {
     if (isSoundMuted()) {
       return;
     }
-    playSound(soundPlayer,sound,looping);
+    playSound(soundPlayer, sound, looping);
   }
-  
+
   private void playSound(ISoundPlayer soundPlayer, Sound sound, boolean looping) {
-    File soundFile;
+    File soundFile = null;
     try {
       soundFile = soundFactory.getFile(sound);
-      if (soundPlayer.isPlaying()) {
-        return;
-      }
-      soundPlayer.setClip(soundFile);
-      if (looping) {
-        soundPlayer.loop();
-      } else {
-        soundPlayer.play();
-      }
-    } catch (Exception exception) {
+    } catch (InvalidSoundException exception) {
       WarningDialog.display("Error while opening sound file. ", exception);
+    }
+    if (soundPlayer.isPlaying()) {
+      return;
+    }
+    soundPlayer.setClip(soundFile);
+    if (looping) {
+      soundPlayer.loop();
+    } else {
+      soundPlayer.play();
     }
   }
 }

@@ -9,12 +9,9 @@
 package ca.usherbrooke.pacman.view.panel;
 
 import java.awt.Graphics;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
 import javax.swing.JCheckBox;
 import javax.swing.JLabel;
 import javax.swing.JSlider;
-import ca.usherbrooke.pacman.model.GameState;
 import ca.usherbrooke.pacman.model.IGameModel;
 import ca.usherbrooke.pacman.threads.AudioThread;
 
@@ -25,7 +22,6 @@ public class AudioMenuPanel extends AbstractMenuPanel {
   private static final String MUTE_LABEL = "Mute";
   private static final String MUSIC_LABEL = "MUSIC";
   private static final String SOUND_LABEL = "SOUND";
-  private static final String GO_BACK_LABEL = "GO BACK";
   private static final int MINIMAL_VOLUME = 0;
   private static final int MAXIMAL_VOLUME = 100;
 
@@ -51,11 +47,10 @@ public class AudioMenuPanel extends AbstractMenuPanel {
     this.add(soundSlider);
     this.add(goBackMenuOption);
 
-    addMouseListeners();
     addChangeListeners();
     addItemListeners();
+    addGoBackMouseListeners(goBackMenuOption);
   }
-
 
   @Override
   public void paint(Graphics graphic) {
@@ -66,11 +61,11 @@ public class AudioMenuPanel extends AbstractMenuPanel {
     y += musicSlider.getHeight() + DELTA_Y;
     y = paintSoundOption(y);
     y += soundSlider.getHeight() + DELTA_Y;
-    paintGoBackOption(y);
+    paintGoBackOption(goBackMenuOption);
   }
 
   private int paintMusicOption(int y) {
-    setJLabel(musicMenuOption, MUSIC_LABEL, y, IMAGE_SCALE_FACTOR);
+    setMenuJLabel(musicMenuOption, MUSIC_LABEL, LABEL_COLOR, y, IMAGE_SCALE_FACTOR);
     final int x = musicMenuOption.getX() + musicMenuOption.getWidth() + CHECKBOX_X_OFFSET;
     setJCheckBox(musicCheckbox, x, y);
     y += musicMenuOption.getHeight() + DELTA_Y;
@@ -79,25 +74,12 @@ public class AudioMenuPanel extends AbstractMenuPanel {
   }
 
   private int paintSoundOption(int y) {
-    setJLabel(soundMenuOption, SOUND_LABEL, y, IMAGE_SCALE_FACTOR);
+    setMenuJLabel(soundMenuOption, SOUND_LABEL, LABEL_COLOR, y, IMAGE_SCALE_FACTOR);
     final int x = soundMenuOption.getX() + soundMenuOption.getWidth() + CHECKBOX_X_OFFSET;
     setJCheckBox(soundCheckbox, x, y);
     y += soundMenuOption.getHeight() + DELTA_Y;
     setJSlider(soundSlider, y);
     return y;
-  }
-
-  private void paintGoBackOption(int y) {
-    setJLabel(goBackMenuOption, GO_BACK_LABEL, y, IMAGE_SCALE_FACTOR);
-  }
-
-  private void addMouseListeners() {
-    goBackMenuOption.addMouseListener(new MouseAdapter() {
-      @Override
-      public void mouseClicked(MouseEvent e) {
-        model.setGameState(GameState.GAME_MENU);
-      }
-    });
   }
 
   private void addChangeListeners() {

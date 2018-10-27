@@ -9,8 +9,6 @@
 package ca.usherbrooke.pacman.model.movement;
 
 import static org.junit.Assert.assertEquals;
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.when;
 import org.junit.Before;
 import org.junit.Test;
 import ca.usherbrooke.pacman.model.direction.Direction;
@@ -18,7 +16,7 @@ import ca.usherbrooke.pacman.model.exceptions.InvalidDirectionException;
 import ca.usherbrooke.pacman.model.movements.IMoveRequest;
 import ca.usherbrooke.pacman.model.movements.MoveRequest;
 import ca.usherbrooke.pacman.model.movements.WrapAroundMoveRequestSolver;
-import ca.usherbrooke.pacman.model.objects.Level;
+import ca.usherbrooke.pacman.model.objects.MockLevelFactory;
 import ca.usherbrooke.pacman.model.position.Position;
 
 public class WrapAroundMoveRequestSolverTest {
@@ -27,7 +25,8 @@ public class WrapAroundMoveRequestSolverTest {
 
   @Before
   public void setUp() {
-    moveRequestSolver = new WrapAroundMoveRequestSolver(getMockLevelTwoByTwoEmpty());
+    moveRequestSolver =
+        new WrapAroundMoveRequestSolver(MockLevelFactory.getMockLevelTwoByTwoEmpty());
   }
 
   @Test
@@ -52,23 +51,6 @@ public class WrapAroundMoveRequestSolverTest {
     assertEquals(new Position(0, 0), moveRequestSolver.getTargetPosition(moveRight));
     assertEquals(new Position(0, 1), moveRequestSolver.getTargetPosition(moveUp));
     assertEquals(new Position(0, 0), moveRequestSolver.getTargetPosition(moveDown));
-  }
-
-  // E = Empty
-  // W = Wall
-  //
-  // E | E
-  // ------
-  // E | E
-  private Level getMockLevelTwoByTwoEmpty() {
-    Level mockLevel = mock(Level.class);
-    when(mockLevel.getWidth()).thenReturn(2);
-    when(mockLevel.getHeight()).thenReturn(2);
-    when(mockLevel.isWall(new Position(0, 0))).thenReturn(false);
-    when(mockLevel.isWall(new Position(1, 0))).thenReturn(false);
-    when(mockLevel.isWall(new Position(0, 1))).thenReturn(false);
-    when(mockLevel.isWall(new Position(1, 1))).thenReturn(false);
-    return mockLevel;
   }
 
 }

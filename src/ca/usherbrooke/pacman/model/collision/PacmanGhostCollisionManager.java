@@ -8,8 +8,6 @@
  ******************************************************************************/
 package ca.usherbrooke.pacman.model.collision;
 
-import java.util.ArrayList;
-import java.util.List;
 import ca.usherbrooke.pacman.model.IGameModel;
 import ca.usherbrooke.pacman.model.direction.Direction;
 import ca.usherbrooke.pacman.model.objects.Ghost;
@@ -20,41 +18,31 @@ import ca.usherbrooke.pacman.model.position.Position;
 
 public class PacmanGhostCollisionManager {
   private final PacMan pacman;
-  private final Level level;
+  private Level level;
   private final IGameModel model;
-  private final Level initialLevel;
-  private List<Position> listPositions;
-  private Position pacmanInitialPosition;
 
-  public PacmanGhostCollisionManager(Level level, Level initialLevel, IGameModel model) {
-    listPositions = new ArrayList<>();
+  public PacmanGhostCollisionManager(Level level, IGameModel model) {
     this.model = model;
     this.pacman = level.getPacMan();
-    this.level = level;
-    this.initialLevel = initialLevel;
-    loadGhostInitialPosition();
-    loadPacmanInitialPosition();
+    setLevel(level);
   }
 
   public void update() {
-    model.setLives(model.getLives() - 1);
-    pacman.setPosition(pacmanInitialPosition);
-    pacman.setDirection(Direction.LEFT);
-    int i = 0;
-    for (Ghost ghost : level.getGhosts()) {
-      ghost.setPosition(listPositions.get(i));
-      i++;
+    if (pacman.isInvincible()) {
+      model.processGhostKilled(getCollidingGhost());
+    } else {
+      model.updatePacmanDeath();
     }
   }
 
-  public boolean isCollision() {
+  public Ghost getCollidingGhost() {
     for (Ghost ghost : level.getGhosts()) {
       if (pacman.getPosition().equals(ghost.getPosition())
           || isOppositeDirection(pacman, ghost) && isSideBySide(pacman, ghost)) {
-        return true;
+        return ghost;
       }
     }
-    return false;
+    return null;
   }
 
   private boolean isOnTheSameRow(IGameObject gameObject1, IGameObject gameObject2) {
@@ -90,14 +78,7 @@ public class PacmanGhostCollisionManager {
             && isOnTheSameRow(gameObject1, gameObject2);
   }
 
-  private void loadPacmanInitialPosition() {
-    this.pacmanInitialPosition = initialLevel.getPacMan().getPosition();
-  }
-
-  private List<Position> loadGhostInitialPosition() {
-    for (Ghost ghost : initialLevel.getGhosts()) {
-      listPositions.add(ghost.getPosition());
-    }
-    return listPositions;
+  public void setLevel(Level level) {
+    this.level = level;
   }
 }

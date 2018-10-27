@@ -6,18 +6,22 @@
  * nass2801 - Soukaina Nassib
  * royb2006 - Benjamin Roy
  ******************************************************************************/
-package ca.usherbrooke.pacman.model.direction;
+package ca.usherbrooke.pacman.model.direction.ghostsdirectionmanagers;
 
 import ca.usherbrooke.pacman.model.IGameModel;
+import ca.usherbrooke.pacman.model.direction.Direction;
+import ca.usherbrooke.pacman.model.direction.IDirectionGenerator;
+import ca.usherbrooke.pacman.model.direction.IHasDesiredDirection;
 
-public class PeriodicDirectionManager {
+public class InkyPeriodicDirectionManager implements IPeriodicDirectionManager {
+
   private int updatesCounter;
   private int period;
   private IHasDesiredDirection gameObject;
   private IDirectionGenerator directionGenerator;
   private IGameModel gameModel;
 
-  public PeriodicDirectionManager(IGameModel gameModel, IDirectionGenerator directionGenerator,
+  public InkyPeriodicDirectionManager(IGameModel gameModel, IDirectionGenerator directionGenerator,
       IHasDesiredDirection gameObject, int period) {
     this.gameModel = gameModel;
     this.directionGenerator = directionGenerator;
@@ -25,13 +29,17 @@ public class PeriodicDirectionManager {
     this.period = period;
   }
 
+  @Override
   public void update() {
     ++updatesCounter;
     if (period != updatesCounter) {
       return;
     }
     updatesCounter = 0;
+    // TODO:
     Direction direction = directionGenerator.get();
     gameModel.setDirection(gameObject, direction);
   }
+
+
 }
