@@ -1,5 +1,6 @@
 package ca.usherbrooke.pacman.threads;
 
+import java.util.concurrent.atomic.AtomicBoolean;
 import ca.usherbrooke.pacman.controller.ISoundController;
 import ca.usherbrooke.pacman.controller.SoundController;
 import ca.usherbrooke.pacman.model.IGameModel;
@@ -10,23 +11,26 @@ import ca.usherbrooke.pacman.view.utilities.WarningDialog;
 
 public class AudioThread extends Thread implements CloseObserver {
 
-  private static final int THREAD_SLEEP = 3;
+  private static final int THREAD_SLEEP = 500;
+
+  private final Object musicVolumeLock = new Object();
+  private final Object soundVolumeLock = new Object();
+
   private volatile boolean isRunning = false;
   private ISoundModel soundPlayer;
   private ISoundController soundController;
   private final IGameModel model;
 
-  private boolean soundVolumeChanged = false;
-  private boolean musicVolumeChanged = false;
-  private boolean soundPlay = false;
-  private boolean musicPlay = false;
+  private AtomicBoolean isSoundVolumeChanged = new AtomicBoolean(false);
+  private AtomicBoolean isMusicVolumeChanged = new AtomicBoolean(false);
+  private AtomicBoolean isSoundPlaying = new AtomicBoolean(false);
+  private AtomicBoolean isMusicPlaying = new AtomicBoolean(false);
+
+  private AtomicBoolean isMusicMuted = new AtomicBoolean(false);
+  private AtomicBoolean isSoundMuted = new AtomicBoolean(false);
 
   private int soundVolume;
   private int musicVolume;
-
-  private Object lock = new Object();
-  private boolean isMusicMuted = false;
-  private boolean isSoundMuted = false;
 
   public AudioThread(IGameModel model) {
     this.model = model;
@@ -39,116 +43,88 @@ public class AudioThread extends Thread implements CloseObserver {
   public void run() {
     System.out.println("START - " + getName());
     isRunning = true;
+
     while (isRunning) {
       try {
-        if (isSoundVolumeChanged()) {
+        if (isSoundVolumeChanged.get()) {
           soundPlayer.setSoundVolumeChanged(soundVolume);
-          soundVolumeChanged = false;
+          isSoundVolumeChanged.set(false);
         }
-        if (isMusicVolumeChanged()) {
+        if (isMusicVolumeChanged.get()) {
           soundPlayer.setMusicVolumeChanged(musicVolume);
-          musicVolumeChanged = false;
+          isMusicVolumeChanged.set(false);
         }
-        if (isMusicPlay()) {
-          if (isMusicMuted) {
+
+        if (isMusicPlaying.get()) {
+          if (isMusicMuted.get()) {
             soundPlayer.muteMusic();
           } else {
             soundPlayer.unmuteMusic();
           }
-          setTheMusicPlay(false);
+          isMusicPlaying.set(false);
         }
 
-        if (isSoundPlaying()) {
-          if (isSoundMuted) {
+        if (isSoundPlaying.get()) {
+          if (isSoundMuted.get()) {
             soundPlayer.muteSound();
           } else {
             soundPlayer.unmuteSound();
           }
-          setTheSoundPlay(false);
+          isSoundPlaying.set(false);
         }
         Thread.sleep(THREAD_SLEEP);
-        synchronized (lock) {
-          lock.wait();
-        }
-
       } catch (InterruptedException e) {
         Thread.currentThread().interrupt();
         WarningDialog.display("Error while interrupting " + this.getName(), e);
       }
     }
+
     System.out.println("STOP - " + getName());
   }
 
-  public synchronized boolean isSoundVolumeChanged() {
-    return soundVolumeChanged;
-  }
-
-  public synchronized void setSoundVolumeChanged(int volume) {
-    this.soundVolumeChanged = true;
-    this.soundVolume = volume;
-    synchronized (lock) {
-      lock.notifyAll();
+  public synchronized void setSoundVolume(int soundVolume) {
+    synchronized (soundVolumeLock) {
+      this.soundVolume = soundVolume;
+      isSoundVolumeChanged.set(true);
     }
   }
 
   public synchronized int getSoundVolume() {
-    return soundVolume;
-  }
-
-  public synchronized void setSoundVolume(int soundVolume) {
-    this.soundVolume = soundVolume;
-  }
-
-  public synchronized int getMusicVolume() {
-    return musicVolume;
+    synchronized (soundVolumeLock) {
+      return soundVolume;
+    }
   }
 
   public synchronized void setMusicVolume(int musicVolume) {
-    this.musicVolume = musicVolume;
-  }
-
-  public synchronized boolean isMusicVolumeChanged() {
-    return musicVolumeChanged;
-  }
-
-  public synchronized void setMusicVolumeChanged(int volume) {
-    this.musicVolumeChanged = true;
-    this.musicVolume = volume;
-    synchronized (lock) {
-      lock.notifyAll();
+    synchronized (musicVolumeLock) {
+      this.musicVolume = musicVolume;
+      isMusicVolumeChanged.set(true);
     }
+
   }
 
-  public synchronized boolean isSoundPlaying() {
-    return soundPlay;
+  public synchronized int getMusicVolume() {
+    synchronized (musicVolumeLock) {
+      return musicVolume;
+    }
   }
 
   public synchronized void setIsSoundPlaying(boolean isMuted) {
-    this.soundPlay = true;
-    this.isSoundMuted = isMuted;
-    synchronized (lock) {
-      lock.notifyAll();
-    }
+    isSoundPlaying.set(true);
+    isSoundMuted.set(isMuted);
+  }
+
+  public synchronized boolean isSoundPlaying() {
+    return isSoundPlaying.get();
   }
 
   public synchronized void setTheSoundPlay(boolean soundPlay) {
-    this.soundPlay = soundPlay;
-  }
-
-  public synchronized boolean isMusicPlay() {
-    return musicPlay;
+    isSoundPlaying.set(soundPlay);
   }
 
   public synchronized void setMusicPlay(boolean isMuted) {
-    this.musicPlay = true;
-    this.isMusicMuted = isMuted;
-    synchronized (lock) {
-      lock.notifyAll();
-    }
-  }
-
-  public synchronized void setTheMusicPlay(boolean musicPlay) {
-    this.musicPlay = musicPlay;
+    isMusicPlaying.set(true);
+    isMusicMuted.set(isMuted);
   }
 
   public synchronized ISoundController getSoundController() {
@@ -166,8 +142,5 @@ public class AudioThread extends Thread implements CloseObserver {
 
   public synchronized void stopThread() {
     isRunning = false;
-    synchronized (lock) {
-      lock.notifyAll();
-    }
   }
 }

@@ -134,6 +134,24 @@ public class SpriteFacade {
   }
 
   @SuppressWarnings("squid:RedundantThrowsDeclarationCheck")
+  public BufferedImage getAfraidGhost(GhostState state)
+      throws InvalidColorException, InvalidDirectionException, InvalidStateException {
+    int stateXOffset = 0;
+
+    switch (state) {
+      case STATE1:
+        stateXOffset = 13;
+        break;
+      case STATE2:
+        stateXOffset = 14;
+        break;
+      default:
+        throw new InvalidStateException("Invalid ghost state");
+    }
+    return sprite.getSprite(stateXOffset, 2);
+  }
+
+  @SuppressWarnings("squid:RedundantThrowsDeclarationCheck")
   public BufferedImage getGhost(Direction direction, Color color, GhostState state)
       throws InvalidColorException, InvalidDirectionException, InvalidStateException {
     int colorXOffset = 0;

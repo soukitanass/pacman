@@ -66,16 +66,24 @@ public class GhostsPanel extends JPanel {
 
   private void drawGhost(Graphics graphics, Ghost ghost)
       throws InvalidColorException, InvalidDirectionException, InvalidStateException {
-    Direction direction = ghost.getDirection();
-    Color color = ghostIdToColor.get(ghost.getId());
-    GhostState ghostSpriteState = ghostSpritePeriodicToggler.getGhostState();
-    Image ghostImage = spriteFacade.getGhost(direction, color, ghostSpriteState);
+    Image ghostImage = getGhostImage(ghost);
     final int x = ghost.getPosition().getX() * pixelTileSize + offsetX;
     final int y = ghost.getPosition().getY() * pixelTileSize + offsetY;
     final int width = pixelTileSize;
     final int height = pixelTileSize;
     final int tileSize = spriteFacade.getTileSize();
     graphics.drawImage(ghostImage, x, y, x + width, y + height, 0, 0, tileSize, tileSize, null);
+  }
+
+  private Image getGhostImage(Ghost ghost)
+      throws InvalidColorException, InvalidDirectionException, InvalidStateException {
+    GhostState ghostSpriteState = ghostSpritePeriodicToggler.getGhostState();
+    if (model.getCurrentLevel().getPacMan().isInvincible()) {
+      return spriteFacade.getAfraidGhost(ghostSpriteState);
+    }
+    Direction direction = ghost.getDirection();
+    Color color = ghostIdToColor.get(ghost.getId());
+    return spriteFacade.getGhost(direction, color, ghostSpriteState);
   }
 
   public void setPixelTileSize(int pixelTileSize) {
