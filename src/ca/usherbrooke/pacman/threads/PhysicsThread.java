@@ -102,10 +102,13 @@ public class PhysicsThread extends Thread {
   private void validPacmanGhostsCollisionEvent(Level level) {
     PacmanGhostCollisionManager pacmanGhostCollisionManager =
         new PacmanGhostCollisionManager(level, level, model);
-    if (pacmanGhostCollisionManager.isCollision()) {
-      PacMan pacman = level.getPacMan();
-      addEventToQueue(pacman, GameEvent.PACMAN_GHOST_COLLISON, pacman.getPosition());
+    Ghost collidingGhost = pacmanGhostCollisionManager.getCollidingGhost();
+    if (collidingGhost == null) {
+      return;
     }
+    PacMan pacman = level.getPacMan();
+    IGameObject killedObject = pacman.isInvincible() ? collidingGhost : pacman;
+    addEventToQueue(killedObject, GameEvent.PACMAN_GHOST_COLLISON, pacman.getPosition());
   }
 
   private void validPacmanMovement(Level level) {

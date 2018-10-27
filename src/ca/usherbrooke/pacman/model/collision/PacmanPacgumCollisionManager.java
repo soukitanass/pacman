@@ -14,12 +14,12 @@ import ca.usherbrooke.pacman.model.position.Position;
 
 public class PacmanPacgumCollisionManager {
 
-  private final Level level;
+  private Level level;
   private static final Integer POINT = 10;
   private IGameModel model;
 
   public PacmanPacgumCollisionManager(Level level, IGameModel model) {
-    this.level = level;
+    setLevel(level);
     this.model = model;
   }
 
@@ -28,5 +28,10 @@ public class PacmanPacgumCollisionManager {
     Position position = level.getPacMan().getPosition();
     model.setScore(model.getScore() + POINT);
     level.setEmptyMapTile(position);
+  }
+
+
+  public void setLevel(Level level) {
+    this.level = level;
   }
 }

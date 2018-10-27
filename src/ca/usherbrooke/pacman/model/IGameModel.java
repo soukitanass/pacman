@@ -10,6 +10,7 @@ package ca.usherbrooke.pacman.model;
 
 import ca.usherbrooke.pacman.model.direction.Direction;
 import ca.usherbrooke.pacman.model.direction.IHasDesiredDirection;
+import ca.usherbrooke.pacman.model.objects.Ghost;
 import ca.usherbrooke.pacman.model.objects.Level;
 import ca.usherbrooke.pacman.model.objects.PacMan;
 import ca.usherbrooke.pacman.model.sound.Observer;
@@ -69,6 +70,8 @@ public interface IGameModel {
 
   void consumingGhost();
 
+  void pacmanKilled();
+
   void startNewGame();
 
   int getLives();
@@ -82,8 +85,16 @@ public interface IGameModel {
   Level getInitialLevel();
 
   void setCurrentLevel(Level level);
-  
+
   boolean isPacmanDead();
 
   void setIsPacmanDead(boolean isPacmanDead);
+
+  void initializeGame();
+
+  void initializeLevel();
+
+  void updateGhostDeath(Ghost ghost);
+
+  void updatePacmanDeath();
 }

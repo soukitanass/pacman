@@ -15,11 +15,13 @@ public abstract class Observer {
 
   public abstract void consumingPacGums();
 
-  public abstract void consumingGhost();
+  public abstract void pacmanKilled();
 
   public abstract void consumingFruit();
 
   public abstract void movingToEmptySpace();
 
   public abstract void onGameInterruption();
+
+  public abstract void consumingGhost();
 }
