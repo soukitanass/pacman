@@ -131,11 +131,12 @@ public class GameModelTest {
 
   @Test
   public void whenGhostIsKilledThenItIsRemoved() {
-    assertEquals(4, model.getCurrentLevel().getGhosts().size());
     Ghost killedGhost = model.getCurrentLevel().getGhosts().get(0);
+    assertEquals(4, model.getCurrentLevel().getGhosts().size());
     model.processGhostKilled(killedGhost);
-    assertEquals(3, model.getCurrentLevel().getGhosts().size());
-    assertFalse(model.getCurrentLevel().getGhosts().contains(killedGhost));
+    assertEquals(4, model.getCurrentLevel().getGhosts().size());
+    assertTrue(model.getCurrentLevel().getGhosts().contains(killedGhost));
+    assertEquals(new Position(13, 15), killedGhost.getPosition());
   }
 
   @Test
