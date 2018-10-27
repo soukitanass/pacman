@@ -156,8 +156,8 @@ public class GameModel implements IGameModel {
     if (isPacmanDead) {
       return;
     }
-    Level level = getCurrentLevel();
-    if (level.isCompleted()) {
+    Level currentLevel = getCurrentLevel();
+    if (currentLevel.isCompleted()) {
       isLevelCompleted = true;
       onInterruption();
       updateIsLevelCompleted();
@@ -168,7 +168,7 @@ public class GameModel implements IGameModel {
     processAllPhysicsEvents();
 
     synchronized (moveQueue) {
-      moveQueue.add(level);
+      moveQueue.add(currentLevel);
       moveQueue.notifyAll();
     }
 
@@ -291,7 +291,7 @@ public class GameModel implements IGameModel {
     pacmanPacgumCollisionManager = new PacmanPacgumCollisionManager(currentLevel, this);
     pacmanSuperPacgumCollisionManager = new PacmanSuperPacgumCollisionManager(currentLevel, this);
     pacmanGhostCollisionManager =
-        new PacmanGhostCollisionManager(currentLevel, getInitialLevel(), this);
+        new PacmanGhostCollisionManager(currentLevel, this);
   }
 
   @Override

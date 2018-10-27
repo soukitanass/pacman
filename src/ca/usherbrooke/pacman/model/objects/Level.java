@@ -46,11 +46,11 @@ public class Level {
     this.width = level.width;
     this.height = level.height;
     this.pacMan = new PacMan(level.pacMan);
-    this.ghosts = new ArrayList<Ghost>();
+    this.ghosts = new ArrayList<>();
     for (Ghost ghost : level.getGhosts()) {
       this.ghosts.add(new Ghost(ghost));
     }
-    this.map = new ArrayList<List<Integer>>();
+    this.map = new ArrayList<>();
     for (List<Integer> list : level.getMap()) {
       this.map.add(new ArrayList<Integer>(list));
     }
