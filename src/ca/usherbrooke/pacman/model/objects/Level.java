@@ -9,11 +9,14 @@
 package ca.usherbrooke.pacman.model.objects;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
+import ca.usherbrooke.pacman.model.direction.Direction;
 import ca.usherbrooke.pacman.model.position.Position;
 
 public class Level {
@@ -162,4 +165,59 @@ public class Level {
   public boolean equals(Object other) {
     return EqualsBuilder.reflectionEquals(this, other);
   }
+
+  public Direction getDirectionIfInLineOfSight(final Position fromPosition,
+      final Position toPosition) {
+    final boolean isSameX = fromPosition.getX() == toPosition.getX();
+    final boolean isSameY = fromPosition.getY() == toPosition.getY();
+    final boolean isLeft = toPosition.getX() < fromPosition.getX();
+    final boolean isUp = toPosition.getY() < fromPosition.getY();
+    if (isSameX && isSameY) {
+      return null;
+    }
+    final Set<Position> positionsInbetween = getPositionsInbetween(fromPosition, toPosition);
+    if (positionsInbetween == null) {
+      return null;
+    }
+    final boolean isWallInbetween =
+        positionsInbetween.stream().anyMatch(position -> isWall(position));
+    if (isWallInbetween) {
+      return null;
+    }
+    if (isSameX && isUp) {
+      return Direction.UP;
+    }
+    if (isSameX && !isUp) {
+      return Direction.DOWN;
+    }
+    if (isSameY && isLeft) {
+      return Direction.LEFT;
+    }
+    if (isSameY && !isLeft) {
+      return Direction.RIGHT;
+    }
+    return null;
+  }
+
+  public static Set<Position> getPositionsInbetween(final Position positionA,
+      final Position positionB) {
+    Set<Position> positions = new HashSet<>();
+    final int minX = Math.min(positionA.getX(), positionB.getX());
+    final int minY = Math.min(positionA.getY(), positionB.getY());
+    final int maxX = Math.max(positionA.getX(), positionB.getX());
+    final int maxY = Math.max(positionA.getY(), positionB.getY());
+    final boolean isSameX = minX == maxX;
+    final boolean isSameY = minY == maxY;
+    if (!isSameX && !isSameY) {
+      return null;
+    }
+    for (int x = minX + 1; x < maxX; ++x) {
+      positions.add(new Position(x, minY));
+    }
+    for (int y = minY + 1; y < maxY; ++y) {
+      positions.add(new Position(minX, y));
+    }
+    return positions;
+  }
+
 }

@@ -2,9 +2,14 @@ package ca.usherbrooke.pacman.model.objects;
 
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
+import java.util.Arrays;
+import java.util.List;
 import ca.usherbrooke.pacman.model.position.Position;
 
 public class MockLevelFactory {
+
+  private static final int WALL_CODE = 1;
+  private static final int EMPTY_CODE = 0;
 
   // E = Empty
   // W = Wall
@@ -193,6 +198,25 @@ public class MockLevelFactory {
     return mockLevel;
   }
 
+  // W = Wall
+  // E = Empty
+  //
+  // E | E | E
+  // ---------
+  // E | W | E
+  // ---------
+  // E | E | E
+  static public Level getMockLevelSingleWallSurroundedByEmptiness() {
+    List<List<Integer>> map = Arrays.asList(Arrays.asList(EMPTY_CODE, EMPTY_CODE, EMPTY_CODE),
+        Arrays.asList(EMPTY_CODE, WALL_CODE, EMPTY_CODE),
+        Arrays.asList(EMPTY_CODE, EMPTY_CODE, EMPTY_CODE));
+    Level level = new Level();
+    level.setWidth(3);
+    level.setHeight(3);
+    level.setMap(map);
+    return level;
+  }
+
   // E = Empty
   //
   // E | E | E
@@ -201,10 +225,14 @@ public class MockLevelFactory {
   // ---------
   // E | E | E
   public static Level getMockLevelThreeByThreeEmpty() {
-    Level mockLevel = mock(Level.class);
-    when(mockLevel.getWidth()).thenReturn(3);
-    when(mockLevel.getHeight()).thenReturn(3);
-    return mockLevel;
+    List<List<Integer>> map = Arrays.asList(Arrays.asList(EMPTY_CODE, EMPTY_CODE, EMPTY_CODE),
+        Arrays.asList(EMPTY_CODE, EMPTY_CODE, EMPTY_CODE),
+        Arrays.asList(EMPTY_CODE, EMPTY_CODE, EMPTY_CODE));
+    Level level = new Level();
+    level.setWidth(3);
+    level.setHeight(3);
+    level.setMap(map);
+    return level;
   }
 
   // W = Wall
