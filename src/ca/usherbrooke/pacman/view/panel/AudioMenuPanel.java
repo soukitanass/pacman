@@ -49,6 +49,7 @@ public class AudioMenuPanel extends AbstractMenuPanel {
 
     addChangeListeners();
     addItemListeners();
+    addGoBackMouseListeners(goBackMenuOption);
   }
 
   @Override

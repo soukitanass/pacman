@@ -35,6 +35,8 @@ public class HighScoresPanel extends AbstractMenuPanel {
       this.add(jLabel);
     }
     this.add(goBackMenuOption);
+
+    addGoBackMouseListeners(goBackMenuOption);
   }
 
   @Override

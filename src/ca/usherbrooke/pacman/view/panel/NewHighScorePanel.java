@@ -51,6 +51,7 @@ public class NewHighScorePanel extends AbstractMenuPanel implements KeyListener 
     }
 
     addComponents();
+    addMouseListeners();
   }
 
   @Override
@@ -108,14 +109,6 @@ public class NewHighScorePanel extends AbstractMenuPanel implements KeyListener 
 
   private void paintSaveOption(JLabel jLabel, String label, int y) {
     setBottomMenuJLabel(jLabel, label, IMAGE_SCALE_FACTOR);
-    jLabel.addMouseListener(new MouseAdapter() {
-      @Override
-      public void mouseClicked(MouseEvent e) {
-        // TODO: Save highscore to model
-
-        model.setGameState(GameState.GAME_MENU);
-      }
-    });
   }
 
   private void updateCounters() {
@@ -128,6 +121,17 @@ public class NewHighScorePanel extends AbstractMenuPanel implements KeyListener 
   private void resetCounters() {
     updatesCounter = 0;
     blinkingCounter = 0;
+  }
+
+  private void addMouseListeners() {
+    saveLabel.addMouseListener(new MouseAdapter() {
+      @Override
+      public void mouseClicked(MouseEvent e) {
+        // TODO: Save highscore to model
+
+        model.setGameState(GameState.GAME_MENU);
+      }
+    });
   }
 
   @Override

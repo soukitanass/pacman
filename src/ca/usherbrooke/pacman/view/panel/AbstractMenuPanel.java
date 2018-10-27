@@ -117,6 +117,9 @@ public abstract class AbstractMenuPanel extends AbstractPanel {
 
   protected void paintGoBackOption(JLabel jLabel) {
     setBottomMenuJLabel(jLabel, GO_BACK_LABEL, IMAGE_SCALE_FACTOR);
+  }
+
+  protected void addGoBackMouseListeners(JLabel jLabel) {
     jLabel.addMouseListener(new MouseAdapter() {
       @Override
       public void mouseClicked(MouseEvent e) {
