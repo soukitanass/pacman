@@ -274,7 +274,9 @@ public class GameModel implements IGameModel {
 
   @Override
   public void initializeLevel() {
-    this.level = new Level(getInitialLevel());
+    List<List<Integer>> levelMapBeforeInitializing = getCurrentLevel().getMap();
+    setCurrentLevel(new Level(getInitialLevel()));
+    getCurrentLevel().setMap(levelMapBeforeInitializing);
     pacman = level.getPacMan();
     initializeGhosts();
     initializeCollisionManagers();

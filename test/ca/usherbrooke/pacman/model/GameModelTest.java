@@ -158,4 +158,14 @@ public class GameModelTest {
     model.processGhostKilled(model.getCurrentLevel().getGhosts().get(0));
     assertEquals(Integer.valueOf(3000), model.getScore());
   }
+
+  @Test
+  public void whenInitializingLevelThenEatenPacgumsRemainEaten() {
+    final Position positionWithInitialPacgum = new Position(1, 1);
+    assertTrue(model.getCurrentLevel().isPacgum(positionWithInitialPacgum));
+    model.getCurrentLevel().setEmptyMapTile(positionWithInitialPacgum);
+    assertFalse(model.getCurrentLevel().isPacgum(positionWithInitialPacgum));
+    model.initializeLevel();
+    assertFalse(model.getCurrentLevel().isPacgum(positionWithInitialPacgum));
+  }
 }
