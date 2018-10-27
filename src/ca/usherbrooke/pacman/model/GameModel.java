@@ -8,11 +8,15 @@
  ******************************************************************************/
 package ca.usherbrooke.pacman.model;
 
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileReader;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Queue;
 import java.util.Random;
 import java.util.concurrent.ConcurrentLinkedQueue;
+import com.google.gson.Gson;
 import ca.usherbrooke.pacman.model.collision.PacmanGhostCollisionManager;
 import ca.usherbrooke.pacman.model.collision.PacmanPacgumCollisionManager;
 import ca.usherbrooke.pacman.model.collision.PacmanSuperPacgumCollisionManager;
@@ -27,6 +31,7 @@ import ca.usherbrooke.pacman.model.direction.ghostsdirectionmanagers.InkyPeriodi
 import ca.usherbrooke.pacman.model.direction.ghostsdirectionmanagers.PinkyPeriodicDirectionManager;
 import ca.usherbrooke.pacman.model.events.GameEvent;
 import ca.usherbrooke.pacman.model.events.GameEventObject;
+import ca.usherbrooke.pacman.model.highscores.HighScores;
 import ca.usherbrooke.pacman.model.objects.Ghost;
 import ca.usherbrooke.pacman.model.objects.IGameObject;
 import ca.usherbrooke.pacman.model.objects.Level;
@@ -43,6 +48,7 @@ public class GameModel implements IGameModel {
   private static final int INITIAL_SCORE = 0;
   private static final int INITIAL_NUMBER_OF_LIVES = 3;
   private static final int NUMBER_OF_LEVEL = 5;
+  private static final String HIGH_SCORES_PATH = "Highscores.json";
 
   private Level level;
   private final Level initialLevel;
@@ -60,6 +66,7 @@ public class GameModel implements IGameModel {
   private PacmanPacgumCollisionManager pacmanPacgumCollisionManager;
   private PacmanSuperPacgumCollisionManager pacmanSuperPacgumCollisionManager;
   private List<Observer> observers = new ArrayList<>();
+  private HighScores highScores = new HighScores();
   Random randomNumberGenerator = new Random(RANDOM_GENERATOR_SEED);
   IDirectionGenerator randomDirectionGenerator =
       new RandomDirectionGenerator(randomNumberGenerator);
@@ -262,6 +269,7 @@ public class GameModel implements IGameModel {
   @Override
   public void initializeGame() {
     initializeLevel();
+    loadHighScores(HIGH_SCORES_PATH);
     isGameOver = false;
   }
 
@@ -290,8 +298,7 @@ public class GameModel implements IGameModel {
     Level currentLevel = getCurrentLevel();
     pacmanPacgumCollisionManager = new PacmanPacgumCollisionManager(currentLevel, this);
     pacmanSuperPacgumCollisionManager = new PacmanSuperPacgumCollisionManager(currentLevel, this);
-    pacmanGhostCollisionManager =
-        new PacmanGhostCollisionManager(currentLevel, this);
+    pacmanGhostCollisionManager = new PacmanGhostCollisionManager(currentLevel, this);
   }
 
   @Override
@@ -451,5 +458,26 @@ public class GameModel implements IGameModel {
   public void updatePacmanDeath() {
     setLives(getLives() - 1);
     initializeLevel();
+  }
+
+  @Override
+  public void loadHighScores(String highScoresPath) {
+    Gson gson = new Gson();
+    File file = new File(GameModel.class.getClassLoader().getResource(highScoresPath).getFile());
+    try (FileReader fileReader = new FileReader(file)) {
+      setHighScores(gson.fromJson(new BufferedReader(fileReader), HighScores.class));
+    } catch (Exception exception) {
+      WarningDialog.display("Error while opening highScores file. ", exception);
+    }
+  }
+
+  @Override
+  public HighScores getHighScores() {
+    return highScores;
+  }
+
+  @Override
+  public void setHighScores(HighScores highScores) {
+    this.highScores = highScores;
   }
 }

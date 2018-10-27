@@ -127,4 +127,10 @@ public class GameModelTest {
     model.setLives(0);
     assertTrue(model.isGameOver());
   }
+
+  @Test
+  public void highScoresAreLoaded() {
+    int expectedSize = 5;
+    assertEquals(expectedSize, model.getHighScores().getListHighScores().size());
+  }
 }

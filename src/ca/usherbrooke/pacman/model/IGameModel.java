@@ -10,6 +10,7 @@ package ca.usherbrooke.pacman.model;
 
 import ca.usherbrooke.pacman.model.direction.Direction;
 import ca.usherbrooke.pacman.model.direction.IHasDesiredDirection;
+import ca.usherbrooke.pacman.model.highscores.HighScores;
 import ca.usherbrooke.pacman.model.objects.Ghost;
 import ca.usherbrooke.pacman.model.objects.Level;
 import ca.usherbrooke.pacman.model.objects.PacMan;
@@ -97,4 +98,10 @@ public interface IGameModel {
   void updateGhostDeath(Ghost ghost);
 
   void updatePacmanDeath();
+
+  void loadHighScores(String highScoresPath);
+
+  HighScores getHighScores();
+
+  void setHighScores(HighScores highScores);
 }

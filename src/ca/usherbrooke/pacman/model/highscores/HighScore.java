@@ -2,11 +2,17 @@ package ca.usherbrooke.pacman.model.highscores;
 
 import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
+import com.google.gson.annotations.Expose;
+import com.google.gson.annotations.SerializedName;
 
 @SuppressWarnings("rawtypes")
 public class HighScore implements Comparable<Object> {
 
+  @SerializedName("score")
+  @Expose
   private int score;
+  @SerializedName("name")
+  @Expose
   private String name;
 
   public HighScore(String name, int score) {
@@ -32,7 +38,7 @@ public class HighScore implements Comparable<Object> {
   public boolean equals(Object obj) {
     return EqualsBuilder.reflectionEquals(this, obj);
   }
-  
+
   @Override
   public int hashCode() {
     return HashCodeBuilder.reflectionHashCode(this);
