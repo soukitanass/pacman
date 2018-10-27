@@ -90,11 +90,12 @@ public class PacmanGhostsCollisionManagerTest {
   }
 
   @Test
-  public void whenCollisionWithInvinciblePacmanThenPacmanIsUnchanged() {
+  public void whenCollisionWithInvinciblePacmanThenPacmanGhostKillCountIsIncremented() {
     level.getPacMan().setIsInvincible(true);
-    PacMan initialPacmanCopy = new PacMan(level.getPacMan());
+    PacMan expectedPacman = new PacMan(level.getPacMan());
+    expectedPacman.setGhostKillsSinceInvincible(1);
     pacmanGhostCollisionManager.update();
-    assertEquals(initialPacmanCopy, level.getPacMan());
+    assertEquals(expectedPacman, level.getPacMan());
   }
 
   @Test

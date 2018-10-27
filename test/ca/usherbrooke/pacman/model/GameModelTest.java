@@ -15,6 +15,7 @@ import static org.junit.Assert.assertTrue;
 import org.junit.Before;
 import org.junit.Test;
 import ca.usherbrooke.pacman.game.Game;
+import ca.usherbrooke.pacman.model.objects.Ghost;
 import ca.usherbrooke.pacman.model.objects.Level;
 import ca.usherbrooke.pacman.model.position.Position;
 
@@ -126,5 +127,35 @@ public class GameModelTest {
     assertFalse(model.isGameOver());
     model.setLives(0);
     assertTrue(model.isGameOver());
+  }
+
+  @Test
+  public void whenGhostIsKilledThenItIsRemoved() {
+    assertEquals(4, model.getCurrentLevel().getGhosts().size());
+    Ghost killedGhost = model.getCurrentLevel().getGhosts().get(0);
+    model.processGhostKilled(killedGhost);
+    assertEquals(3, model.getCurrentLevel().getGhosts().size());
+    assertFalse(model.getCurrentLevel().getGhosts().contains(killedGhost));
+  }
+
+  @Test
+  public void whenFirstGhostIsKilledThenScoreIncreasesBy200() {
+    assertEquals(Integer.valueOf(0), model.getScore());
+    model.processGhostKilled(model.getCurrentLevel().getGhosts().get(0));
+    assertEquals(Integer.valueOf(200), model.getScore());
+  }
+
+  @Test
+  public void whenSubsequentGhostsAreKilledThenScoreIncreasesBy200Then400Then800Then1600IfPacmanIsInvincible() {
+    model.getPacman().setIsInvincible(true);
+    assertEquals(Integer.valueOf(0), model.getScore());
+    model.processGhostKilled(model.getCurrentLevel().getGhosts().get(0));
+    assertEquals(Integer.valueOf(200), model.getScore());
+    model.processGhostKilled(model.getCurrentLevel().getGhosts().get(0));
+    assertEquals(Integer.valueOf(600), model.getScore());
+    model.processGhostKilled(model.getCurrentLevel().getGhosts().get(0));
+    assertEquals(Integer.valueOf(1400), model.getScore());
+    model.processGhostKilled(model.getCurrentLevel().getGhosts().get(0));
+    assertEquals(Integer.valueOf(3000), model.getScore());
   }
 }

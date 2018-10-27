@@ -43,6 +43,7 @@ public class GameModel implements IGameModel {
   private static final int INITIAL_SCORE = 0;
   private static final int INITIAL_NUMBER_OF_LIVES = 3;
   private static final int NUMBER_OF_LEVEL = 5;
+  private static final int BASE_GHOST_KILL_POINTS = 200;
 
   private Level level;
   private final Level initialLevel;
@@ -207,8 +208,14 @@ public class GameModel implements IGameModel {
     }
   }
 
-  private void processGhostKilled(Ghost ghost) {
+  @Override
+  public void processGhostKilled(Ghost ghost) {
     getCurrentLevel().getGhosts().remove(ghost);
+    final int ghostKillsSinceInvincible = pacman.getGhostKillsSinceInvincible();
+    final int multikillScoreMultiplier = 1 << ghostKillsSinceInvincible;
+    final int ghostKillPoints = BASE_GHOST_KILL_POINTS * multikillScoreMultiplier;
+    setScore(getScore() + ghostKillPoints);
+    pacman.setGhostKillsSinceInvincible(ghostKillsSinceInvincible + 1);
     consumingGhost();
   }
 
@@ -290,8 +297,7 @@ public class GameModel implements IGameModel {
     Level currentLevel = getCurrentLevel();
     pacmanPacgumCollisionManager = new PacmanPacgumCollisionManager(currentLevel, this);
     pacmanSuperPacgumCollisionManager = new PacmanSuperPacgumCollisionManager(currentLevel, this);
-    pacmanGhostCollisionManager =
-        new PacmanGhostCollisionManager(currentLevel, this);
+    pacmanGhostCollisionManager = new PacmanGhostCollisionManager(currentLevel, this);
   }
 
   @Override
@@ -440,11 +446,6 @@ public class GameModel implements IGameModel {
   @Override
   public void setCurrentLevel(Level level) {
     this.level = level;
-  }
-
-  @Override
-  public void updateGhostDeath(Ghost ghost) {
-    level.getGhosts().remove(ghost);
   }
 
   @Override
