@@ -167,11 +167,11 @@ public class LevelTest {
   public void copyConstructorCopiesGhosts() {
     Level level = Game.loadLevel(LEVEL_PATH);
     Level levelCopy = new Level(level);
-    assertEquals(2, level.getGhosts().size());
-    assertEquals(2, level.getGhosts().size());
+    assertEquals(4, level.getGhosts().size());
+    assertEquals(4, level.getGhosts().size());
     levelCopy.getGhosts().remove(0);
-    assertEquals(2, level.getGhosts().size());
-    assertEquals(1, levelCopy.getGhosts().size());
+    assertEquals(4, level.getGhosts().size());
+    assertEquals(3, levelCopy.getGhosts().size());
   }
 
   @Test
