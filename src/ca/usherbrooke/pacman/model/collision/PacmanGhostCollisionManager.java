@@ -29,7 +29,7 @@ public class PacmanGhostCollisionManager {
 
   public void update() {
     if (pacman.isInvincible()) {
-      model.updateGhostDeath(getCollidingGhost());
+      model.processGhostKilled(getCollidingGhost());
     } else {
       model.updatePacmanDeath();
     }

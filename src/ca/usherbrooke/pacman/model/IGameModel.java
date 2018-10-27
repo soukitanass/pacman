@@ -94,7 +94,7 @@ public interface IGameModel {
 
   void initializeLevel();
 
-  void updateGhostDeath(Ghost ghost);
-
   void updatePacmanDeath();
+
+  void processGhostKilled(Ghost ghost);
 }
