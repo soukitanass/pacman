@@ -14,7 +14,7 @@ import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 import org.junit.Test;
 import ca.usherbrooke.pacman.model.IGameModel;
-import ca.usherbrooke.pacman.model.direction.ghostsDirectionManagers.ClydePeriodicDirectionManager;
+import ca.usherbrooke.pacman.model.direction.ghostsdirectionmanagers.ClydePeriodicDirectionManager;
 import ca.usherbrooke.pacman.model.exceptions.GameObjectCannotChangeDirectionException;
 import ca.usherbrooke.pacman.model.objects.Ghost;
 

@@ -6,7 +6,7 @@
  * nass2801 - Soukaina Nassib
  * royb2006 - Benjamin Roy
  ******************************************************************************/
-package ca.usherbrooke.pacman.model.direction.ghostsDirectionManagers;
+package ca.usherbrooke.pacman.model.direction.ghostsdirectionmanagers;
 
 public interface IPeriodicDirectionManager {
   public void update();
