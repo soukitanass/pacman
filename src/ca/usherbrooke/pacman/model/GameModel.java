@@ -27,6 +27,7 @@ import ca.usherbrooke.pacman.model.direction.ghostsdirectionmanagers.InkyPeriodi
 import ca.usherbrooke.pacman.model.direction.ghostsdirectionmanagers.PinkyPeriodicDirectionManager;
 import ca.usherbrooke.pacman.model.events.GameEvent;
 import ca.usherbrooke.pacman.model.events.GameEventObject;
+import ca.usherbrooke.pacman.model.objects.Ghost;
 import ca.usherbrooke.pacman.model.objects.IGameObject;
 import ca.usherbrooke.pacman.model.objects.Level;
 import ca.usherbrooke.pacman.model.objects.PacMan;
@@ -268,6 +269,12 @@ public class GameModel implements IGameModel {
   public void initializeLevel() {
     this.level = new Level(getInitialLevel());
     pacman = level.getPacMan();
+    initializeGhosts();
+    initializeCollisionManagers();
+    isPacmanDead = false;
+  }
+
+  private void initializeGhosts() {
     ghostDirectionManagers.add(new BlinkyPeriodicDirectionManager(this, randomDirectionGenerator,
         level.getGhosts().get(0), GHOSTS_DIRECTION_CHANGE_PERIOD));
     ghostDirectionManagers.add(new InkyPeriodicDirectionManager(this, randomDirectionGenerator,
@@ -276,9 +283,7 @@ public class GameModel implements IGameModel {
         level.getGhosts().get(2), GHOSTS_DIRECTION_CHANGE_PERIOD));
     ghostDirectionManagers.add(new ClydePeriodicDirectionManager(this, randomDirectionGenerator,
         level.getGhosts().get(3), GHOSTS_DIRECTION_CHANGE_PERIOD));
-    initializeGhosts();
-    initializeCollisionManagers();
-    isPacmanDead = false;
+
   }
 
   private void initializeCollisionManagers() {
