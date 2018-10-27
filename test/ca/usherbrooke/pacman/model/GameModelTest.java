@@ -154,7 +154,7 @@ public class GameModelTest {
     model.loadHighScores(HIGH_SCORES_PATH);
     assertEquals(highScores.getListHighScores().size(),
         model.getHighScores().getListHighScores().size());
-
+  }
   public void whenGhostIsKilledThenItIsRemoved() {
     Ghost killedGhost = model.getCurrentLevel().getGhosts().get(0);
     assertEquals(4, model.getCurrentLevel().getGhosts().size());

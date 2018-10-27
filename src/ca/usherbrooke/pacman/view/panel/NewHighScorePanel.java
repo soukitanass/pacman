@@ -57,10 +57,7 @@ public class NewHighScorePanel extends AbstractMenuPanel implements KeyListener 
   @Override
   public void paint(Graphics graphic) {
     super.paint(graphic);
-
-    // TODO: Fetch new highscore from model
-    int newHighScore = 100;
-
+    int newHighScore = model.getScore();
     final int y = (int) (getBounds().getHeight() * Y_OFFSET_FACTOR);
     paintNewHighScore(highScoreLabel, newHighScore, y);
 
@@ -127,8 +124,11 @@ public class NewHighScorePanel extends AbstractMenuPanel implements KeyListener 
     saveLabel.addMouseListener(new MouseAdapter() {
       @Override
       public void mouseClicked(MouseEvent e) {
-        // TODO: Save highscore to model
-
+        String name="";
+        for (Character letter : letters) {
+          name += letter;
+        }
+        model.setHighScore(model.getScore(),name);
         model.setGameState(GameState.GAME_MENU);
       }
     });
