@@ -31,6 +31,7 @@ import ca.usherbrooke.pacman.model.objects.Ghost;
 import ca.usherbrooke.pacman.model.objects.IGameObject;
 import ca.usherbrooke.pacman.model.objects.Level;
 import ca.usherbrooke.pacman.model.objects.PacMan;
+import ca.usherbrooke.pacman.model.position.Position;
 import ca.usherbrooke.pacman.model.sound.Observer;
 import ca.usherbrooke.pacman.threads.PhysicsThread;
 import ca.usherbrooke.pacman.view.utilities.WarningDialog;
@@ -43,6 +44,13 @@ public class GameModel implements IGameModel {
   private static final int INITIAL_SCORE = 0;
   private static final int INITIAL_NUMBER_OF_LIVES = 3;
   private static final int NUMBER_OF_LEVEL = 5;
+  private static final int BASE_GHOST_KILL_POINTS = 200;
+
+  // The position was hard-coded because in the teacher's specifications it
+  // says that they must spawn in the room and not leave as long as pacman is
+  // invincible. We can't simply respawn the ghosts at their starting
+  // position because the red ghost is initially outside of the ghost room.
+  private static final Position INITIAL_GHOST_POSITION = new Position(13, 15);
 
   private Level level;
   private final Level initialLevel;
@@ -238,9 +246,20 @@ public class GameModel implements IGameModel {
     }
   }
 
-  private void processGhostKilled(Ghost ghost) {
-    getCurrentLevel().getGhosts().remove(ghost);
+  @Override
+  public void processGhostKilled(Ghost ghost) {
+    ghost.setPosition(new Position(INITIAL_GHOST_POSITION));
+    setScore(getScore() + getScoreForGhostKill());
+    pacman.setGhostKillsSinceInvincible(pacman.getGhostKillsSinceInvincible() + 1);
     consumingGhost();
+    eventQueue.clear();
+  }
+
+  private int getScoreForGhostKill() {
+    final int ghostKillsSinceInvincible = pacman.getGhostKillsSinceInvincible();
+    final int multikillScoreMultiplier = 1 << ghostKillsSinceInvincible;
+    final int ghostKillPoints = BASE_GHOST_KILL_POINTS * multikillScoreMultiplier;
+    return ghostKillPoints;
   }
 
   private void processPacmanKilled() {
@@ -298,14 +317,16 @@ public class GameModel implements IGameModel {
 
   @Override
   public void initializeLevel() {
-    this.level = new Level(getInitialLevel());
+    List<List<Integer>> levelMapBeforeInitializing = getCurrentLevel().getMap();
+    setCurrentLevel(new Level(getInitialLevel()));
+    getCurrentLevel().setMap(levelMapBeforeInitializing);
     pacman = level.getPacMan();
-    initializeGhosts();
+    initializeGhostsDirectionManagers();
     initializeCollisionManagers();
     isPacmanDead = false;
   }
 
-  private void initializeGhosts() {
+  private void initializeGhostsDirectionManagers() {
     ghostDirectionManagers.add(new BlinkyPeriodicDirectionManager(this, randomDirectionGenerator,
         level.getGhosts().get(0), GHOSTS_DIRECTION_CHANGE_PERIOD));
     ghostDirectionManagers.add(new InkyPeriodicDirectionManager(this, randomDirectionGenerator,
@@ -470,11 +491,6 @@ public class GameModel implements IGameModel {
   @Override
   public void setCurrentLevel(Level level) {
     this.level = level;
-  }
-
-  @Override
-  public void updateGhostDeath(Ghost ghost) {
-    level.getGhosts().remove(ghost);
   }
 
   @Override

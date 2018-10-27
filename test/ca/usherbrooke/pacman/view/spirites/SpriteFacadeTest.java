@@ -12,20 +12,18 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 import java.awt.image.BufferedImage;
 import org.junit.Test;
-import ca.usherbrooke.pacman.view.spirites.Sprite;
-import ca.usherbrooke.pacman.view.spirites.SpriteFacade;
+import ca.usherbrooke.pacman.model.direction.Direction;
+import ca.usherbrooke.pacman.model.exceptions.InvalidColorException;
+import ca.usherbrooke.pacman.model.exceptions.InvalidDigitException;
+import ca.usherbrooke.pacman.model.exceptions.InvalidDirectionException;
+import ca.usherbrooke.pacman.model.exceptions.InvalidLetterException;
+import ca.usherbrooke.pacman.model.exceptions.InvalidScoreException;
+import ca.usherbrooke.pacman.model.exceptions.InvalidStateException;
+import ca.usherbrooke.pacman.model.exceptions.InvalidWallCodeException;
 import ca.usherbrooke.pacman.view.states.GhostState;
 import ca.usherbrooke.pacman.view.states.PacGumState;
 import ca.usherbrooke.pacman.view.states.PacManState;
 import ca.usherbrooke.pacman.view.utilities.Color;
-import ca.usherbrooke.pacman.model.direction.Direction;
-import ca.usherbrooke.pacman.model.exceptions.InvalidColorException;
-import ca.usherbrooke.pacman.model.exceptions.InvalidDirectionException;
-import ca.usherbrooke.pacman.model.exceptions.InvalidLetterException;
-import ca.usherbrooke.pacman.model.exceptions.InvalidDigitException;
-import ca.usherbrooke.pacman.model.exceptions.InvalidScoreException;
-import ca.usherbrooke.pacman.model.exceptions.InvalidStateException;
-import ca.usherbrooke.pacman.model.exceptions.InvalidWallCodeException;
 
 public class SpriteFacadeTest {
 
@@ -586,4 +584,42 @@ public class SpriteFacadeTest {
     image2 = spriteFacade.getPacGum(PacGumState.STATE1);
     assertTrue(compareImages(image1, image2));
   }
+
+  @Test
+  public void getDotTest() throws InvalidColorException {
+    BufferedImage image1;
+    BufferedImage image2;
+
+    image1 = spriteFacade.getDot(Color.WHITE);
+    image2 = sprite.getSprite(17, 8);
+    assertTrue(compareImages(image1, image2));
+
+    image1 = spriteFacade.getDot(Color.PINK);
+    image2 = sprite.getSprite(17, 10);
+    assertTrue(compareImages(image1, image2));
+
+    image1 = spriteFacade.getDot(Color.ORANGE);
+    image2 = sprite.getSprite(17, 12);
+    assertTrue(compareImages(image1, image2));
+
+    image1 = spriteFacade.getDot(Color.RED);
+    image2 = sprite.getSprite(17, 14);
+    assertTrue(compareImages(image1, image2));
+
+    image1 = spriteFacade.getDot(Color.TURQUOISE);
+    image2 = sprite.getSprite(17, 16);
+    assertTrue(compareImages(image1, image2));
+
+    image1 = spriteFacade.getDot(Color.YELLOW);
+    image2 = sprite.getSprite(17, 18);
+    assertTrue(compareImages(image1, image2));
+  }
+
+  @Test
+  public void getSpaceTest() {
+    BufferedImage image1 = spriteFacade.getSpace();
+    BufferedImage image2 = sprite.getSprite(0, 0);
+    assertTrue(compareImages(image1, image2));
+  }
+
 }

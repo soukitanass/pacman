@@ -32,7 +32,6 @@ public class SpriteFacade {
   private static final String FILE_NAME = "sprites";
   private static final int TILE_SIZE = 16;
   private static final int TUNNEL_CODE = 325;
-  private static final char SPACE = ' ';
   private Sprite sprite;
 
   public SpriteFacade() {
@@ -225,13 +224,34 @@ public class SpriteFacade {
     }
   }
 
+  public BufferedImage getDot(Color color) throws InvalidColorException {
+    final int x = 17;
+
+    switch (color) {
+      case WHITE:
+        return sprite.getSprite(x, 8);
+      case PINK:
+        return sprite.getSprite(x, 10);
+      case ORANGE:
+        return sprite.getSprite(x, 12);
+      case RED:
+        return sprite.getSprite(x, 14);
+      case TURQUOISE:
+        return sprite.getSprite(x, 16);
+      case YELLOW:
+        return sprite.getSprite(x, 18);
+      default:
+        throw new InvalidColorException("Invalid dot color");
+    }
+  }
+
+  public BufferedImage getSpace() {
+    return sprite.getSprite(0, 0);
+  }
+
   @SuppressWarnings("squid:RedundantThrowsDeclarationCheck")
   public BufferedImage getLetter(char letter, Color color)
       throws InvalidLetterException, InvalidColorException {
-
-    if (letter == SPACE) {
-      return sprite.getSprite(0, 0);
-    }
 
     int y;
     final int numberOfColumns = 19;
@@ -273,63 +293,48 @@ public class SpriteFacade {
   @SuppressWarnings("squid:RedundantThrowsDeclarationCheck")
   public BufferedImage getDigit(int digit, Color color)
       throws InvalidColorException, InvalidDigitException {
-    int y;
-    final int xOffset = 7;
-
     if (digit < 0 || digit > 9) {
       throw new InvalidDigitException("Invalid digit: " + digit);
     }
 
+    final int xOffset = 7;
+    final int x = digit + xOffset;
+
     switch (color) {
       case WHITE:
-        y = 8;
-        break;
+        return sprite.getSprite(x, 8);
       case PINK:
-        y = 10;
-        break;
+        return sprite.getSprite(x, 10);
       case ORANGE:
-        y = 12;
-        break;
+        return sprite.getSprite(x, 12);
       case RED:
-        y = 14;
-        break;
+        return sprite.getSprite(x, 14);
       case TURQUOISE:
-        y = 16;
-        break;
+        return sprite.getSprite(x, 16);
       case YELLOW:
-        y = 18;
-        break;
+        return sprite.getSprite(x, 18);
       default:
         throw new InvalidColorException("Invalid digit color");
     }
-
-    return sprite.getSprite(digit + xOffset, y);
   }
 
   public BufferedImage getPacGum(PacGumState state) throws InvalidStateException {
     final int y = 2;
-    int x;
 
     switch (state) {
       case STATE1:
-        x = 4;
-        break;
+        return sprite.getSprite(4, y);
       case STATE2:
-        x = 3;
-        break;
+        return sprite.getSprite(3, y);
       case STATE3:
-        x = 2;
-        break;
+        return sprite.getSprite(2, y);
       case STATE4:
-        x = 1;
-        break;
+        return sprite.getSprite(1, y);
       case STATE5:
-        x = 0;
-        break;
+        return sprite.getSprite(0, y);
       default:
         throw new InvalidStateException("Invalid pacgum state");
     }
-    return sprite.getSprite(x, y);
   }
 
   public int getTileSize() {

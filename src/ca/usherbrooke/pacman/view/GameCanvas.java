@@ -34,6 +34,7 @@ import ca.usherbrooke.pacman.view.panel.GameMenuPanel;
 import ca.usherbrooke.pacman.view.panel.GhostsPanel;
 import ca.usherbrooke.pacman.view.panel.HighScoresPanel;
 import ca.usherbrooke.pacman.view.panel.LevelPanel;
+import ca.usherbrooke.pacman.view.panel.NewHighScorePanel;
 import ca.usherbrooke.pacman.view.panel.PacManPanel;
 import ca.usherbrooke.pacman.view.panel.TextPanel;
 
@@ -62,6 +63,7 @@ public class GameCanvas extends JPanel {
   private GameMenuPanel gameMenu;
   private AudioMenuPanel audioMenu;
   private HighScoresPanel highScoresMenu;
+  private NewHighScorePanel newHighScoreMenu;
   private TextPanel fpsPanel;
 
   private static final int FRAME_WIDTH = 600;
@@ -112,6 +114,9 @@ public class GameCanvas extends JPanel {
     highScoresMenu = new HighScoresPanel(model);
     highScoresMenu.setVisible(false);
 
+    newHighScoreMenu = new NewHighScorePanel(model);
+    newHighScoreMenu.setVisible(false);
+
     levelPanel = new LevelPanel(model);
     levelPanel.setBackground(Color.BLACK);
 
@@ -129,6 +134,7 @@ public class GameCanvas extends JPanel {
     window.add(gameMenu);
     window.add(audioMenu);
     window.add(highScoresMenu);
+    window.add(newHighScoreMenu);
     window.add(this);
     window.setVisible(true);
   }
@@ -152,6 +158,9 @@ public class GameCanvas extends JPanel {
       case HIGHSCORES_MENU:
         paintMenu(graphic, highScoresMenu);
         break;
+      case NEW_HIGHSCORE:
+        paintMenu(graphic, newHighScoreMenu);
+        break;
       case GAME:
         paintGame(graphic);
         break;
@@ -164,6 +173,7 @@ public class GameCanvas extends JPanel {
     List<Component> components = new ArrayList<>();
     components.add(audioMenu);
     components.add(highScoresMenu);
+    components.add(newHighScoreMenu);
     components.add(gameMenu);
     components.add(layeredPane);
 
@@ -184,6 +194,7 @@ public class GameCanvas extends JPanel {
     menuPanel.setOffsetY(getOffsetY());
     menuPanel.setPixelTileSize(pixelTileSize);
     menuPanel.paint(graphic);
+    menuPanel.requestFocus();
     showComponent(menuPanel);
   }
 
