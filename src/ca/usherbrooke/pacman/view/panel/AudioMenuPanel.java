@@ -59,8 +59,7 @@ public class AudioMenuPanel extends AbstractMenuPanel {
     int y = (int) (model.getCurrentLevel().getHeight() * pixelTileSize * Y_OFFSET_FACTOR);
     y = paintMusicOption(y);
     y += musicSlider.getHeight() + DELTA_Y;
-    y = paintSoundOption(y);
-    y += soundSlider.getHeight() + DELTA_Y;
+    paintSoundOption(y);
     paintGoBackOption(goBackMenuOption);
   }
 
@@ -86,14 +85,14 @@ public class AudioMenuPanel extends AbstractMenuPanel {
     musicSlider.addChangeListener(e -> {
       if (musicSlider.getValueIsAdjusting()) {
         int value = musicSlider.getValue();
-        audioThread.setMusicVolumeChanged(value);
+        audioThread.setMusicVolume(value);
       }
     });
 
     soundSlider.addChangeListener(e -> {
       if (soundSlider.getValueIsAdjusting()) {
         int value = soundSlider.getValue();
-        audioThread.setSoundVolumeChanged(value);
+        audioThread.setSoundVolume(value);
       }
     });
   }

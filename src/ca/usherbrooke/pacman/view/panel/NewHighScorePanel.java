@@ -1,3 +1,11 @@
+/*******************************************************************************
+ * Team agilea18b, Pacman
+ *
+ * beam2039 - Marc-Antoine Beaudoin
+ * dupm2216 - Maxime Dupuis
+ * nass2801 - Soukaina Nassib
+ * royb2006 - Benjamin Roy
+ ******************************************************************************/
 package ca.usherbrooke.pacman.view.panel;
 
 import java.awt.Graphics;
@@ -12,6 +20,7 @@ import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 import ca.usherbrooke.pacman.model.GameState;
 import ca.usherbrooke.pacman.model.IGameModel;
+import ca.usherbrooke.pacman.model.highscores.HighScores;
 import ca.usherbrooke.pacman.model.position.Position;
 import ca.usherbrooke.pacman.view.utilities.AlphabetUtilities;
 import ca.usherbrooke.pacman.view.utilities.Color;
@@ -28,8 +37,7 @@ public class NewHighScorePanel extends AbstractMenuPanel implements KeyListener 
   private static final int LETTER_SCALE_FACTOR = 5;
   private static final int NUMBER_OF_LETTERS = 3;
   private static final String SPACE = " ";
-  private static final ca.usherbrooke.pacman.view.utilities.Color SAVE_COLOR =
-      ca.usherbrooke.pacman.view.utilities.Color.YELLOW;
+  private static final String HIGH_SCORES_PATH = "Highscores.json";
 
   private JLabel highScoreLabel = new JLabel();
   private JLabel saveLabel = new JLabel();
@@ -57,10 +65,7 @@ public class NewHighScorePanel extends AbstractMenuPanel implements KeyListener 
   @Override
   public void paint(Graphics graphic) {
     super.paint(graphic);
-
-    // TODO: Fetch new highscore from model
-    int newHighScore = 100;
-
+    int newHighScore = model.getScore();
     final int y = (int) (getBounds().getHeight() * Y_OFFSET_FACTOR);
     paintNewHighScore(highScoreLabel, newHighScore, y);
 
@@ -68,7 +73,7 @@ public class NewHighScorePanel extends AbstractMenuPanel implements KeyListener 
       paintLetter(i);
     }
 
-    paintSaveOption(saveLabel, SAVE_HIGH_SCORE_LABEL, y);
+    paintSaveOption(saveLabel, SAVE_HIGH_SCORE_LABEL);
     updateCounters();
   }
 
@@ -107,7 +112,7 @@ public class NewHighScorePanel extends AbstractMenuPanel implements KeyListener 
     jLabel.setIcon(imageIcon);
   }
 
-  private void paintSaveOption(JLabel jLabel, String label, int y) {
+  private void paintSaveOption(JLabel jLabel, String label) {
     setBottomMenuJLabel(jLabel, label, IMAGE_SCALE_FACTOR);
   }
 
@@ -127,8 +132,13 @@ public class NewHighScorePanel extends AbstractMenuPanel implements KeyListener 
     saveLabel.addMouseListener(new MouseAdapter() {
       @Override
       public void mouseClicked(MouseEvent e) {
-        // TODO: Save highscore to model
-
+        StringBuilder builder = new StringBuilder();
+        for (int i = 0; i < letters.size(); ++i) {
+          builder.append(letters.get(i));
+        }
+        String name = builder.toString();
+        model.getHighScores().setHighScore(model.getScore(), name);
+        model.setHighScores(HighScores.loadHighScores(HIGH_SCORES_PATH));
         model.setGameState(GameState.GAME_MENU);
       }
     });
