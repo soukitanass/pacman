@@ -14,11 +14,16 @@ import ca.usherbrooke.pacman.model.exceptions.InvalidSoundException;
 import ca.usherbrooke.pacman.view.utilities.WarningDialog;
 
 public class SoundModel extends Observer implements ISoundModel {
+
+  private static final int INITIAL_VOLUME = 100;
+
   private ISoundPlayer actionSoundPlayer = new SoundPlayer();
   private ISoundPlayer backgroundSoundPlayer = new SoundPlayer();
   private SoundFactory soundFactory = new SoundFactory();
   private boolean isSoundMuted = false;
   private boolean isMusicMuted = false;
+  private int musicVolume = INITIAL_VOLUME;
+  private int soundVolume = INITIAL_VOLUME;
 
   public SoundModel(IGameModel subject) {
     this.subject = subject;
@@ -60,11 +65,13 @@ public class SoundModel extends Observer implements ISoundModel {
 
   @Override
   public void setSoundVolumeChanged(int volume) {
+    soundVolume = volume;
     actionSoundPlayer.setVolume(volume);
   }
 
   @Override
   public void setMusicVolumeChanged(int volume) {
+    musicVolume = volume;
     backgroundSoundPlayer.setVolume(volume);
   }
 
@@ -122,17 +129,17 @@ public class SoundModel extends Observer implements ISoundModel {
     if (isMusicMuted()) {
       return;
     }
-    playSound(soundPlayer, sound, looping);
+    playSound(soundPlayer, sound, looping, musicVolume);
   }
 
   private void soundPlay(ISoundPlayer soundPlayer, Sound sound, boolean looping) {
     if (isSoundMuted()) {
       return;
     }
-    playSound(soundPlayer, sound, looping);
+    playSound(soundPlayer, sound, looping, soundVolume);
   }
 
-  private void playSound(ISoundPlayer soundPlayer, Sound sound, boolean looping) {
+  private void playSound(ISoundPlayer soundPlayer, Sound sound, boolean looping, int volume) {
     File soundFile = null;
     try {
       soundFile = soundFactory.getFile(sound);
@@ -143,6 +150,7 @@ public class SoundModel extends Observer implements ISoundModel {
       return;
     }
     soundPlayer.setClip(soundFile);
+    soundPlayer.setVolume(volume);
     if (looping) {
       soundPlayer.loop();
     } else {

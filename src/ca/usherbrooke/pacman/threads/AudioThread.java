@@ -12,7 +12,7 @@ public class AudioThread extends Thread implements CloseObserver {
 
   private static final int THREAD_SLEEP = 3;
   private volatile boolean isRunning = false;
-  private ISoundModel soundPlayer;
+  private ISoundModel soundModel;
   private ISoundController soundController;
   private final IGameModel model;
 
@@ -30,8 +30,8 @@ public class AudioThread extends Thread implements CloseObserver {
 
   public AudioThread(IGameModel model) {
     this.model = model;
-    soundPlayer = new SoundModel(this.model);
-    soundController = new SoundController(soundPlayer);
+    soundModel = new SoundModel(this.model);
+    soundController = new SoundController(soundModel);
   }
 
   @Override
@@ -42,27 +42,27 @@ public class AudioThread extends Thread implements CloseObserver {
     while (isRunning) {
       try {
         if (isSoundVolumeChanged()) {
-          soundPlayer.setSoundVolumeChanged(soundVolume);
+          soundModel.setSoundVolumeChanged(soundVolume);
           soundVolumeChanged = false;
         }
         if (isMusicVolumeChanged()) {
-          soundPlayer.setMusicVolumeChanged(musicVolume);
+          soundModel.setMusicVolumeChanged(musicVolume);
           musicVolumeChanged = false;
         }
         if (isMusicPlay()) {
           if (isMusicMuted) {
-            soundPlayer.muteMusic();
+            soundModel.muteMusic();
           } else {
-            soundPlayer.unmuteMusic();
+            soundModel.unmuteMusic();
           }
           setTheMusicPlay(false);
         }
 
         if (isSoundPlaying()) {
           if (isSoundMuted) {
-            soundPlayer.muteSound();
+            soundModel.muteSound();
           } else {
-            soundPlayer.unmuteSound();
+            soundModel.unmuteSound();
           }
           setTheSoundPlay(false);
         }
