@@ -512,16 +512,13 @@ public class GameModel implements IGameModel {
     List<HighScore> highScoresList = new ArrayList<>(highScores.getListHighScores());
     Collections.sort(highScoresList);
     int size = highScoresList.size();
-    if (score > highScoresList.get(size - 1).getScore()) {
-      return true;
-    }
-    return false;
+    return (score > highScoresList.get(size - 1).getScore());
   }
 
   @Override
   public void setHighScore(int score, String name) {
     int size = highScores.getListHighScores().size();
-    if (size == 5) {
+    if (size >= 5) {
       highScores.getListHighScores().remove(size - 1);
       highScores.getListHighScores().add(new HighScore(name, score));
     } else {

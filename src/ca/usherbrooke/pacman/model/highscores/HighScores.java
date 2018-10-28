@@ -12,11 +12,11 @@ public class HighScores {
   private List<HighScore> listHighScores;
 
   public HighScores() {
-    listHighScores = new ArrayList<HighScore>();
+    listHighScores = new ArrayList<>();
   }
 
   public HighScores(List<HighScore> highScores) {
-    listHighScores = new ArrayList<HighScore>(highScores);
+    listHighScores = new ArrayList<>(highScores);
   }
 
   public List<HighScore> getListHighScores() {

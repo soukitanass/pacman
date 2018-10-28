@@ -124,11 +124,11 @@ public class NewHighScorePanel extends AbstractMenuPanel implements KeyListener 
     saveLabel.addMouseListener(new MouseAdapter() {
       @Override
       public void mouseClicked(MouseEvent e) {
-        String name="";
+        String name = "";
         for (Character letter : letters) {
           name += letter;
         }
-        model.setHighScore(model.getScore(),name);
+        model.setHighScore(model.getScore(), name);
         model.setGameState(GameState.GAME_MENU);
       }
     });

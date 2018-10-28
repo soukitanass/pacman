@@ -1,24 +1,23 @@
-{"highScores":[
-    {
-    	"score" : 5000,
-    	"name" : "souk"
-    },
-    {
-    	"score" : 3000,
-    	"name" : "marc"
-    },
-    {
-    	"score" : 1000,
-    	"name" : "max"
-    },
-    {
-    	"score" : 1000,
-    	"name" : "ben"
-    },
-    {
-    	"score" : 10,
-    	"name" : "alex"
-    }
-            
- 
+{
+	"highScores":[
+	    {
+	    	"score" : 5000,
+	    	"name" : "souka"
+	    },
+	    {
+	    	"score" : 3000,
+	    	"name" : "marc"
+	    },
+	    {
+	    	"score" : 1000,
+	    	"name" : "max"
+	    },
+	    {
+	    	"score" : 1000,
+	    	"name" : "ben"
+	    },
+	    {
+	    	"score" : 10,
+	    	"name" : "alex"
+	    }        
  ]}
