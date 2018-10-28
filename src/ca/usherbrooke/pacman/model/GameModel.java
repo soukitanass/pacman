@@ -184,6 +184,7 @@ public class GameModel implements IGameModel {
       onInterruption();
       return;
     }
+    ++currentGameFrame;
     if (isPacmanDead) {
       return;
     }
@@ -194,7 +195,6 @@ public class GameModel implements IGameModel {
       updateIsLevelCompleted();
       return;
     }
-    ++currentGameFrame;
 
     processAllPhysicsEvents();
 
@@ -318,9 +318,12 @@ public class GameModel implements IGameModel {
 
   @Override
   public void initializeLevel() {
+    final boolean isLevelCompleted = getCurrentLevel().isCompleted();
     List<List<Integer>> levelMapBeforeInitializing = getCurrentLevel().getMap();
     setCurrentLevel(new Level(getInitialLevel()));
-    getCurrentLevel().setMap(levelMapBeforeInitializing);
+    if (!isLevelCompleted) {
+      getCurrentLevel().setMap(levelMapBeforeInitializing);
+    }
     pacman = level.getPacMan();
     initializeGhostsDirectionManagers();
     initializeCollisionManagers();
@@ -420,7 +423,7 @@ public class GameModel implements IGameModel {
 
   @Override
   public PacMan getPacman() {
-    return pacman;
+    return level.getPacMan();
   }
 
   @Override
