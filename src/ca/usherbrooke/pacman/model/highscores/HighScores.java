@@ -4,6 +4,7 @@ import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
 import java.io.FileWriter;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -70,6 +71,13 @@ public class HighScores {
   public void saveHighScores(String highScoresPath) {
     Gson gson = new Gson();
     File file = new File(GameModel.class.getClassLoader().getResource(highScoresPath).getFile());
+    if (!file.exists()) {
+      try {
+        file.createNewFile();
+      } catch (IOException exception) {
+        WarningDialog.display("Error while creating highScores file. ", exception);
+      }
+    }
     try (FileWriter fileWriter = new FileWriter(file)) {
       gson.toJson(this, fileWriter);
     } catch (Exception exception) {
