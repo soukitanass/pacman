@@ -28,8 +28,6 @@ public class NewHighScorePanel extends AbstractMenuPanel implements KeyListener 
   private static final int LETTER_SCALE_FACTOR = 5;
   private static final int NUMBER_OF_LETTERS = 3;
   private static final String SPACE = " ";
-  private static final ca.usherbrooke.pacman.view.utilities.Color SAVE_COLOR =
-      ca.usherbrooke.pacman.view.utilities.Color.YELLOW;
 
   private JLabel highScoreLabel = new JLabel();
   private JLabel saveLabel = new JLabel();
@@ -65,7 +63,7 @@ public class NewHighScorePanel extends AbstractMenuPanel implements KeyListener 
       paintLetter(i);
     }
 
-    paintSaveOption(saveLabel, SAVE_HIGH_SCORE_LABEL, y);
+    paintSaveOption(saveLabel, SAVE_HIGH_SCORE_LABEL);
     updateCounters();
   }
 
@@ -104,7 +102,7 @@ public class NewHighScorePanel extends AbstractMenuPanel implements KeyListener 
     jLabel.setIcon(imageIcon);
   }
 
-  private void paintSaveOption(JLabel jLabel, String label, int y) {
+  private void paintSaveOption(JLabel jLabel, String label) {
     setBottomMenuJLabel(jLabel, label, IMAGE_SCALE_FACTOR);
   }
 
@@ -129,7 +127,6 @@ public class NewHighScorePanel extends AbstractMenuPanel implements KeyListener 
           builder.append(letters.get(i));
         }
         String name = builder.toString();
-        System.out.println(name);
         model.getHighScores().setHighScore(model.getScore(), name);
         model.setGameState(GameState.GAME_MENU);
       }

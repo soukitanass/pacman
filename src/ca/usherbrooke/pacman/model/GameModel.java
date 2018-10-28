@@ -165,10 +165,8 @@ public class GameModel implements IGameModel {
       onInterruption();
       return;
     }
-    if (isGameCompleted() || isGameOver()) {
-      if (highScores.isHighScore(this.getScore())) {
-        this.setGameState(GameState.NEW_HIGHSCORE);
-      }
+    if ((isGameCompleted() || isGameOver()) && highScores.isHighScore(this.getScore())) {
+      this.setGameState(GameState.NEW_HIGHSCORE);
       return;
     }
     if (isPacmanDead) {

@@ -16,6 +16,7 @@ import ca.usherbrooke.pacman.view.utilities.WarningDialog;
 public class HighScores {
 
   private static final String HIGH_SCORES_PATH = "Highscores.json";
+  private static final int MAX_HIGH_SCORES = 5;
   @SerializedName("highScores")
   @Expose
   private List<HighScore> listHighScores;
@@ -50,15 +51,14 @@ public class HighScores {
   }
 
   public boolean isHighScore(int score) {
-    List<HighScore> highScoresList = new ArrayList<>(listHighScores);
-    Collections.sort(highScoresList);
-    int size = highScoresList.size();
-    return (score > highScoresList.get(size - 1).getScore());
+    Collections.sort(listHighScores);
+    int size = listHighScores.size();
+    return (score > listHighScores.get(size - 1).getScore());
   }
 
   public void setHighScore(int score, String name) {
     int size = listHighScores.size();
-    if (size >= 5) {
+    if (size >= MAX_HIGH_SCORES) {
       listHighScores.remove(size - 1);
       listHighScores.add(new HighScore(name, score));
     } else {
