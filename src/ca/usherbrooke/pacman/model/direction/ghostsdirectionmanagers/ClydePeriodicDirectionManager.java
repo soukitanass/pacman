@@ -12,6 +12,9 @@ import ca.usherbrooke.pacman.model.IGameModel;
 import ca.usherbrooke.pacman.model.direction.Direction;
 import ca.usherbrooke.pacman.model.direction.IDirectionGenerator;
 import ca.usherbrooke.pacman.model.objects.IGameObject;
+import ca.usherbrooke.pacman.model.objects.Level;
+import ca.usherbrooke.pacman.model.objects.PacMan;
+import ca.usherbrooke.pacman.model.position.Position;
 
 public class ClydePeriodicDirectionManager implements IPeriodicDirectionManager {
 
@@ -36,9 +39,23 @@ public class ClydePeriodicDirectionManager implements IPeriodicDirectionManager 
       return;
     }
     updatesCounter = 0;
+    updatePosition();
+  }
 
-    Direction direction = directionGenerator.get();
-    gameModel.setDirection(gameObject, direction);
+  private void updatePosition() {
+    Level level = gameModel.getCurrentLevel();
+    PacMan pacman = level.getPacMan();
+    if (pacman.isInvincible()) {
+      final Position pacmanPosition = pacman.getPosition();
+      final Position ghostPosition = gameObject.getPosition();
+      final Direction escapeFromPacmanDirection =
+          level.getDirectionIfInLineOfSight(pacmanPosition, ghostPosition);
+      if (escapeFromPacmanDirection != null) {
+        gameModel.setDirection(gameObject, escapeFromPacmanDirection);
+        return;
+      }
+    }
+    gameModel.setDirection(gameObject, directionGenerator.get());
   }
 
 }
