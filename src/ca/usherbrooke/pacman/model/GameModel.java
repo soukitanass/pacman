@@ -111,6 +111,7 @@ public class GameModel implements IGameModel {
   }
 
   public GameModel() {
+    physicsThread.start();
     initialLevel = new Level();
   }
 
