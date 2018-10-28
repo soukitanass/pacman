@@ -140,18 +140,18 @@ public class GameModelTest {
     final String HIGH_SCORES_PATH = "HighScoresTestingFile.json";
     HighScores highScores = new HighScores(model.getHighScores().getListHighScores());
 
-    model.loadHighScores(HIGH_SCORES_PATH);
+    HighScores.loadHighScores(HIGH_SCORES_PATH);
     int size = model.getHighScores().getListHighScores().size();
     int expectedSize = size - 1;
 
     model.getHighScores().getListHighScores().remove(size - 1);
-    model.saveHighScores(HIGH_SCORES_PATH);
-    model.loadHighScores(HIGH_SCORES_PATH);
+    model.getHighScores().saveHighScores(HIGH_SCORES_PATH);
+    HighScores.loadHighScores(HIGH_SCORES_PATH);
     assertEquals(expectedSize, model.getHighScores().getListHighScores().size());
 
     model.setHighScores(highScores);
-    model.saveHighScores(HIGH_SCORES_PATH);
-    model.loadHighScores(HIGH_SCORES_PATH);
+    model.getHighScores().saveHighScores(HIGH_SCORES_PATH);
+    HighScores.loadHighScores(HIGH_SCORES_PATH);
     assertEquals(highScores.getListHighScores().size(),
         model.getHighScores().getListHighScores().size());
   }

@@ -1,12 +1,21 @@
 package ca.usherbrooke.pacman.model.highscores;
 
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileReader;
+import java.io.FileWriter;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
+import com.google.gson.Gson;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
+import ca.usherbrooke.pacman.model.GameModel;
+import ca.usherbrooke.pacman.view.utilities.WarningDialog;
 
 public class HighScores {
 
+  private static final String HIGH_SCORES_PATH = "Highscores.json";
   @SerializedName("highScores")
   @Expose
   private List<HighScore> listHighScores;
@@ -25,6 +34,47 @@ public class HighScores {
 
   public void setListHighScores(List<HighScore> listHighScores) {
     this.listHighScores = listHighScores;
+  }
+
+
+  public static HighScores loadHighScores(String highScoresPath) {
+    Gson gson = new Gson();
+    HighScores highScores = new HighScores();
+    File file = new File(GameModel.class.getClassLoader().getResource(highScoresPath).getFile());
+    try (FileReader fileReader = new FileReader(file)) {
+      highScores = gson.fromJson(new BufferedReader(fileReader), HighScores.class);
+    } catch (Exception exception) {
+      WarningDialog.display("Error while opening highScores file. ", exception);
+    }
+    return highScores;
+  }
+
+  public boolean isHighScore(int score) {
+    List<HighScore> highScoresList = new ArrayList<>(listHighScores);
+    Collections.sort(highScoresList);
+    int size = highScoresList.size();
+    return (score > highScoresList.get(size - 1).getScore());
+  }
+
+  public void setHighScore(int score, String name) {
+    int size = listHighScores.size();
+    if (size >= 5) {
+      listHighScores.remove(size - 1);
+      listHighScores.add(new HighScore(name, score));
+    } else {
+      listHighScores.add(new HighScore(name, score));
+    }
+    saveHighScores(HIGH_SCORES_PATH);
+  }
+
+  public void saveHighScores(String highScoresPath) {
+    Gson gson = new Gson();
+    File file = new File(GameModel.class.getClassLoader().getResource(highScoresPath).getFile());
+    try (FileWriter fileWriter = new FileWriter(file)) {
+      gson.toJson(this, fileWriter);
+    } catch (Exception exception) {
+      WarningDialog.display("Error while opening highScores file. ", exception);
+    }
   }
 
 }

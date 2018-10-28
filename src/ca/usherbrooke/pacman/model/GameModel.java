@@ -8,17 +8,11 @@
  ******************************************************************************/
 package ca.usherbrooke.pacman.model;
 
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileReader;
-import java.io.FileWriter;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 import java.util.Queue;
 import java.util.Random;
 import java.util.concurrent.ConcurrentLinkedQueue;
-import com.google.gson.Gson;
 import ca.usherbrooke.pacman.model.collision.PacmanGhostCollisionManager;
 import ca.usherbrooke.pacman.model.collision.PacmanPacgumCollisionManager;
 import ca.usherbrooke.pacman.model.collision.PacmanSuperPacgumCollisionManager;
@@ -33,7 +27,6 @@ import ca.usherbrooke.pacman.model.direction.ghostsdirectionmanagers.InkyPeriodi
 import ca.usherbrooke.pacman.model.direction.ghostsdirectionmanagers.PinkyPeriodicDirectionManager;
 import ca.usherbrooke.pacman.model.events.GameEvent;
 import ca.usherbrooke.pacman.model.events.GameEventObject;
-import ca.usherbrooke.pacman.model.highscores.HighScore;
 import ca.usherbrooke.pacman.model.highscores.HighScores;
 import ca.usherbrooke.pacman.model.objects.Ghost;
 import ca.usherbrooke.pacman.model.objects.IGameObject;
@@ -173,7 +166,7 @@ public class GameModel implements IGameModel {
       return;
     }
     if (isGameCompleted() || isGameOver()) {
-      if (isHighScore(this.getScore())) {
+      if (highScores.isHighScore(this.getScore())) {
         this.setGameState(GameState.NEW_HIGHSCORE);
       }
       return;
@@ -298,7 +291,7 @@ public class GameModel implements IGameModel {
   @Override
   public void initializeGame() {
     initializeLevel();
-    loadHighScores(HIGH_SCORES_PATH);
+    highScores = HighScores.loadHighScores(HIGH_SCORES_PATH);
     isGameOver = false;
   }
 
@@ -487,17 +480,6 @@ public class GameModel implements IGameModel {
   }
 
   @Override
-  public void loadHighScores(String highScoresPath) {
-    Gson gson = new Gson();
-    File file = new File(GameModel.class.getClassLoader().getResource(highScoresPath).getFile());
-    try (FileReader fileReader = new FileReader(file)) {
-      highScores = gson.fromJson(new BufferedReader(fileReader), HighScores.class);
-    } catch (Exception exception) {
-      WarningDialog.display("Error while opening highScores file. ", exception);
-    }
-  }
-
-  @Override
   public HighScores getHighScores() {
     return highScores;
   }
@@ -505,38 +487,6 @@ public class GameModel implements IGameModel {
   @Override
   public void setHighScores(HighScores highScores) {
     this.highScores = highScores;
+
   }
-
-  @Override
-  public boolean isHighScore(int score) {
-    List<HighScore> highScoresList = new ArrayList<>(highScores.getListHighScores());
-    Collections.sort(highScoresList);
-    int size = highScoresList.size();
-    return (score > highScoresList.get(size - 1).getScore());
-  }
-
-  @Override
-  public void setHighScore(int score, String name) {
-    int size = highScores.getListHighScores().size();
-    if (size >= 5) {
-      highScores.getListHighScores().remove(size - 1);
-      highScores.getListHighScores().add(new HighScore(name, score));
-    } else {
-      highScores.getListHighScores().add(new HighScore(name, score));
-    }
-    saveHighScores(HIGH_SCORES_PATH);
-  }
-
-  @Override
-  public void saveHighScores(String highScoresPath) {
-    Gson gson = new Gson();
-    File file = new File(GameModel.class.getClassLoader().getResource(highScoresPath).getFile());
-    try (FileWriter fileWriter = new FileWriter(file)) {
-      gson.toJson(highScores, fileWriter);
-    } catch (Exception exception) {
-      WarningDialog.display("Error while opening highScores file. ", exception);
-    }
-  }
-
-
 }
