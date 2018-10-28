@@ -19,11 +19,7 @@ import ca.usherbrooke.pacman.model.collision.PacmanSuperPacgumCollisionManager;
 import ca.usherbrooke.pacman.model.direction.Direction;
 import ca.usherbrooke.pacman.model.direction.IDirectionGenerator;
 import ca.usherbrooke.pacman.model.direction.RandomDirectionGenerator;
-import ca.usherbrooke.pacman.model.direction.ghostsdirectionmanagers.BlinkyPeriodicDirectionManager;
-import ca.usherbrooke.pacman.model.direction.ghostsdirectionmanagers.ClydePeriodicDirectionManager;
 import ca.usherbrooke.pacman.model.direction.ghostsdirectionmanagers.PeriodicGhostDirectionManager;
-import ca.usherbrooke.pacman.model.direction.ghostsdirectionmanagers.InkyPeriodicDirectionManager;
-import ca.usherbrooke.pacman.model.direction.ghostsdirectionmanagers.PinkyPeriodicDirectionManager;
 import ca.usherbrooke.pacman.model.events.GameEvent;
 import ca.usherbrooke.pacman.model.events.GameEventObject;
 import ca.usherbrooke.pacman.model.objects.Ghost;
@@ -330,13 +326,13 @@ public class GameModel implements IGameModel {
   }
 
   private void initializeGhostsDirectionManagers() {
-    ghostDirectionManagers.add(new BlinkyPeriodicDirectionManager(this, randomDirectionGenerator,
+    ghostDirectionManagers.add(new PeriodicGhostDirectionManager(this, randomDirectionGenerator,
         level.getGhosts().get(0), GHOSTS_DIRECTION_CHANGE_PERIOD));
-    ghostDirectionManagers.add(new InkyPeriodicDirectionManager(this, randomDirectionGenerator,
+    ghostDirectionManagers.add(new PeriodicGhostDirectionManager(this, randomDirectionGenerator,
         level.getGhosts().get(1), GHOSTS_DIRECTION_CHANGE_PERIOD));
-    ghostDirectionManagers.add(new PinkyPeriodicDirectionManager(this, randomDirectionGenerator,
+    ghostDirectionManagers.add(new PeriodicGhostDirectionManager(this, randomDirectionGenerator,
         level.getGhosts().get(2), GHOSTS_DIRECTION_CHANGE_PERIOD));
-    ghostDirectionManagers.add(new ClydePeriodicDirectionManager(this, randomDirectionGenerator,
+    ghostDirectionManagers.add(new PeriodicGhostDirectionManager(this, randomDirectionGenerator,
         level.getGhosts().get(3), GHOSTS_DIRECTION_CHANGE_PERIOD));
 
   }

@@ -15,7 +15,7 @@ import org.junit.Before;
 import org.junit.Test;
 import ca.usherbrooke.pacman.model.GameModel;
 import ca.usherbrooke.pacman.model.IGameModel;
-import ca.usherbrooke.pacman.model.direction.ghostsdirectionmanagers.ClydePeriodicDirectionManager;
+import ca.usherbrooke.pacman.model.direction.ghostsdirectionmanagers.PeriodicGhostDirectionManager;
 import ca.usherbrooke.pacman.model.exceptions.GameObjectCannotChangeDirectionException;
 import ca.usherbrooke.pacman.model.objects.Ghost;
 import ca.usherbrooke.pacman.model.objects.Level;
@@ -23,7 +23,7 @@ import ca.usherbrooke.pacman.model.objects.MockLevelFactory;
 import ca.usherbrooke.pacman.model.objects.PacMan;
 import ca.usherbrooke.pacman.model.position.Position;
 
-public class ClydePeriodicDirectionManagerTest {
+public class PeriodicGhostDirectionManagerTest {
 
   private IGameModel model;
   private Ghost ghost;
@@ -49,8 +49,8 @@ public class ClydePeriodicDirectionManagerTest {
       throws GameObjectCannotChangeDirectionException {
     IDirectionGenerator mockDirectionGenerator = mock(RandomDirectionGenerator.class);
     when(mockDirectionGenerator.get()).thenReturn(Direction.UP).thenReturn(Direction.RIGHT);
-    ClydePeriodicDirectionManager directionManager =
-        new ClydePeriodicDirectionManager(model, mockDirectionGenerator, ghost, 2);
+    PeriodicGhostDirectionManager directionManager =
+        new PeriodicGhostDirectionManager(model, mockDirectionGenerator, ghost, 2);
 
     directionManager.update();
     directionManager.update();
@@ -64,8 +64,8 @@ public class ClydePeriodicDirectionManagerTest {
   @Test
   public void whenAfraidAndPacmanInLineOfSightThenMoveInOppositeDirection() {
     pacman.setIsInvincible(true);
-    ClydePeriodicDirectionManager directionManager =
-        new ClydePeriodicDirectionManager(model, null, ghost, 1);
+    PeriodicGhostDirectionManager directionManager =
+        new PeriodicGhostDirectionManager(model, null, ghost, 1);
 
     ghost.setPosition(new Position(1, 2));
     directionManager.update();
@@ -90,8 +90,8 @@ public class ClydePeriodicDirectionManagerTest {
     when(mockDirectionGenerator.get()).thenReturn(Direction.UP).thenReturn(Direction.RIGHT)
         .thenReturn(Direction.DOWN).thenReturn(Direction.LEFT);
     pacman.setIsInvincible(false);
-    ClydePeriodicDirectionManager directionManager =
-        new ClydePeriodicDirectionManager(model, mockDirectionGenerator, ghost, 1);
+    PeriodicGhostDirectionManager directionManager =
+        new PeriodicGhostDirectionManager(model, mockDirectionGenerator, ghost, 1);
 
     directionManager.update();
     assertEquals(Direction.UP, ghost.getDesiredDirection());
@@ -113,8 +113,8 @@ public class ClydePeriodicDirectionManagerTest {
         .thenReturn(Direction.DOWN).thenReturn(Direction.LEFT);
     ghost.setPosition(new Position(0, 0));
     pacman.setIsInvincible(true);
-    ClydePeriodicDirectionManager directionManager =
-        new ClydePeriodicDirectionManager(model, mockDirectionGenerator, ghost, 1);
+    PeriodicGhostDirectionManager directionManager =
+        new PeriodicGhostDirectionManager(model, mockDirectionGenerator, ghost, 1);
 
     directionManager.update();
     assertEquals(Direction.UP, ghost.getDesiredDirection());

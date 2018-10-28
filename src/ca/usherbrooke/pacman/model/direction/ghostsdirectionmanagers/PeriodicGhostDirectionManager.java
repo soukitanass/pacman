@@ -16,12 +16,20 @@ import ca.usherbrooke.pacman.model.objects.Level;
 import ca.usherbrooke.pacman.model.objects.PacMan;
 import ca.usherbrooke.pacman.model.position.Position;
 
-public abstract class PeriodicGhostDirectionManager {
-  protected int period;
-  protected IGameObject ghost;
-  protected IDirectionGenerator directionGenerator;
-  protected IGameModel gameModel;
+public class PeriodicGhostDirectionManager {
+  private int period;
+  private IGameObject ghost;
+  private IDirectionGenerator directionGenerator;
+  private IGameModel gameModel;
   private int updatesCounter;
+
+  public PeriodicGhostDirectionManager(IGameModel gameModel, IDirectionGenerator directionGenerator,
+      IGameObject gameObject, int period) {
+    this.gameModel = gameModel;
+    this.directionGenerator = directionGenerator;
+    this.ghost = gameObject;
+    this.period = period;
+  }
 
   public void update() {
     ++updatesCounter;
