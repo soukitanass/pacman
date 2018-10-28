@@ -18,7 +18,6 @@ import ca.usherbrooke.pacman.model.collision.PacmanPacgumCollisionManager;
 import ca.usherbrooke.pacman.model.collision.PacmanSuperPacgumCollisionManager;
 import ca.usherbrooke.pacman.model.direction.Direction;
 import ca.usherbrooke.pacman.model.direction.IDirectionGenerator;
-import ca.usherbrooke.pacman.model.direction.IHasDesiredDirection;
 import ca.usherbrooke.pacman.model.direction.RandomDirectionGenerator;
 import ca.usherbrooke.pacman.model.direction.ghostsdirectionmanagers.BlinkyPeriodicDirectionManager;
 import ca.usherbrooke.pacman.model.direction.ghostsdirectionmanagers.ClydePeriodicDirectionManager;
@@ -427,7 +426,7 @@ public class GameModel implements IGameModel {
   }
 
   @Override
-  public void setDirection(IHasDesiredDirection gameObject, Direction direction) {
+  public void setDirection(IGameObject gameObject, Direction direction) {
     if (isPaused()) {
       return;
     }
