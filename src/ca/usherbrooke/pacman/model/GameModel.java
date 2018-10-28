@@ -54,7 +54,6 @@ public class GameModel implements IGameModel {
   // position because the red ghost is initially outside of the ghost room.
   private static final Position INITIAL_GHOST_POSITION = new Position(13, 15);
 
-
   private Level level;
   private final Level initialLevel;
   private int currentGameFrame = 0;
