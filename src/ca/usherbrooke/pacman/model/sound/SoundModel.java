@@ -97,7 +97,7 @@ public class SoundModel extends Observer implements ISoundModel {
   }
 
   @Override
-  public void startInvisibleMusic() {
+  public void startInvincibleMusic() {
     if (backgroundSoundPlayer.isPlaying()) {
       backgroundSoundPlayer.stop();
     }

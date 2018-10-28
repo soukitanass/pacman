@@ -70,7 +70,7 @@ public interface IGameModel {
 
   void stopPhysicsThread();
 
-  void startInvisibleMusic();
+  void startInvincibleMusic();
 
   void startBackgroundMusic();
 

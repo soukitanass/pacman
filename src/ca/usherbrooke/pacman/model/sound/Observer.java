@@ -27,7 +27,7 @@ public abstract class Observer {
 
   public abstract void consumingGhost();
 
-  public abstract void startInvisibleMusic();
+  public abstract void startInvincibleMusic();
   
   public abstract void startBackgroundMusic();
   
