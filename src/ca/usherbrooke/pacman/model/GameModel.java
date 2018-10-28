@@ -64,6 +64,7 @@ public class GameModel implements IGameModel {
   private boolean isGameOver = false;
   private boolean isPacmanDead = false;
   private boolean isGameCompleted = false;
+  private boolean isPacmanPreviousStateInvincible = false;
   private PacmanGhostCollisionManager pacmanGhostCollisionManager;
   private GameState gameState = GameState.GAME_MENU;
   private PacMan pacman;
@@ -113,6 +114,7 @@ public class GameModel implements IGameModel {
   }
 
   public GameModel() {
+    physicsThread.start();
     initialLevel = new Level();
   }
 
@@ -125,6 +127,27 @@ public class GameModel implements IGameModel {
   public void onInterruption() {
     for (Observer observer : observers) {
       observer.onGameInterruption();
+    }
+  }
+
+  @Override
+  public void startGame() {
+    for (Observer observer : observers) {
+      observer.startGame();
+    }
+  }
+
+  @Override
+  public void startInvincibleMusic() {
+    for (Observer observer : observers) {
+      observer.startInvincibleMusic();
+    }
+  }
+
+  @Override
+  public void startBackgroundMusic() {
+    for (Observer observer : observers) {
+      observer.startBackgroundMusic();
     }
   }
 
@@ -168,6 +191,7 @@ public class GameModel implements IGameModel {
       this.setGameState(GameState.NEW_HIGHSCORE);
       return;
     }
+    ++currentGameFrame;
     if (isPacmanDead) {
       return;
     }
@@ -178,7 +202,6 @@ public class GameModel implements IGameModel {
       updateIsLevelCompleted();
       return;
     }
-    ++currentGameFrame;
 
     processAllPhysicsEvents();
 
@@ -188,6 +211,15 @@ public class GameModel implements IGameModel {
     }
 
     updateGameObjectsPosition();
+
+    if (currentLevel.getPacMan().isInvincible() && !isPacmanPreviousStateInvincible) {
+      isPacmanPreviousStateInvincible = true;
+      startInvincibleMusic();
+    } else if (!currentLevel.getPacMan().isInvincible() && isPacmanPreviousStateInvincible) {
+      isPacmanPreviousStateInvincible = false;
+      startBackgroundMusic();
+    }
+
   }
 
   private void processAllPhysicsEvents() {
@@ -293,9 +325,12 @@ public class GameModel implements IGameModel {
 
   @Override
   public void initializeLevel() {
+    final boolean isLevelCompleted = getCurrentLevel().isCompleted();
     List<List<Integer>> levelMapBeforeInitializing = getCurrentLevel().getMap();
     setCurrentLevel(new Level(getInitialLevel()));
-    getCurrentLevel().setMap(levelMapBeforeInitializing);
+    if (!isLevelCompleted) {
+      getCurrentLevel().setMap(levelMapBeforeInitializing);
+    }
     pacman = level.getPacMan();
     initializeGhostsDirectionManagers();
     initializeCollisionManagers();
@@ -394,7 +429,7 @@ public class GameModel implements IGameModel {
 
   @Override
   public PacMan getPacman() {
-    return pacman;
+    return level.getPacMan();
   }
 
   @Override

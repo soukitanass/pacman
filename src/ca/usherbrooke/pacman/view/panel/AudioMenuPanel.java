@@ -85,14 +85,14 @@ public class AudioMenuPanel extends AbstractMenuPanel {
     musicSlider.addChangeListener(e -> {
       if (musicSlider.getValueIsAdjusting()) {
         int value = musicSlider.getValue();
-        audioThread.setMusicVolumeChanged(value);
+        audioThread.setMusicVolume(value);
       }
     });
 
     soundSlider.addChangeListener(e -> {
       if (soundSlider.getValueIsAdjusting()) {
         int value = soundSlider.getValue();
-        audioThread.setSoundVolumeChanged(value);
+        audioThread.setSoundVolume(value);
       }
     });
   }

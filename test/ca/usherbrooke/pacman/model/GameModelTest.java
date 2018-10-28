@@ -16,6 +16,7 @@ import org.junit.Before;
 import org.junit.Test;
 import ca.usherbrooke.pacman.game.Game;
 import ca.usherbrooke.pacman.model.highscores.HighScores;
+import ca.usherbrooke.pacman.model.direction.Direction;
 import ca.usherbrooke.pacman.model.objects.Ghost;
 import ca.usherbrooke.pacman.model.objects.Level;
 import ca.usherbrooke.pacman.model.position.Position;
@@ -134,7 +135,7 @@ public class GameModelTest {
   public void highScoresAreLoaded() {
     assertFalse(model.getHighScores().getListHighScores().isEmpty());
   }
-  
+
   @Test
   public void highScoresAreSaved() {
     final String HIGH_SCORES_PATH = "HighScoresTestingFile.json";
@@ -155,6 +156,7 @@ public class GameModelTest {
     assertEquals(highScores.getListHighScores().size(),
         model.getHighScores().getListHighScores().size());
   }
+
   public void whenGhostIsKilledThenItIsRemoved() {
     Ghost killedGhost = model.getCurrentLevel().getGhosts().get(0);
     assertEquals(4, model.getCurrentLevel().getGhosts().size());
@@ -194,4 +196,36 @@ public class GameModelTest {
     model.initializeLevel();
     assertFalse(model.getCurrentLevel().isPacgum(positionWithInitialPacgum));
   }
+
+  @Test
+  public void whenLevelIsCompletedThenLoadNextLevel() throws InterruptedException {
+    GameModel model = new GameModel(Game.loadLevel("TwoByOneLevelWithPacmanAndPacgum.json"));
+    model.startNewGame();
+    model.setGameState(GameState.GAME);
+    assertTrue(model.getCurrentLevel().isPacgum(new Position(1, 0)));
+    assertEquals(0, model.getCurrentLevelIndex());
+
+    model.setDirection(model.getPacman(), Direction.RIGHT);
+    while (!model.isLevelCompleted()) {
+      model.update();
+      Thread.sleep(100);
+    }
+    while (1 != model.getCurrentLevelIndex()) {
+      model.update();
+    }
+    assertFalse(model.isLevelCompleted());
+    assertTrue(model.getCurrentLevel().isPacgum(new Position(1, 0)));
+
+    model.setDirection(model.getPacman(), Direction.RIGHT);
+    while (!model.isLevelCompleted()) {
+      model.update();
+      Thread.sleep(100);
+    }
+    while (2 != model.getCurrentLevelIndex()) {
+      model.update();
+    }
+    assertFalse(model.isLevelCompleted());
+    assertTrue(model.getCurrentLevel().isPacgum(new Position(1, 0)));
+  }
+
 }

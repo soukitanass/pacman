@@ -41,9 +41,9 @@ public class AudioThreadTest {
   }
 
   @Test
-  public void changeSoundVolumeTest() throws InterruptedException  {
+  public void changeSoundVolumeTest() throws InterruptedException {
     int expectedVolume = 10;
-    audioThread.setSoundVolumeChanged(expectedVolume);
+    audioThread.setSoundVolume(expectedVolume);
     Thread.sleep(THREAD_SLEEP);
     int actualVolume = audioThread.getSoundVolume();
     audioThread.stopThread();
@@ -53,29 +53,9 @@ public class AudioThreadTest {
   @Test
   public void changeMusicVolumeTest() throws InterruptedException {
     int expectedVolume = 10;
-    audioThread.setMusicVolumeChanged(expectedVolume);
+    audioThread.setMusicVolume(expectedVolume);
     Thread.sleep(THREAD_SLEEP);
     int actualVolume = audioThread.getMusicVolume();
     assertEquals(expectedVolume, actualVolume);
   }
-
-  @Test
-  public void muteSoundTest() throws InterruptedException  {
-    boolean expected = true;
-    audioThread.setTheSoundPlay(expected);
-    Thread.sleep(THREAD_SLEEP);
-    boolean actual = audioThread.isSoundPlaying();
-    assertEquals(expected, actual);
-  }
-
-  @Test
-  public void muteMusicTest() throws InterruptedException {
-    boolean expected = true;
-    audioThread.setTheMusicPlay(expected);
-    Thread.sleep(THREAD_SLEEP);
-    boolean actual = audioThread.isMusicPlay();
-    assertEquals(expected, actual);
-  }
-
-
 }
