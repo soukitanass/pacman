@@ -65,6 +65,7 @@ public class GameModel implements IGameModel {
   private boolean isPacmanDead = false;
   private boolean isGameCompleted = false;
   private boolean isPacmanPreviousStateInvincible = false;
+  private boolean isHighScoreSaved = false;
   private PacmanGhostCollisionManager pacmanGhostCollisionManager;
   private GameState gameState = GameState.GAME_MENU;
   private PacMan pacman;
@@ -184,13 +185,14 @@ public class GameModel implements IGameModel {
     boolean isGameInProgress =
         !isPaused() && !isGameCompleted() && !isGameOver() && gameState == GameState.GAME;
     if (!isGameInProgress) {
+      if ((isGameCompleted() || isGameOver()) && highScores.isHighScore(this.getScore()) && !isHighScoreSaved) {
+        gameState = GameState.NEW_HIGHSCORE;
+        isHighScoreSaved = true;
+      }
       onInterruption();
       return;
     }
-    if ((isGameCompleted() || isGameOver()) && highScores.isHighScore(this.getScore())) {
-      this.setGameState(GameState.NEW_HIGHSCORE);
-      return;
-    }
+
     ++currentGameFrame;
     if (isPacmanDead) {
       return;

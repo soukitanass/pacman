@@ -20,6 +20,7 @@ import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 import ca.usherbrooke.pacman.model.GameState;
 import ca.usherbrooke.pacman.model.IGameModel;
+import ca.usherbrooke.pacman.model.highscores.HighScores;
 import ca.usherbrooke.pacman.model.position.Position;
 import ca.usherbrooke.pacman.view.utilities.AlphabetUtilities;
 import ca.usherbrooke.pacman.view.utilities.Color;
@@ -36,6 +37,7 @@ public class NewHighScorePanel extends AbstractMenuPanel implements KeyListener 
   private static final int LETTER_SCALE_FACTOR = 5;
   private static final int NUMBER_OF_LETTERS = 3;
   private static final String SPACE = " ";
+  private static final String HIGH_SCORES_PATH = "Highscores.json";
 
   private JLabel highScoreLabel = new JLabel();
   private JLabel saveLabel = new JLabel();
@@ -136,6 +138,7 @@ public class NewHighScorePanel extends AbstractMenuPanel implements KeyListener 
         }
         String name = builder.toString();
         model.getHighScores().setHighScore(model.getScore(), name);
+        model.setHighScores(HighScores.loadHighScores(HIGH_SCORES_PATH));
         model.setGameState(GameState.GAME_MENU);
       }
     });
