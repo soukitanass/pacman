@@ -169,4 +169,14 @@ public class GameModelTest {
     model.initializeLevel();
     assertFalse(model.getCurrentLevel().isPacgum(positionWithInitialPacgum));
   }
+
+  @Test
+  public void receiveAnExtraLive() {
+    model.setScore(9999);
+    assertEquals(3, model.getLives());
+    model.setScore(10000);
+    assertEquals(4, model.getLives());
+    model.setScore(50000);
+    assertEquals(4, model.getLives());
+  }
 }

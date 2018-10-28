@@ -45,6 +45,7 @@ public class GameModel implements IGameModel {
   private static final int INITIAL_NUMBER_OF_LIVES = 3;
   private static final int NUMBER_OF_LEVEL = 5;
   private static final int BASE_GHOST_KILL_POINTS = 200;
+  private static final int EXTRA_LIVE_SCORE = 10000;
 
   // The position was hard-coded because in the teacher's specifications it
   // says that they must spawn in the room and not leave as long as pacman is
@@ -62,6 +63,7 @@ public class GameModel implements IGameModel {
   private boolean isGameOver = false;
   private boolean isPacmanDead = false;
   private boolean isGameCompleted = false;
+  private boolean hasReceivedAnExtraLive;
   private PacmanGhostCollisionManager pacmanGhostCollisionManager;
   private GameState gameState = GameState.GAME_MENU;
   private PacMan pacman;
@@ -87,6 +89,10 @@ public class GameModel implements IGameModel {
 
   @Override
   public void setScore(Integer score) {
+    if (score >= EXTRA_LIVE_SCORE && !hasReceivedAnExtraLive) {
+      lives++;
+      hasReceivedAnExtraLive = true;
+    }
     this.score = score;
   }
 
@@ -319,6 +325,7 @@ public class GameModel implements IGameModel {
   public void startNewGame() {
     setScore(0);
     setLives(INITIAL_NUMBER_OF_LIVES);
+    hasReceivedAnExtraLive = false;
     initializeGame();
   }
 
