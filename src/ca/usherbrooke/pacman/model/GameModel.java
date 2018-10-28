@@ -54,7 +54,6 @@ public class GameModel implements IGameModel {
   // position because the red ghost is initially outside of the ghost room.
   private static final Position INITIAL_GHOST_POSITION = new Position(13, 15);
 
-
   private Level level;
   private final Level initialLevel;
   private int currentGameFrame = 0;
@@ -235,8 +234,7 @@ public class GameModel implements IGameModel {
   private int getScoreForGhostKill() {
     final int ghostKillsSinceInvincible = pacman.getGhostKillsSinceInvincible();
     final int multikillScoreMultiplier = 1 << ghostKillsSinceInvincible;
-    final int ghostKillPoints = BASE_GHOST_KILL_POINTS * multikillScoreMultiplier;
-    return ghostKillPoints;
+    return BASE_GHOST_KILL_POINTS * multikillScoreMultiplier;
   }
 
   private void processPacmanKilled() {
@@ -313,7 +311,6 @@ public class GameModel implements IGameModel {
         level.getGhosts().get(2), GHOSTS_DIRECTION_CHANGE_PERIOD));
     ghostDirectionManagers.add(new ClydePeriodicDirectionManager(this, randomDirectionGenerator,
         level.getGhosts().get(3), GHOSTS_DIRECTION_CHANGE_PERIOD));
-
   }
 
   private void initializeCollisionManagers() {
@@ -485,6 +482,5 @@ public class GameModel implements IGameModel {
   @Override
   public void setHighScores(HighScores highScores) {
     this.highScores = highScores;
-
   }
 }

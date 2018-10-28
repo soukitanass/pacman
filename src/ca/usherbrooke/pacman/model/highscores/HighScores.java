@@ -38,7 +38,6 @@ public class HighScores {
     this.listHighScores = listHighScores;
   }
 
-
   public static HighScores loadHighScores(String highScoresPath) {
     Gson gson = new Gson();
     HighScores highScores = new HighScores();
