@@ -13,11 +13,13 @@ import java.io.IOException;
 import javax.sound.sampled.AudioSystem;
 import javax.sound.sampled.Clip;
 import javax.sound.sampled.FloatControl;
+import javax.sound.sampled.LineEvent;
+import javax.sound.sampled.LineListener;
 import javax.sound.sampled.LineUnavailableException;
 import javax.sound.sampled.UnsupportedAudioFileException;
 import ca.usherbrooke.pacman.view.utilities.WarningDialog;
 
-public class SoundPlayer implements ISoundPlayer {
+public class SoundPlayer implements ISoundPlayer, LineListener {
 
   private Clip clip;
   private boolean isPlaying = false;
@@ -36,6 +38,7 @@ public class SoundPlayer implements ISoundPlayer {
     } catch (IOException | UnsupportedAudioFileException | LineUnavailableException exception) {
       WarningDialog.display("Error while playing the sound file. ", exception);
     }
+    clip.addLineListener(this);
   }
 
   @Override
@@ -87,6 +90,12 @@ public class SoundPlayer implements ISoundPlayer {
       }
     } else {
       WarningDialog.display("No Volume controls available");
+    }
+  }
+
+  public void update(LineEvent event) {
+    if (event.getType().equals(LineEvent.Type.STOP)) {
+      isPlaying = false;
     }
   }
 

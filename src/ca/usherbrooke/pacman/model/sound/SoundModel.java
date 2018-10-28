@@ -138,9 +138,6 @@ public class SoundModel extends Observer implements ISoundModel {
 
   @Override
   public void movingToEmptySpace() {
-    if (actionSoundPlayer.isPlaying()) {
-      actionSoundPlayer.stop();
-    }
     if (!backgroundSoundPlayer.isPlaying()) {
       playMusic(backgroundSoundPlayer, Sound.SIREN, true);
     }
