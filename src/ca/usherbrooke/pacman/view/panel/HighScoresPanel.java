@@ -14,17 +14,13 @@ public class HighScoresPanel extends AbstractMenuPanel {
   private static final double Y_OFFSET_FACTOR = 0.1;
   private static final String SPACE = " ";
 
-  private List<HighScore> highscores = new ArrayList<>();
+  private List<HighScore> highscores;
   private List<JLabel> scoreLabels = new ArrayList<>();
   private JLabel goBackMenuOption = new JLabel();
 
   @SuppressWarnings("unchecked")
   public HighScoresPanel(IGameModel model) {
-    // TODO: Replace with the model highscores list
-    highscores.add(new HighScore("Souk", 5000));
-    highscores.add(new HighScore("Max", 5000));
-    highscores.add(new HighScore("Ben", 10000));
-    highscores.add(new HighScore("Marc", 10));
+    highscores = new ArrayList<>(model.getHighScores().getListHighScores());
     Collections.sort(highscores);
 
     this.model = model;
@@ -56,7 +52,7 @@ public class HighScoresPanel extends AbstractMenuPanel {
   private void paintHighScore(int index, int y) {
     JLabel jLabel = scoreLabels.get(index);
     HighScore score = highscores.get(index);
-    String label = index + "." + String.valueOf(score.getName()) + SPACE + score.getScore();
+    String label = index + "." + score.getName() + SPACE + score.getScore();
     setMenuJLabel(jLabel, label, LABEL_COLOR, y, IMAGE_SCALE_FACTOR);
   }
 

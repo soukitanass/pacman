@@ -92,7 +92,7 @@ public abstract class AbstractMenuPanel extends AbstractPanel {
 
   protected void setBottomMenuJLabel(JLabel jLabel, String text, double scaleFactor) {
     final BufferedImage image =
-        ImageUtilities.getTextImage(text, ACTION_LABEL_COLOR, IMAGE_SCALE_FACTOR);
+        ImageUtilities.getTextImage(text, ACTION_LABEL_COLOR, scaleFactor);
     final int height =
         (int) (this.getBounds().getHeight() - (this.getBounds().getHeight() * Y_OFFSET_FACTOR));
     final BottomCenteredInLevelPositioningStrategy strategy =
