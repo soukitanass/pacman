@@ -11,18 +11,18 @@ package ca.usherbrooke.pacman.model.direction.ghostsdirectionmanagers;
 import ca.usherbrooke.pacman.model.IGameModel;
 import ca.usherbrooke.pacman.model.direction.Direction;
 import ca.usherbrooke.pacman.model.direction.IDirectionGenerator;
-import ca.usherbrooke.pacman.model.direction.IHasDesiredDirection;
+import ca.usherbrooke.pacman.model.objects.IGameObject;
 
 public class PinkyPeriodicDirectionManager implements IPeriodicDirectionManager {
 
   private int updatesCounter;
   private int period;
-  private IHasDesiredDirection gameObject;
+  private IGameObject gameObject;
   private IDirectionGenerator directionGenerator;
   private IGameModel gameModel;
 
   public PinkyPeriodicDirectionManager(IGameModel gameModel, IDirectionGenerator directionGenerator,
-      IHasDesiredDirection gameObject, int period) {
+      IGameObject gameObject, int period) {
     this.gameModel = gameModel;
     this.directionGenerator = directionGenerator;
     this.gameObject = gameObject;
@@ -36,8 +36,9 @@ public class PinkyPeriodicDirectionManager implements IPeriodicDirectionManager 
       return;
     }
     updatesCounter = 0;
-    // TODO:
+
     Direction direction = directionGenerator.get();
     gameModel.setDirection(gameObject, direction);
   }
+
 }

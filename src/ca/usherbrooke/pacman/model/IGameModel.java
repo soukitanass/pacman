@@ -9,9 +9,9 @@
 package ca.usherbrooke.pacman.model;
 
 import ca.usherbrooke.pacman.model.direction.Direction;
-import ca.usherbrooke.pacman.model.direction.IHasDesiredDirection;
 import ca.usherbrooke.pacman.model.highscores.HighScores;
 import ca.usherbrooke.pacman.model.objects.Ghost;
+import ca.usherbrooke.pacman.model.objects.IGameObject;
 import ca.usherbrooke.pacman.model.objects.Level;
 import ca.usherbrooke.pacman.model.objects.PacMan;
 import ca.usherbrooke.pacman.model.sound.Observer;
@@ -43,7 +43,7 @@ public interface IGameModel {
 
   PacMan getPacman();
 
-  void setDirection(IHasDesiredDirection gameObject, Direction direction);
+  void setDirection(IGameObject gameObject, Direction direction);
 
   void attach(Observer observer);
 
