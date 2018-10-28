@@ -1,3 +1,11 @@
+/*******************************************************************************
+ * Team agilea18b, Pacman
+ *
+ * beam2039 - Marc-Antoine Beaudoin
+ * dupm2216 - Maxime Dupuis
+ * nass2801 - Soukaina Nassib
+ * royb2006 - Benjamin Roy
+ ******************************************************************************/
 package ca.usherbrooke.pacman.model.highscores;
 
 import java.io.BufferedReader;
@@ -37,7 +45,6 @@ public class HighScores {
   public void setListHighScores(List<HighScore> listHighScores) {
     this.listHighScores = listHighScores;
   }
-
 
   public static HighScores loadHighScores(String highScoresPath) {
     Gson gson = new Gson();

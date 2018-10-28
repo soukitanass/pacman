@@ -137,6 +137,7 @@ public class GameCanvas extends JPanel {
     window.add(newHighScoreMenu);
     window.add(this);
     window.setVisible(true);
+    setPausePanel();
   }
 
   @Override

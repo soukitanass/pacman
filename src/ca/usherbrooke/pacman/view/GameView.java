@@ -25,7 +25,8 @@ public class GameView implements IGameView {
   public GameView(IGameModel model, int ghostSpriteTogglePeriod, int pacmanSpriteTogglePeriod,
       AudioThread audioThread, FpsOptionListener fpsOptionListener) {
     this.model = model;
-    canvas = new GameCanvas(model, ghostSpriteTogglePeriod, pacmanSpriteTogglePeriod,fpsOptionListener ,audioThread);
+    canvas = new GameCanvas(model, ghostSpriteTogglePeriod, pacmanSpriteTogglePeriod,
+        fpsOptionListener, audioThread);
   }
 
   @Override
