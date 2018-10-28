@@ -62,6 +62,7 @@ public class GameModel implements IGameModel {
   private boolean isGameOver = false;
   private boolean isPacmanDead = false;
   private boolean isGameCompleted = false;
+  private boolean isPacmanPreviousStateInvincible = false;
   private PacmanGhostCollisionManager pacmanGhostCollisionManager;
   private GameState gameState = GameState.GAME_MENU;
   private PacMan pacman;
@@ -127,6 +128,27 @@ public class GameModel implements IGameModel {
   }
 
   @Override
+  public void startGame() {
+    for (Observer observer : observers) {
+      observer.startGame();
+    }
+  }
+
+  @Override
+  public void startInvincibleMusic() {
+    for (Observer observer : observers) {
+      observer.startInvincibleMusic();
+    }
+  }
+
+  @Override
+  public void startBackgroundMusic() {
+    for (Observer observer : observers) {
+      observer.startBackgroundMusic();
+    }
+  }
+
+  @Override
   public void consumingPacGums() {
     for (Observer observer : observers) {
       observer.consumingPacGums();
@@ -182,6 +204,15 @@ public class GameModel implements IGameModel {
     }
 
     updateGameObjectsPosition();
+
+    if (currentLevel.getPacMan().isInvincible() && !isPacmanPreviousStateInvincible) {
+      isPacmanPreviousStateInvincible = true;
+      startInvincibleMusic();
+    } else if (!currentLevel.getPacMan().isInvincible() && isPacmanPreviousStateInvincible) {
+      isPacmanPreviousStateInvincible = false;
+      startBackgroundMusic();
+    }
+
   }
 
   private void processAllPhysicsEvents() {

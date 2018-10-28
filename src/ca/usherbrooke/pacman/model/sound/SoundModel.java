@@ -41,24 +41,24 @@ public class SoundModel extends Observer implements ISoundModel {
   }
 
   @Override
-  public synchronized void unmuteMusic() {
+  public void unmuteMusic() {
     isMusicMuted = false;
     playMusic(backgroundSoundPlayer, Sound.SIREN, true);
   }
 
   @Override
-  public synchronized void muteMusic() {
+  public void muteMusic() {
     isMusicMuted = true;
     backgroundSoundPlayer.stop();
   }
 
   @Override
-  public synchronized void unmuteSound() {
+  public void unmuteSound() {
     isSoundMuted = false;
   }
 
   @Override
-  public synchronized void muteSound() {
+  public void muteSound() {
     isSoundMuted = true;
     actionSoundPlayer.stop();
   }
@@ -96,8 +96,29 @@ public class SoundModel extends Observer implements ISoundModel {
   }
 
   @Override
+  public void startBackgroundMusic() {
+    if (backgroundSoundPlayer.isPlaying()) {
+      backgroundSoundPlayer.stop();
+    }
+    soundPlay(backgroundSoundPlayer, Sound.SIREN, true);
+  }
+
+  @Override
+  public void startInvincibleMusic() {
+    if (backgroundSoundPlayer.isPlaying()) {
+      backgroundSoundPlayer.stop();
+    }
+    soundPlay(backgroundSoundPlayer, Sound.INTERMISSION, true);
+  }
+
+  @Override
+  public void startGame() {
+    soundPlay(actionSoundPlayer, Sound.BEGINNING_SOUND, false);
+  }
+
+  @Override
   public void consumingPacGums() {
-    soundPlay(actionSoundPlayer, Sound.CHOMP_SOUND, true);
+    soundPlay(actionSoundPlayer, Sound.CHOMP_SOUND, false);
   }
 
   @Override
