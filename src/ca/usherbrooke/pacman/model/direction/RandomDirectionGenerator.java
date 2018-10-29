@@ -27,4 +27,9 @@ public class RandomDirectionGenerator implements IDirectionGenerator {
     return DIRECTIONS[randomIntFrom0To3];
   }
 
+  @Override
+  public Direction getOverridenDirection() {
+    return null;
+  }
+
 }
