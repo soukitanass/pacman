@@ -55,7 +55,7 @@ public class Game {
 
     fpsOptionListener.setRenderThread(renderThread);
 
-    GameThread gameThread = new GameThread(model, viewThread, audioThread, controllers);
+    GameThread gameThread = new GameThread(model, viewThread, audioThread, view, controllers);
     gameThread.setName("Game thread");
     gameThread.start();
   }
