@@ -128,8 +128,9 @@ public class GameModelTest {
     assertFalse(model.isGameOver());
     model.setLives(0);
     assertTrue(model.isGameOver());
-  }  
+  }
 
+  @Test
   public void whenGhostIsKilledThenItIsRemoved() {
     Ghost killedGhost = model.getCurrentLevel().getGhosts().get(0);
     assertEquals(4, model.getCurrentLevel().getGhosts().size());
@@ -180,8 +181,10 @@ public class GameModelTest {
     assertEquals(4, model.getLives());
   }
 
+  @Test(timeout = 2000)
   public void whenLevelIsCompletedThenLoadNextLevel() throws InterruptedException {
-    GameModel model = new GameModel(Game.loadLevel("TwoByOneLevelWithPacmanAndPacgum.json"));
+    GameModel model =
+        new GameModel(Game.loadLevel("ThreeByOneLevelWithPacmanAndPacgumAndGhosts.json"));
     model.startNewGame();
     model.setGameState(GameState.GAME);
     assertTrue(model.getCurrentLevel().isPacgum(new Position(1, 0)));
@@ -192,6 +195,7 @@ public class GameModelTest {
       model.update();
       Thread.sleep(100);
     }
+    assertFalse(model.getCurrentLevel().isPacgum(new Position(1, 0)));
     while (1 != model.getCurrentLevelIndex()) {
       model.update();
     }
@@ -208,6 +212,24 @@ public class GameModelTest {
     }
     assertFalse(model.isLevelCompleted());
     assertTrue(model.getCurrentLevel().isPacgum(new Position(1, 0)));
+  }
+
+  @Test()
+  public void whenStartingNewGameThenLoadFirstLevel() {
+    GameModel model = new GameModel(
+        Game.loadLevel("FourByOneLevelWithPacmanAndPacgumAndWallAndPacgumAndGhosts.json"));
+    model.setCurrentLevelIndex(1);
+    model.getCurrentLevel().setEmptyMapTile(new Position(1, 0));
+    model.setLives(0);
+    assertFalse(model.isLevelCompleted());
+    assertEquals(1, model.getCurrentLevelIndex());
+    assertFalse(model.getCurrentLevel().isPacgum(new Position(1, 0)));
+    assertTrue(model.getCurrentLevel().isPacgum(new Position(3, 0)));
+    model.startNewGame();
+    assertFalse(model.isLevelCompleted());
+    assertEquals(0, model.getCurrentLevelIndex());
+    assertTrue(model.getCurrentLevel().isPacgum(new Position(1, 0)));
+    assertTrue(model.getCurrentLevel().isPacgum(new Position(3, 0)));
   }
 
 }

@@ -186,7 +186,8 @@ public class GameModel implements IGameModel {
     boolean isGameInProgress =
         !isPaused() && !isGameCompleted() && !isGameOver() && gameState == GameState.GAME;
     if (!isGameInProgress) {
-      if ((isGameCompleted() || isGameOver()) && highScores.isHighScore(this.getScore()) && !isHighScoreSaved) {
+      if ((isGameCompleted() || isGameOver()) && highScores.isHighScore(this.getScore())
+          && !isHighScoreSaved) {
         gameState = GameState.NEW_HIGHSCORE;
         isHighScoreSaved = true;
       }
@@ -331,7 +332,7 @@ public class GameModel implements IGameModel {
     final boolean isLevelCompleted = getCurrentLevel().isCompleted();
     List<List<Integer>> levelMapBeforeInitializing = getCurrentLevel().getMap();
     setCurrentLevel(new Level(getInitialLevel()));
-    if (!isLevelCompleted) {
+    if (!isLevelCompleted && !isGameOver()) {
       getCurrentLevel().setMap(levelMapBeforeInitializing);
     }
     pacman = level.getPacMan();
@@ -360,6 +361,7 @@ public class GameModel implements IGameModel {
 
   @Override
   public void startNewGame() {
+    setCurrentLevelIndex(0);
     setScore(0);
     setLives(INITIAL_NUMBER_OF_LIVES);
     hasReceivedAnExtraLive = false;
@@ -521,5 +523,9 @@ public class GameModel implements IGameModel {
   @Override
   public void setHighScores(HighScores highScores) {
     this.highScores = highScores;
+  }
+
+  public void setCurrentLevelIndex(int levelIndex) {
+    currentLevelIndex = levelIndex;
   }
 }
