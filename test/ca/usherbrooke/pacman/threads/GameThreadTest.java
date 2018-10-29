@@ -1,5 +1,6 @@
 package ca.usherbrooke.pacman.threads;
 
+import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.times;
@@ -13,6 +14,7 @@ import org.junit.Test;
 import ca.usherbrooke.pacman.controller.IGameController;
 import ca.usherbrooke.pacman.controller.PlayerKeyboardController;
 import ca.usherbrooke.pacman.model.IGameModel;
+import ca.usherbrooke.pacman.view.IGameView;
 
 public class GameThreadTest {
 
@@ -22,11 +24,14 @@ public class GameThreadTest {
   private GameThread gameThread;
   private IGameModel mockModel;
   private IGameController mockController;
+  private Thread mockViewThread;
+  private IGameView mockView;
 
   @Before
   public void setUp() throws Exception {
     AudioThread mockAudioThread = mock(AudioThread.class);
-    Thread mockViewThread = mock(Thread.class);
+    mockView = mock(IGameView.class);
+    mockViewThread = mock(Thread.class);
 
     mockController = mock(PlayerKeyboardController.class);
     mockModel = mock(IGameModel.class);
@@ -35,7 +40,7 @@ public class GameThreadTest {
     List<IGameController> controllers = new ArrayList<>();
     controllers.add(mockController);
 
-    gameThread = new GameThread(mockModel, mockViewThread, mockAudioThread, controllers);
+    gameThread = new GameThread(mockModel, mockViewThread, mockAudioThread, mockView, controllers);
     gameThread.setName("Game_Thread");
     gameThread.start();
 
@@ -60,11 +65,11 @@ public class GameThreadTest {
       gameThread.stopThread();
       try {
         gameThread.join(JOIN_TIME);
-        isAlive = !gameThread.isAlive();
+        isAlive = gameThread.isAlive();
       } catch (InterruptedException e) {
         gameThread.interrupt();
       }
-      assertTrue("Thread is still running", isAlive);
+      assertFalse("Thread is still running", isAlive);
     }
   }
 
@@ -78,6 +83,12 @@ public class GameThreadTest {
     Thread.sleep(SLEEP_TIME);
     verify(mockModel, times(3)).update();
     verify(mockController, times(3)).update();
+  }
+
+  @Test
+  public void closeView() {
+    gameThread.stopViewThread();
+    verify(mockView, times(1)).close();
   }
 
 }
