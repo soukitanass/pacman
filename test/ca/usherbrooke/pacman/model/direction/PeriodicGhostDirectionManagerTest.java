@@ -11,8 +11,6 @@ package ca.usherbrooke.pacman.model.direction;
 import static org.junit.Assert.assertEquals;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
-import java.util.ArrayList;
-import java.util.List;
 import org.junit.Before;
 import org.junit.Test;
 import ca.usherbrooke.pacman.model.GameModel;
@@ -109,37 +107,6 @@ public class PeriodicGhostDirectionManagerTest {
   }
 
   @Test
-  public void whenInGhostRoomUseOverrideDirectionToEscapeThenFollowDirectionGenerator() {
-    // Change the level
-    Level ghostRoomLevel =
-        MockLevelFactory.getMockLevelSingleGhostRoomSurroundedByGhostGates();
-    model.setCurrentLevel(ghostRoomLevel);
-
-    IDirectionGenerator mockDirectionGenerator = mock(RandomDirectionGenerator.class);
-    when(mockDirectionGenerator.get()).thenReturn(Direction.UP).thenReturn(Direction.RIGHT)
-        .thenReturn(Direction.DOWN).thenReturn(Direction.LEFT);
-    PeriodicGhostDirectionManager directionManager =
-        new PeriodicGhostDirectionManager(model, mockDirectionGenerator, ghost, 2);
-
-    ghost.setPosition(new Position(1, 1));
-    directionManager.update();
-    assertEquals(Direction.UP, ghost.getDesiredDirection());
-
-    directionManager.update();
-    assertEquals(Direction.RIGHT, ghost.getDesiredDirection());
-
-    directionManager.update();
-    assertEquals(Direction.DOWN, ghost.getDesiredDirection());
-
-    directionManager.update();
-    assertEquals(Direction.LEFT, ghost.getDesiredDirection());
-
-    // Revert to the old level.
-    Level emptyLevel = MockLevelFactory.getMockLevelThreeByThreeEmpty();
-    model.setCurrentLevel(emptyLevel);
-  }
-
-  @Test
   public void whenAfraidAndPacmanNotInLineOfSightThenFollowDirectionGenerator() {
     IDirectionGenerator mockDirectionGenerator = mock(RandomDirectionGenerator.class);
     when(mockDirectionGenerator.get()).thenReturn(Direction.UP).thenReturn(Direction.RIGHT)
@@ -199,4 +166,35 @@ public class PeriodicGhostDirectionManagerTest {
     assertEquals(Direction.LEFT, ghost.getDesiredDirection());
   }
 
+  @Test
+  public void whenInGhostRoomUseOverrideDirectionToEscapeThenFollowDirectionGenerator() {
+    // Change the level
+    Level ghostRoomLevel = MockLevelFactory.getMockLevelSingleGhostRoomSurroundedByGhostGates();
+    ghostRoomLevel.setPacMan(pacman);
+    model.setCurrentLevel(ghostRoomLevel);
+
+    IDirectionGenerator mockDirectionGenerator = mock(RandomDirectionGenerator.class);
+    when(mockDirectionGenerator.get()).thenReturn(Direction.UP).thenReturn(Direction.RIGHT)
+        .thenReturn(Direction.DOWN).thenReturn(Direction.LEFT);
+    PeriodicGhostDirectionManager directionManager =
+        new PeriodicGhostDirectionManager(model, mockDirectionGenerator, ghost, 2);
+
+    ghost.setPosition(new Position(1, 1));
+    directionManager.update();
+    assertEquals(Direction.UP, ghost.getDesiredDirection());
+
+    directionManager.update();
+    assertEquals(Direction.RIGHT, ghost.getDesiredDirection());
+
+    directionManager.update();
+    assertEquals(Direction.DOWN, ghost.getDesiredDirection());
+
+    directionManager.update();
+    assertEquals(Direction.LEFT, ghost.getDesiredDirection());
+
+    // Revert to the old level.
+    Level emptyLevel = MockLevelFactory.getMockLevelThreeByThreeEmpty();
+    emptyLevel.setPacMan(pacman);
+    model.setCurrentLevel(emptyLevel);
+  }
 }
