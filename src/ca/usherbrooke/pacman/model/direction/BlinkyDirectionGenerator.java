@@ -16,9 +16,10 @@ import ca.usherbrooke.pacman.model.position.Position;
 
 public class BlinkyDirectionGenerator implements IDirectionGenerator {
 
-  private Random randomNumberGenerator;
-  private static final Direction[] DIRECTIONS =
-      {Direction.UP, Direction.DOWN, Direction.LEFT, Direction.RIGHT};
+  private static final int RANDOM_GENERATOR_SEED = 8544574;
+  Random randomNumberGenerator = new Random(RANDOM_GENERATOR_SEED);
+  IDirectionGenerator randomDirectionGenerator =
+      new RandomDirectionGenerator(randomNumberGenerator);
 
   private boolean isFollowingPacman = false;
 
@@ -28,8 +29,7 @@ public class BlinkyDirectionGenerator implements IDirectionGenerator {
   private Ghost ghost;
   private Level level;
 
-  public BlinkyDirectionGenerator(Random randomNumberGenerator, Ghost ghost, Level level) {
-    this.randomNumberGenerator = randomNumberGenerator;
+  public BlinkyDirectionGenerator(Ghost ghost, Level level) {
     this.pacman = level.getPacMan();
     this.level = level;
     this.ghost = ghost;
@@ -50,7 +50,7 @@ public class BlinkyDirectionGenerator implements IDirectionGenerator {
     }
 
     if (direction == null) {
-      direction = getRandomDirection();
+      direction = randomDirectionGenerator.get();
     }
     return direction;
   }
@@ -66,12 +66,6 @@ public class BlinkyDirectionGenerator implements IDirectionGenerator {
     }
 
     return direction;
-  }
-
-  private Direction getRandomDirection() {
-    final int exclusiveMaxBound = 4;
-    final int randomIntFrom0To3 = randomNumberGenerator.nextInt(exclusiveMaxBound);
-    return DIRECTIONS[randomIntFrom0To3];
   }
 
   private Direction getPacmanDirectionIfInLineOfSight() {

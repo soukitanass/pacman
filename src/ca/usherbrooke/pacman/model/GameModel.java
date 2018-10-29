@@ -35,7 +35,7 @@ import ca.usherbrooke.pacman.view.utilities.WarningDialog;
 
 public class GameModel implements IGameModel {
   private static final int IS_LEVEL_COMPLETED_PERIOD = 20;
-  private static final int GHOSTS_DIRECTION_CHANGE_PERIOD = 14; // 2 sec
+  private static final int GHOSTS_DIRECTION_CHANGE_PERIOD = 14;
   private static final int RANDOM_GENERATOR_SEED = 8544574;
   private static final int JOIN_TIMER = 1000; // ms
   private static final int INITIAL_SCORE = 0;
@@ -344,8 +344,7 @@ public class GameModel implements IGameModel {
   }
 
   private void initializeGhostsDirectionManagers() {
-    blinkyDirectionGenerator =
-        new BlinkyDirectionGenerator(randomNumberGenerator, level.getGhosts().get(0), level);
+    blinkyDirectionGenerator = new BlinkyDirectionGenerator(level.getGhosts().get(0), level);
 
     ghostDirectionManagers.add(new PeriodicGhostDirectionManager(this, blinkyDirectionGenerator,
         level.getGhosts().get(0), GHOSTS_DIRECTION_CHANGE_PERIOD));

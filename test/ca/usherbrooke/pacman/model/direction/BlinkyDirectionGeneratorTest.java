@@ -12,7 +12,6 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNull;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Random;
 import org.junit.Before;
 import org.junit.Test;
 import ca.usherbrooke.pacman.model.objects.Ghost;
@@ -39,11 +38,11 @@ public class BlinkyDirectionGeneratorTest {
     level.setPacMan(pacman);
     level.setGhost(ghosts);
 
-    blinkyDirectionGenerator = new BlinkyDirectionGenerator(new Random(12345), ghost, level);
+    blinkyDirectionGenerator = new BlinkyDirectionGenerator(ghost, level);
   }
 
   @Test
-  public void overridenDirectionDontDetectPacman() {
+  public void overridenDirectionDontDetectPacmanSoItAlwaysRetunrNull() {
 
     ghost.setPosition(new Position(0, 0));
     assertNull(blinkyDirectionGenerator.getOverridenDirection());
@@ -59,7 +58,7 @@ public class BlinkyDirectionGeneratorTest {
   }
 
   @Test
-  public void overridenDirectionDetectPacman() {
+  public void overridenDirectionDetectPacmanSoItReturnTheDirectionToPacman() {
 
     ghost.setPosition(new Position(1, 0));
     assertEquals(Direction.DOWN, blinkyDirectionGenerator.getOverridenDirection());
@@ -75,7 +74,7 @@ public class BlinkyDirectionGeneratorTest {
   }
 
   @Test
-  public void directionGeneratorDetectPacman() {
+  public void directionGeneratorDetectPacmanSoItReturnTheDirectionToPacman() {
 
     ghost.setPosition(new Position(1, 0));
     assertEquals(Direction.DOWN, blinkyDirectionGenerator.get());
@@ -91,7 +90,7 @@ public class BlinkyDirectionGeneratorTest {
   }
 
   @Test
-  public void ghostWasFollowingPacmanAndPacmanGoesUpSoHeDoesNotSeeHimAgainSoHeTriesToFindHimAndItsALittleBitSad() {
+  public void ghostWasFollowingPacmanAndPacmanGoesUpSoHeDoesNotSeeHimAgainSoHeTriesToFindHim() {
 
     ghost.setPosition(new Position(0, 1));
     pacman.setPosition(new Position(2, 1));
@@ -111,7 +110,6 @@ public class BlinkyDirectionGeneratorTest {
     ghost.setPosition(new Position(2, 0));
     pacman.setPosition(new Position(0, 0));
     assertEquals(Direction.LEFT, blinkyDirectionGenerator.get());
-    // It's a beautiful ending and they both live happily ever after.
   }
 
   @Test
