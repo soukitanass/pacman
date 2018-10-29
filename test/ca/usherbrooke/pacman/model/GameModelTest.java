@@ -130,6 +130,7 @@ public class GameModelTest {
     assertTrue(model.isGameOver());
   }
 
+  @Test
   public void whenGhostIsKilledThenItIsRemoved() {
     Ghost killedGhost = model.getCurrentLevel().getGhosts().get(0);
     assertEquals(4, model.getCurrentLevel().getGhosts().size());
