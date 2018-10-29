@@ -50,7 +50,7 @@ public interface IGameModel {
   void onInterruption();
 
   void startGame();
-  
+
   void consumingPacGums();
 
   void movingToEmptySpace();
