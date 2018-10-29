@@ -186,7 +186,8 @@ public class GameModel implements IGameModel {
     boolean isGameInProgress =
         !isPaused() && !isGameCompleted() && !isGameOver() && gameState == GameState.GAME;
     if (!isGameInProgress) {
-      if ((isGameCompleted() || isGameOver()) && highScores.isHighScore(this.getScore()) && !isHighScoreSaved) {
+      if ((isGameCompleted() || isGameOver()) && highScores.isHighScore(this.getScore())
+          && !isHighScoreSaved) {
         gameState = GameState.NEW_HIGHSCORE;
         isHighScoreSaved = true;
       }
