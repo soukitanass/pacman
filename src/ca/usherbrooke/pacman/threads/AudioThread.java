@@ -129,6 +129,14 @@ public class AudioThread extends Thread implements CloseObserver {
     isMusicMuted.set(isMuted);
   }
 
+  public synchronized boolean isMusicMuted() {
+    return isMusicMuted.get();
+  }
+
+  public synchronized boolean isSoundMuted() {
+    return isSoundMuted.get();
+  }
+
   public synchronized ISoundController getSoundController() {
     return soundController;
   }

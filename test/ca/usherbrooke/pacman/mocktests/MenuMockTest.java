@@ -11,6 +11,7 @@ import org.junit.Test;
 import ca.usherbrooke.pacman.game.Game;
 import ca.usherbrooke.pacman.model.GameModel;
 import ca.usherbrooke.pacman.model.GameState;
+import ca.usherbrooke.pacman.threads.AudioThread;
 import ca.usherbrooke.pacman.view.GameView;
 
 public class MenuMockTest {
@@ -19,6 +20,7 @@ public class MenuMockTest {
   private GameModel model;
   private GameView view;
   private final int sleepTimeBetweenActionsMilliseconds = 1000;
+  private AudioThread audio;
 
   @Before
   public void setUp() throws AWTException, InterruptedException {
@@ -26,6 +28,7 @@ public class MenuMockTest {
     game.initialize();
     model = game.getModel();
     view = game.getView();
+    audio = game.getAudioThread();
     mockTestController = new MockTestController(view, sleepTimeBetweenActionsMilliseconds);
     game.start();
     Thread.sleep(sleepTimeBetweenActionsMilliseconds);
@@ -58,5 +61,39 @@ public class MenuMockTest {
     mockTestController.clickStartOrResumeGame();
     assertEquals(GameState.GAME, model.getGameState());
     assertTrue(model.isPaused());
+  }
+
+  @Test
+  public void goToAudioMenuAndBackToMainMenu() throws InterruptedException {
+    mockTestController.clickAudio();
+    assertEquals(GameState.AUDIO_MENU, model.getGameState());
+    mockTestController.clickGoBack();
+    assertEquals(GameState.GAME_MENU, model.getGameState());
+  }
+
+  @Test
+  public void muteMusic() throws InterruptedException {
+    mockTestController.clickAudio();
+    assertEquals(GameState.AUDIO_MENU, model.getGameState());
+    assertFalse(audio.isMusicMuted());
+    mockTestController.clickMuteMusicCheckbox();
+    assertEquals(GameState.AUDIO_MENU, model.getGameState());
+    assertTrue(audio.isMusicMuted());
+    mockTestController.clickMuteMusicCheckbox();
+    assertEquals(GameState.AUDIO_MENU, model.getGameState());
+    assertFalse(audio.isMusicMuted());
+  }
+
+  @Test
+  public void muteSound() throws InterruptedException {
+    mockTestController.clickAudio();
+    assertEquals(GameState.AUDIO_MENU, model.getGameState());
+    assertFalse(audio.isSoundMuted());
+    mockTestController.clickMuteSoundCheckbox();
+    assertEquals(GameState.AUDIO_MENU, model.getGameState());
+    assertTrue(audio.isSoundMuted());
+    mockTestController.clickMuteSoundCheckbox();
+    assertEquals(GameState.AUDIO_MENU, model.getGameState());
+    assertFalse(audio.isSoundMuted());
   }
 }

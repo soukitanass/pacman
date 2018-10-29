@@ -113,4 +113,16 @@ public class AudioMenuPanel extends AbstractMenuPanel {
     });
   }
 
+  public JLabel getGoBackLabel() {
+    return goBackMenuOption;
+  }
+
+  public JCheckBox getMuteMusicCheckbox() {
+    return musicCheckbox;
+  }
+
+  public JCheckBox getMuteSoundCheckbox() {
+    return soundCheckbox;
+  }
+
 }

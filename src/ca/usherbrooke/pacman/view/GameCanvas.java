@@ -19,7 +19,6 @@ import java.awt.event.WindowFocusListener;
 import java.util.ArrayList;
 import java.util.List;
 import javax.swing.JFrame;
-import javax.swing.JLabel;
 import javax.swing.JLayeredPane;
 import javax.swing.JPanel;
 import ca.usherbrooke.pacman.model.GameState;
@@ -361,7 +360,12 @@ public class GameCanvas extends JPanel {
     this.isFpsEnabled = isFpsEnabled;
   }
 
-  public JLabel getStartGameLabel() {
-    return gameMenu.getStartGameLabel();
+  public GameMenuPanel getMenuPanel() {
+    return gameMenu;
   }
+
+  public AudioMenuPanel getAudioPanel() {
+    return audioMenu;
+  }
+
 }
