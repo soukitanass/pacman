@@ -115,7 +115,7 @@ public class BlinkyDirectionGeneratorTest {
   }
 
   @Test
-  public void afterLosingSightOfPacmanTheGostTryToGoToTheLastPositioHeSawPacman() {
+  public void afterLosingSightOfPacmanTheGhostTryToGoToTheLastPositionHeSawPacman() {
 
     ghost.setPosition(new Position(0, 1));
     assertEquals(Direction.RIGHT, blinkyDirectionGenerator.getOverridenDirection());

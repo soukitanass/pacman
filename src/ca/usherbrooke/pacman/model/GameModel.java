@@ -344,7 +344,6 @@ public class GameModel implements IGameModel {
   }
 
   private void initializeGhostsDirectionManagers() {
-
     blinkyDirectionGenerator =
         new BlinkyDirectionGenerator(randomNumberGenerator, level.getGhosts().get(0), level);
 
