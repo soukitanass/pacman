@@ -8,28 +8,23 @@
  ******************************************************************************/
 package ca.usherbrooke.pacman.model.direction;
 
-import java.util.Random;
 import ca.usherbrooke.pacman.model.objects.Ghost;
 import ca.usherbrooke.pacman.model.objects.Level;
 import ca.usherbrooke.pacman.model.objects.PacMan;
 import ca.usherbrooke.pacman.model.position.Position;
 
 public class BlinkyDirectionGenerator implements IDirectionGenerator {
-
-  private static final int RANDOM_GENERATOR_SEED = 8544574;
-  Random randomNumberGenerator = new Random(RANDOM_GENERATOR_SEED);
-  IDirectionGenerator randomDirectionGenerator =
-      new RandomDirectionGenerator(randomNumberGenerator);
-
+  private IDirectionGenerator randomDirectionGenerator;
   private boolean isFollowingPacman = false;
-
   private Direction pacmanDesiredDirection;
   private Position pacmanLastSeenPosition;
   private PacMan pacman;
   private Ghost ghost;
   private Level level;
 
-  public BlinkyDirectionGenerator(Ghost ghost, Level level) {
+  public BlinkyDirectionGenerator(IDirectionGenerator randomDirectionGenerator, Ghost ghost,
+      Level level) {
+    this.randomDirectionGenerator = randomDirectionGenerator;
     this.pacman = level.getPacMan();
     this.level = level;
     this.ghost = ghost;

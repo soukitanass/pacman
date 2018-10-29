@@ -12,6 +12,7 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNull;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 import org.junit.Before;
 import org.junit.Test;
 import ca.usherbrooke.pacman.model.objects.Ghost;
@@ -21,6 +22,11 @@ import ca.usherbrooke.pacman.model.objects.PacMan;
 import ca.usherbrooke.pacman.model.position.Position;
 
 public class BlinkyDirectionGeneratorTest {
+  private static final int RANDOM_GENERATOR_SEED = 8544574;
+  private Random randomNumberGenerator = new Random(RANDOM_GENERATOR_SEED);
+  private IDirectionGenerator randomDirectionGenerator =
+      new RandomDirectionGenerator(randomNumberGenerator);
+  
   private BlinkyDirectionGenerator blinkyDirectionGenerator;
   private Ghost ghost;
   private List<Ghost> ghosts = new ArrayList<>();
@@ -38,11 +44,11 @@ public class BlinkyDirectionGeneratorTest {
     level.setPacMan(pacman);
     level.setGhost(ghosts);
 
-    blinkyDirectionGenerator = new BlinkyDirectionGenerator(ghost, level);
+    blinkyDirectionGenerator = new BlinkyDirectionGenerator(randomDirectionGenerator, ghost, level);
   }
 
   @Test
-  public void overridenDirectionDontDetectPacmanSoItAlwaysRetunrNull() {
+  public void overridenDirectionDontDetectPacmanSoItAlwaysReturnNull() {
 
     ghost.setPosition(new Position(0, 0));
     assertNull(blinkyDirectionGenerator.getOverridenDirection());
