@@ -32,16 +32,25 @@ public class PeriodicGhostDirectionManager {
   }
 
   public void update() {
-    ++updatesCounter;
-    if (period != updatesCounter) {
-      return;
-    }
-    updatesCounter = 0;
+    
     final Direction escapeFromPacmanDirection = getOverridenDirectionToEscapeInvinciblePacman();
     if (escapeFromPacmanDirection != null) {
       gameModel.setDirection(ghost, escapeFromPacmanDirection);
       return;
     }
+    
+    final Direction overridenDirection = directionGenerator.getOverridenDirection();
+    if (overridenDirection != null) {
+      gameModel.setDirection(ghost, overridenDirection);
+      return;
+    }
+    
+    ++updatesCounter;
+    if (period != updatesCounter) {
+      return;
+    }
+    updatesCounter = 0;
+
     gameModel.setDirection(ghost, directionGenerator.get());
   }
 

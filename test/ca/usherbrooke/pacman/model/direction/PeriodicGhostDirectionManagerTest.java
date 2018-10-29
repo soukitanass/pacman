@@ -129,4 +129,41 @@ public class PeriodicGhostDirectionManagerTest {
     assertEquals(Direction.LEFT, ghost.getDesiredDirection());
   }
 
+  @Test
+  public void whenOverrideCommandReturnNotNullDirection() {
+    IDirectionGenerator mockDirectionGenerator = mock(RandomDirectionGenerator.class);
+    when(mockDirectionGenerator.get()).thenReturn(null);
+    when(mockDirectionGenerator.getOverridenDirection()).thenReturn(Direction.DOWN);
+    ghost.setPosition(new Position(0, 0));
+
+    PeriodicGhostDirectionManager directionManager =
+        new PeriodicGhostDirectionManager(model, mockDirectionGenerator, ghost, 1);
+
+    directionManager.update();
+    assertEquals(Direction.DOWN, ghost.getDesiredDirection());
+  }
+
+  @Test
+  public void whenOverrideCommandReturnNullDirection() {
+    IDirectionGenerator mockDirectionGenerator = mock(RandomDirectionGenerator.class);
+    when(mockDirectionGenerator.get()).thenReturn(Direction.UP).thenReturn(Direction.RIGHT)
+        .thenReturn(Direction.DOWN).thenReturn(Direction.LEFT);
+    ghost.setPosition(new Position(0, 0));
+
+    PeriodicGhostDirectionManager directionManager =
+        new PeriodicGhostDirectionManager(model, mockDirectionGenerator, ghost, 1);
+
+    directionManager.update();
+    assertEquals(Direction.UP, ghost.getDesiredDirection());
+
+    directionManager.update();
+    assertEquals(Direction.RIGHT, ghost.getDesiredDirection());
+
+    directionManager.update();
+    assertEquals(Direction.DOWN, ghost.getDesiredDirection());
+
+    directionManager.update();
+    assertEquals(Direction.LEFT, ghost.getDesiredDirection());
+  }
+
 }

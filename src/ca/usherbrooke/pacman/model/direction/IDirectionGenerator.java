@@ -12,4 +12,5 @@ public interface IDirectionGenerator {
 
   Direction get();
 
+  Direction getOverridenDirection();
 }
