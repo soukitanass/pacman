@@ -140,4 +140,8 @@ public class GameMenuPanel extends AbstractMenuPanel {
       }
     });
   }
+
+  public JLabel getStartGameLabel() {
+    return startGameMenuOption;
+  }
 }
