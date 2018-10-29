@@ -128,9 +128,8 @@ public class GameModelTest {
     assertFalse(model.isGameOver());
     model.setLives(0);
     assertTrue(model.isGameOver());
-  }
+  }  
 
-  @Test
   public void whenGhostIsKilledThenItIsRemoved() {
     Ghost killedGhost = model.getCurrentLevel().getGhosts().get(0);
     assertEquals(4, model.getCurrentLevel().getGhosts().size());
@@ -172,6 +171,15 @@ public class GameModelTest {
   }
 
   @Test
+  public void receiveAnExtraLive() {
+    model.setScore(9999);
+    assertEquals(3, model.getLives());
+    model.setScore(10000);
+    assertEquals(4, model.getLives());
+    model.setScore(50000);
+    assertEquals(4, model.getLives());
+  }
+
   public void whenLevelIsCompletedThenLoadNextLevel() throws InterruptedException {
     GameModel model = new GameModel(Game.loadLevel("TwoByOneLevelWithPacmanAndPacgum.json"));
     model.startNewGame();

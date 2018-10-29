@@ -11,25 +11,19 @@ import ca.usherbrooke.pacman.model.highscores.HighScore;
 @SuppressWarnings("serial")
 public class HighScoresPanel extends AbstractMenuPanel {
 
+  private static final double NUMBER_OF_HIGHSCORES = 5;
   private static final double Y_OFFSET_FACTOR = 0.1;
   private static final String SPACE = " ";
 
-  private List<HighScore> highscores = new ArrayList<>();
+  private List<HighScore> highscores;
   private List<JLabel> scoreLabels = new ArrayList<>();
   private JLabel goBackMenuOption = new JLabel();
 
   @SuppressWarnings("unchecked")
   public HighScoresPanel(IGameModel model) {
-    // TODO: Replace with the model highscores list
-    highscores.add(new HighScore("Souk", 5000));
-    highscores.add(new HighScore("Max", 5000));
-    highscores.add(new HighScore("Ben", 10000));
-    highscores.add(new HighScore("Marc", 10));
-    Collections.sort(highscores);
-
     this.model = model;
 
-    for (int i = 0; i < highscores.size(); i++) {
+    for (int i = 0; i < NUMBER_OF_HIGHSCORES; i++) {
       JLabel jLabel = new JLabel();
       scoreLabels.add(jLabel);
       this.add(jLabel);
@@ -42,6 +36,9 @@ public class HighScoresPanel extends AbstractMenuPanel {
   @Override
   public void paint(Graphics graphic) {
     super.paint(graphic);
+
+    highscores = new ArrayList<>(model.getHighScores().getListHighScores());
+    Collections.sort(highscores);
 
     int y = (int) (model.getCurrentLevel().getHeight() * pixelTileSize * Y_OFFSET_FACTOR);
 
@@ -56,7 +53,8 @@ public class HighScoresPanel extends AbstractMenuPanel {
   private void paintHighScore(int index, int y) {
     JLabel jLabel = scoreLabels.get(index);
     HighScore score = highscores.get(index);
-    String label = index + "." + String.valueOf(score.getName()) + SPACE + score.getScore();
+    final int scoreIndex = index + 1;
+    String label = scoreIndex + "." + score.getName() + SPACE + score.getScore();
     setMenuJLabel(jLabel, label, LABEL_COLOR, y, IMAGE_SCALE_FACTOR);
   }
 

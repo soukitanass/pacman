@@ -187,13 +187,13 @@ public class Level {
     if (isSameX && isUp) {
       return Direction.UP;
     }
-    if (isSameX && !isUp) {
+    if (isSameX) {
       return Direction.DOWN;
     }
     if (isSameY && isLeft) {
       return Direction.LEFT;
     }
-    if (isSameY && !isLeft) {
+    if (isSameY) {
       return Direction.RIGHT;
     }
     return null;

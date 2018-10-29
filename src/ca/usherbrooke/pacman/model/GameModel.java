@@ -19,13 +19,10 @@ import ca.usherbrooke.pacman.model.collision.PacmanSuperPacgumCollisionManager;
 import ca.usherbrooke.pacman.model.direction.Direction;
 import ca.usherbrooke.pacman.model.direction.IDirectionGenerator;
 import ca.usherbrooke.pacman.model.direction.RandomDirectionGenerator;
-import ca.usherbrooke.pacman.model.direction.ghostsdirectionmanagers.BlinkyPeriodicDirectionManager;
-import ca.usherbrooke.pacman.model.direction.ghostsdirectionmanagers.ClydePeriodicDirectionManager;
-import ca.usherbrooke.pacman.model.direction.ghostsdirectionmanagers.IPeriodicDirectionManager;
-import ca.usherbrooke.pacman.model.direction.ghostsdirectionmanagers.InkyPeriodicDirectionManager;
-import ca.usherbrooke.pacman.model.direction.ghostsdirectionmanagers.PinkyPeriodicDirectionManager;
+import ca.usherbrooke.pacman.model.direction.ghostsdirectionmanagers.PeriodicGhostDirectionManager;
 import ca.usherbrooke.pacman.model.events.GameEvent;
 import ca.usherbrooke.pacman.model.events.GameEventObject;
+import ca.usherbrooke.pacman.model.highscores.HighScores;
 import ca.usherbrooke.pacman.model.objects.Ghost;
 import ca.usherbrooke.pacman.model.objects.IGameObject;
 import ca.usherbrooke.pacman.model.objects.Level;
@@ -43,7 +40,9 @@ public class GameModel implements IGameModel {
   private static final int INITIAL_SCORE = 0;
   private static final int INITIAL_NUMBER_OF_LIVES = 3;
   private static final int NUMBER_OF_LEVEL = 5;
+  private static final String HIGH_SCORES_PATH = "Highscores.json";
   private static final int BASE_GHOST_KILL_POINTS = 200;
+  private static final int EXTRA_LIVE_SCORE = 10000;
 
   // The position was hard-coded because in the teacher's specifications it
   // says that they must spawn in the room and not leave as long as pacman is
@@ -61,17 +60,20 @@ public class GameModel implements IGameModel {
   private boolean isGameOver = false;
   private boolean isPacmanDead = false;
   private boolean isGameCompleted = false;
+  private boolean hasReceivedAnExtraLive;
   private boolean isPacmanPreviousStateInvincible = false;
+  private boolean isHighScoreSaved = false;
   private PacmanGhostCollisionManager pacmanGhostCollisionManager;
   private GameState gameState = GameState.GAME_MENU;
   private PacMan pacman;
   private PacmanPacgumCollisionManager pacmanPacgumCollisionManager;
   private PacmanSuperPacgumCollisionManager pacmanSuperPacgumCollisionManager;
   private List<Observer> observers = new ArrayList<>();
+  private HighScores highScores = new HighScores();
   Random randomNumberGenerator = new Random(RANDOM_GENERATOR_SEED);
   IDirectionGenerator randomDirectionGenerator =
       new RandomDirectionGenerator(randomNumberGenerator);
-  private List<IPeriodicDirectionManager> ghostDirectionManagers = new ArrayList<>();
+  private List<PeriodicGhostDirectionManager> ghostDirectionManagers = new ArrayList<>();
   private int isLevelCompletedUpdatesCounter = 0;
   private Queue<Level> moveQueue = new ConcurrentLinkedQueue<>(); // Thread Safe
   private Queue<GameEventObject> eventQueue = new ConcurrentLinkedQueue<>(); // Thread Safe
@@ -87,6 +89,10 @@ public class GameModel implements IGameModel {
 
   @Override
   public void setScore(Integer score) {
+    if (score >= EXTRA_LIVE_SCORE && !hasReceivedAnExtraLive) {
+      lives++;
+      hasReceivedAnExtraLive = true;
+    }
     this.score = score;
   }
 
@@ -180,9 +186,14 @@ public class GameModel implements IGameModel {
     boolean isGameInProgress =
         !isPaused() && !isGameCompleted() && !isGameOver() && gameState == GameState.GAME;
     if (!isGameInProgress) {
+      if ((isGameCompleted() || isGameOver()) && highScores.isHighScore(this.getScore()) && !isHighScoreSaved) {
+        gameState = GameState.NEW_HIGHSCORE;
+        isHighScoreSaved = true;
+      }
       onInterruption();
       return;
     }
+
     ++currentGameFrame;
     if (isPacmanDead) {
       return;
@@ -258,8 +269,7 @@ public class GameModel implements IGameModel {
   private int getScoreForGhostKill() {
     final int ghostKillsSinceInvincible = pacman.getGhostKillsSinceInvincible();
     final int multikillScoreMultiplier = 1 << ghostKillsSinceInvincible;
-    final int ghostKillPoints = BASE_GHOST_KILL_POINTS * multikillScoreMultiplier;
-    return ghostKillPoints;
+    return BASE_GHOST_KILL_POINTS * multikillScoreMultiplier;
   }
 
   private void processPacmanKilled() {
@@ -304,7 +314,7 @@ public class GameModel implements IGameModel {
   }
 
   private void updateGameObjectsPosition() {
-    for (IPeriodicDirectionManager ghostDirectionManager : ghostDirectionManagers) {
+    for (PeriodicGhostDirectionManager ghostDirectionManager : ghostDirectionManagers) {
       ghostDirectionManager.update();
     }
   }
@@ -312,6 +322,7 @@ public class GameModel implements IGameModel {
   @Override
   public void initializeGame() {
     initializeLevel();
+    highScores = HighScores.loadHighScores(HIGH_SCORES_PATH);
     isGameOver = false;
   }
 
@@ -330,15 +341,14 @@ public class GameModel implements IGameModel {
   }
 
   private void initializeGhostsDirectionManagers() {
-    ghostDirectionManagers.add(new BlinkyPeriodicDirectionManager(this, randomDirectionGenerator,
+    ghostDirectionManagers.add(new PeriodicGhostDirectionManager(this, randomDirectionGenerator,
         level.getGhosts().get(0), GHOSTS_DIRECTION_CHANGE_PERIOD));
-    ghostDirectionManagers.add(new InkyPeriodicDirectionManager(this, randomDirectionGenerator,
+    ghostDirectionManagers.add(new PeriodicGhostDirectionManager(this, randomDirectionGenerator,
         level.getGhosts().get(1), GHOSTS_DIRECTION_CHANGE_PERIOD));
-    ghostDirectionManagers.add(new PinkyPeriodicDirectionManager(this, randomDirectionGenerator,
+    ghostDirectionManagers.add(new PeriodicGhostDirectionManager(this, randomDirectionGenerator,
         level.getGhosts().get(2), GHOSTS_DIRECTION_CHANGE_PERIOD));
-    ghostDirectionManagers.add(new ClydePeriodicDirectionManager(this, randomDirectionGenerator,
+    ghostDirectionManagers.add(new PeriodicGhostDirectionManager(this, randomDirectionGenerator,
         level.getGhosts().get(3), GHOSTS_DIRECTION_CHANGE_PERIOD));
-
   }
 
   private void initializeCollisionManagers() {
@@ -352,6 +362,7 @@ public class GameModel implements IGameModel {
   public void startNewGame() {
     setScore(0);
     setLives(INITIAL_NUMBER_OF_LIVES);
+    hasReceivedAnExtraLive = false;
     initializeGame();
   }
 
@@ -500,5 +511,15 @@ public class GameModel implements IGameModel {
   public void updatePacmanDeath() {
     setLives(getLives() - 1);
     initializeLevel();
+  }
+
+  @Override
+  public HighScores getHighScores() {
+    return highScores;
+  }
+
+  @Override
+  public void setHighScores(HighScores highScores) {
+    this.highScores = highScores;
   }
 }

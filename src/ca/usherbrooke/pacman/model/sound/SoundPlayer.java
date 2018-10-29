@@ -13,11 +13,13 @@ import java.io.IOException;
 import javax.sound.sampled.AudioSystem;
 import javax.sound.sampled.Clip;
 import javax.sound.sampled.FloatControl;
+import javax.sound.sampled.LineEvent;
+import javax.sound.sampled.LineListener;
 import javax.sound.sampled.LineUnavailableException;
 import javax.sound.sampled.UnsupportedAudioFileException;
 import ca.usherbrooke.pacman.view.utilities.WarningDialog;
 
-public class SoundPlayer implements ISoundPlayer {
+public class SoundPlayer implements ISoundPlayer, LineListener {
 
   private Clip clip;
   private boolean isPlaying = false;
@@ -27,15 +29,16 @@ public class SoundPlayer implements ISoundPlayer {
   public void setClip(File file) {
     try {
       clip = AudioSystem.getClip();
-      try {
-        clip.open(AudioSystem.getAudioInputStream(file));
-
-      } catch (IOException | UnsupportedAudioFileException exception) {
-        WarningDialog.display("Error while playing the sound file. ", exception);
-      }
-    } catch (IllegalArgumentException | LineUnavailableException ignored) {
+    } catch (LineUnavailableException ignored) {
       clip = null;
     }
+
+    try {
+      clip.open(AudioSystem.getAudioInputStream(file));
+    } catch (IOException | UnsupportedAudioFileException | LineUnavailableException exception) {
+      WarningDialog.display("Error while playing the sound file. ", exception);
+    }
+    clip.addLineListener(this);
   }
 
   @Override
@@ -75,18 +78,25 @@ public class SoundPlayer implements ISoundPlayer {
     if (clip == null) {
       return;
     }
-      if (clip.isControlSupported(FloatControl.Type.MASTER_GAIN)) {
-        FloatControl gainControl = (FloatControl) clip.getControl(FloatControl.Type.MASTER_GAIN);
-        float range = gainControl.getMaximum() - gainControl.getMinimum();
-        float gain = (range * volume) + gainControl.getMinimum();
-        if (gain > gainControl.getMaximum()) {
-          gainControl.setValue(gainControl.getMaximum());
-        } else {
-          gainControl.setValue(gain);
-        }
+
+    if (clip.isControlSupported(FloatControl.Type.MASTER_GAIN)) {
+      FloatControl gainControl = (FloatControl) clip.getControl(FloatControl.Type.MASTER_GAIN);
+      final float range = gainControl.getMaximum() - gainControl.getMinimum();
+      final float gain = (range * volume) + gainControl.getMinimum();
+      if (gain > gainControl.getMaximum()) {
+        gainControl.setValue(gainControl.getMaximum());
       } else {
-        WarningDialog.display("No Volume controls available");
+        gainControl.setValue(gain);
       }
+    } else {
+      WarningDialog.display("No Volume controls available");
+    }
+  }
+
+  public void update(LineEvent event) {
+    if (event.getType().equals(LineEvent.Type.STOP)) {
+      isPlaying = false;
+    }
   }
 
 }
