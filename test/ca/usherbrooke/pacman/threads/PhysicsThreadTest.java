@@ -9,6 +9,7 @@
 package ca.usherbrooke.pacman.threads;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -54,17 +55,17 @@ public class PhysicsThreadTest {
 
   @After
   public void tearDown() {
-    boolean actualStop = physicsThread.isAlive();
-    if (actualStop) {
+    boolean isAlive = physicsThread.isAlive();
+    if (isAlive) {
       physicsThread.stopThread();
       try {
         physicsThread.join(JOIN_TIME);
-        actualStop = !physicsThread.isAlive();
+        isAlive = physicsThread.isAlive();
       } catch (InterruptedException e) {
         physicsThread.interrupt();
         e.printStackTrace();
       }
-      assertTrue(actualStop);
+      assertFalse(isAlive);
     }
   }
 

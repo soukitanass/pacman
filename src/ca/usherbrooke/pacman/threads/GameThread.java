@@ -4,6 +4,7 @@ import java.util.List;
 import ca.usherbrooke.pacman.controller.IGameController;
 import ca.usherbrooke.pacman.game.IGame;
 import ca.usherbrooke.pacman.model.IGameModel;
+import ca.usherbrooke.pacman.view.IGameView;
 import ca.usherbrooke.pacman.view.utilities.CloseObserver;
 import ca.usherbrooke.pacman.view.utilities.WarningDialog;
 
@@ -17,11 +18,13 @@ public class GameThread extends Thread implements IGame, CloseObserver {
   private List<IGameController> controllers;
   private AudioThread audioThread;
   private Thread viewThread;
+  private IGameView view;
 
-  public GameThread(IGameModel model, Thread viewThread, AudioThread audioThread,
+  public GameThread(IGameModel model, Thread viewThread, AudioThread audioThread, IGameView view,
       List<IGameController> controllers) {
     this.model = model;
     this.viewThread = viewThread;
+    this.view = view;
     this.audioThread = audioThread;
     this.controllers = controllers;
 
@@ -71,6 +74,7 @@ public class GameThread extends Thread implements IGame, CloseObserver {
 
   @Override
   public synchronized void stopViewThread() {
+    view.close();
     try {
       viewThread.join(JOIN_TIME);
     } catch (InterruptedException exception) {
