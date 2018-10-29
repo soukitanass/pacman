@@ -7,7 +7,8 @@ import java.util.List;
 import ca.usherbrooke.pacman.model.position.Position;
 
 public class MockLevelFactory {
-
+  private static final int GHOST_GATE_CODE = 37;
+  private static final int GHOST_ROOM_CODE = 38;
   private static final int WALL_CODE = 1;
   private static final int EMPTY_CODE = 0;
 
@@ -81,19 +82,15 @@ public class MockLevelFactory {
   // ---------
   // G | G | G
   static public Level getMockLevelSingleGhostRoomSurroundedByGhostGates() {
-    Level mockLevel = mock(Level.class);
-    when(mockLevel.getWidth()).thenReturn(3);
-    when(mockLevel.getHeight()).thenReturn(3);
-    when(mockLevel.isGhostGate(new Position(0, 0))).thenReturn(true);
-    when(mockLevel.isGhostGate(new Position(1, 0))).thenReturn(true);
-    when(mockLevel.isGhostGate(new Position(2, 0))).thenReturn(true);
-    when(mockLevel.isGhostGate(new Position(0, 1))).thenReturn(true);
-    when(mockLevel.isGhostRoom(new Position(1, 1))).thenReturn(true);
-    when(mockLevel.isGhostGate(new Position(2, 1))).thenReturn(true);
-    when(mockLevel.isGhostGate(new Position(0, 2))).thenReturn(true);
-    when(mockLevel.isGhostGate(new Position(1, 2))).thenReturn(true);
-    when(mockLevel.isGhostGate(new Position(2, 2))).thenReturn(true);
-    return mockLevel;
+    List<List<Integer>> map =
+        Arrays.asList(Arrays.asList(GHOST_GATE_CODE, GHOST_GATE_CODE, GHOST_GATE_CODE),
+            Arrays.asList(GHOST_GATE_CODE, GHOST_ROOM_CODE, GHOST_GATE_CODE),
+            Arrays.asList(GHOST_GATE_CODE, GHOST_GATE_CODE, GHOST_GATE_CODE));
+    Level level = new Level();
+    level.setWidth(3);
+    level.setHeight(3);
+    level.setMap(map);
+    return level;
   }
 
   // G = Ghost gate

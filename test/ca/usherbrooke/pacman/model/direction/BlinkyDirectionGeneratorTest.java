@@ -22,6 +22,11 @@ import ca.usherbrooke.pacman.model.objects.PacMan;
 import ca.usherbrooke.pacman.model.position.Position;
 
 public class BlinkyDirectionGeneratorTest {
+  private static final int RANDOM_GENERATOR_SEED = 8544574;
+  private Random randomNumberGenerator = new Random(RANDOM_GENERATOR_SEED);
+  private IDirectionGenerator randomDirectionGenerator =
+      new RandomDirectionGenerator(randomNumberGenerator);
+  
   private BlinkyDirectionGenerator blinkyDirectionGenerator;
   private Ghost ghost;
   private List<Ghost> ghosts = new ArrayList<>();
@@ -39,11 +44,11 @@ public class BlinkyDirectionGeneratorTest {
     level.setPacMan(pacman);
     level.setGhost(ghosts);
 
-    blinkyDirectionGenerator = new BlinkyDirectionGenerator(new Random(12345), ghost, level);
+    blinkyDirectionGenerator = new BlinkyDirectionGenerator(randomDirectionGenerator, ghost, level);
   }
 
   @Test
-  public void overridenDirectionDontDetectPacman() {
+  public void overridenDirectionDontDetectPacmanSoItAlwaysReturnNull() {
 
     ghost.setPosition(new Position(0, 0));
     assertNull(blinkyDirectionGenerator.getOverridenDirection());
@@ -59,7 +64,7 @@ public class BlinkyDirectionGeneratorTest {
   }
 
   @Test
-  public void overridenDirectionDetectPacman() {
+  public void overridenDirectionDetectPacmanSoItReturnTheDirectionToPacman() {
 
     ghost.setPosition(new Position(1, 0));
     assertEquals(Direction.DOWN, blinkyDirectionGenerator.getOverridenDirection());
@@ -75,7 +80,7 @@ public class BlinkyDirectionGeneratorTest {
   }
 
   @Test
-  public void directionGeneratorDetectPacman() {
+  public void directionGeneratorDetectPacmanSoItReturnTheDirectionToPacman() {
 
     ghost.setPosition(new Position(1, 0));
     assertEquals(Direction.DOWN, blinkyDirectionGenerator.get());
@@ -91,7 +96,7 @@ public class BlinkyDirectionGeneratorTest {
   }
 
   @Test
-  public void ghostWasFollowingPacmanAndPacmanGoesUpSoHeDoesNotSeeHimAgainSoHeTriesToFindHimAndItsALittleBitSad() {
+  public void ghostWasFollowingPacmanAndPacmanGoesUpSoHeDoesNotSeeHimAgainSoHeTriesToFindHim() {
 
     ghost.setPosition(new Position(0, 1));
     pacman.setPosition(new Position(2, 1));
@@ -111,7 +116,6 @@ public class BlinkyDirectionGeneratorTest {
     ghost.setPosition(new Position(2, 0));
     pacman.setPosition(new Position(0, 0));
     assertEquals(Direction.LEFT, blinkyDirectionGenerator.get());
-    // It's a beautiful ending and they both live happily ever after.
   }
 
   @Test

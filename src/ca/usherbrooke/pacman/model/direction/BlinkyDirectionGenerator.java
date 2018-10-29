@@ -8,28 +8,23 @@
  ******************************************************************************/
 package ca.usherbrooke.pacman.model.direction;
 
-import java.util.Random;
 import ca.usherbrooke.pacman.model.objects.Ghost;
 import ca.usherbrooke.pacman.model.objects.Level;
 import ca.usherbrooke.pacman.model.objects.PacMan;
 import ca.usherbrooke.pacman.model.position.Position;
 
 public class BlinkyDirectionGenerator implements IDirectionGenerator {
-
-  private Random randomNumberGenerator;
-  private static final Direction[] DIRECTIONS =
-      {Direction.UP, Direction.DOWN, Direction.LEFT, Direction.RIGHT};
-
+  private IDirectionGenerator randomDirectionGenerator;
   private boolean isFollowingPacman = false;
-
   private Direction pacmanDesiredDirection;
   private Position pacmanLastSeenPosition;
   private PacMan pacman;
   private Ghost ghost;
   private Level level;
 
-  public BlinkyDirectionGenerator(Random randomNumberGenerator, Ghost ghost, Level level) {
-    this.randomNumberGenerator = randomNumberGenerator;
+  public BlinkyDirectionGenerator(IDirectionGenerator randomDirectionGenerator, Ghost ghost,
+      Level level) {
+    this.randomDirectionGenerator = randomDirectionGenerator;
     this.pacman = level.getPacMan();
     this.level = level;
     this.ghost = ghost;
@@ -50,7 +45,7 @@ public class BlinkyDirectionGenerator implements IDirectionGenerator {
     }
 
     if (direction == null) {
-      direction = getRandomDirection();
+      direction = randomDirectionGenerator.get();
     }
     return direction;
   }
@@ -66,12 +61,6 @@ public class BlinkyDirectionGenerator implements IDirectionGenerator {
     }
 
     return direction;
-  }
-
-  private Direction getRandomDirection() {
-    final int exclusiveMaxBound = 4;
-    final int randomIntFrom0To3 = randomNumberGenerator.nextInt(exclusiveMaxBound);
-    return DIRECTIONS[randomIntFrom0To3];
   }
 
   private Direction getPacmanDirectionIfInLineOfSight() {

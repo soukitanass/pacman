@@ -23,7 +23,7 @@ import ca.usherbrooke.pacman.model.objects.PacMan;
 import ca.usherbrooke.pacman.model.position.Position;
 
 public class PacmanGhostsCollisionManagerTest {
-  private static final String LEVEL_PATH = "ThreeByOneLevelWithPacmanAndTwoGhosts.json";
+  private static final String LEVEL_PATH = "ThreeByOneLevelWithPacmanAndGhosts.json";
   private Level level;
   private IGameModel model;
   private PacmanGhostCollisionManager pacmanGhostCollisionManager;

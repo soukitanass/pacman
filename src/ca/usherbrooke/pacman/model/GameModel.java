@@ -36,7 +36,7 @@ import ca.usherbrooke.pacman.view.utilities.WarningDialog;
 
 public class GameModel implements IGameModel {
   private static final int IS_LEVEL_COMPLETED_PERIOD = 20;
-  private static final int GHOSTS_DIRECTION_CHANGE_PERIOD = 14; // 2 sec
+  private static final int GHOSTS_DIRECTION_CHANGE_PERIOD = 14;
   private static final int RANDOM_GENERATOR_SEED = 8544574;
   private static final int JOIN_TIMER = 1000; // ms
   private static final int INITIAL_SCORE = 0;
@@ -336,7 +336,7 @@ public class GameModel implements IGameModel {
     final boolean isLevelCompleted = getCurrentLevel().isCompleted();
     List<List<Integer>> levelMapBeforeInitializing = getCurrentLevel().getMap();
     setCurrentLevel(new Level(getInitialLevel()));
-    if (!isLevelCompleted) {
+    if (!isLevelCompleted && !isGameOver()) {
       getCurrentLevel().setMap(levelMapBeforeInitializing);
     }
     pacman = level.getPacMan();
@@ -347,8 +347,9 @@ public class GameModel implements IGameModel {
 
   private void initializeGhostsDirectionManagers() {
     blinkyDirectionGenerator =
-        new BlinkyDirectionGenerator(randomNumberGenerator, level.getGhosts().get(0), level);
-    pinkyDirectionGenerator = new PinkyDirectionGenerator(level.getGhosts().get(3), level);
+        new BlinkyDirectionGenerator(randomDirectionGenerator, level.getGhosts().get(0), level);
+    pinkyDirectionGenerator =
+        new PinkyDirectionGenerator(randomDirectionGenerator, level.getGhosts().get(3), level);
 
     ghostDirectionManagers.add(new PeriodicGhostDirectionManager(this, blinkyDirectionGenerator,
         level.getGhosts().get(0), GHOSTS_DIRECTION_CHANGE_PERIOD));
@@ -369,6 +370,7 @@ public class GameModel implements IGameModel {
 
   @Override
   public void startNewGame() {
+    setCurrentLevelIndex(0);
     setScore(0);
     setLives(INITIAL_NUMBER_OF_LIVES);
     hasReceivedAnExtraLive = false;
@@ -530,5 +532,9 @@ public class GameModel implements IGameModel {
   @Override
   public void setHighScores(HighScores highScores) {
     this.highScores = highScores;
+  }
+
+  public void setCurrentLevelIndex(int levelIndex) {
+    currentLevelIndex = levelIndex;
   }
 }
