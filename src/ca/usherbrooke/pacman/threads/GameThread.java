@@ -40,8 +40,9 @@ public class GameThread extends Thread implements IGame, CloseObserver {
       update();
       try {
         Thread.sleep(SLEEP_TIME);
-      } catch (InterruptedException e) {
-        e.printStackTrace();
+      } catch (InterruptedException exception) {
+        Thread.currentThread().interrupt();
+        WarningDialog.display("Interrupt error in" + this.getName(), exception);
       }
     }
     stopViewThread();
@@ -51,7 +52,7 @@ public class GameThread extends Thread implements IGame, CloseObserver {
   }
 
   @Override
-  public void update() {
+  public synchronized void update() {
     for (IGameController controller : controllers) {
       controller.update();
     }
@@ -59,22 +60,22 @@ public class GameThread extends Thread implements IGame, CloseObserver {
   }
 
   @Override
-  public boolean isRunning() {
+  public synchronized boolean isRunning() {
     return model.isRunning();
   }
 
   @Override
-  public void setRunning(boolean isRunning) {
+  public synchronized void setRunning(boolean isRunning) {
     model.setRunning(isRunning);
   }
 
   @Override
-  public void stopViewThread() {
+  public synchronized void stopViewThread() {
     try {
       viewThread.join(JOIN_TIME);
-    } catch (InterruptedException e) {
+    } catch (InterruptedException exception) {
       viewThread.interrupt();
-      WarningDialog.display("An error occured when waiting for the view to stop", e);
+      WarningDialog.display("Interrupt error in view thread", exception);
     }
   }
 
