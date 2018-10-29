@@ -11,6 +11,7 @@ import ca.usherbrooke.pacman.model.highscores.HighScore;
 @SuppressWarnings("serial")
 public class HighScoresPanel extends AbstractMenuPanel {
 
+  private static final double NUMBER_OF_HIGHSCORES = 5;
   private static final double Y_OFFSET_FACTOR = 0.1;
   private static final String SPACE = " ";
 
@@ -20,12 +21,9 @@ public class HighScoresPanel extends AbstractMenuPanel {
 
   @SuppressWarnings("unchecked")
   public HighScoresPanel(IGameModel model) {
-    highscores = new ArrayList<>(model.getHighScores().getListHighScores());
-    Collections.sort(highscores);
-
     this.model = model;
 
-    for (int i = 0; i < highscores.size(); i++) {
+    for (int i = 0; i < NUMBER_OF_HIGHSCORES; i++) {
       JLabel jLabel = new JLabel();
       scoreLabels.add(jLabel);
       this.add(jLabel);
@@ -38,6 +36,9 @@ public class HighScoresPanel extends AbstractMenuPanel {
   @Override
   public void paint(Graphics graphic) {
     super.paint(graphic);
+
+    highscores = new ArrayList<>(model.getHighScores().getListHighScores());
+    Collections.sort(highscores);
 
     int y = (int) (model.getCurrentLevel().getHeight() * pixelTileSize * Y_OFFSET_FACTOR);
 
@@ -52,7 +53,8 @@ public class HighScoresPanel extends AbstractMenuPanel {
   private void paintHighScore(int index, int y) {
     JLabel jLabel = scoreLabels.get(index);
     HighScore score = highscores.get(index);
-    String label = index + "." + score.getName() + SPACE + score.getScore();
+    final int scoreIndex = index + 1;
+    String label = scoreIndex + "." + score.getName() + SPACE + score.getScore();
     setMenuJLabel(jLabel, label, LABEL_COLOR, y, IMAGE_SCALE_FACTOR);
   }
 
