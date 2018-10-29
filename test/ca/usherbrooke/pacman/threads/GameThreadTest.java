@@ -1,5 +1,6 @@
 package ca.usherbrooke.pacman.threads;
 
+import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.times;
@@ -64,11 +65,11 @@ public class GameThreadTest {
       gameThread.stopThread();
       try {
         gameThread.join(JOIN_TIME);
-        isAlive = !gameThread.isAlive();
+        isAlive = gameThread.isAlive();
       } catch (InterruptedException e) {
         gameThread.interrupt();
       }
-      assertTrue("Thread is still running", isAlive);
+      assertFalse("Thread is still running", isAlive);
     }
   }
 
@@ -87,18 +88,6 @@ public class GameThreadTest {
   @Test
   public void closeView() {
     gameThread.stopViewThread();
-
-    boolean isAlive = mockViewThread.isAlive();
-    if (isAlive) {
-      try {
-        mockViewThread.join(JOIN_TIME);
-        isAlive = !mockViewThread.isAlive();
-      } catch (InterruptedException e) {
-        mockViewThread.interrupt();
-      }
-      assertTrue("Thread is still running", isAlive);
-    }
-
     verify(mockView, times(1)).close();
   }
 
