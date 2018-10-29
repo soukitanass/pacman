@@ -214,30 +214,17 @@ public class GameModelTest {
     assertTrue(model.getCurrentLevel().isPacgum(new Position(1, 0)));
   }
 
-  @Test(timeout = 2000)
-  public void whenStartingNewGameThenLoadFirstLevel() throws InterruptedException {
+  @Test()
+  public void whenStartingNewGameThenLoadFirstLevel() {
     GameModel model = new GameModel(
         Game.loadLevel("FourByOneLevelWithPacmanAndPacgumAndWallAndPacgumAndGhosts.json"));
-    model.startNewGame();
-    model.setGameState(GameState.GAME);
     model.setCurrentLevelIndex(1);
-    assertTrue(model.getCurrentLevel().isPacgum(new Position(1, 0)));
-    assertTrue(model.getCurrentLevel().isPacgum(new Position(3, 0)));
+    model.getCurrentLevel().setEmptyMapTile(new Position(1, 0));
+    model.setLives(0);
+    assertFalse(model.isLevelCompleted());
     assertEquals(1, model.getCurrentLevelIndex());
-
-    model.setDirection(model.getPacman(), Direction.RIGHT);
-    while (model.getCurrentLevel().isPacgum(new Position(1, 0))) {
-      model.update();
-      Thread.sleep(100);
-    }
     assertFalse(model.getCurrentLevel().isPacgum(new Position(1, 0)));
     assertTrue(model.getCurrentLevel().isPacgum(new Position(3, 0)));
-    model.setLives(0);
-    while (!model.isGameOver()) {
-      model.update();
-    }
-    assertTrue(model.isGameOver());
-
     model.startNewGame();
     assertFalse(model.isLevelCompleted());
     assertEquals(0, model.getCurrentLevelIndex());
