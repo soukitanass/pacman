@@ -139,7 +139,7 @@ public class NewHighScorePanel extends AbstractMenuPanel implements KeyListener 
         String name = builder.toString();
         model.getHighScores().setHighScore(model.getScore(), name);
         model.setHighScores(HighScores.loadHighScores(HIGH_SCORES_PATH));
-        model.setGameState(GameState.GAME_MENU);
+        model.setGameState(GameState.HIGHSCORES_MENU);
       }
     });
   }

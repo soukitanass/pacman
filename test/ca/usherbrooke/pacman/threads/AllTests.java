@@ -13,6 +13,7 @@ import org.junit.runners.Suite;
 
 @RunWith(Suite.class)
 
-@Suite.SuiteClasses({PhysicsThreadTest.class, RenderThreadTest.class,AudioThreadTest.class})
+@Suite.SuiteClasses({PhysicsThreadTest.class, RenderThreadTest.class, AudioThreadTest.class,
+    GameThreadTest.class})
 public class AllTests {
 }
