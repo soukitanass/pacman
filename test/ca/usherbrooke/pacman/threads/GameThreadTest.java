@@ -13,6 +13,7 @@ import org.junit.Test;
 import ca.usherbrooke.pacman.controller.IGameController;
 import ca.usherbrooke.pacman.controller.PlayerKeyboardController;
 import ca.usherbrooke.pacman.model.IGameModel;
+import ca.usherbrooke.pacman.view.IGameView;
 
 public class GameThreadTest {
 
@@ -22,11 +23,14 @@ public class GameThreadTest {
   private GameThread gameThread;
   private IGameModel mockModel;
   private IGameController mockController;
+  private Thread mockViewThread;
+  private IGameView mockView;
 
   @Before
   public void setUp() throws Exception {
     AudioThread mockAudioThread = mock(AudioThread.class);
-    Thread mockViewThread = mock(Thread.class);
+    mockView = mock(IGameView.class);
+    mockViewThread = mock(Thread.class);
 
     mockController = mock(PlayerKeyboardController.class);
     mockModel = mock(IGameModel.class);
@@ -35,7 +39,7 @@ public class GameThreadTest {
     List<IGameController> controllers = new ArrayList<>();
     controllers.add(mockController);
 
-    gameThread = new GameThread(mockModel, mockViewThread, mockAudioThread, controllers);
+    gameThread = new GameThread(mockModel, mockViewThread, mockAudioThread, mockView, controllers);
     gameThread.setName("Game_Thread");
     gameThread.start();
 
@@ -78,6 +82,24 @@ public class GameThreadTest {
     Thread.sleep(SLEEP_TIME);
     verify(mockModel, times(3)).update();
     verify(mockController, times(3)).update();
+  }
+
+  @Test
+  public void closeView() {
+    gameThread.stopViewThread();
+
+    boolean isAlive = mockViewThread.isAlive();
+    if (isAlive) {
+      try {
+        mockViewThread.join(JOIN_TIME);
+        isAlive = !mockViewThread.isAlive();
+      } catch (InterruptedException e) {
+        mockViewThread.interrupt();
+      }
+      assertTrue("Thread is still running", isAlive);
+    }
+
+    verify(mockView, times(1)).close();
   }
 
 }
