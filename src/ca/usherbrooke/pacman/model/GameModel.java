@@ -16,6 +16,7 @@ import java.util.concurrent.ConcurrentLinkedQueue;
 import ca.usherbrooke.pacman.model.collision.PacmanGhostCollisionManager;
 import ca.usherbrooke.pacman.model.collision.PacmanPacgumCollisionManager;
 import ca.usherbrooke.pacman.model.collision.PacmanSuperPacgumCollisionManager;
+import ca.usherbrooke.pacman.model.direction.BlinkyDirectionGenerator;
 import ca.usherbrooke.pacman.model.direction.Direction;
 import ca.usherbrooke.pacman.model.direction.IDirectionGenerator;
 import ca.usherbrooke.pacman.model.direction.RandomDirectionGenerator;
@@ -34,7 +35,7 @@ import ca.usherbrooke.pacman.view.utilities.WarningDialog;
 
 public class GameModel implements IGameModel {
   private static final int IS_LEVEL_COMPLETED_PERIOD = 20;
-  private static final int GHOSTS_DIRECTION_CHANGE_PERIOD = 3;
+  private static final int GHOSTS_DIRECTION_CHANGE_PERIOD = 14; // 2 sec
   private static final int RANDOM_GENERATOR_SEED = 8544574;
   private static final int JOIN_TIMER = 1000; // ms
   private static final int INITIAL_SCORE = 0;
@@ -73,6 +74,7 @@ public class GameModel implements IGameModel {
   Random randomNumberGenerator = new Random(RANDOM_GENERATOR_SEED);
   IDirectionGenerator randomDirectionGenerator =
       new RandomDirectionGenerator(randomNumberGenerator);
+  IDirectionGenerator blinkyDirectionGenerator;
   private List<PeriodicGhostDirectionManager> ghostDirectionManagers = new ArrayList<>();
   private int isLevelCompletedUpdatesCounter = 0;
   private Queue<Level> moveQueue = new ConcurrentLinkedQueue<>(); // Thread Safe
@@ -186,7 +188,8 @@ public class GameModel implements IGameModel {
     boolean isGameInProgress =
         !isPaused() && !isGameCompleted() && !isGameOver() && gameState == GameState.GAME;
     if (!isGameInProgress) {
-      if ((isGameCompleted() || isGameOver()) && highScores.isHighScore(this.getScore()) && !isHighScoreSaved) {
+      if ((isGameCompleted() || isGameOver()) && highScores.isHighScore(this.getScore())
+          && !isHighScoreSaved) {
         gameState = GameState.NEW_HIGHSCORE;
         isHighScoreSaved = true;
       }
@@ -341,7 +344,11 @@ public class GameModel implements IGameModel {
   }
 
   private void initializeGhostsDirectionManagers() {
-    ghostDirectionManagers.add(new PeriodicGhostDirectionManager(this, randomDirectionGenerator,
+
+    blinkyDirectionGenerator =
+        new BlinkyDirectionGenerator(randomNumberGenerator, level.getGhosts().get(0), level);
+
+    ghostDirectionManagers.add(new PeriodicGhostDirectionManager(this, blinkyDirectionGenerator,
         level.getGhosts().get(0), GHOSTS_DIRECTION_CHANGE_PERIOD));
     ghostDirectionManagers.add(new PeriodicGhostDirectionManager(this, randomDirectionGenerator,
         level.getGhosts().get(1), GHOSTS_DIRECTION_CHANGE_PERIOD));
