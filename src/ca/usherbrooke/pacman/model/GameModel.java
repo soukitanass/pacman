@@ -19,6 +19,7 @@ import ca.usherbrooke.pacman.model.collision.PacmanSuperPacgumCollisionManager;
 import ca.usherbrooke.pacman.model.direction.BlinkyDirectionGenerator;
 import ca.usherbrooke.pacman.model.direction.Direction;
 import ca.usherbrooke.pacman.model.direction.IDirectionGenerator;
+import ca.usherbrooke.pacman.model.direction.PinkyDirectionGenerator;
 import ca.usherbrooke.pacman.model.direction.RandomDirectionGenerator;
 import ca.usherbrooke.pacman.model.direction.ghostsdirectionmanagers.PeriodicGhostDirectionManager;
 import ca.usherbrooke.pacman.model.events.GameEvent;
@@ -75,6 +76,7 @@ public class GameModel implements IGameModel {
   IDirectionGenerator randomDirectionGenerator =
       new RandomDirectionGenerator(randomNumberGenerator);
   IDirectionGenerator blinkyDirectionGenerator;
+  IDirectionGenerator pinkyDirectionGenerator;
   private List<PeriodicGhostDirectionManager> ghostDirectionManagers = new ArrayList<>();
   private int isLevelCompletedUpdatesCounter = 0;
   private Queue<Level> moveQueue = new ConcurrentLinkedQueue<>(); // Thread Safe
@@ -346,6 +348,7 @@ public class GameModel implements IGameModel {
   private void initializeGhostsDirectionManagers() {
     blinkyDirectionGenerator =
         new BlinkyDirectionGenerator(randomNumberGenerator, level.getGhosts().get(0), level);
+    pinkyDirectionGenerator = new PinkyDirectionGenerator(level.getGhosts().get(3), level);
 
     ghostDirectionManagers.add(new PeriodicGhostDirectionManager(this, blinkyDirectionGenerator,
         level.getGhosts().get(0), GHOSTS_DIRECTION_CHANGE_PERIOD));
@@ -353,7 +356,7 @@ public class GameModel implements IGameModel {
         level.getGhosts().get(1), GHOSTS_DIRECTION_CHANGE_PERIOD));
     ghostDirectionManagers.add(new PeriodicGhostDirectionManager(this, randomDirectionGenerator,
         level.getGhosts().get(2), GHOSTS_DIRECTION_CHANGE_PERIOD));
-    ghostDirectionManagers.add(new PeriodicGhostDirectionManager(this, randomDirectionGenerator,
+    ghostDirectionManagers.add(new PeriodicGhostDirectionManager(this, pinkyDirectionGenerator,
         level.getGhosts().get(3), GHOSTS_DIRECTION_CHANGE_PERIOD));
   }
 
