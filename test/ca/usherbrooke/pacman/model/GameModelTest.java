@@ -128,7 +128,7 @@ public class GameModelTest {
     assertFalse(model.isGameOver());
     model.setLives(0);
     assertTrue(model.isGameOver());
-  }  
+  }
 
   public void whenGhostIsKilledThenItIsRemoved() {
     Ghost killedGhost = model.getCurrentLevel().getGhosts().get(0);
@@ -180,8 +180,10 @@ public class GameModelTest {
     assertEquals(4, model.getLives());
   }
 
+  @Test(timeout = 2000)
   public void whenLevelIsCompletedThenLoadNextLevel() throws InterruptedException {
-    GameModel model = new GameModel(Game.loadLevel("TwoByOneLevelWithPacmanAndPacgum.json"));
+    GameModel model =
+        new GameModel(Game.loadLevel("ThreeByOneLevelWithPacmanAndPacgumAndGhosts.json"));
     model.startNewGame();
     model.setGameState(GameState.GAME);
     assertTrue(model.getCurrentLevel().isPacgum(new Position(1, 0)));
@@ -192,6 +194,7 @@ public class GameModelTest {
       model.update();
       Thread.sleep(100);
     }
+    assertFalse(model.getCurrentLevel().isPacgum(new Position(1, 0)));
     while (1 != model.getCurrentLevelIndex()) {
       model.update();
     }
@@ -208,6 +211,37 @@ public class GameModelTest {
     }
     assertFalse(model.isLevelCompleted());
     assertTrue(model.getCurrentLevel().isPacgum(new Position(1, 0)));
+  }
+
+  @Test(timeout = 2000)
+  public void whenStartingNewGameThenLoadFirstLevel() throws InterruptedException {
+    GameModel model = new GameModel(
+        Game.loadLevel("FourByOneLevelWithPacmanAndPacgumAndWallAndPacgumAndGhosts.json"));
+    model.startNewGame();
+    model.setGameState(GameState.GAME);
+    model.setCurrentLevelIndex(1);
+    assertTrue(model.getCurrentLevel().isPacgum(new Position(1, 0)));
+    assertTrue(model.getCurrentLevel().isPacgum(new Position(3, 0)));
+    assertEquals(1, model.getCurrentLevelIndex());
+
+    model.setDirection(model.getPacman(), Direction.RIGHT);
+    while (model.getCurrentLevel().isPacgum(new Position(1, 0))) {
+      model.update();
+      Thread.sleep(100);
+    }
+    assertFalse(model.getCurrentLevel().isPacgum(new Position(1, 0)));
+    assertTrue(model.getCurrentLevel().isPacgum(new Position(3, 0)));
+    model.setLives(0);
+    while (!model.isGameOver()) {
+      model.update();
+    }
+    assertTrue(model.isGameOver());
+
+    model.startNewGame();
+    assertFalse(model.isLevelCompleted());
+    assertEquals(0, model.getCurrentLevelIndex());
+    assertTrue(model.getCurrentLevel().isPacgum(new Position(1, 0)));
+    assertTrue(model.getCurrentLevel().isPacgum(new Position(3, 0)));
   }
 
 }

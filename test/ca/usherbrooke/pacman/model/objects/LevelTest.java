@@ -19,7 +19,7 @@ import ca.usherbrooke.pacman.game.Game;
 import ca.usherbrooke.pacman.model.position.Position;
 
 public class LevelTest {
-  private static final String LEVEL_PATH = "ThreeByOneLevelWithPacmanAndTwoGhosts.json";
+  private static final String LEVEL_PATH = "ThreeByOneLevelWithPacmanAndGhosts.json";
   private static final int EMPTY_CODE = 0;
   private static final int PACGUM_CODE = 39;
   private static final int SUPER_PACGUM_CODE = 40;
