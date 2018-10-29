@@ -11,6 +11,7 @@ import ca.usherbrooke.pacman.view.utilities.WarningDialog;
 
 public class AudioThread extends Thread implements CloseObserver {
 
+  private static final String NAME = "Audio_Thread";
   private static final int THREAD_SLEEP = 500;
 
   private final Object musicVolumeLock = new Object();
@@ -33,6 +34,7 @@ public class AudioThread extends Thread implements CloseObserver {
   private int musicVolume;
 
   public AudioThread(IGameModel model) {
+    this.setName(NAME);
     this.model = model;
     soundModel = new SoundModel(this.model);
     soundController = new SoundController(soundModel);
