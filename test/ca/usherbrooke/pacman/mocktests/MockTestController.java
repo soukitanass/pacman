@@ -4,6 +4,8 @@ import java.awt.AWTException;
 import java.awt.Point;
 import java.awt.Robot;
 import java.awt.event.InputEvent;
+import javax.swing.JCheckBox;
+import javax.swing.JComponent;
 import javax.swing.JLabel;
 import ca.usherbrooke.pacman.view.GameView;
 
@@ -27,15 +29,12 @@ public class MockTestController {
   }
 
   public void clickStartOrResumeGame() throws InterruptedException {
-    JLabel startGameLabel = view.getCanvas().getStartGameLabel();
-    clickLabel(startGameLabel);
+    JLabel label = view.getCanvas().getMenuPanel().getStartGameLabel();
+    clickComponent(label);
   }
 
-  private void clickLabel(JLabel label) throws InterruptedException {
-    Point labelLocationOnScreen = label.getLocationOnScreen();
-    final int labelCenterX = labelLocationOnScreen.x + label.getWidth() / 2;
-    final int labelCenterY = labelLocationOnScreen.y + label.getHeight() / 2;
-    robot.mouseMove(labelCenterX, labelCenterY);
+  private void clickPosition(final int x, final int y) throws InterruptedException {
+    robot.mouseMove(x, y);
     robot.mousePress(InputEvent.BUTTON1_MASK);
     robot.mouseRelease(InputEvent.BUTTON1_MASK);
     sleep();
@@ -47,6 +46,33 @@ public class MockTestController {
 
   public void close() {
     view.close();
+  }
+
+  public void clickAudio() throws InterruptedException {
+    JLabel label = view.getCanvas().getMenuPanel().getAudioLabel();
+    clickComponent(label);
+  }
+
+  public void clickGoBack() throws InterruptedException {
+    JLabel label = view.getCanvas().getAudioPanel().getGoBackLabel();
+    clickComponent(label);
+  }
+
+  public void clickMuteMusicCheckbox() throws InterruptedException {
+    JCheckBox checkbox = view.getCanvas().getAudioPanel().getMuteMusicCheckbox();
+    clickComponent(checkbox);
+  }
+
+  private void clickComponent(JComponent component) throws InterruptedException {
+    Point locationOnScreen = component.getLocationOnScreen();
+    final int labelCenterX = locationOnScreen.x + component.getWidth() / 2;
+    final int labelCenterY = locationOnScreen.y + component.getHeight() / 2;
+    clickPosition(labelCenterX, labelCenterY);
+  }
+
+  public void clickMuteSoundCheckbox() throws InterruptedException {
+    JCheckBox checkbox = view.getCanvas().getAudioPanel().getMuteSoundCheckbox();
+    clickComponent(checkbox);
   }
 
 }

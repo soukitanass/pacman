@@ -33,6 +33,7 @@ public class Game {
   private GameThread gameThread;
   private GameModel model;
   private GameView view;
+  private AudioThread audioThread;
 
   public static void main(String[] args) {
     Game game = new Game();
@@ -47,7 +48,7 @@ public class Game {
 
     model = new GameModel(Game.loadLevel(LEVEL_PATH));
     final PlayerKeyboardController playerKeyboardController = new PlayerKeyboardController(model);
-    final AudioThread audioThread = new AudioThread(model);
+    audioThread = new AudioThread(model);
     view = new GameView(model, GHOST_SPRITE_TOGGLE_PERIOD, PACMAN_SPRITE_TOGGLE_PERIOD, audioThread,
         fpsOptionListener);
     final RenderThread renderThread = new RenderThread(view, timeGetter);
@@ -89,6 +90,10 @@ public class Game {
 
   public GameView getView() {
     return view;
+  }
+
+  public AudioThread getAudioThread() {
+    return audioThread;
   }
 
 }
