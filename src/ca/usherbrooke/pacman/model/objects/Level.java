@@ -17,6 +17,7 @@ import org.apache.commons.lang3.builder.HashCodeBuilder;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 import ca.usherbrooke.pacman.model.direction.Direction;
+import ca.usherbrooke.pacman.model.exceptions.InvalidGhostNameException;
 import ca.usherbrooke.pacman.model.position.Position;
 
 public class Level {
@@ -220,12 +221,12 @@ public class Level {
     return positions;
   }
 
-  public Ghost getGhostByName(String name) {
+  public Ghost getGhostByName(String name) throws InvalidGhostNameException {
     for (Ghost ghost : ghosts) {
       if (ghost.getName().equals(name)) {
         return ghost;
       }
     }
-    return null;
+    throw new InvalidGhostNameException("Invalid name:" + name);
   }
 }

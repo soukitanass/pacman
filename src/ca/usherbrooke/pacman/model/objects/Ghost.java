@@ -37,11 +37,11 @@ public class Ghost implements IGameObject {
     this.desiredDirection = ghost.getDesiredDirection();
   }
 
-  public synchronized String getName() {
+  public String getName() {
     return name;
   }
 
-  public synchronized void setName(String name) {
+  public void setName(String name) {
     this.name = name;
   }
 
