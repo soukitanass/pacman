@@ -115,7 +115,7 @@ public class PhysicsThreadTest {
   public void pacmanGhostColision() throws InterruptedException, InvalidGhostNameException {
     Level level = getLevel();
     level.getPacMan().setPosition(new Position(5, 0));
-    level.getGhostByName(GhostName.Blinky).setPosition(new Position(5, 0));
+    level.getGhostByName(GhostName.BLINKY).setPosition(new Position(5, 0));
 
     synchronized (moveQueue) {
       moveQueue.add(level);
@@ -156,7 +156,7 @@ public class PhysicsThreadTest {
     List<Ghost> ghosts = new ArrayList<>();
 
     Ghost ghost = new Ghost();
-    ghost.setName(GhostName.Blinky);
+    ghost.setName(GhostName.BLINKY);
     ghost.setDesiredDirection(Direction.RIGHT);
     ghost.setDirection(Direction.RIGHT);
     ghost.setPosition(new Position(5, 0));

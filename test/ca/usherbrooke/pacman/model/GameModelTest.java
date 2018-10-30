@@ -118,9 +118,9 @@ public class GameModelTest {
     Level initialLevel = model.getInitialLevel();
     level.getPacMan().setPosition(new Position(0, 0));
     assertNotEquals(initialLevel.getPacMan().getPosition(), level.getPacMan().getPosition());
-    level.getGhostByName(GhostName.Blinky).setPosition(new Position(0, 0));
-    assertNotEquals(initialLevel.getGhostByName(GhostName.Blinky).getPosition(),
-        level.getGhostByName(GhostName.Blinky).getPosition());
+    level.getGhostByName(GhostName.BLINKY).setPosition(new Position(0, 0));
+    assertNotEquals(initialLevel.getGhostByName(GhostName.BLINKY).getPosition(),
+        level.getGhostByName(GhostName.BLINKY).getPosition());
   }
 
   @Test
@@ -134,7 +134,7 @@ public class GameModelTest {
 
   @Test
   public void whenGhostIsKilledThenItIsRemoved() throws InvalidGhostNameException {
-    Ghost killedGhost = model.getCurrentLevel().getGhostByName(GhostName.Blinky);
+    Ghost killedGhost = model.getCurrentLevel().getGhostByName(GhostName.BLINKY);
     assertEquals(4, model.getCurrentLevel().getGhosts().size());
     model.processGhostKilled(killedGhost);
     assertEquals(4, model.getCurrentLevel().getGhosts().size());
@@ -145,7 +145,7 @@ public class GameModelTest {
   @Test
   public void whenFirstGhostIsKilledThenScoreIncreasesBy200() throws InvalidGhostNameException {
     assertEquals(Integer.valueOf(0), model.getScore());
-    model.processGhostKilled(model.getCurrentLevel().getGhostByName(GhostName.Blinky));
+    model.processGhostKilled(model.getCurrentLevel().getGhostByName(GhostName.BLINKY));
     assertEquals(Integer.valueOf(200), model.getScore());
   }
 
@@ -153,13 +153,13 @@ public class GameModelTest {
   public void whenSubsequentGhostsAreKilledThenScoreIncreasesBy200Then400Then800Then1600IfPacmanIsInvincible() throws InvalidGhostNameException {
     model.getPacman().setIsInvincible(true);
     assertEquals(Integer.valueOf(0), model.getScore());
-    model.processGhostKilled(model.getCurrentLevel().getGhostByName(GhostName.Blinky));
+    model.processGhostKilled(model.getCurrentLevel().getGhostByName(GhostName.BLINKY));
     assertEquals(Integer.valueOf(200), model.getScore());
-    model.processGhostKilled(model.getCurrentLevel().getGhostByName(GhostName.Blinky));
+    model.processGhostKilled(model.getCurrentLevel().getGhostByName(GhostName.BLINKY));
     assertEquals(Integer.valueOf(600), model.getScore());
-    model.processGhostKilled(model.getCurrentLevel().getGhostByName(GhostName.Blinky));
+    model.processGhostKilled(model.getCurrentLevel().getGhostByName(GhostName.BLINKY));
     assertEquals(Integer.valueOf(1400), model.getScore());
-    model.processGhostKilled(model.getCurrentLevel().getGhostByName(GhostName.Blinky));
+    model.processGhostKilled(model.getCurrentLevel().getGhostByName(GhostName.BLINKY));
     assertEquals(Integer.valueOf(3000), model.getScore());
   }
 

@@ -61,12 +61,12 @@ public class PacmanGhostsCollisionManagerTest {
     pacmanGhostCollisionManager.update();
     assertEquals(2, model.getLives());
 
-    level.getGhostByName(GhostName.Blinky).setPosition(new Position(0, 1));
+    level.getGhostByName(GhostName.BLINKY).setPosition(new Position(0, 1));
     level.getPacMan().setPosition(new Position(0, 1));
     pacmanGhostCollisionManager.update();
     assertEquals(1, model.getLives());
 
-    level.getGhostByName(GhostName.Blinky).setPosition(new Position(1, 0));
+    level.getGhostByName(GhostName.BLINKY).setPosition(new Position(1, 0));
     level.getPacMan().setPosition(new Position(1, 0));
     pacmanGhostCollisionManager.update();
     assertEquals(0, model.getLives());
@@ -87,8 +87,8 @@ public class PacmanGhostsCollisionManagerTest {
     level.getPacMan().setPosition(new Position(0, 0));
     pacmanGhostCollisionManager.update();
     assertEquals(new Position(1, 0),
-        model.getCurrentLevel().getGhostByName(GhostName.Blinky).getPosition());
-    assertEquals(new Position(2, 0), model.getCurrentLevel().getGhostByName(GhostName.Inky).getPosition());
+        model.getCurrentLevel().getGhostByName(GhostName.BLINKY).getPosition());
+    assertEquals(new Position(2, 0), model.getCurrentLevel().getGhostByName(GhostName.INKY).getPosition());
   }
 
   @Test
@@ -106,19 +106,19 @@ public class PacmanGhostsCollisionManagerTest {
       throws InvalidGhostNameException {
     assertEquals(4, level.getGhosts().size());
     model.getCurrentLevel().getPacMan().setIsInvincible(true);
-    model.getCurrentLevel().getGhostByName(GhostName.Blinky).setPosition(new Position(42, 42));
+    model.getCurrentLevel().getGhostByName(GhostName.BLINKY).setPosition(new Position(42, 42));
     model.getCurrentLevel().getPacMan().setPosition(new Position(42, 42));
     pacmanGhostCollisionManager.update();
     assertEquals(4, level.getGhosts().size());
     assertEquals(new Position(13, 15),
-        model.getCurrentLevel().getGhostByName(GhostName.Blinky).getPosition());
+        model.getCurrentLevel().getGhostByName(GhostName.BLINKY).getPosition());
   }
 
   @Test
   public void getCollidingGhost() throws InvalidGhostNameException {
     assertNull(pacmanGhostCollisionManager.getCollidingGhost());
-    Ghost firstGhost = model.getCurrentLevel().getGhostByName(GhostName.Blinky);
-    Ghost secondGhost = model.getCurrentLevel().getGhostByName(GhostName.Inky);
+    Ghost firstGhost = model.getCurrentLevel().getGhostByName(GhostName.BLINKY);
+    Ghost secondGhost = model.getCurrentLevel().getGhostByName(GhostName.INKY);
     model.getCurrentLevel().getPacMan().setPosition(new Position(1, 0));
     assertEquals(firstGhost, pacmanGhostCollisionManager.getCollidingGhost());
     model.getCurrentLevel().getPacMan().setPosition(new Position(2, 0));
@@ -129,18 +129,18 @@ public class PacmanGhostsCollisionManagerTest {
   public void whenPacmanDiesThenTeleportGhostsAtTheirInitialPosition()
       throws InvalidGhostNameException {
     assertEquals(4, model.getCurrentLevel().getGhosts().size());
-    model.getCurrentLevel().getGhostByName(GhostName.Blinky).setPosition(new Position(42, 42));
-    model.getCurrentLevel().getGhostByName(GhostName.Inky).setPosition(new Position(42, 42));
-    model.getCurrentLevel().getGhostByName(GhostName.Pinky).setPosition(new Position(42, 42));
-    model.getCurrentLevel().getGhostByName(GhostName.Clyde).setPosition(new Position(42, 42));
+    model.getCurrentLevel().getGhostByName(GhostName.BLINKY).setPosition(new Position(42, 42));
+    model.getCurrentLevel().getGhostByName(GhostName.INKY).setPosition(new Position(42, 42));
+    model.getCurrentLevel().getGhostByName(GhostName.PINKY).setPosition(new Position(42, 42));
+    model.getCurrentLevel().getGhostByName(GhostName.CLYDE).setPosition(new Position(42, 42));
     model.getCurrentLevel().getPacMan().setPosition(new Position(42, 42));
     pacmanGhostCollisionManager.update();
     assertEquals(4, model.getCurrentLevel().getGhosts().size());
     assertEquals(new Position(1, 0),
-        model.getCurrentLevel().getGhostByName(GhostName.Blinky).getPosition());
-    assertEquals(new Position(2, 0), model.getCurrentLevel().getGhostByName(GhostName.Inky).getPosition());
-    assertEquals(new Position(3, 0), model.getCurrentLevel().getGhostByName(GhostName.Pinky).getPosition());
-    assertEquals(new Position(4, 0), model.getCurrentLevel().getGhostByName(GhostName.Clyde).getPosition());
+        model.getCurrentLevel().getGhostByName(GhostName.BLINKY).getPosition());
+    assertEquals(new Position(2, 0), model.getCurrentLevel().getGhostByName(GhostName.INKY).getPosition());
+    assertEquals(new Position(3, 0), model.getCurrentLevel().getGhostByName(GhostName.PINKY).getPosition());
+    assertEquals(new Position(4, 0), model.getCurrentLevel().getGhostByName(GhostName.CLYDE).getPosition());
   }
 
   private void verifyInitialLevel() throws InvalidGhostNameException {
@@ -148,10 +148,10 @@ public class PacmanGhostsCollisionManagerTest {
 
     assertEquals(4, model.getCurrentLevel().getGhosts().size());
     assertEquals(new Position(1, 0),
-        model.getCurrentLevel().getGhostByName(GhostName.Blinky).getPosition());
-    assertEquals(new Position(2, 0), model.getCurrentLevel().getGhostByName(GhostName.Inky).getPosition());
-    assertEquals(new Position(3, 0), model.getCurrentLevel().getGhostByName(GhostName.Pinky).getPosition());
-    assertEquals(new Position(4, 0), model.getCurrentLevel().getGhostByName(GhostName.Clyde).getPosition());
+        model.getCurrentLevel().getGhostByName(GhostName.BLINKY).getPosition());
+    assertEquals(new Position(2, 0), model.getCurrentLevel().getGhostByName(GhostName.INKY).getPosition());
+    assertEquals(new Position(3, 0), model.getCurrentLevel().getGhostByName(GhostName.PINKY).getPosition());
+    assertEquals(new Position(4, 0), model.getCurrentLevel().getGhostByName(GhostName.CLYDE).getPosition());
 
     assertEquals(Integer.valueOf(3), model.getCurrentLevel().getWidth());
     assertEquals(Integer.valueOf(1), model.getCurrentLevel().getHeight());

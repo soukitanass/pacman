@@ -345,13 +345,13 @@ public class GameModel implements IGameModel {
   private void initializeGhostsDirectionManagers() {
     try {
       ghostDirectionManagers.add(new PeriodicGhostDirectionManager(this, randomDirectionGenerator,
-          level.getGhostByName(GhostName.Blinky), GHOSTS_DIRECTION_CHANGE_PERIOD));
+          level.getGhostByName(GhostName.BLINKY), GHOSTS_DIRECTION_CHANGE_PERIOD));
       ghostDirectionManagers.add(new PeriodicGhostDirectionManager(this, randomDirectionGenerator,
-          level.getGhostByName(GhostName.Inky), GHOSTS_DIRECTION_CHANGE_PERIOD));
+          level.getGhostByName(GhostName.INKY), GHOSTS_DIRECTION_CHANGE_PERIOD));
       ghostDirectionManagers.add(new PeriodicGhostDirectionManager(this, randomDirectionGenerator,
-          level.getGhostByName(GhostName.Pinky), GHOSTS_DIRECTION_CHANGE_PERIOD));
+          level.getGhostByName(GhostName.PINKY), GHOSTS_DIRECTION_CHANGE_PERIOD));
       ghostDirectionManagers.add(new PeriodicGhostDirectionManager(this, randomDirectionGenerator,
-          level.getGhostByName(GhostName.Clyde), GHOSTS_DIRECTION_CHANGE_PERIOD));
+          level.getGhostByName(GhostName.CLYDE), GHOSTS_DIRECTION_CHANGE_PERIOD));
     } catch (Exception exception) {
       WarningDialog.display("Error getting a ghost. ", exception);
     }

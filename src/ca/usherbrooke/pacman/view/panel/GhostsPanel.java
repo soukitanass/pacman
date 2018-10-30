@@ -46,10 +46,10 @@ public class GhostsPanel extends JPanel {
   }
 
   private void initializeGhostIdToColorMap() {
-    ghostNameToColor.put(GhostName.Blinky, Color.RED);
-    ghostNameToColor.put(GhostName.Inky, Color.TURQUOISE);
-    ghostNameToColor.put(GhostName.Pinky, Color.PINK);
-    ghostNameToColor.put(GhostName.Clyde, Color.ORANGE);
+    ghostNameToColor.put(GhostName.BLINKY, Color.RED);
+    ghostNameToColor.put(GhostName.INKY, Color.TURQUOISE);
+    ghostNameToColor.put(GhostName.PINKY, Color.PINK);
+    ghostNameToColor.put(GhostName.CLYDE, Color.ORANGE);
   }
 
   @Override
