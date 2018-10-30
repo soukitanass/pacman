@@ -7,26 +7,26 @@
                     "y": 0
                 }
             },
-            "ghost": [{
-                "id": 1,
+			"ghost": [{
+                "name": "BLINKY",
                 "start_pos": {
                     "x": 1,
                     "y": 0
                 }
             }, {
-                "id": 2,
+                "name": "INKY",
                 "start_pos": {
                     "x": 2,
                     "y": 0
                 }
-            },{
-                "id": 3,
+            }, {
+                "name": "PINKY",
                 "start_pos": {
                     "x": 3,
                     "y": 0
                 }
             }, {
-                "id": 4,
+                "name": "CLYDE",
                 "start_pos": {
                     "x": 4,
                     "y": 0
