@@ -34,7 +34,7 @@ public class RenderThreadTest {
   public void setUp() {
     timeGetter = new FakeTimeGetter(0);
     renderThread = new RenderThread(viewUpdateSpy, timeGetter);
-    renderThread.setFps(FPS);
+    renderThread.setTargetFps(FPS);
     masterThread = new Thread(renderThread);
     masterThread.start();
     try {
