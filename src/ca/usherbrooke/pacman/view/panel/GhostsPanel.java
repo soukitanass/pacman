@@ -35,7 +35,7 @@ public class GhostsPanel extends JPanel {
   private int offsetY = 0;
   private GhostSpriteToggler ghostSpritePeriodicToggler;
 
-  private Map<Integer, Color> ghostIdToColor = new HashMap<>();
+  private Map<String, Color> ghostNameToColor = new HashMap<>();
 
 
   public GhostsPanel(IGameModel model, int spriteTogglePeriod) {
@@ -45,10 +45,10 @@ public class GhostsPanel extends JPanel {
   }
 
   private void initializeGhostIdToColorMap() {
-    ghostIdToColor.put(1, Color.RED);
-    ghostIdToColor.put(2, Color.TURQUOISE);
-    ghostIdToColor.put(3, Color.PINK);
-    ghostIdToColor.put(4, Color.ORANGE);
+    ghostNameToColor.put("Blinky", Color.RED);
+    ghostNameToColor.put("Inky", Color.TURQUOISE);
+    ghostNameToColor.put("Pinky", Color.PINK);
+    ghostNameToColor.put("Clyde", Color.ORANGE);
   }
 
   @Override
@@ -82,7 +82,7 @@ public class GhostsPanel extends JPanel {
       return spriteFacade.getAfraidGhost(ghostSpriteState);
     }
     Direction direction = ghost.getDirection();
-    Color color = ghostIdToColor.get(ghost.getId());
+    Color color = ghostNameToColor.get(ghost.getName());
     return spriteFacade.getGhost(direction, color, ghostSpriteState);
   }
 

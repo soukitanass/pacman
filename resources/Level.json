@@ -14,13 +14,13 @@
                     "y": 11
                 }
             }, {
-                "name": "Pinky",
+                "name": "Inky",
                 "start_pos": {
                     "x": 11,
                     "y": 15
                 }
             }, {
-                "name": "Inky",
+                "name": "Pinky",
                 "start_pos": {
                     "x": 13,
                     "y": 15
