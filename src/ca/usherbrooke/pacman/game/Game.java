@@ -34,6 +34,7 @@ public class Game {
   private GameModel model;
   private GameView view;
   private AudioThread audioThread;
+  private RenderThread renderThread;
 
   public static void main(String[] args) {
     Game game = new Game();
@@ -51,7 +52,7 @@ public class Game {
     audioThread = new AudioThread(model);
     view = new GameView(model, GHOST_SPRITE_TOGGLE_PERIOD, PACMAN_SPRITE_TOGGLE_PERIOD, audioThread,
         fpsOptionListener);
-    final RenderThread renderThread = new RenderThread(view, timeGetter);
+    renderThread = new RenderThread(view, timeGetter);
     final Thread viewThread = new Thread(renderThread);
 
     controllers.add(playerKeyboardController);
@@ -94,6 +95,10 @@ public class Game {
 
   public AudioThread getAudioThread() {
     return audioThread;
+  }
+
+  public RenderThread getRenderThread() {
+    return renderThread;
   }
 
 }
