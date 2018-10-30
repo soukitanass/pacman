@@ -13,7 +13,7 @@ import ca.usherbrooke.pacman.model.direction.Direction;
 import ca.usherbrooke.pacman.model.objects.PacMan;
 import ca.usherbrooke.pacman.view.GameView;
 
-public class DeplacementPacManMockTest {
+public class DisplacementPacManMockTest {
 
   private GameModel model;
   private MockTestController mockTestController;
@@ -40,14 +40,14 @@ public class DeplacementPacManMockTest {
   }
 
   @Test
-  public void movingPacManToTheRight() throws InterruptedException {
+  public void movingPacManRight() throws InterruptedException {
     PacMan pacman = model.getCurrentLevel().getPacMan();
     mockTestController.tapKey(KeyEvent.VK_RIGHT);
     assertEquals(Direction.RIGHT, pacman.getDirection());
   }
 
   @Test
-  public void movingPacManToTheLeft() throws InterruptedException {
+  public void movingPacManLeft() throws InterruptedException {
     PacMan pacman = model.getCurrentLevel().getPacMan();
     pacman.setDirection(Direction.RIGHT);
     mockTestController.tapKey(KeyEvent.VK_LEFT);
@@ -55,14 +55,14 @@ public class DeplacementPacManMockTest {
   }
 
   @Test
-  public void movingPacManToTheUp() throws InterruptedException {
+  public void movingPacManUp() throws InterruptedException {
     PacMan pacman = model.getCurrentLevel().getPacMan();
     mockTestController.tapKey(KeyEvent.VK_UP);
     assertEquals(Direction.UP, pacman.getDirection());
   }
 
   @Test
-  public void movingPacManToTheDown() throws InterruptedException {
+  public void movingPacManDown() throws InterruptedException {
     PacMan pacman = model.getCurrentLevel().getPacMan();
     mockTestController.tapKey(KeyEvent.VK_DOWN);
     assertEquals(Direction.DOWN, pacman.getDirection());
