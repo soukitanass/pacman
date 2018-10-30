@@ -149,7 +149,19 @@ public class GameMenuPanel extends AbstractMenuPanel {
     return audioMenuOption;
   }
 
-  public JLabel getGoBackLabel() {
-    return null;
+  public JLabel getHighscoresLabel() {
+    return highScoresMenuOption;
+  }
+
+  public JCheckBox getFramesPerSecondCheckbox() {
+    return fpsCheckBox;
+  }
+
+  public JSpinner getFpsSpinner() {
+    return fpsSpinner;
+  }
+
+  public JLabel getExitGameLabel() {
+    return exitGameMenuOption;
   }
 }

@@ -268,7 +268,7 @@ public class GameCanvas extends JPanel {
     fpsPanel = null;
   }
 
-  private boolean isFpsEnabled() {
+  public boolean isFpsEnabled() {
     return isFpsEnabled;
   }
 
@@ -366,6 +366,10 @@ public class GameCanvas extends JPanel {
 
   public AudioMenuPanel getAudioPanel() {
     return audioMenu;
+  }
+
+  public HighScoresPanel getHighscoresPanel() {
+    return highScoresMenu;
   }
 
 }

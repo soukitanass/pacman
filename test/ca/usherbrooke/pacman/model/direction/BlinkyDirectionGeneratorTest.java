@@ -42,7 +42,7 @@ public class BlinkyDirectionGeneratorTest {
 
     Level level = MockLevelFactory.getMockLevelThreeByThreeEmpty();
     level.setPacMan(pacman);
-    level.setGhost(ghosts);
+    level.setGhosts(ghosts);
 
     blinkyDirectionGenerator = new BlinkyDirectionGenerator(randomDirectionGenerator, ghost, level);
   }

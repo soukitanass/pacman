@@ -7,6 +7,7 @@ import java.awt.event.InputEvent;
 import javax.swing.JCheckBox;
 import javax.swing.JComponent;
 import javax.swing.JLabel;
+import javax.swing.JSpinner;
 import ca.usherbrooke.pacman.view.GameView;
 
 public class MockTestController {
@@ -53,7 +54,7 @@ public class MockTestController {
     clickComponent(label);
   }
 
-  public void clickGoBack() throws InterruptedException {
+  public void clickAudioGoBack() throws InterruptedException {
     JLabel label = view.getCanvas().getAudioPanel().getGoBackLabel();
     clickComponent(label);
   }
@@ -73,6 +74,36 @@ public class MockTestController {
   public void clickMuteSoundCheckbox() throws InterruptedException {
     JCheckBox checkbox = view.getCanvas().getAudioPanel().getMuteSoundCheckbox();
     clickComponent(checkbox);
+  }
+
+  public void clickHighscores() throws InterruptedException {
+    JLabel label = view.getCanvas().getMenuPanel().getHighscoresLabel();
+    clickComponent(label);
+  }
+
+  public void clickHighscoreGoBack() throws InterruptedException {
+    JLabel label = view.getCanvas().getHighscoresPanel().getGoBackLabel();
+    clickComponent(label);
+  }
+
+  public void clickFramesPerSecondCheckbox() throws InterruptedException {
+    JCheckBox checkbox = view.getCanvas().getMenuPanel().getFramesPerSecondCheckbox();
+    clickComponent(checkbox);
+  }
+
+  public void setFramesPerSecond(int framesPerSecond) throws InterruptedException {
+    JSpinner fpsSpinner = view.getCanvas().getMenuPanel().getFpsSpinner();
+    setSpinnerValue(fpsSpinner, framesPerSecond);
+  }
+
+  private void setSpinnerValue(JSpinner spinner, int newValue) throws InterruptedException {
+    spinner.setValue(newValue);
+    sleep();
+  }
+
+  public void clickExitGame() throws InterruptedException {
+    JLabel label = view.getCanvas().getMenuPanel().getExitGameLabel();
+    clickComponent(label);
   }
 
 }

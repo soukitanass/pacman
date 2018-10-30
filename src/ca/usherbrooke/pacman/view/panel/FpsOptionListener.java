@@ -22,6 +22,6 @@ public class FpsOptionListener {
   }
 
   public void setFps(final int fps) {
-    renderThread.setFps(fps);
+    renderThread.setTargetFps(fps);
   }
 }
