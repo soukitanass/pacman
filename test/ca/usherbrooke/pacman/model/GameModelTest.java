@@ -184,7 +184,7 @@ public class GameModelTest {
   @Test(timeout = 2000)
   public void whenLevelIsCompletedThenLoadNextLevel() throws InterruptedException {
     GameModel model =
-        new GameModel(Game.loadLevel("ThreeByOneLevelWithPacmanAndPacgumAndGhosts.json"));
+        new GameModel(Game.loadLevel("FourByOneLevelWithPacmanAndPacgumAndWallAndGhosts.json"));
     model.startNewGame();
     model.setGameState(GameState.GAME);
     assertTrue(model.getCurrentLevel().isPacgum(new Position(1, 0)));
