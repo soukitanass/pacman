@@ -1,38 +1,47 @@
 {
-	"width": 3,
-	"height": 1,
-	"pac-man": {
-		"start_pos": {
-			"x": 0,
-			"y": 0
-		}
-	},
-	"ghost": [{
-		"name": "BLINKY",
-		"start_pos": {
-			"x": 1,
-			"y": 0
-		}
-	}, {
-		"name": "INKY",
-		"start_pos": {
-			"x": 2,
-			"y": 0
-		}
-	}, {
-		"name": "PINKY",
-		"start_pos": {
-			"x": 3,
-			"y": 0
-		}
-	}, {
-		"name": "CLYDE",
-		"start_pos": {
-			"x": 4,
-			"y": 0
-		}
-	}],
-	"map": [
-		[0, 0, 0]
-	]
+    "width": 3,
+    "height": 1,
+    "pac-man": {
+        "start_pos": {
+            "x": 0,
+            "y": 0
+        }
+    },
+    "ghost": [
+        {
+            "name": "BLINKY",
+            "start_pos": {
+                "x": 1,
+                "y": 0
+            }
+        },
+        {
+            "name": "INKY",
+            "start_pos": {
+                "x": 2,
+                "y": 0
+            }
+        },
+        {
+            "name": "PINKY",
+            "start_pos": {
+                "x": 3,
+                "y": 0
+            }
+        },
+        {
+            "name": "CLYDE",
+            "start_pos": {
+                "x": 4,
+                "y": 0
+            }
+        }
+    ],
+    "map": [
+        [
+            0,
+            0,
+            0
+        ]
+    ]
 }
