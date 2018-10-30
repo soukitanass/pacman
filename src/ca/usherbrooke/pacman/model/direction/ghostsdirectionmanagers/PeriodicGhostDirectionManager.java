@@ -39,7 +39,7 @@ public class PeriodicGhostDirectionManager {
       return;
     }
 
-    final Direction exitGhostRoomDirection = getOverridenDirectionToExistGhostRoom();
+    final Direction exitGhostRoomDirection = getOverridenDirectionToExitGhostRoom();
     if (exitGhostRoomDirection != null) {
       gameModel.setDirection(ghost, exitGhostRoomDirection);
       return;
@@ -75,7 +75,7 @@ public class PeriodicGhostDirectionManager {
     return escapeFromPacmanDirection;
   }
 
-  private Direction getOverridenDirectionToExistGhostRoom() {
+  private Direction getOverridenDirectionToExitGhostRoom() {
     Level level = gameModel.getCurrentLevel();
     Direction direction = null;
     if (level.isGhostRoom(ghost.getPosition())) {

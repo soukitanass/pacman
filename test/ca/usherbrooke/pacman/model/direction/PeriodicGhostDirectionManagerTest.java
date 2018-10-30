@@ -168,7 +168,6 @@ public class PeriodicGhostDirectionManagerTest {
 
   @Test
   public void whenInGhostRoomUseOverrideDirectionToEscapeThenFollowDirectionGenerator() {
-    // Change the level
     Level ghostRoomLevel = MockLevelFactory.getMockLevelSingleGhostRoomSurroundedByGhostGates();
     ghostRoomLevel.setPacMan(pacman);
     model.setCurrentLevel(ghostRoomLevel);
@@ -191,10 +190,5 @@ public class PeriodicGhostDirectionManagerTest {
 
     directionManager.update();
     assertEquals(Direction.LEFT, ghost.getDesiredDirection());
-
-    // Revert to the old level.
-    Level emptyLevel = MockLevelFactory.getMockLevelThreeByThreeEmpty();
-    emptyLevel.setPacMan(pacman);
-    model.setCurrentLevel(emptyLevel);
   }
 }
