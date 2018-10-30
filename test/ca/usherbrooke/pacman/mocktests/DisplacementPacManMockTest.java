@@ -18,7 +18,7 @@ public class DisplacementPacManMockTest {
   private GameModel model;
   private MockTestController mockTestController;
   private GameView view;
-  private final int sleepTimeBetweenActionsMilliseconds = 1000;
+  private final int sleepTimeBetweenActionsMilliseconds = 1250;
 
   @Before
   public void setUp() throws AWTException, InterruptedException {
