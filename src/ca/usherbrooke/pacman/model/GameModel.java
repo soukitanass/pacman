@@ -24,6 +24,7 @@ import ca.usherbrooke.pacman.model.events.GameEvent;
 import ca.usherbrooke.pacman.model.events.GameEventObject;
 import ca.usherbrooke.pacman.model.highscores.HighScores;
 import ca.usherbrooke.pacman.model.objects.Ghost;
+import ca.usherbrooke.pacman.model.objects.GhostName;
 import ca.usherbrooke.pacman.model.objects.IGameObject;
 import ca.usherbrooke.pacman.model.objects.Level;
 import ca.usherbrooke.pacman.model.objects.PacMan;
@@ -342,14 +343,18 @@ public class GameModel implements IGameModel {
   }
 
   private void initializeGhostsDirectionManagers() {
-    ghostDirectionManagers.add(new PeriodicGhostDirectionManager(this, randomDirectionGenerator,
-        level.getGhosts().get(0), GHOSTS_DIRECTION_CHANGE_PERIOD));
-    ghostDirectionManagers.add(new PeriodicGhostDirectionManager(this, randomDirectionGenerator,
-        level.getGhosts().get(1), GHOSTS_DIRECTION_CHANGE_PERIOD));
-    ghostDirectionManagers.add(new PeriodicGhostDirectionManager(this, randomDirectionGenerator,
-        level.getGhosts().get(2), GHOSTS_DIRECTION_CHANGE_PERIOD));
-    ghostDirectionManagers.add(new PeriodicGhostDirectionManager(this, randomDirectionGenerator,
-        level.getGhosts().get(3), GHOSTS_DIRECTION_CHANGE_PERIOD));
+    try {
+      ghostDirectionManagers.add(new PeriodicGhostDirectionManager(this, randomDirectionGenerator,
+          level.getGhostByName(GhostName.Blinky), GHOSTS_DIRECTION_CHANGE_PERIOD));
+      ghostDirectionManagers.add(new PeriodicGhostDirectionManager(this, randomDirectionGenerator,
+          level.getGhostByName(GhostName.Inky), GHOSTS_DIRECTION_CHANGE_PERIOD));
+      ghostDirectionManagers.add(new PeriodicGhostDirectionManager(this, randomDirectionGenerator,
+          level.getGhostByName(GhostName.Pinky), GHOSTS_DIRECTION_CHANGE_PERIOD));
+      ghostDirectionManagers.add(new PeriodicGhostDirectionManager(this, randomDirectionGenerator,
+          level.getGhostByName(GhostName.Clyde), GHOSTS_DIRECTION_CHANGE_PERIOD));
+    } catch (Exception exception) {
+      WarningDialog.display("Error getting a ghost. ", exception);
+    }
   }
 
   private void initializeCollisionManagers() {

@@ -221,9 +221,9 @@ public class Level {
     return positions;
   }
 
-  public Ghost getGhostByName(String name) throws InvalidGhostNameException {
+  public Ghost getGhostByName(GhostName name) throws InvalidGhostNameException {
     for (Ghost ghost : ghosts) {
-      if (ghost.getName().equals(name)) {
+      if (ghost.getName() == name) {
         return ghost;
       }
     }

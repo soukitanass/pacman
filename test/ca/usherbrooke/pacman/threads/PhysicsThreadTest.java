@@ -24,7 +24,9 @@ import ca.usherbrooke.pacman.model.IGameModel;
 import ca.usherbrooke.pacman.model.direction.Direction;
 import ca.usherbrooke.pacman.model.events.GameEvent;
 import ca.usherbrooke.pacman.model.events.GameEventObject;
+import ca.usherbrooke.pacman.model.exceptions.InvalidGhostNameException;
 import ca.usherbrooke.pacman.model.objects.Ghost;
+import ca.usherbrooke.pacman.model.objects.GhostName;
 import ca.usherbrooke.pacman.model.objects.Level;
 import ca.usherbrooke.pacman.model.objects.PacMan;
 import ca.usherbrooke.pacman.model.position.Position;
@@ -110,10 +112,10 @@ public class PhysicsThreadTest {
   }
 
   @Test
-  public void pacmanGhostColision() throws InterruptedException {
+  public void pacmanGhostColision() throws InterruptedException, InvalidGhostNameException {
     Level level = getLevel();
     level.getPacMan().setPosition(new Position(5, 0));
-    level.getGhosts().get(0).setPosition(new Position(5, 0));
+    level.getGhostByName(GhostName.Blinky).setPosition(new Position(5, 0));
 
     synchronized (moveQueue) {
       moveQueue.add(level);

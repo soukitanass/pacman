@@ -16,7 +16,9 @@ import org.junit.Before;
 import org.junit.Test;
 import ca.usherbrooke.pacman.game.Game;
 import ca.usherbrooke.pacman.model.direction.Direction;
+import ca.usherbrooke.pacman.model.exceptions.InvalidGhostNameException;
 import ca.usherbrooke.pacman.model.objects.Ghost;
+import ca.usherbrooke.pacman.model.objects.GhostName;
 import ca.usherbrooke.pacman.model.objects.Level;
 import ca.usherbrooke.pacman.model.position.Position;
 
@@ -111,14 +113,14 @@ public class GameModelTest {
   }
 
   @Test
-  public void initialLevelDoesNotChange() {
+  public void initialLevelDoesNotChange() throws InvalidGhostNameException {
     Level level = model.getCurrentLevel();
     Level initialLevel = model.getInitialLevel();
     level.getPacMan().setPosition(new Position(0, 0));
     assertNotEquals(initialLevel.getPacMan().getPosition(), level.getPacMan().getPosition());
-    level.getGhosts().get(0).setPosition(new Position(0, 0));
-    assertNotEquals(initialLevel.getGhosts().get(0).getPosition(),
-        level.getGhosts().get(0).getPosition());
+    level.getGhostByName(GhostName.Blinky).setPosition(new Position(0, 0));
+    assertNotEquals(initialLevel.getGhostByName(GhostName.Blinky).getPosition(),
+        level.getGhostByName(GhostName.Blinky).getPosition());
   }
 
   @Test
@@ -131,8 +133,8 @@ public class GameModelTest {
   }
 
   @Test
-  public void whenGhostIsKilledThenItIsRemoved() {
-    Ghost killedGhost = model.getCurrentLevel().getGhosts().get(0);
+  public void whenGhostIsKilledThenItIsRemoved() throws InvalidGhostNameException {
+    Ghost killedGhost = model.getCurrentLevel().getGhostByName(GhostName.Blinky);
     assertEquals(4, model.getCurrentLevel().getGhosts().size());
     model.processGhostKilled(killedGhost);
     assertEquals(4, model.getCurrentLevel().getGhosts().size());
@@ -141,23 +143,23 @@ public class GameModelTest {
   }
 
   @Test
-  public void whenFirstGhostIsKilledThenScoreIncreasesBy200() {
+  public void whenFirstGhostIsKilledThenScoreIncreasesBy200() throws InvalidGhostNameException {
     assertEquals(Integer.valueOf(0), model.getScore());
-    model.processGhostKilled(model.getCurrentLevel().getGhosts().get(0));
+    model.processGhostKilled(model.getCurrentLevel().getGhostByName(GhostName.Blinky));
     assertEquals(Integer.valueOf(200), model.getScore());
   }
 
   @Test
-  public void whenSubsequentGhostsAreKilledThenScoreIncreasesBy200Then400Then800Then1600IfPacmanIsInvincible() {
+  public void whenSubsequentGhostsAreKilledThenScoreIncreasesBy200Then400Then800Then1600IfPacmanIsInvincible() throws InvalidGhostNameException {
     model.getPacman().setIsInvincible(true);
     assertEquals(Integer.valueOf(0), model.getScore());
-    model.processGhostKilled(model.getCurrentLevel().getGhosts().get(0));
+    model.processGhostKilled(model.getCurrentLevel().getGhostByName(GhostName.Blinky));
     assertEquals(Integer.valueOf(200), model.getScore());
-    model.processGhostKilled(model.getCurrentLevel().getGhosts().get(0));
+    model.processGhostKilled(model.getCurrentLevel().getGhostByName(GhostName.Blinky));
     assertEquals(Integer.valueOf(600), model.getScore());
-    model.processGhostKilled(model.getCurrentLevel().getGhosts().get(0));
+    model.processGhostKilled(model.getCurrentLevel().getGhostByName(GhostName.Blinky));
     assertEquals(Integer.valueOf(1400), model.getScore());
-    model.processGhostKilled(model.getCurrentLevel().getGhosts().get(0));
+    model.processGhostKilled(model.getCurrentLevel().getGhostByName(GhostName.Blinky));
     assertEquals(Integer.valueOf(3000), model.getScore());
   }
 

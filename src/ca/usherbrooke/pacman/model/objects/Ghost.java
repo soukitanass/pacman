@@ -19,7 +19,7 @@ public class Ghost implements IGameObject {
 
   @SerializedName("name")
   @Expose
-  private String name;
+  private GhostName name;
   @SerializedName("start_pos")
   @Expose
   private Position position;
@@ -37,11 +37,11 @@ public class Ghost implements IGameObject {
     this.desiredDirection = ghost.getDesiredDirection();
   }
 
-  public String getName() {
+  public GhostName getName() {
     return name;
   }
 
-  public void setName(String name) {
+  public void setName(GhostName name) {
     this.name = name;
   }
 
