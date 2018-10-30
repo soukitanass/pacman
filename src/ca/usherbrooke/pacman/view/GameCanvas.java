@@ -359,4 +359,13 @@ public class GameCanvas extends JPanel {
   public void setFpsEnabled(boolean isFpsEnabled) {
     this.isFpsEnabled = isFpsEnabled;
   }
+
+  public GameMenuPanel getMenuPanel() {
+    return gameMenu;
+  }
+
+  public AudioMenuPanel getAudioPanel() {
+    return audioMenu;
+  }
+
 }
