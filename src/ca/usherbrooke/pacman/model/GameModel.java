@@ -351,6 +351,8 @@ public class GameModel implements IGameModel {
   private void initializeGhostsDirectionManagers() {
     try {
       TimeGetter timeGetter = new TimeGetter();
+      blinkyDirectionGenerator = new BlinkyDirectionGenerator(randomDirectionGenerator,
+          level.getGhostByName(GhostName.BLINKY), level);
       InkyDirectionGenerator inkyDirectionGenerator = new InkyDirectionGenerator(
           randomDirectionGenerator, level.getGhostByName(GhostName.INKY), level, timeGetter);
       blinkyDirectionGenerator = new BlinkyDirectionGenerator(randomDirectionGenerator,
