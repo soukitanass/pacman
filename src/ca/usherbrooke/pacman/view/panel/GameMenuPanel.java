@@ -160,4 +160,8 @@ public class GameMenuPanel extends AbstractMenuPanel {
   public JSpinner getFpsSpinner() {
     return fpsSpinner;
   }
+
+  public JLabel getExitGameLabel() {
+    return exitGameMenuOption;
+  }
 }

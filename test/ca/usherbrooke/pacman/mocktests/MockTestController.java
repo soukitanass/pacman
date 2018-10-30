@@ -101,4 +101,9 @@ public class MockTestController {
     sleep();
   }
 
+  public void clickExitGame() throws InterruptedException {
+    JLabel label = view.getCanvas().getMenuPanel().getExitGameLabel();
+    clickComponent(label);
+  }
+
 }

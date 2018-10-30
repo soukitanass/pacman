@@ -36,6 +36,7 @@ public class MenuMockTest {
     game.start();
     Thread.sleep(sleepTimeBetweenActionsMilliseconds);
     assertEquals(GameState.GAME_MENU, model.getGameState());
+    assertTrue(model.isRunning());
   }
 
   @After
@@ -125,5 +126,11 @@ public class MenuMockTest {
     mockTestController.setFramesPerSecond(60);
     assertEquals(GameState.GAME_MENU, model.getGameState());
     assertEquals(60, renderThread.getTargetFps());
+  }
+
+  @Test
+  public void exitGame() throws InterruptedException {
+    mockTestController.clickExitGame();
+    assertFalse(model.isRunning());
   }
 }
