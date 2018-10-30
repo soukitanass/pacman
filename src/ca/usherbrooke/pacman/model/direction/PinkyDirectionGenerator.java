@@ -36,24 +36,6 @@ public class PinkyDirectionGenerator implements IDirectionGenerator {
     Direction direction = getPacmanDirectionIfInLineOfSight();
 
     if (direction == null) {
-      Position ghostPosition = ghost.getPosition();
-      Position pacmanPosition = pacman.getPosition();
-      Node initialNode = new Node(ghostPosition.getX(), ghostPosition.getY());
-      Node finalNode = new Node(pacmanPosition.getX(), pacmanPosition.getY());
-      int rows = level.getWidth();
-      int cols = level.getHeight();
-      AStar aStar = new AStar(rows, cols, initialNode, finalNode);
-      aStar.setBlocks(getObstacleList());
-      List<Node> path = aStar.findPath();
-      if (!path.isEmpty() && path != null) {
-        Node nextNode = path.get(0);
-        Position nextPosition = new Position(nextNode.getRow(), nextNode.getCol());
-        direction = level.getDirectionIfInLineOfSight(ghost.getPosition(), nextPosition);
-        System.out.println(direction);
-      }
-    }
-
-    if (direction == null) {
       direction = randomDirectionGenerator.get();
     }
     return direction;
@@ -61,7 +43,23 @@ public class PinkyDirectionGenerator implements IDirectionGenerator {
 
   @Override
   public Direction getOverridenDirection() {
-    return getPacmanDirectionIfInLineOfSight();
+    Direction direction = getPacmanDirectionIfInLineOfSight();
+
+    if (direction == null) {
+      final Position ghostPosition = ghost.getPosition();
+      final Position pacmanPosition = pacman.getPosition();
+      final Node initialNode = new Node(ghostPosition.getX(), ghostPosition.getY());
+      final Node finalNode = new Node(pacmanPosition.getX(), pacmanPosition.getY());
+      final AStar aStar = new AStar(level.getWidth(), level.getHeight(), initialNode, finalNode);
+      aStar.setBlocks(getObstacleList());
+      List<Node> path = aStar.findPath();
+      if (path.size() >= 2) {
+        final Node nextNode1 = path.get(1);
+        final Position nextPosition1 = new Position(nextNode1.getRow(), nextNode1.getCol());
+        direction = level.getDirectionIfInLineOfSight(ghostPosition, nextPosition1);
+      }
+    }
+    return direction;
   }
 
   private Direction getPacmanDirectionIfInLineOfSight() {

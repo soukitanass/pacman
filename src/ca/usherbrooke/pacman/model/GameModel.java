@@ -347,12 +347,12 @@ public class GameModel implements IGameModel {
   }
 
   private void initializeGhostsDirectionManagers() {
-    blinkyDirectionGenerator =
-        new BlinkyDirectionGenerator(randomDirectionGenerator, level.getGhosts().get(0), level);
-    pinkyDirectionGenerator =
-        new PinkyDirectionGenerator(randomDirectionGenerator, level.getGhosts().get(3), level);
-
     try {
+      blinkyDirectionGenerator = new BlinkyDirectionGenerator(randomDirectionGenerator,
+          level.getGhostByName(GhostName.BLINKY), level);
+      pinkyDirectionGenerator = new PinkyDirectionGenerator(randomDirectionGenerator,
+          level.getGhostByName(GhostName.PINKY), level);
+
       ghostDirectionManagers.add(new PeriodicGhostDirectionManager(this, blinkyDirectionGenerator,
           level.getGhostByName(GhostName.BLINKY), GHOSTS_DIRECTION_CHANGE_PERIOD));
       ghostDirectionManagers.add(new PeriodicGhostDirectionManager(this, randomDirectionGenerator,

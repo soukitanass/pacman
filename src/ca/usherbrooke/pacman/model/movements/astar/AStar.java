@@ -14,7 +14,7 @@ import ca.usherbrooke.pacman.model.position.Position;
  *         https://github.com/marcelo-s/A-Star-Java-Implementation
  */
 public class AStar {
-  private static int DEFAULT_HV_COST = 10; // Horizontal - Vertical Cost
+  private static int DEFAULT_HV_COST = 1; // Horizontal - Vertical Cost
   private int hvCost;
   private Node[][] searchArea;
   private PriorityQueue<Node> openList;
