@@ -227,6 +227,6 @@ public class Level {
         return ghost;
       }
     }
-    throw new InvalidGhostNameException("Invalid name:" + name);
+    throw new InvalidGhostNameException("Invalid ghost name:" + name);
   }
 }
