@@ -8,25 +8,25 @@
                 }
             },
             "ghost": [{
-                "id": 1,
+                "name": "Blinky",
                 "start_pos": {
                     "x": 13,
                     "y": 11
                 }
             }, {
-                "id": 2,
+                "name": "Pinky",
                 "start_pos": {
                     "x": 11,
                     "y": 15
                 }
             }, {
-                "id": 3,
+                "name": "Inky",
                 "start_pos": {
                     "x": 13,
                     "y": 15
                 }
             }, {
-                "id": 4,
+                "name": "Clyde",
                 "start_pos": {
                     "x": 15,
                     "y": 15

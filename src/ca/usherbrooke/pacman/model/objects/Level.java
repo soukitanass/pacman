@@ -220,4 +220,12 @@ public class Level {
     return positions;
   }
 
+  public Ghost getGhostByName(String name) {
+    for (Ghost ghost : ghosts) {
+      if (ghost.getName().equals(name)) {
+        return ghost;
+      }
+    }
+    return null;
+  }
 }
