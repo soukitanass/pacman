@@ -91,8 +91,8 @@ public class Level {
     return ghosts;
   }
 
-  public void setGhost(List<Ghost> ghost) {
-    this.ghosts = ghost;
+  public void setGhosts(List<Ghost> ghosts) {
+    this.ghosts = ghosts;
   }
 
   public List<List<Integer>> getMap() {

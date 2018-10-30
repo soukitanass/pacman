@@ -13,11 +13,13 @@ import java.util.List;
 import java.util.Queue;
 import java.util.Random;
 import java.util.concurrent.ConcurrentLinkedQueue;
+import ca.usherbrooke.pacman.game.TimeGetter;
 import ca.usherbrooke.pacman.model.collision.PacmanGhostCollisionManager;
 import ca.usherbrooke.pacman.model.collision.PacmanPacgumCollisionManager;
 import ca.usherbrooke.pacman.model.collision.PacmanSuperPacgumCollisionManager;
 import ca.usherbrooke.pacman.model.direction.Direction;
 import ca.usherbrooke.pacman.model.direction.IDirectionGenerator;
+import ca.usherbrooke.pacman.model.direction.InkyDirectionGenerator;
 import ca.usherbrooke.pacman.model.direction.RandomDirectionGenerator;
 import ca.usherbrooke.pacman.model.direction.ghostsdirectionmanagers.PeriodicGhostDirectionManager;
 import ca.usherbrooke.pacman.model.events.GameEvent;
@@ -342,7 +344,11 @@ public class GameModel implements IGameModel {
   }
 
   private void initializeGhostsDirectionManagers() {
-    ghostDirectionManagers.add(new PeriodicGhostDirectionManager(this, randomDirectionGenerator,
+    TimeGetter timeGetter = new TimeGetter();
+    InkyDirectionGenerator inkyDirectionGenerator = new InkyDirectionGenerator(
+        randomDirectionGenerator, level.getGhosts().get(0), level, timeGetter);
+
+    ghostDirectionManagers.add(new PeriodicGhostDirectionManager(this, inkyDirectionGenerator,
         level.getGhosts().get(0), GHOSTS_DIRECTION_CHANGE_PERIOD));
     ghostDirectionManagers.add(new PeriodicGhostDirectionManager(this, randomDirectionGenerator,
         level.getGhosts().get(1), GHOSTS_DIRECTION_CHANGE_PERIOD));

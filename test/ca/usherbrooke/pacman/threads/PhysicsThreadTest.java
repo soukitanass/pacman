@@ -166,7 +166,7 @@ public class PhysicsThreadTest {
 
     Level level = new Level();
     level.setPacMan(pacman);
-    level.setGhost(ghosts);
+    level.setGhosts(ghosts);
     level.setMap(map);
 
     return level;
