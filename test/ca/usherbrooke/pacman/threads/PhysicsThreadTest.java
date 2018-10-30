@@ -156,6 +156,7 @@ public class PhysicsThreadTest {
     List<Ghost> ghosts = new ArrayList<>();
 
     Ghost ghost = new Ghost();
+    ghost.setName(GhostName.Blinky);
     ghost.setDesiredDirection(Direction.RIGHT);
     ghost.setDirection(Direction.RIGHT);
     ghost.setPosition(new Position(5, 0));

@@ -19,6 +19,7 @@ import ca.usherbrooke.pacman.model.exceptions.InvalidColorException;
 import ca.usherbrooke.pacman.model.exceptions.InvalidDirectionException;
 import ca.usherbrooke.pacman.model.exceptions.InvalidStateException;
 import ca.usherbrooke.pacman.model.objects.Ghost;
+import ca.usherbrooke.pacman.model.objects.GhostName;
 import ca.usherbrooke.pacman.view.spirites.GhostSpriteToggler;
 import ca.usherbrooke.pacman.view.spirites.SpriteFacade;
 import ca.usherbrooke.pacman.view.states.GhostState;
@@ -35,7 +36,7 @@ public class GhostsPanel extends JPanel {
   private int offsetY = 0;
   private GhostSpriteToggler ghostSpritePeriodicToggler;
 
-  private Map<String, Color> ghostNameToColor = new HashMap<>();
+  private Map<GhostName, Color> ghostNameToColor = new HashMap<>();
 
 
   public GhostsPanel(IGameModel model, int spriteTogglePeriod) {
@@ -45,10 +46,10 @@ public class GhostsPanel extends JPanel {
   }
 
   private void initializeGhostIdToColorMap() {
-    ghostNameToColor.put("Blinky", Color.RED);
-    ghostNameToColor.put("Inky", Color.TURQUOISE);
-    ghostNameToColor.put("Pinky", Color.PINK);
-    ghostNameToColor.put("Clyde", Color.ORANGE);
+    ghostNameToColor.put(GhostName.Blinky, Color.RED);
+    ghostNameToColor.put(GhostName.Inky, Color.TURQUOISE);
+    ghostNameToColor.put(GhostName.Pinky, Color.PINK);
+    ghostNameToColor.put(GhostName.Clyde, Color.ORANGE);
   }
 
   @Override
