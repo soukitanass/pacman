@@ -19,6 +19,7 @@ import ca.usherbrooke.pacman.model.exceptions.InvalidColorException;
 import ca.usherbrooke.pacman.model.exceptions.InvalidDirectionException;
 import ca.usherbrooke.pacman.model.exceptions.InvalidStateException;
 import ca.usherbrooke.pacman.model.objects.Ghost;
+import ca.usherbrooke.pacman.model.objects.GhostName;
 import ca.usherbrooke.pacman.view.spirites.GhostSpriteToggler;
 import ca.usherbrooke.pacman.view.spirites.SpriteFacade;
 import ca.usherbrooke.pacman.view.states.GhostState;
@@ -35,7 +36,7 @@ public class GhostsPanel extends JPanel {
   private int offsetY = 0;
   private GhostSpriteToggler ghostSpritePeriodicToggler;
 
-  private Map<Integer, Color> ghostIdToColor = new HashMap<>();
+  private Map<GhostName, Color> ghostNameToColor = new HashMap<>();
 
 
   public GhostsPanel(IGameModel model, int spriteTogglePeriod) {
@@ -45,10 +46,10 @@ public class GhostsPanel extends JPanel {
   }
 
   private void initializeGhostIdToColorMap() {
-    ghostIdToColor.put(1, Color.RED);
-    ghostIdToColor.put(2, Color.TURQUOISE);
-    ghostIdToColor.put(3, Color.PINK);
-    ghostIdToColor.put(4, Color.ORANGE);
+    ghostNameToColor.put(GhostName.BLINKY, Color.RED);
+    ghostNameToColor.put(GhostName.INKY, Color.TURQUOISE);
+    ghostNameToColor.put(GhostName.PINKY, Color.PINK);
+    ghostNameToColor.put(GhostName.CLYDE, Color.ORANGE);
   }
 
   @Override
@@ -82,7 +83,7 @@ public class GhostsPanel extends JPanel {
       return spriteFacade.getAfraidGhost(ghostSpriteState);
     }
     Direction direction = ghost.getDirection();
-    Color color = ghostIdToColor.get(ghost.getId());
+    Color color = ghostNameToColor.get(ghost.getName());
     return spriteFacade.getGhost(direction, color, ghostSpriteState);
   }
 

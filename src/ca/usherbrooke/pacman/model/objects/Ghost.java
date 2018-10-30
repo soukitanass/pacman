@@ -17,9 +17,9 @@ import ca.usherbrooke.pacman.model.position.Position;
 
 public class Ghost implements IGameObject {
 
-  @SerializedName("id")
+  @SerializedName("name")
   @Expose
-  private Integer id;
+  private GhostName name;
   @SerializedName("start_pos")
   @Expose
   private Position position;
@@ -31,18 +31,18 @@ public class Ghost implements IGameObject {
   }
 
   public Ghost(Ghost ghost) {
-    this.id = ghost.getId();
+    this.name = ghost.getName();
     this.position = new Position(ghost.getPosition().getX(), ghost.getPosition().getY());
     this.direction = ghost.getDirection();
     this.desiredDirection = ghost.getDesiredDirection();
   }
 
-  public Integer getId() {
-    return id;
+  public GhostName getName() {
+    return name;
   }
 
-  public void setId(Integer id) {
-    this.id = id;
+  public void setName(GhostName name) {
+    this.name = name;
   }
 
   @Override
@@ -85,5 +85,4 @@ public class Ghost implements IGameObject {
   public boolean equals(Object other) {
     return EqualsBuilder.reflectionEquals(this, other);
   }
-
 }
