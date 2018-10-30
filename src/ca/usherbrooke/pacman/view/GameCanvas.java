@@ -268,7 +268,7 @@ public class GameCanvas extends JPanel {
     fpsPanel = null;
   }
 
-  private boolean isFpsEnabled() {
+  public boolean isFpsEnabled() {
     return isFpsEnabled;
   }
 

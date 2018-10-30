@@ -152,4 +152,12 @@ public class GameMenuPanel extends AbstractMenuPanel {
   public JLabel getHighscoresLabel() {
     return highScoresMenuOption;
   }
+
+  public JCheckBox getFramesPerSecondCheckbox() {
+    return fpsCheckBox;
+  }
+
+  public JSpinner getFpsSpinner() {
+    return fpsSpinner;
+  }
 }

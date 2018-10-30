@@ -12,6 +12,7 @@ import ca.usherbrooke.pacman.game.Game;
 import ca.usherbrooke.pacman.model.GameModel;
 import ca.usherbrooke.pacman.model.GameState;
 import ca.usherbrooke.pacman.threads.AudioThread;
+import ca.usherbrooke.pacman.threads.RenderThread;
 import ca.usherbrooke.pacman.view.GameView;
 
 public class MenuMockTest {
@@ -21,6 +22,7 @@ public class MenuMockTest {
   private GameView view;
   private final int sleepTimeBetweenActionsMilliseconds = 1000;
   private AudioThread audio;
+  private RenderThread renderThread;
 
   @Before
   public void setUp() throws AWTException, InterruptedException {
@@ -29,6 +31,7 @@ public class MenuMockTest {
     model = game.getModel();
     view = game.getView();
     audio = game.getAudioThread();
+    renderThread = game.getRenderThread();
     mockTestController = new MockTestController(view, sleepTimeBetweenActionsMilliseconds);
     game.start();
     Thread.sleep(sleepTimeBetweenActionsMilliseconds);
@@ -103,5 +106,24 @@ public class MenuMockTest {
     assertEquals(GameState.HIGHSCORES_MENU, model.getGameState());
     mockTestController.clickHighscoreGoBack();
     assertEquals(GameState.GAME_MENU, model.getGameState());
+  }
+
+  @Test
+  public void enableFramesPerSecond() throws InterruptedException {
+    assertFalse(view.getCanvas().isFpsEnabled());
+    mockTestController.clickFramesPerSecondCheckbox();
+    assertEquals(GameState.GAME_MENU, model.getGameState());
+    assertTrue(view.getCanvas().isFpsEnabled());
+    mockTestController.clickFramesPerSecondCheckbox();
+    assertEquals(GameState.GAME_MENU, model.getGameState());
+    assertFalse(view.getCanvas().isFpsEnabled());
+  }
+
+  @Test
+  public void changeFramesPerSecond() throws InterruptedException {
+    assertEquals(30, renderThread.getTargetFps());
+    mockTestController.setFramesPerSecond(60);
+    assertEquals(GameState.GAME_MENU, model.getGameState());
+    assertEquals(60, renderThread.getTargetFps());
   }
 }

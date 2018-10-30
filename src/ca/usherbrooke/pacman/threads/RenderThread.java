@@ -28,17 +28,17 @@ public class RenderThread implements Runnable, CloseObserver {
 
   private volatile boolean shouldRun = true;
   private long lastUpdateTimeMilliseconds;
-  private int updatePeriodMilliseconds;
   private IGameView view;
   private ITimeGetter timeGetter;
   private CircularQueue<Long> timesBetweenUpdatesMilliseconds =
       new CircularQueue<>(NB_UPDATE_TIMES_TO_REMEMBER);
   private AtomicBoolean isFpsEnabled = new AtomicBoolean(false);
+  private int targetFps;
 
   public RenderThread(IGameView view, ITimeGetter timeGetter) {
     this.view = view;
     this.timeGetter = timeGetter;
-    setFps(INITIAL_FPS);
+    setTargetFps(INITIAL_FPS);
     lastUpdateTimeMilliseconds = timeGetter.getMilliseconds();
   }
 
@@ -67,14 +67,20 @@ public class RenderThread implements Runnable, CloseObserver {
   }
 
   private boolean isTimeToUpdate(long currentTimeMilliseconds) {
-    return currentTimeMilliseconds >= lastUpdateTimeMilliseconds + updatePeriodMilliseconds;
+    ;
+    return currentTimeMilliseconds >= lastUpdateTimeMilliseconds
+        + (long) getTargetUpdatePeriodMilliseconds();
+  }
+
+  private int getTargetUpdatePeriodMilliseconds() {
+    return 1000 / getTargetFps();
   }
 
   private void sleepUntilNextUpdate() {
     final long timeSinceLastUpdateMilliseconds =
         timeGetter.getMilliseconds() - lastUpdateTimeMilliseconds;
     final long timeUntilNextUpdateMilliseconds =
-        updatePeriodMilliseconds - timeSinceLastUpdateMilliseconds;
+        getTargetUpdatePeriodMilliseconds() - timeSinceLastUpdateMilliseconds;
     if (timeUntilNextUpdateMilliseconds <= 0) {
       return;
     }
@@ -107,12 +113,16 @@ public class RenderThread implements Runnable, CloseObserver {
         / sumTimeBetweenUpdatesMilliseconds);
   }
 
-  public synchronized void setFpsEnabled(boolean isFpsEnabled) {
+  public synchronized void setFpsEnabled(final boolean isFpsEnabled) {
     this.isFpsEnabled.set(isFpsEnabled);
   }
 
-  public synchronized void setFps(final int fps) {
-    updatePeriodMilliseconds = (int) (1000.0 / fps);
+  public int getTargetFps() {
+    return targetFps;
+  }
+
+  public synchronized void setTargetFps(final int targetFps) {
+    this.targetFps = targetFps;
   }
 
 }
