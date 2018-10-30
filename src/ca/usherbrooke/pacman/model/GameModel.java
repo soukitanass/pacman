@@ -25,6 +25,7 @@ import ca.usherbrooke.pacman.model.events.GameEvent;
 import ca.usherbrooke.pacman.model.events.GameEventObject;
 import ca.usherbrooke.pacman.model.highscores.HighScores;
 import ca.usherbrooke.pacman.model.objects.Ghost;
+import ca.usherbrooke.pacman.model.objects.GhostName;
 import ca.usherbrooke.pacman.model.objects.IGameObject;
 import ca.usherbrooke.pacman.model.objects.Level;
 import ca.usherbrooke.pacman.model.objects.PacMan;
@@ -347,14 +348,18 @@ public class GameModel implements IGameModel {
     blinkyDirectionGenerator =
         new BlinkyDirectionGenerator(randomDirectionGenerator, level.getGhosts().get(0), level);
 
-    ghostDirectionManagers.add(new PeriodicGhostDirectionManager(this, blinkyDirectionGenerator,
-        level.getGhosts().get(0), GHOSTS_DIRECTION_CHANGE_PERIOD));
-    ghostDirectionManagers.add(new PeriodicGhostDirectionManager(this, randomDirectionGenerator,
-        level.getGhosts().get(1), GHOSTS_DIRECTION_CHANGE_PERIOD));
-    ghostDirectionManagers.add(new PeriodicGhostDirectionManager(this, randomDirectionGenerator,
-        level.getGhosts().get(2), GHOSTS_DIRECTION_CHANGE_PERIOD));
-    ghostDirectionManagers.add(new PeriodicGhostDirectionManager(this, randomDirectionGenerator,
-        level.getGhosts().get(3), GHOSTS_DIRECTION_CHANGE_PERIOD));
+    try {
+      ghostDirectionManagers.add(new PeriodicGhostDirectionManager(this, blinkyDirectionGenerator,
+          level.getGhostByName(GhostName.BLINKY), GHOSTS_DIRECTION_CHANGE_PERIOD));
+      ghostDirectionManagers.add(new PeriodicGhostDirectionManager(this, randomDirectionGenerator,
+          level.getGhostByName(GhostName.INKY), GHOSTS_DIRECTION_CHANGE_PERIOD));
+      ghostDirectionManagers.add(new PeriodicGhostDirectionManager(this, randomDirectionGenerator,
+          level.getGhostByName(GhostName.PINKY), GHOSTS_DIRECTION_CHANGE_PERIOD));
+      ghostDirectionManagers.add(new PeriodicGhostDirectionManager(this, randomDirectionGenerator,
+          level.getGhostByName(GhostName.CLYDE), GHOSTS_DIRECTION_CHANGE_PERIOD));
+    } catch (Exception exception) {
+      WarningDialog.display("Error getting a ghost. ", exception);
+    }
   }
 
   private void initializeCollisionManagers() {
