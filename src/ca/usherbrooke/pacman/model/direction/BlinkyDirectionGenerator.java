@@ -34,16 +34,6 @@ public class BlinkyDirectionGenerator implements IDirectionGenerator {
   public Direction get() {
     Direction direction = getPacmanDirectionIfInLineOfSight();
 
-    if (isFollowingPacman && direction == null) {
-      Position ghostPosition = ghost.getPosition();
-      if (ghostPosition.equals(pacmanLastSeenPosition)) {
-        direction = pacmanDesiredDirection;
-        isFollowingPacman = false;
-      } else {
-        direction = level.getDirectionIfInLineOfSight(ghost.getPosition(), pacmanLastSeenPosition);
-      }
-    }
-
     if (direction == null) {
       direction = randomDirectionGenerator.get();
     }
@@ -60,6 +50,16 @@ public class BlinkyDirectionGenerator implements IDirectionGenerator {
       isFollowingPacman = true;
     }
 
+    if (isFollowingPacman && direction == null) {
+      Position ghostPosition = ghost.getPosition();
+      if (ghostPosition.equals(pacmanLastSeenPosition)) {
+        direction = pacmanDesiredDirection;
+        isFollowingPacman = false;
+      } else {
+        direction = level.getDirectionIfInLineOfSight(ghost.getPosition(), pacmanLastSeenPosition);
+      }
+    }
+    
     return direction;
   }
 

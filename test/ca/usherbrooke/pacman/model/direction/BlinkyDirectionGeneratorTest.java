@@ -104,18 +104,18 @@ public class BlinkyDirectionGeneratorTest {
     assertEquals(Direction.RIGHT, blinkyDirectionGenerator.getOverridenDirection());
 
     pacman.setPosition(new Position(2, 0));
-    assertEquals(Direction.RIGHT, blinkyDirectionGenerator.get());
+    assertEquals(Direction.RIGHT, blinkyDirectionGenerator.getOverridenDirection());
 
     ghost.setPosition(new Position(1, 1));
-    assertEquals(Direction.RIGHT, blinkyDirectionGenerator.get());
+    assertEquals(Direction.RIGHT, blinkyDirectionGenerator.getOverridenDirection());
 
     ghost.setPosition(new Position(2, 1));
     pacman.setPosition(new Position(0, 0));
-    assertEquals(Direction.UP, blinkyDirectionGenerator.get());
+    assertEquals(Direction.UP, blinkyDirectionGenerator.getOverridenDirection());
 
     ghost.setPosition(new Position(2, 0));
     pacman.setPosition(new Position(0, 0));
-    assertEquals(Direction.LEFT, blinkyDirectionGenerator.get());
+    assertEquals(Direction.LEFT, blinkyDirectionGenerator.getOverridenDirection());
   }
 
   @Test
