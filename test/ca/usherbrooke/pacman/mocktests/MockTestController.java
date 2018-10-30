@@ -53,7 +53,7 @@ public class MockTestController {
     clickComponent(label);
   }
 
-  public void clickGoBack() throws InterruptedException {
+  public void clickAudioGoBack() throws InterruptedException {
     JLabel label = view.getCanvas().getAudioPanel().getGoBackLabel();
     clickComponent(label);
   }
@@ -73,6 +73,16 @@ public class MockTestController {
   public void clickMuteSoundCheckbox() throws InterruptedException {
     JCheckBox checkbox = view.getCanvas().getAudioPanel().getMuteSoundCheckbox();
     clickComponent(checkbox);
+  }
+
+  public void clickHighscores() throws InterruptedException {
+    JLabel label = view.getCanvas().getMenuPanel().getHighscoresLabel();
+    clickComponent(label);
+  }
+
+  public void clickHighscoreGoBack() throws InterruptedException {
+    JLabel label = view.getCanvas().getHighscoresPanel().getGoBackLabel();
+    clickComponent(label);
   }
 
 }

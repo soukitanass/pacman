@@ -58,4 +58,8 @@ public class HighScoresPanel extends AbstractMenuPanel {
     setMenuJLabel(jLabel, label, LABEL_COLOR, y, IMAGE_SCALE_FACTOR);
   }
 
+  public JLabel getGoBackLabel() {
+    return goBackMenuOption;
+  }
+
 }

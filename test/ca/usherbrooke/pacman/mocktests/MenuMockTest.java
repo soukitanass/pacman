@@ -67,7 +67,7 @@ public class MenuMockTest {
   public void goToAudioMenuAndBackToMainMenu() throws InterruptedException {
     mockTestController.clickAudio();
     assertEquals(GameState.AUDIO_MENU, model.getGameState());
-    mockTestController.clickGoBack();
+    mockTestController.clickAudioGoBack();
     assertEquals(GameState.GAME_MENU, model.getGameState());
   }
 
@@ -95,5 +95,13 @@ public class MenuMockTest {
     mockTestController.clickMuteSoundCheckbox();
     assertEquals(GameState.AUDIO_MENU, model.getGameState());
     assertFalse(audio.isSoundMuted());
+  }
+
+  @Test
+  public void goToHighscoresMenuAndBackToMainMenu() throws InterruptedException {
+    mockTestController.clickHighscores();
+    assertEquals(GameState.HIGHSCORES_MENU, model.getGameState());
+    mockTestController.clickHighscoreGoBack();
+    assertEquals(GameState.GAME_MENU, model.getGameState());
   }
 }

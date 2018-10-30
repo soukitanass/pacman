@@ -368,4 +368,8 @@ public class GameCanvas extends JPanel {
     return audioMenu;
   }
 
+  public HighScoresPanel getHighscoresPanel() {
+    return highScoresMenu;
+  }
+
 }

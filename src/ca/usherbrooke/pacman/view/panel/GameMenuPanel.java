@@ -149,7 +149,7 @@ public class GameMenuPanel extends AbstractMenuPanel {
     return audioMenuOption;
   }
 
-  public JLabel getGoBackLabel() {
-    return null;
+  public JLabel getHighscoresLabel() {
+    return highScoresMenuOption;
   }
 }
