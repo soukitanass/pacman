@@ -23,7 +23,7 @@ public class DisplacementPacManMockTest {
   @Before
   public void setUp() throws AWTException, InterruptedException {
     Game game = new Game();
-    game.initialize();
+    game.initialize("Level.json");
     model = game.getModel();
     view = game.getView();
     mockTestController = new MockTestController(view, sleepTimeBetweenActionsMilliseconds);

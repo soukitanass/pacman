@@ -38,16 +38,16 @@ public class Game {
 
   public static void main(String[] args) {
     Game game = new Game();
-    game.initialize();
+    game.initialize(LEVEL_PATH);
     game.start();
   }
 
-  public void initialize() {
+  public void initialize(String levelPath) {
     FpsOptionListener fpsOptionListener = new FpsOptionListener();
     ITimeGetter timeGetter = new TimeGetter();
     List<IGameController> controllers = new ArrayList<>();
 
-    model = new GameModel(Game.loadLevel(LEVEL_PATH));
+    model = new GameModel(Game.loadLevel(levelPath));
     final PlayerKeyboardController playerKeyboardController = new PlayerKeyboardController(model);
     audioThread = new AudioThread(model);
     view = new GameView(model, GHOST_SPRITE_TOGGLE_PERIOD, PACMAN_SPRITE_TOGGLE_PERIOD, audioThread,
