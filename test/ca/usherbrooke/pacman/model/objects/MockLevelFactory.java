@@ -214,6 +214,29 @@ public class MockLevelFactory {
     return level;
   }
 
+  // W = Wall
+  // E = Empty
+  //
+  // E | E | W | E | E | E | E
+  // -------------------------
+  // W | E | W | E | W | E | W
+  // -------------------------
+  // E | E | E | E | W | E | E
+  static public Level getMockLevelWithDifferentWallCombinationSurroundedByEmptiness() {
+    List<List<Integer>> map = Arrays.asList(
+        Arrays.asList(EMPTY_CODE, EMPTY_CODE, WALL_CODE, EMPTY_CODE, EMPTY_CODE, EMPTY_CODE,
+            EMPTY_CODE),
+        Arrays.asList(WALL_CODE, EMPTY_CODE, WALL_CODE, EMPTY_CODE, WALL_CODE, EMPTY_CODE,
+            WALL_CODE),
+        Arrays.asList(EMPTY_CODE, EMPTY_CODE, EMPTY_CODE, EMPTY_CODE, WALL_CODE, EMPTY_CODE,
+            EMPTY_CODE));
+    Level level = new Level();
+    level.setWidth(3);
+    level.setHeight(3);
+    level.setMap(map);
+    return level;
+  }
+
   // E = Empty
   //
   // E | E | E
