@@ -214,6 +214,37 @@ public class MockLevelFactory {
     return level;
   }
 
+  // W = Wall
+  // E = Empty
+  //
+  // W | W | W | W | W | W | W | W | W
+  // ---------------------------------
+  // W | E | E | W | E | E | E | E | W
+  // ---------------------------------
+  // W | W | E | W | E | W | E | W | W
+  // ---------------------------------
+  // W | E | E | E | E | W | E | E | W
+  // ---------------------------------
+  // W | W | W | W | W | W | W | W | W
+  static public Level getMockLevelWithDifferentWallCombinationSurroundedByWall() {
+    List<List<Integer>> map = Arrays.asList(
+        Arrays.asList(WALL_CODE, WALL_CODE, WALL_CODE, WALL_CODE, WALL_CODE, WALL_CODE, WALL_CODE,
+            WALL_CODE, WALL_CODE),
+        Arrays.asList(WALL_CODE, EMPTY_CODE, EMPTY_CODE, WALL_CODE, EMPTY_CODE, EMPTY_CODE,
+            EMPTY_CODE, EMPTY_CODE, WALL_CODE),
+        Arrays.asList(WALL_CODE, WALL_CODE, EMPTY_CODE, WALL_CODE, EMPTY_CODE, WALL_CODE,
+            EMPTY_CODE, WALL_CODE, WALL_CODE),
+        Arrays.asList(WALL_CODE, EMPTY_CODE, EMPTY_CODE, EMPTY_CODE, EMPTY_CODE, WALL_CODE,
+            EMPTY_CODE, EMPTY_CODE, WALL_CODE),
+        Arrays.asList(WALL_CODE, WALL_CODE, WALL_CODE, WALL_CODE, WALL_CODE, WALL_CODE, WALL_CODE,
+            WALL_CODE, WALL_CODE));
+    Level level = new Level();
+    level.setWidth(3);
+    level.setHeight(3);
+    level.setMap(map);
+    return level;
+  }
+
   // E = Empty
   //
   // E | E | E

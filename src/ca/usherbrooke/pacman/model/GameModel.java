@@ -20,6 +20,7 @@ import ca.usherbrooke.pacman.model.collision.PacmanSuperPacgumCollisionManager;
 import ca.usherbrooke.pacman.model.direction.BlinkyDirectionGenerator;
 import ca.usherbrooke.pacman.model.direction.Direction;
 import ca.usherbrooke.pacman.model.direction.IDirectionGenerator;
+import ca.usherbrooke.pacman.model.direction.PinkyDirectionGenerator;
 import ca.usherbrooke.pacman.model.direction.InkyDirectionGenerator;
 import ca.usherbrooke.pacman.model.direction.RandomDirectionGenerator;
 import ca.usherbrooke.pacman.model.direction.ghostsdirectionmanagers.PeriodicGhostDirectionManager;
@@ -77,7 +78,6 @@ public class GameModel implements IGameModel {
   Random randomNumberGenerator = new Random(RANDOM_GENERATOR_SEED);
   IDirectionGenerator randomDirectionGenerator =
       new RandomDirectionGenerator(randomNumberGenerator);
-  IDirectionGenerator blinkyDirectionGenerator;
   private List<PeriodicGhostDirectionManager> ghostDirectionManagers = new ArrayList<>();
   private int isLevelCompletedUpdatesCounter = 0;
   private Queue<Level> moveQueue = new ConcurrentLinkedQueue<>(); // Thread Safe
@@ -349,16 +349,18 @@ public class GameModel implements IGameModel {
   private void initializeGhostsDirectionManagers() {
     try {
       TimeGetter timeGetter = new TimeGetter();
-      blinkyDirectionGenerator = new BlinkyDirectionGenerator(randomDirectionGenerator,
-          level.getGhostByName(GhostName.BLINKY), level);
+      IDirectionGenerator blinkyDirectionGenerator = new BlinkyDirectionGenerator(
+          randomDirectionGenerator, level.getGhostByName(GhostName.BLINKY), level);
       InkyDirectionGenerator inkyDirectionGenerator = new InkyDirectionGenerator(
           randomDirectionGenerator, level.getGhostByName(GhostName.INKY), level, timeGetter);
+      IDirectionGenerator pinkyDirectionGenerator = new PinkyDirectionGenerator(
+          randomDirectionGenerator, level.getGhostByName(GhostName.PINKY), level);
 
       ghostDirectionManagers.add(new PeriodicGhostDirectionManager(this, blinkyDirectionGenerator,
           level.getGhostByName(GhostName.BLINKY), GHOSTS_DIRECTION_CHANGE_PERIOD));
       ghostDirectionManagers.add(new PeriodicGhostDirectionManager(this, inkyDirectionGenerator,
           level.getGhostByName(GhostName.INKY), GHOSTS_DIRECTION_CHANGE_PERIOD));
-      ghostDirectionManagers.add(new PeriodicGhostDirectionManager(this, randomDirectionGenerator,
+      ghostDirectionManagers.add(new PeriodicGhostDirectionManager(this, pinkyDirectionGenerator,
           level.getGhostByName(GhostName.PINKY), GHOSTS_DIRECTION_CHANGE_PERIOD));
       ghostDirectionManagers.add(new PeriodicGhostDirectionManager(this, randomDirectionGenerator,
           level.getGhostByName(GhostName.CLYDE), GHOSTS_DIRECTION_CHANGE_PERIOD));
