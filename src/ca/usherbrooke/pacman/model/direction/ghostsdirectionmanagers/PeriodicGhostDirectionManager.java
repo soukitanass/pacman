@@ -95,9 +95,11 @@ public class PeriodicGhostDirectionManager {
         return lastDirection = Direction.LEFT;
       } else if (isRightPositionValid(ghostPosition)) {
         return lastDirection = Direction.RIGHT;
+      } else {
+        return directionGenerator.get();
       }
     }
-    return directionGenerator.get();
+    return null;
   }
 
   private boolean isDirectionValid(Position position, Direction direction) {
