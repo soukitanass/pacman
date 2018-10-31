@@ -1,6 +1,7 @@
 package ca.usherbrooke.pacman.mocktests;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 import java.awt.AWTException;
 import java.awt.event.KeyEvent;
@@ -63,6 +64,19 @@ public class CollisionMocktest {
     while (model.getPacman().getGhostKillsSinceInvincible() == 0) {
       Thread.sleep(50);
     }
+    assertEquals(3, model.getLives());
+    assertTrue(model.getScore() > 200);
+  }
+
+  @Test
+  public void simultaneousCollisionWithSuperPacGumAndGhost()
+      throws AWTException, InterruptedException {
+    setUp("CollisionMockTestSimultaneousCollision.json");
+    assertEquals(3, model.getLives());
+    while (model.getPacman().getGhostKillsSinceInvincible() == 0) {
+      Thread.sleep(50);
+    }
+    assertFalse(model.isPacmanDead());
     assertEquals(3, model.getLives());
     assertTrue(model.getScore() > 200);
   }
