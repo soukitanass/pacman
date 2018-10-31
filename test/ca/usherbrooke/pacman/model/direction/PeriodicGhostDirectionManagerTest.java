@@ -166,4 +166,29 @@ public class PeriodicGhostDirectionManagerTest {
     assertEquals(Direction.LEFT, ghost.getDesiredDirection());
   }
 
+  @Test
+  public void whenInGhostRoomUseOverrideDirectionToEscapeThenFollowDirectionGenerator() {
+    Level ghostRoomLevel = MockLevelFactory.getMockLevelSingleGhostRoomSurroundedByGhostGates();
+    ghostRoomLevel.setPacMan(pacman);
+    model.setCurrentLevel(ghostRoomLevel);
+
+    IDirectionGenerator mockDirectionGenerator = mock(RandomDirectionGenerator.class);
+    when(mockDirectionGenerator.get()).thenReturn(Direction.UP).thenReturn(Direction.RIGHT)
+        .thenReturn(Direction.DOWN).thenReturn(Direction.LEFT);
+    PeriodicGhostDirectionManager directionManager =
+        new PeriodicGhostDirectionManager(model, mockDirectionGenerator, ghost, 2);
+
+    ghost.setPosition(new Position(1, 1));
+    directionManager.update();
+    assertEquals(Direction.UP, ghost.getDesiredDirection());
+
+    directionManager.update();
+    assertEquals(Direction.RIGHT, ghost.getDesiredDirection());
+
+    directionManager.update();
+    assertEquals(Direction.DOWN, ghost.getDesiredDirection());
+
+    directionManager.update();
+    assertEquals(Direction.LEFT, ghost.getDesiredDirection());
+  }
 }

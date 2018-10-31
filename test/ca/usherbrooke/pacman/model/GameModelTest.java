@@ -150,7 +150,8 @@ public class GameModelTest {
   }
 
   @Test
-  public void whenSubsequentGhostsAreKilledThenScoreIncreasesBy200Then400Then800Then1600IfPacmanIsInvincible() throws InvalidGhostNameException {
+  public void whenSubsequentGhostsAreKilledThenScoreIncreasesBy200Then400Then800Then1600IfPacmanIsInvincible()
+      throws InvalidGhostNameException {
     model.getPacman().setIsInvincible(true);
     assertEquals(Integer.valueOf(0), model.getScore());
     model.processGhostKilled(model.getCurrentLevel().getGhostByName(GhostName.BLINKY));
@@ -186,7 +187,7 @@ public class GameModelTest {
   @Test(timeout = 2000)
   public void whenLevelIsCompletedThenLoadNextLevel() throws InterruptedException {
     GameModel model =
-        new GameModel(Game.loadLevel("ThreeByOneLevelWithPacmanAndPacgumAndGhosts.json"));
+        new GameModel(Game.loadLevel("FourByOneLevelWithPacmanAndPacgumAndWallAndGhosts.json"));
     model.startNewGame();
     model.setGameState(GameState.GAME);
     assertTrue(model.getCurrentLevel().isPacgum(new Position(1, 0)));
