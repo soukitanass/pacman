@@ -96,6 +96,26 @@ public class MockLevelFactory {
   // G = Ghost gate
   // R = Ghost room
   //
+  // W | W | G | W | W
+  // -----------------
+  // W | R | R | R | W
+  // -----------------
+  // W | W | W | W | W
+  static public Level getMockLevelGhostRoomWithOneGhostGatesSurroundedByWall() {
+    List<List<Integer>> map =
+        Arrays.asList(Arrays.asList(WALL_CODE, WALL_CODE, GHOST_GATE_CODE, WALL_CODE, WALL_CODE),
+            Arrays.asList(WALL_CODE, GHOST_ROOM_CODE, GHOST_ROOM_CODE, GHOST_ROOM_CODE, WALL_CODE),
+            Arrays.asList(WALL_CODE, WALL_CODE, WALL_CODE, WALL_CODE, WALL_CODE));
+    Level level = new Level();
+    level.setWidth(3);
+    level.setHeight(3);
+    level.setMap(map);
+    return level;
+  }
+
+  // G = Ghost gate
+  // R = Ghost room
+  //
   // R | R | R
   // ---------
   // R | G | R

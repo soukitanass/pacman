@@ -48,7 +48,8 @@ public class PeriodicGhostDirectionManagerTest {
   public void updateDesiredDirectionWhenPeriodsReached()
       throws GameObjectCannotChangeDirectionException {
     IDirectionGenerator mockDirectionGenerator = mock(RandomDirectionGenerator.class);
-    when(mockDirectionGenerator.get()).thenReturn(Direction.UP).thenReturn(Direction.RIGHT);
+    when(mockDirectionGenerator.get()).thenReturn(Direction.UP).thenReturn(Direction.RIGHT)
+        .thenReturn(Direction.LEFT).thenReturn(Direction.DOWN);
     PeriodicGhostDirectionManager directionManager =
         new PeriodicGhostDirectionManager(model, mockDirectionGenerator, ghost, 2);
 
@@ -59,6 +60,14 @@ public class PeriodicGhostDirectionManagerTest {
     directionManager.update();
     directionManager.update();
     assertEquals(Direction.RIGHT, ghost.getDesiredDirection());
+
+    directionManager.update();
+    directionManager.update();
+    assertEquals(Direction.LEFT, ghost.getDesiredDirection());
+
+    directionManager.update();
+    directionManager.update();
+    assertEquals(Direction.DOWN, ghost.getDesiredDirection());
   }
 
   @Test
@@ -168,27 +177,30 @@ public class PeriodicGhostDirectionManagerTest {
 
   @Test
   public void whenInGhostRoomUseOverrideDirectionToEscapeThenFollowDirectionGenerator() {
-    Level ghostRoomLevel = MockLevelFactory.getMockLevelSingleGhostRoomSurroundedByGhostGates();
+    Level ghostRoomLevel =
+        MockLevelFactory.getMockLevelGhostRoomWithOneGhostGatesSurroundedByWall();
     ghostRoomLevel.setPacMan(pacman);
     model.setCurrentLevel(ghostRoomLevel);
 
     IDirectionGenerator mockDirectionGenerator = mock(RandomDirectionGenerator.class);
-    when(mockDirectionGenerator.get()).thenReturn(Direction.UP).thenReturn(Direction.RIGHT)
-        .thenReturn(Direction.DOWN).thenReturn(Direction.LEFT);
+    when(mockDirectionGenerator.get()).thenReturn(Direction.DOWN);
     PeriodicGhostDirectionManager directionManager =
         new PeriodicGhostDirectionManager(model, mockDirectionGenerator, ghost, 2);
 
-    ghost.setPosition(new Position(1, 1));
+    ghost.setPosition(new Position(3, 1));
+    directionManager.update();
+    assertEquals(Direction.LEFT, ghost.getDesiredDirection());
+
+    ghost.setPosition(new Position(2, 1));
     directionManager.update();
     assertEquals(Direction.UP, ghost.getDesiredDirection());
 
+    ghost.setPosition(new Position(1, 1));
     directionManager.update();
     assertEquals(Direction.RIGHT, ghost.getDesiredDirection());
 
+    ghost.setPosition(new Position(2, 1));
     directionManager.update();
-    assertEquals(Direction.DOWN, ghost.getDesiredDirection());
-
-    directionManager.update();
-    assertEquals(Direction.LEFT, ghost.getDesiredDirection());
+    assertEquals(Direction.UP, ghost.getDesiredDirection());
   }
 }
