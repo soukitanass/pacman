@@ -8,10 +8,6 @@
  ******************************************************************************/
 package ca.usherbrooke.pacman.model.direction;
 
-import java.util.ArrayList;
-import java.util.List;
-import ca.usherbrooke.pacman.model.movements.astar.AStar;
-import ca.usherbrooke.pacman.model.movements.astar.Node;
 import ca.usherbrooke.pacman.model.objects.Ghost;
 import ca.usherbrooke.pacman.model.objects.Level;
 import ca.usherbrooke.pacman.model.objects.PacMan;
@@ -19,6 +15,7 @@ import ca.usherbrooke.pacman.model.position.Position;
 
 public class PinkyDirectionGenerator implements IDirectionGenerator {
   private IDirectionGenerator randomDirectionGenerator;
+  private Direction directionToPacman;
   private PacMan pacman;
   private Ghost ghost;
   private Level level;
@@ -33,10 +30,9 @@ public class PinkyDirectionGenerator implements IDirectionGenerator {
 
   @Override
   public Direction get() {
-    Direction direction = getPacmanDirectionIfInLineOfSight();
-
+    Direction direction = getDirectionToPacman();
     if (direction == null) {
-      direction = randomDirectionGenerator.get();
+      return randomDirectionGenerator.get();
     }
     return direction;
   }
@@ -44,41 +40,76 @@ public class PinkyDirectionGenerator implements IDirectionGenerator {
   @Override
   public Direction getOverridenDirection() {
     Direction direction = getPacmanDirectionIfInLineOfSight();
+    if (direction != null) {
+      directionToPacman = direction;
+      System.out.println("Direction Lock: " + directionToPacman);
+    }
+    if (directionToPacman != null) {
+      direction = getDirectionToPacman();
+    }
+    return direction;
+  }
 
-    if (direction == null) {
+  private Direction getDirectionToPacman() {
+    Direction direction = null;
+    if (directionToPacman != null) {
       final Position ghostPosition = ghost.getPosition();
-      final Position pacmanPosition = pacman.getPosition();
-      final Node initialNode = new Node(ghostPosition.getX(), ghostPosition.getY());
-      final Node finalNode = new Node(pacmanPosition.getX(), pacmanPosition.getY());
-      final AStar aStar = new AStar(level.getWidth(), level.getHeight(), initialNode, finalNode);
-      aStar.setBlocks(getObstacleList());
-      List<Node> path = aStar.findPath();
-      if (path.size() >= 2) {
-        final Node nextNode1 = path.get(1);
-        final Position nextPosition1 = new Position(nextNode1.getRow(), nextNode1.getCol());
-        direction = level.getDirectionIfInLineOfSight(ghostPosition, nextPosition1);
+      if (isAtTheLimitOfTheMap(ghostPosition, directionToPacman)
+          || level.isGhostRoom(ghostPosition)) {
+        directionToPacman = null;
+      } else if ((directionToPacman == Direction.LEFT && !isLeftPositionValid(ghostPosition))
+          || (directionToPacman == Direction.RIGHT && !isRightPositionValid(ghostPosition))) {
+        if (isDownPositionValid(ghostPosition)) {
+          System.out.println("Down");
+          return Direction.DOWN;
+        } else if (isUpPositionValid(ghostPosition)) {
+          direction = Direction.UP;
+          System.out.println("Up");
+        }
+      } else if ((directionToPacman == Direction.UP && !isUpPositionValid(ghostPosition))
+          || (directionToPacman == Direction.DOWN && !isDownPositionValid(ghostPosition))) {
+        if (isRightPositionValid(ghostPosition)) {
+          direction = Direction.RIGHT;
+          System.out.println("Right");
+        } else if (isLeftPositionValid(ghostPosition)) {
+          direction = Direction.LEFT;
+          System.out.println("Left");
+        }
+      } else {
+        return directionToPacman;
       }
     }
     return direction;
   }
 
   private Direction getPacmanDirectionIfInLineOfSight() {
-    return level.getDirectionIfInLineOfSight(ghost.getPosition(), pacman.getPosition());
+    return level.getDirectionIfInLineOfSight(ghost.getPosition(), pacman.getPosition(), true);
   }
 
-  private List<Position> getObstacleList() {
-    List<Position> obstacleList = new ArrayList<>();
-    List<List<Integer>> map = level.getMap();
-    for (int i = 0; i < map.size(); i++) {
-      List<Integer> row = map.get(i);
-      for (int j = 0; j < row.size(); j++) {
-        int code = row.get(j);
-        if (code != 39 && code != 40 && code != 0) {
-          obstacleList.add(new Position(j, i));
-        }
-      }
-    }
-    return obstacleList;
+  private boolean isLeftPositionValid(Position position) {
+    return isPositionValid(new Position(position.getX() - 1, position.getY()));
   }
 
+  private boolean isRightPositionValid(Position position) {
+    return isPositionValid(new Position(position.getX() + 1, position.getY()));
+  }
+
+  private boolean isUpPositionValid(Position position) {
+    return isPositionValid(new Position(position.getX(), position.getY() - 1));
+  }
+
+  private boolean isDownPositionValid(Position position) {
+    return isPositionValid(new Position(position.getX(), position.getY() + 1));
+  }
+
+  private boolean isAtTheLimitOfTheMap(Position position, Direction direction) {
+    return (position.getY() == 1 && direction == Direction.UP)
+        || (position.getY() == level.getHeight() - 2 && direction == Direction.DOWN)
+        || (position.getX() == 1 && direction == Direction.LEFT)
+        || (position.getX() == level.getWidth() - 2 && direction == Direction.RIGHT);
+  }
+
+  private boolean isPositionValid(Position position) {
+    return !level.isWall(position) && !level.isTunnel(position) && !level.isGhostGate(position);
+  }
 }

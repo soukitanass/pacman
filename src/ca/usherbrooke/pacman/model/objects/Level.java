@@ -169,6 +169,11 @@ public class Level {
 
   public Direction getDirectionIfInLineOfSight(final Position fromPosition,
       final Position toPosition) {
+    return getDirectionIfInLineOfSight(fromPosition, toPosition, false);
+  }
+
+  public Direction getDirectionIfInLineOfSight(final Position fromPosition,
+      final Position toPosition, boolean canSeeThroughtWall) {
     final boolean isSameX = fromPosition.getX() == toPosition.getX();
     final boolean isSameY = fromPosition.getY() == toPosition.getY();
     final boolean isLeft = toPosition.getX() < fromPosition.getX();
@@ -182,7 +187,7 @@ public class Level {
     }
     final boolean isWallInbetween =
         positionsInbetween.stream().anyMatch(position -> isWall(position));
-    if (isWallInbetween) {
+    if (isWallInbetween && !canSeeThroughtWall) {
       return null;
     }
     if (isSameX && isUp) {
