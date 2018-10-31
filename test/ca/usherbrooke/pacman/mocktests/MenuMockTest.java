@@ -44,21 +44,21 @@ public class MenuMockTest {
     mockTestController.close();
   }
 
-  @Test
+  @Test(timeout = 30000)
   public void whenStartingTheGameThenGameIsUnpaused() throws AWTException, InterruptedException {
     mockTestController.clickStartOrResumeGame();
     assertEquals(GameState.GAME, model.getGameState());
     assertFalse(model.isPaused());
   }
 
-  @Test
+  @Test(timeout = 30000)
   public void whenPressingEscapeIngameThenGoBackToMenu() throws AWTException, InterruptedException {
     mockTestController.clickStartOrResumeGame();
     mockTestController.tapKey(KeyEvent.VK_ESCAPE);
     assertEquals(GameState.GAME_MENU, model.getGameState());
   }
 
-  @Test
+  @Test(timeout = 30000)
   public void whenResumingGameThenGameIsPaused() throws AWTException, InterruptedException {
     mockTestController.clickStartOrResumeGame();
     mockTestController.tapKey(KeyEvent.VK_ESCAPE);
@@ -67,7 +67,7 @@ public class MenuMockTest {
     assertTrue(model.isPaused());
   }
 
-  @Test
+  @Test(timeout = 30000)
   public void goToAudioMenuAndBackToMainMenu() throws InterruptedException {
     mockTestController.clickAudio();
     assertEquals(GameState.AUDIO_MENU, model.getGameState());
@@ -75,7 +75,7 @@ public class MenuMockTest {
     assertEquals(GameState.GAME_MENU, model.getGameState());
   }
 
-  @Test
+  @Test(timeout = 30000)
   public void muteMusic() throws InterruptedException {
     mockTestController.clickAudio();
     assertEquals(GameState.AUDIO_MENU, model.getGameState());
@@ -88,7 +88,7 @@ public class MenuMockTest {
     assertFalse(audio.isMusicMuted());
   }
 
-  @Test
+  @Test(timeout = 30000)
   public void muteSound() throws InterruptedException {
     mockTestController.clickAudio();
     assertEquals(GameState.AUDIO_MENU, model.getGameState());
@@ -101,7 +101,7 @@ public class MenuMockTest {
     assertFalse(audio.isSoundMuted());
   }
 
-  @Test
+  @Test(timeout = 30000)
   public void goToHighscoresMenuAndBackToMainMenu() throws InterruptedException {
     mockTestController.clickHighscores();
     assertEquals(GameState.HIGHSCORES_MENU, model.getGameState());
@@ -109,7 +109,7 @@ public class MenuMockTest {
     assertEquals(GameState.GAME_MENU, model.getGameState());
   }
 
-  @Test
+  @Test(timeout = 30000)
   public void enableFramesPerSecond() throws InterruptedException {
     assertFalse(view.getCanvas().isFpsEnabled());
     mockTestController.clickFramesPerSecondCheckbox();
@@ -120,7 +120,7 @@ public class MenuMockTest {
     assertFalse(view.getCanvas().isFpsEnabled());
   }
 
-  @Test
+  @Test(timeout = 30000)
   public void changeFramesPerSecond() throws InterruptedException {
     assertEquals(30, renderThread.getTargetFps());
     mockTestController.setFramesPerSecond(60);
@@ -128,7 +128,7 @@ public class MenuMockTest {
     assertEquals(60, renderThread.getTargetFps());
   }
 
-  @Test
+  @Test(timeout = 30000)
   public void exitGame() throws InterruptedException {
     mockTestController.clickExitGame();
     assertFalse(model.isRunning());

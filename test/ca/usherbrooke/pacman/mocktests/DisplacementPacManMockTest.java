@@ -39,14 +39,14 @@ public class DisplacementPacManMockTest {
     mockTestController.close();
   }
 
-  @Test
+  @Test(timeout = 30000)
   public void movingPacManRight() throws InterruptedException {
     PacMan pacman = model.getCurrentLevel().getPacMan();
     mockTestController.tapKey(KeyEvent.VK_RIGHT);
     assertEquals(Direction.RIGHT, pacman.getDirection());
   }
 
-  @Test
+  @Test(timeout = 30000)
   public void movingPacManLeft() throws InterruptedException {
     PacMan pacman = model.getCurrentLevel().getPacMan();
     pacman.setDirection(Direction.RIGHT);
@@ -54,14 +54,14 @@ public class DisplacementPacManMockTest {
     assertEquals(Direction.LEFT, pacman.getDirection());
   }
 
-  @Test
+  @Test(timeout = 30000)
   public void movingPacManUp() throws InterruptedException {
     PacMan pacman = model.getCurrentLevel().getPacMan();
     mockTestController.tapKey(KeyEvent.VK_UP);
     assertEquals(Direction.UP, pacman.getDirection());
   }
 
-  @Test
+  @Test(timeout = 30000)
   public void movingPacManDown() throws InterruptedException {
     PacMan pacman = model.getCurrentLevel().getPacMan();
     mockTestController.tapKey(KeyEvent.VK_DOWN);
