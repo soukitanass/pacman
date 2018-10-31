@@ -10,6 +10,7 @@ package ca.usherbrooke.pacman.model;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 import java.util.Collections;
 import org.junit.Before;
@@ -20,7 +21,7 @@ import ca.usherbrooke.pacman.model.highscores.HighScores;
 public class HighScoresTest {
 
   private HighScores highScores;
-  private final String HIGH_SCORES_PATH = "Highscores.json";
+  private final String HIGH_SCORES_PATH = "HighScoresTestingFile.json";
 
   @Before
   public void setUp() throws Exception {
@@ -29,14 +30,13 @@ public class HighScoresTest {
 
   @Test
   public void highScoresAreLoaded() {
-
+    final String HIGH_SCORES_PATH = "Highscores.json";
     highScores = HighScores.loadHighScores(HIGH_SCORES_PATH);
-    assertFalse(highScores.getListHighScores().isEmpty());
+    assertNotNull(highScores);
   }
 
   @Test
   public void highScoresAreSaved() {
-    final String HIGH_SCORES_PATH = "HighScoresTestingFile.json";
     highScores = HighScores.loadHighScores(HIGH_SCORES_PATH);
     HighScores highScoresCopy = new HighScores(highScores.getListHighScores());
 
@@ -66,7 +66,6 @@ public class HighScoresTest {
 
   @Test
   public void setHighScoreTest() {
-    final String HIGH_SCORES_PATH = "HighScoresTestingFile.json";
     highScores = HighScores.loadHighScores(HIGH_SCORES_PATH);
     int aHighScore = highScores.getListHighScores().get(0).getScore() + 1;
     HighScore expectedHighScore = new HighScore("abc", aHighScore);

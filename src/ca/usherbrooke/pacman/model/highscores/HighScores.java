@@ -60,8 +60,11 @@ public class HighScores {
 
   public boolean isHighScore(int score) {
     Collections.sort(listHighScores);
-    int size = listHighScores.size();
-    return (score > listHighScores.get(size - 1).getScore());
+    if (!listHighScores.isEmpty()) {
+      int size = listHighScores.size();
+      return (score > listHighScores.get(size - 1).getScore());
+    }
+    return true;
   }
 
   public void setHighScore(int score, String name) {
