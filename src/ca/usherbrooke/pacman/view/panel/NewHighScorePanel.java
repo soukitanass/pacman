@@ -132,16 +132,20 @@ public class NewHighScorePanel extends AbstractMenuPanel implements KeyListener 
     saveLabel.addMouseListener(new MouseAdapter() {
       @Override
       public void mouseClicked(MouseEvent e) {
-        StringBuilder builder = new StringBuilder();
-        for (int i = 0; i < letters.size(); ++i) {
-          builder.append(letters.get(i));
-        }
-        String name = builder.toString();
-        model.getHighScores().setHighScore(model.getScore(), name);
-        model.setHighScores(HighScores.loadHighScores(HIGH_SCORES_PATH));
-        model.setGameState(GameState.HIGHSCORES_MENU);
+        saveHighScores();
       }
     });
+  }
+  
+  private void saveHighScores() {
+    StringBuilder builder = new StringBuilder();
+    for (int i = 0; i < letters.size(); ++i) {
+      builder.append(letters.get(i));
+    }
+    String name = builder.toString();
+    model.getHighScores().setHighScore(model.getScore(), name);
+    model.setHighScores(HighScores.loadHighScores(HIGH_SCORES_PATH));
+    model.setGameState(GameState.HIGHSCORES_MENU);
   }
 
   @Override
@@ -164,6 +168,9 @@ public class NewHighScorePanel extends AbstractMenuPanel implements KeyListener 
         final int previousPosition = AlphabetUtilities.findIndexInAlphabet(letters.get(index));
         final char previousCharacter = AlphabetUtilities.findLetterInAlphabet(previousPosition - 1);
         letters.set(index, previousCharacter);
+        break;
+      case KeyEvent.VK_ENTER:
+        saveHighScores();
         break;
       default:
         break;
