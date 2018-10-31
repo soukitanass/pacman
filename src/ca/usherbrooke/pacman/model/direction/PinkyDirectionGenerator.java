@@ -12,10 +12,14 @@ import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
 import java.util.NoSuchElementException;
+import ca.usherbrooke.pacman.model.exceptions.InvalidDirectionException;
+import ca.usherbrooke.pacman.model.movements.GhostMoveValidator;
+import ca.usherbrooke.pacman.model.movements.MoveRequest;
 import ca.usherbrooke.pacman.model.objects.Ghost;
 import ca.usherbrooke.pacman.model.objects.Level;
 import ca.usherbrooke.pacman.model.objects.PacMan;
 import ca.usherbrooke.pacman.model.position.Position;
+import ca.usherbrooke.pacman.view.utilities.WarningDialog;
 
 public class PinkyDirectionGenerator implements IDirectionGenerator {
   private int leftLimit;
@@ -23,11 +27,13 @@ public class PinkyDirectionGenerator implements IDirectionGenerator {
   private int bottomLimit;
   private int topLimit;
 
-  private IDirectionGenerator randomDirectionGenerator;
+  private final GhostMoveValidator moveValidator;
+  private final IDirectionGenerator randomDirectionGenerator;
+  private final Ghost ghost;
+  private final Level level;
+
   private Direction directionToPacman;
   private Direction lastDirection;
-  private Ghost ghost;
-  private Level level;
 
   public PinkyDirectionGenerator(IDirectionGenerator randomDirectionGenerator, Ghost ghost,
       Level level) {
@@ -35,6 +41,7 @@ public class PinkyDirectionGenerator implements IDirectionGenerator {
     this.level = level;
     this.ghost = ghost;
     getLimitOfTheMap();
+    moveValidator = new GhostMoveValidator(level, level.getPacMan());
   }
 
   @Override
@@ -61,13 +68,13 @@ public class PinkyDirectionGenerator implements IDirectionGenerator {
   private Direction getDirectionToPacman() {
     Direction direction = null;
     if (directionToPacman != null) {
-      final Position ghostPosition = ghost.getPosition();
+      Position ghostPosition = ghost.getPosition();
       if (isAtTheLimitOfTheMap(ghostPosition, directionToPacman)
           || level.isGhostRoom(ghostPosition)) {
         directionToPacman = null;
       } else if ((directionToPacman == Direction.LEFT && !isLeftPositionValid(ghostPosition))
           || (directionToPacman == Direction.RIGHT && !isRightPositionValid(ghostPosition))) {
-        if (isDirectionValid(lastDirection, ghostPosition)) {
+        if (lastDirection != null && isDirectionValid(ghostPosition, lastDirection)) {
           direction = lastDirection;
         } else if (isDownPositionValid(ghostPosition)) {
           direction = Direction.DOWN;
@@ -76,7 +83,7 @@ public class PinkyDirectionGenerator implements IDirectionGenerator {
         }
       } else if ((directionToPacman == Direction.UP && !isUpPositionValid(ghostPosition))
           || (directionToPacman == Direction.DOWN && !isDownPositionValid(ghostPosition))) {
-        if (isDirectionValid(lastDirection, ghostPosition)) {
+        if (lastDirection != null && isDirectionValid(ghostPosition, lastDirection)) {
           direction = lastDirection;
         } else if (isRightPositionValid(ghostPosition)) {
           direction = Direction.RIGHT;
@@ -95,31 +102,30 @@ public class PinkyDirectionGenerator implements IDirectionGenerator {
     return level.getDirectionIfInLineOfSight(ghost.getPosition(), pacman.getPosition(), true);
   }
 
-  private boolean isDirectionValid(Direction direction, Position position) {
-    return (direction == Direction.LEFT && isLeftPositionValid(position)
-        || (direction == Direction.RIGHT && isRightPositionValid(position))
-        || (direction == Direction.UP && isUpPositionValid(position)))
-        || (direction == Direction.DOWN && isDownPositionValid(position));
+  private boolean isDirectionValid(Position position, Direction direction) {
+    final MoveRequest desiredMoveRequest = new MoveRequest(position, direction);
+    try {
+      return moveValidator.isDesiredDirectionValid(desiredMoveRequest);
+    } catch (InvalidDirectionException exception) {
+      WarningDialog.display("Invalid Direction ", exception);
+    }
+    return false;
   }
-
+                  
   private boolean isLeftPositionValid(Position position) {
-    return position.getX() - 1 >= 0
-        && isPositionValid(new Position(position.getX() - 1, position.getY()));
+    return isDirectionValid(position, Direction.LEFT);
   }
 
   private boolean isRightPositionValid(Position position) {
-    return position.getX() + 1 < level.getWidth()
-        && isPositionValid(new Position(position.getX() + 1, position.getY()));
+    return isDirectionValid(position, Direction.RIGHT);
   }
 
   private boolean isUpPositionValid(Position position) {
-    return position.getY() - 1 >= 0
-        && isPositionValid(new Position(position.getX(), position.getY() - 1));
+    return isDirectionValid(position, Direction.UP);
   }
 
   private boolean isDownPositionValid(Position position) {
-    return position.getY() + 1 < level.getHeight()
-        && isPositionValid(new Position(position.getX(), position.getY() + 1));
+    return isDirectionValid(position, Direction.DOWN);
   }
 
   private boolean isAtTheLimitOfTheMap(Position position, Direction direction) {
@@ -127,10 +133,6 @@ public class PinkyDirectionGenerator implements IDirectionGenerator {
         || (position.getY() == bottomLimit && direction == Direction.DOWN)
         || (position.getX() == leftLimit && direction == Direction.LEFT)
         || (position.getX() == rightLimit && direction == Direction.RIGHT);
-  }
-
-  private boolean isPositionValid(Position position) {
-    return !level.isWall(position) && !level.isTunnel(position) && !level.isGhostGate(position);
   }
 
   private void getLimitOfTheMap() {

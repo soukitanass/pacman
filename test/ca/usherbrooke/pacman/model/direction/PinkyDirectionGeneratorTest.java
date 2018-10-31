@@ -38,7 +38,7 @@ public class PinkyDirectionGeneratorTest {
     ghosts.add(ghost);
     pacman = new PacMan();
 
-    Level level = MockLevelFactory.getMockLevelWithDifferentWallCombinationSurroundedByEmptiness();
+    Level level = MockLevelFactory.getMockLevelWithDifferentWallCombinationSurroundedByWall();
     level.setPacMan(pacman);
     level.setGhosts(ghosts);
 
@@ -48,67 +48,67 @@ public class PinkyDirectionGeneratorTest {
   @Test
   public void overridenDirectionDontDetectPacmanSoItAlwaysReturnNull() {
 
-    ghost.setPosition(new Position(0, 0));
-    pacman.setPosition(new Position(2, 2));
+    ghost.setPosition(new Position(1, 1));
+    pacman.setPosition(new Position(3, 3));
     assertNull(pinkyDirectionGenerator.getOverridenDirection());
 
-    ghost.setPosition(new Position(2, 0));
-    pacman.setPosition(new Position(0, 2));
+    ghost.setPosition(new Position(3, 1));
+    pacman.setPosition(new Position(1, 3));
     assertNull(pinkyDirectionGenerator.getOverridenDirection());
   }
 
   @Test
   public void overridenDirectionDetectPacmanSoItReturnTheDirectionToPacman() {
-    ghost.setPosition(new Position(1, 0));
-    pacman.setPosition(new Position(1, 2));
+    ghost.setPosition(new Position(2, 1));
+    pacman.setPosition(new Position(2, 3));
     assertEquals(Direction.DOWN, pinkyDirectionGenerator.getOverridenDirection());
 
-    ghost.setPosition(new Position(0, 0));
-    pacman.setPosition(new Position(2, 0));
+    ghost.setPosition(new Position(1, 1));
+    pacman.setPosition(new Position(3, 1));
     assertEquals(Direction.RIGHT, pinkyDirectionGenerator.getOverridenDirection());
 
-    ghost.setPosition(new Position(2, 0));
-    pacman.setPosition(new Position(0, 0));
+    ghost.setPosition(new Position(3, 1));
+    pacman.setPosition(new Position(1, 1));
     assertEquals(Direction.LEFT, pinkyDirectionGenerator.getOverridenDirection());
 
-    ghost.setPosition(new Position(1, 2));
-    pacman.setPosition(new Position(1, 0));
+    ghost.setPosition(new Position(2, 3));
+    pacman.setPosition(new Position(2, 1));
     assertEquals(Direction.UP, pinkyDirectionGenerator.getOverridenDirection());
   }
 
   @Test
   public void directionGeneratorDetectPacmanThroughTheWallSoItReturnTheDirectionToReachPacman() {
 
-    ghost.setPosition(new Position(0, 0));
-    pacman.setPosition(new Position(0, 2));
+    ghost.setPosition(new Position(1, 1));
+    pacman.setPosition(new Position(1, 3));
     assertEquals(Direction.RIGHT, pinkyDirectionGenerator.getOverridenDirection());
 
-    ghost.setPosition(new Position(0, 2));
-    pacman.setPosition(new Position(0, 0));
+    ghost.setPosition(new Position(1, 3));
+    pacman.setPosition(new Position(1, 1));
     assertEquals(Direction.RIGHT, pinkyDirectionGenerator.getOverridenDirection());
 
-    ghost.setPosition(new Position(6, 0));
-    pacman.setPosition(new Position(6, 2));
+    ghost.setPosition(new Position(7, 1));
+    pacman.setPosition(new Position(7, 3));
     assertEquals(Direction.LEFT, pinkyDirectionGenerator.getOverridenDirection());
 
-    ghost.setPosition(new Position(6, 2));
-    pacman.setPosition(new Position(6, 0));
+    ghost.setPosition(new Position(7, 3));
+    pacman.setPosition(new Position(7, 0));
     assertEquals(Direction.LEFT, pinkyDirectionGenerator.getOverridenDirection());
 
-    ghost.setPosition(new Position(5, 2));
-    pacman.setPosition(new Position(3, 2));
+    ghost.setPosition(new Position(6, 3));
+    pacman.setPosition(new Position(4, 3));
     assertEquals(Direction.UP, pinkyDirectionGenerator.getOverridenDirection());
 
-    ghost.setPosition(new Position(3, 2));
-    pacman.setPosition(new Position(5, 2));
+    ghost.setPosition(new Position(4, 3));
+    pacman.setPosition(new Position(6, 3));
     assertEquals(Direction.UP, pinkyDirectionGenerator.getOverridenDirection());
 
-    ghost.setPosition(new Position(1, 0));
-    pacman.setPosition(new Position(3, 0));
+    ghost.setPosition(new Position(2, 1));
+    pacman.setPosition(new Position(4, 1));
     assertEquals(Direction.DOWN, pinkyDirectionGenerator.getOverridenDirection());
 
-    ghost.setPosition(new Position(3, 0));
-    pacman.setPosition(new Position(1, 0));
+    ghost.setPosition(new Position(4, 1));
+    pacman.setPosition(new Position(2, 1));
     assertEquals(Direction.DOWN, pinkyDirectionGenerator.getOverridenDirection());
   }
 }
