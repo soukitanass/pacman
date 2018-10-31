@@ -27,7 +27,7 @@ public class MenuMockTest {
   @Before
   public void setUp() throws AWTException, InterruptedException {
     Game game = new Game();
-    game.initialize();
+    game.initialize("Level.json");
     model = game.getModel();
     view = game.getView();
     audio = game.getAudioThread();
