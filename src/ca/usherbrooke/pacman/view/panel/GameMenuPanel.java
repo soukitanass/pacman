@@ -23,16 +23,22 @@ import ca.usherbrooke.pacman.model.IGameModel;
 public class GameMenuPanel extends AbstractMenuPanel {
 
   private static final double Y_OFFSET_FACTOR = 0.6;
+  private static final double Y_OFFSET_TITLE_FACTOR = 0.3;
   private static final String START_GAME_LABEL = "START GAME";
   private static final String PAUSE_GAME_LABEL = "RESUME GAME";
   private static final String AUDIO_LABEL = "AUDIO";
   private static final String HIGHSCORES_LABEL = "HIGHSCORES";
+  private static final String PACMAN_LABEL = "PACMAN";
   private static final String EXIT_GAME_LABEL = "EXIT GAME";
   private static final String FPS_LABEL = "FPS";
   private static final int FPS_STEP = 1;
   private static final int MINIMUM_FPS_VALUE = 30;
   private static final int MAXIMUM_FPS_VALUE = 60;
+  private static final ca.usherbrooke.pacman.view.utilities.Color LABEL_TITLE_COLOR =
+      ca.usherbrooke.pacman.view.utilities.Color.YELLOW;
+  private static final int TITLE_IMAGE_SCALE_FACTOR = 3;
 
+  private JLabel pacmanTitle = new JLabel();
   private JLabel startGameMenuOption = new JLabel();
   private JLabel audioMenuOption = new JLabel();
   private JLabel highScoresMenuOption = new JLabel();
@@ -47,6 +53,7 @@ public class GameMenuPanel extends AbstractMenuPanel {
   public GameMenuPanel(IGameModel model, FpsOptionListener fpsOptionListener) {
     this.model = model;
     this.fpsOptionListener = fpsOptionListener;
+    this.add(pacmanTitle);
     this.add(startGameMenuOption);
     this.add(highScoresMenuOption);
     this.add(audioMenuOption);
@@ -76,7 +83,9 @@ public class GameMenuPanel extends AbstractMenuPanel {
   public void paint(Graphics graphic) {
     super.paint(graphic);
 
-    int y = (int) (model.getCurrentLevel().getHeight() * pixelTileSize * Y_OFFSET_FACTOR);
+    int y = (int) (model.getCurrentLevel().getHeight() * pixelTileSize * Y_OFFSET_TITLE_FACTOR);
+    paintTitle(pacmanTitle, PACMAN_LABEL, y);
+    y = (int) (model.getCurrentLevel().getHeight() * pixelTileSize * Y_OFFSET_FACTOR);
     paintStartGameOption(y);
     y += startGameMenuOption.getHeight() + DELTA_Y;
     paintMenuOption(audioMenuOption, AUDIO_LABEL, y);
@@ -99,6 +108,10 @@ public class GameMenuPanel extends AbstractMenuPanel {
 
   private void paintMenuOption(JLabel jLabel, String label, int y) {
     setMenuJLabel(jLabel, label, LABEL_COLOR, y, IMAGE_SCALE_FACTOR);
+  }
+  
+  private void paintTitle(JLabel jLabel, String label, int y) {
+    setMenuJLabel(jLabel, label, LABEL_TITLE_COLOR, y, TITLE_IMAGE_SCALE_FACTOR);
   }
 
   private void paintFpsOption(int y) {
