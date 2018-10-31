@@ -11,22 +11,30 @@ package ca.usherbrooke.pacman.model.direction.ghostsdirectionmanagers;
 import ca.usherbrooke.pacman.model.IGameModel;
 import ca.usherbrooke.pacman.model.direction.Direction;
 import ca.usherbrooke.pacman.model.direction.IDirectionGenerator;
+import ca.usherbrooke.pacman.model.exceptions.InvalidDirectionException;
+import ca.usherbrooke.pacman.model.movements.GhostMoveValidator;
+import ca.usherbrooke.pacman.model.movements.MoveRequest;
 import ca.usherbrooke.pacman.model.objects.IGameObject;
 import ca.usherbrooke.pacman.model.objects.Level;
 import ca.usherbrooke.pacman.model.objects.PacMan;
 import ca.usherbrooke.pacman.model.position.Position;
+import ca.usherbrooke.pacman.view.utilities.WarningDialog;
 
 public class PeriodicGhostDirectionManager {
+  private final GhostMoveValidator moveValidator;
+  private IDirectionGenerator directionGenerator;
+  private Direction lastDirection = Direction.UP;
   private int period;
   private IGameObject ghost;
-  private IDirectionGenerator directionGenerator;
   private IGameModel gameModel;
   private int updatesCounter;
 
   public PeriodicGhostDirectionManager(IGameModel gameModel, IDirectionGenerator directionGenerator,
       IGameObject gameObject, int period) {
-    this.gameModel = gameModel;
+    Level level = gameModel.getCurrentLevel();
+    moveValidator = new GhostMoveValidator(level, level.getPacMan());
     this.directionGenerator = directionGenerator;
+    this.gameModel = gameModel;
     this.ghost = gameObject;
     this.period = period;
   }
@@ -77,10 +85,40 @@ public class PeriodicGhostDirectionManager {
 
   private Direction getOverridenDirectionToExitGhostRoom() {
     Level level = gameModel.getCurrentLevel();
-    Direction direction = null;
     if (level.isGhostRoom(ghost.getPosition())) {
-      direction = directionGenerator.get();
+      final Position ghostPosition = ghost.getPosition();
+      if (isUpPositionValid(ghostPosition)) {
+        return lastDirection = Direction.UP;
+      } else if (isDirectionValid(ghostPosition, lastDirection)) {
+        return lastDirection;
+      } else if (isLeftPositionValid(ghostPosition)) {
+        return lastDirection = Direction.LEFT;
+      } else if (isRightPositionValid(ghostPosition)) {
+        return lastDirection = Direction.RIGHT;
+      }
     }
-    return direction;
+    return directionGenerator.get();
+  }
+
+  private boolean isDirectionValid(Position position, Direction direction) {
+    final MoveRequest desiredMoveRequest = new MoveRequest(position, direction);
+    try {
+      return moveValidator.isDesiredDirectionValid(desiredMoveRequest);
+    } catch (InvalidDirectionException exception) {
+      WarningDialog.display("Invalid Direction ", exception);
+    }
+    return false;
+  }
+
+  private boolean isLeftPositionValid(Position position) {
+    return isDirectionValid(position, Direction.LEFT);
+  }
+
+  private boolean isRightPositionValid(Position position) {
+    return isDirectionValid(position, Direction.RIGHT);
+  }
+
+  private boolean isUpPositionValid(Position position) {
+    return isDirectionValid(position, Direction.UP);
   }
 }
