@@ -20,8 +20,8 @@ import ca.usherbrooke.pacman.model.collision.PacmanSuperPacgumCollisionManager;
 import ca.usherbrooke.pacman.model.direction.BlinkyDirectionGenerator;
 import ca.usherbrooke.pacman.model.direction.Direction;
 import ca.usherbrooke.pacman.model.direction.IDirectionGenerator;
-import ca.usherbrooke.pacman.model.direction.PinkyDirectionGenerator;
 import ca.usherbrooke.pacman.model.direction.InkyDirectionGenerator;
+import ca.usherbrooke.pacman.model.direction.PinkyDirectionGenerator;
 import ca.usherbrooke.pacman.model.direction.RandomDirectionGenerator;
 import ca.usherbrooke.pacman.model.direction.ghostsdirectionmanagers.PeriodicGhostDirectionManager;
 import ca.usherbrooke.pacman.model.events.GameEvent;
@@ -243,7 +243,6 @@ public class GameModel implements IGameModel {
     if (gameEventObject.getGameEvent() == GameEvent.PACGUM_CONSUMED) {
       pacmanPacgumCollisionManager.update();
       consumingPacGums();
-      eventQueue.clear();
     } else {
       movingToEmptySpace();
     }
