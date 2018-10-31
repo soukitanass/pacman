@@ -40,7 +40,7 @@ public class PinkyDirectionGenerator implements IDirectionGenerator {
     this.randomDirectionGenerator = randomDirectionGenerator;
     this.level = level;
     this.ghost = ghost;
-    getLimitOfTheMap();
+    setLimitWhereGhostCanGoOnTheMap();
     moveValidator = new GhostMoveValidator(level, level.getPacMan());
   }
 
@@ -59,42 +59,44 @@ public class PinkyDirectionGenerator implements IDirectionGenerator {
     if (direction != null) {
       directionToPacman = direction;
     }
-    if (directionToPacman != null) {
-      direction = getDirectionToPacman();
-    }
-    return direction;
+    return getDirectionToPacman();
   }
 
   private Direction getDirectionToPacman() {
-    Direction direction = null;
-    if (directionToPacman != null) {
-      Position ghostPosition = ghost.getPosition();
-      if (isAtTheLimitOfTheMap(ghostPosition, directionToPacman)
-          || level.isGhostRoom(ghostPosition)) {
-        directionToPacman = null;
-      } else if ((directionToPacman == Direction.LEFT && !isLeftPositionValid(ghostPosition))
-          || (directionToPacman == Direction.RIGHT && !isRightPositionValid(ghostPosition))) {
-        if (lastDirection != null && isDirectionValid(ghostPosition, lastDirection)) {
-          direction = lastDirection;
-        } else if (isDownPositionValid(ghostPosition)) {
-          direction = Direction.DOWN;
-        } else if (isUpPositionValid(ghostPosition)) {
-          direction = Direction.UP;
-        }
-      } else if ((directionToPacman == Direction.UP && !isUpPositionValid(ghostPosition))
-          || (directionToPacman == Direction.DOWN && !isDownPositionValid(ghostPosition))) {
-        if (lastDirection != null && isDirectionValid(ghostPosition, lastDirection)) {
-          direction = lastDirection;
-        } else if (isRightPositionValid(ghostPosition)) {
-          direction = Direction.RIGHT;
-        } else if (isLeftPositionValid(ghostPosition)) {
-          direction = Direction.LEFT;
-        }
-      } else {
-        direction = directionToPacman;
+    if (directionToPacman == null) {
+      return null;
+    }
+
+    Position ghostPosition = ghost.getPosition();
+    if (isAtTheLimitOfTheMap(ghostPosition, directionToPacman)
+        || level.isGhostRoom(ghostPosition)) {
+      directionToPacman = null;
+      return null;
+    }
+
+    if ((directionToPacman == Direction.LEFT && !isLeftPositionValid(ghostPosition))
+        || (directionToPacman == Direction.RIGHT && !isRightPositionValid(ghostPosition))) {
+      if (lastDirection != null && isDirectionValid(ghostPosition, lastDirection)) {
+        return lastDirection;
+      } else if (isDownPositionValid(ghostPosition)) {
+        return lastDirection = Direction.DOWN;
+      } else if (isUpPositionValid(ghostPosition)) {
+        return lastDirection = Direction.UP;
       }
     }
-    return lastDirection = direction;
+
+    if ((directionToPacman == Direction.UP && !isUpPositionValid(ghostPosition))
+        || (directionToPacman == Direction.DOWN && !isDownPositionValid(ghostPosition))) {
+      if (lastDirection != null && isDirectionValid(ghostPosition, lastDirection)) {
+        return lastDirection;
+      } else if (isRightPositionValid(ghostPosition)) {
+        return lastDirection = Direction.RIGHT;
+      } else if (isLeftPositionValid(ghostPosition)) {
+        return lastDirection = Direction.LEFT;
+      }
+    }
+
+    return directionToPacman;
   }
 
   private Direction getPacmanDirectionIfInLineOfSight() {
@@ -111,7 +113,7 @@ public class PinkyDirectionGenerator implements IDirectionGenerator {
     }
     return false;
   }
-                  
+
   private boolean isLeftPositionValid(Position position) {
     return isDirectionValid(position, Direction.LEFT);
   }
@@ -135,7 +137,7 @@ public class PinkyDirectionGenerator implements IDirectionGenerator {
         || (position.getX() == rightLimit && direction == Direction.RIGHT);
   }
 
-  private void getLimitOfTheMap() {
+  private void setLimitWhereGhostCanGoOnTheMap() {
     List<Position> validPosition = new ArrayList<>();
     List<List<Integer>> map = level.getMap();
     for (int i = 0; i < map.size(); i++) {

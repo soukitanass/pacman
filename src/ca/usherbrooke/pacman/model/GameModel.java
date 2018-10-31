@@ -78,8 +78,6 @@ public class GameModel implements IGameModel {
   Random randomNumberGenerator = new Random(RANDOM_GENERATOR_SEED);
   IDirectionGenerator randomDirectionGenerator =
       new RandomDirectionGenerator(randomNumberGenerator);
-  IDirectionGenerator blinkyDirectionGenerator;
-  IDirectionGenerator pinkyDirectionGenerator;
   private List<PeriodicGhostDirectionManager> ghostDirectionManagers = new ArrayList<>();
   private int isLevelCompletedUpdatesCounter = 0;
   private Queue<Level> moveQueue = new ConcurrentLinkedQueue<>(); // Thread Safe
@@ -351,14 +349,12 @@ public class GameModel implements IGameModel {
   private void initializeGhostsDirectionManagers() {
     try {
       TimeGetter timeGetter = new TimeGetter();
-      blinkyDirectionGenerator = new BlinkyDirectionGenerator(randomDirectionGenerator,
-          level.getGhostByName(GhostName.BLINKY), level);
+      IDirectionGenerator blinkyDirectionGenerator = new BlinkyDirectionGenerator(
+          randomDirectionGenerator, level.getGhostByName(GhostName.BLINKY), level);
       InkyDirectionGenerator inkyDirectionGenerator = new InkyDirectionGenerator(
           randomDirectionGenerator, level.getGhostByName(GhostName.INKY), level, timeGetter);
-      blinkyDirectionGenerator = new BlinkyDirectionGenerator(randomDirectionGenerator,
-          level.getGhostByName(GhostName.BLINKY), level);
-      pinkyDirectionGenerator = new PinkyDirectionGenerator(randomDirectionGenerator,
-          level.getGhostByName(GhostName.PINKY), level);
+      IDirectionGenerator pinkyDirectionGenerator = new PinkyDirectionGenerator(
+          randomDirectionGenerator, level.getGhostByName(GhostName.PINKY), level);
 
       ghostDirectionManagers.add(new PeriodicGhostDirectionManager(this, blinkyDirectionGenerator,
           level.getGhostByName(GhostName.BLINKY), GHOSTS_DIRECTION_CHANGE_PERIOD));
