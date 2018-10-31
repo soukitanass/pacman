@@ -68,8 +68,14 @@ public class PhysicsThread extends Thread {
             validPacgumConsumedEvent(level);
             validSuperPacgumConsumedEvent(level);
             validPacmanGhostsCollisionEvent(level);
-            validPacmanMovement(level);
-            validGhostMovement(level);
+
+            if (model.getCurrentGameFrame() % 2 == 0) {
+              validPacmanMovement(level);
+              validGhostMovement(level);
+            } else if (model.getPacman().isInvincible()) {
+              validPacmanMovement(level);
+            }
+
           }
           moveQueue.wait(WAIT_TIME);
         }
