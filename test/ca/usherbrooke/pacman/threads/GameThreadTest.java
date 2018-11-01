@@ -24,14 +24,14 @@ public class GameThreadTest {
   private GameThread gameThread;
   private IGameModel mockModel;
   private IGameController mockController;
-  private Thread mockViewThread;
+  private RenderThread mockViewThread;
   private IGameView mockView;
 
   @Before
   public void setUp() throws Exception {
     AudioThread mockAudioThread = mock(AudioThread.class);
     mockView = mock(IGameView.class);
-    mockViewThread = mock(Thread.class);
+    mockViewThread = mock(RenderThread.class);
 
     mockController = mock(PlayerKeyboardController.class);
     mockModel = mock(IGameModel.class);
@@ -87,7 +87,7 @@ public class GameThreadTest {
 
   @Test
   public void closeView() {
-    gameThread.stopViewThread();
+    gameThread.stopRenderThread();
     verify(mockView, times(1)).close();
   }
 

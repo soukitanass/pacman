@@ -15,7 +15,9 @@ public interface IGame {
 
   void setRunning(boolean isRunning);
 
-  void stopViewThread();
+  void stopRenderThread();
+
+  void stopAudioThread();
 
   void stopThread();
 }

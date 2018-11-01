@@ -21,12 +21,12 @@ import ca.usherbrooke.pacman.view.IGameView;
 import ca.usherbrooke.pacman.view.utilities.CloseObserver;
 import ca.usherbrooke.pacman.view.utilities.WarningDialog;
 
-public class RenderThread implements Runnable, CloseObserver {
+public class RenderThread extends Thread implements CloseObserver {
+  private static final String NAME = "Render_Thread";
   private static final int INITIAL_FPS = 30;
   private static final int NB_UPDATE_TIMES_TO_REMEMBER = 5;
-  private static final String NAME = "RenderThread";
 
-  private volatile boolean shouldRun = true;
+  private volatile boolean isRunning = true;
   private long lastUpdateTimeMilliseconds;
   private IGameView view;
   private ITimeGetter timeGetter;
@@ -36,17 +36,22 @@ public class RenderThread implements Runnable, CloseObserver {
   private int targetFps;
 
   public RenderThread(IGameView view, ITimeGetter timeGetter) {
+    this.setName(NAME);
     this.view = view;
     this.timeGetter = timeGetter;
     setTargetFps(INITIAL_FPS);
     lastUpdateTimeMilliseconds = timeGetter.getMilliseconds();
   }
 
+  public void stopThread() {
+    isRunning = false;
+  }
+
   @Override
   @SuppressWarnings("squid:S106")
   public void run() {
     System.out.println("START - " + this.getName());
-    while (shouldRun) {
+    while (isRunning) {
       runStep();
       sleepUntilNextUpdate();
     }
@@ -92,13 +97,9 @@ public class RenderThread implements Runnable, CloseObserver {
     }
   }
 
-  private String getName() {
-    return NAME;
-  }
-
   @Override
   public synchronized void onClosingView() {
-    shouldRun = false;
+    stopThread();
   }
 
   public synchronized int getFps() {
@@ -117,7 +118,7 @@ public class RenderThread implements Runnable, CloseObserver {
     this.isFpsEnabled.set(isFpsEnabled);
   }
 
-  public int getTargetFps() {
+  public synchronized int getTargetFps() {
     return targetFps;
   }
 

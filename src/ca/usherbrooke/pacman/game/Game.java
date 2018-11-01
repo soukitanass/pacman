@@ -26,7 +26,6 @@ import ca.usherbrooke.pacman.view.panel.FpsOptionListener;
 import ca.usherbrooke.pacman.view.utilities.WarningDialog;
 
 public class Game {
-
   private static final String LEVEL_PATH = "Level.json";
   private static final int GHOST_SPRITE_TOGGLE_PERIOD = 10;
   private static final int PACMAN_SPRITE_TOGGLE_PERIOD = 2;
@@ -53,19 +52,16 @@ public class Game {
     view = new GameView(model, GHOST_SPRITE_TOGGLE_PERIOD, PACMAN_SPRITE_TOGGLE_PERIOD, audioThread,
         fpsOptionListener);
     renderThread = new RenderThread(view, timeGetter);
-    final Thread viewThread = new Thread(renderThread);
+    gameThread = new GameThread(model, renderThread, audioThread, view, controllers);
 
     controllers.add(playerKeyboardController);
-
     view.addKeyListener(audioThread.getSoundController());
-    view.addCloseObserver(audioThread);
-    view.addCloseObserver(renderThread);
     view.addKeyListener(playerKeyboardController);
-
     fpsOptionListener.setRenderThread(renderThread);
 
-    gameThread = new GameThread(model, viewThread, audioThread, view, controllers);
-    gameThread.setName("Game thread");
+    view.addCloseObserver(renderThread);
+    view.addCloseObserver(audioThread);
+    view.addCloseObserver(gameThread);
   }
 
   public void start() {

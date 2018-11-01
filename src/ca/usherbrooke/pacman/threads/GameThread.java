@@ -9,36 +9,37 @@ import ca.usherbrooke.pacman.view.utilities.CloseObserver;
 import ca.usherbrooke.pacman.view.utilities.WarningDialog;
 
 public class GameThread extends Thread implements IGame, CloseObserver {
-
+  private static final String NAME = "Game_Thread";
   private static final int GAME_UPDATES_PER_SECOND = 7;
   private static final long SLEEP_TIME = (int) (1000.0 / GAME_UPDATES_PER_SECOND);
-  private static final long JOIN_TIME = 1500;
+  private static final long JOIN_TIME = 2500;
 
+  private AudioThread audioThread;
+  private RenderThread renderThread;
   private IGameModel model;
   private List<IGameController> controllers;
-  private AudioThread audioThread;
-  private Thread viewThread;
   private IGameView view;
 
-  public GameThread(IGameModel model, Thread viewThread, AudioThread audioThread, IGameView view,
-      List<IGameController> controllers) {
+  public GameThread(IGameModel model, RenderThread renderThread, AudioThread audioThread,
+      IGameView view, List<IGameController> controllers) {
+    this.setName(NAME);
     this.model = model;
-    this.viewThread = viewThread;
+    this.renderThread = renderThread;
     this.view = view;
     this.audioThread = audioThread;
     this.controllers = controllers;
 
     audioThread.start();
-    viewThread.start();
+    renderThread.start();
 
     this.model.startNewGame();
   }
 
   @Override
   public void run() {
+    setRunning(true);
     System.out.println("START - " + this.getName());
 
-    setRunning(true);
     while (isRunning()) {
       update();
       try {
@@ -48,8 +49,8 @@ public class GameThread extends Thread implements IGame, CloseObserver {
         WarningDialog.display("Interrupt error in" + this.getName(), exception);
       }
     }
-    stopViewThread();
-    audioThread.stopThread();
+    stopRenderThread();
+    stopAudioThread();
 
     System.out.println("STOP - " + this.getName());
   }
@@ -59,7 +60,7 @@ public class GameThread extends Thread implements IGame, CloseObserver {
     for (IGameController controller : controllers) {
       controller.update();
     }
-    this.model.update();
+    model.update();
   }
 
   @Override
@@ -73,19 +74,45 @@ public class GameThread extends Thread implements IGame, CloseObserver {
   }
 
   @Override
-  public synchronized void stopViewThread() {
+  public synchronized void stopRenderThread() {
+    if (renderThread == null) {
+      return;
+    }
+
     view.close();
     try {
-      viewThread.join(JOIN_TIME);
+      renderThread.stopThread();
+      renderThread.join(JOIN_TIME);
+      if (renderThread.isAlive()) {
+        throw new InterruptedException();
+      }
     } catch (InterruptedException exception) {
-      viewThread.interrupt();
-      WarningDialog.display("Interrupt error in view thread", exception);
+      renderThread.interrupt();
+      WarningDialog.display("Error stoping renderThread. ", exception);
     }
   }
 
   @Override
-  public void onClosingView() {
-    setRunning(false);
+  public synchronized void stopAudioThread() {
+    if (audioThread == null) {
+      return;
+    }
+
+    try {
+      audioThread.stopThread();
+      audioThread.join(JOIN_TIME);
+      if (audioThread.isAlive()) {
+        throw new InterruptedException();
+      }
+    } catch (InterruptedException exception) {
+      audioThread.interrupt();
+      WarningDialog.display("Error stoping audioThread. ", exception);
+    }
+  }
+
+  @Override
+  public synchronized void onClosingView() {
+    stopThread();
   }
 
   @Override

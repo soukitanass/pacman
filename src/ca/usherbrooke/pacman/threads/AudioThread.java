@@ -102,7 +102,6 @@ public class AudioThread extends Thread implements CloseObserver {
       this.musicVolume = musicVolume;
       isMusicVolumeChanged.set(true);
     }
-
   }
 
   public synchronized int getMusicVolume() {
@@ -150,7 +149,8 @@ public class AudioThread extends Thread implements CloseObserver {
     stopThread();
   }
 
-  public synchronized void stopThread() {
+  public void stopThread() {
     isRunning = false;
   }
+
 }
