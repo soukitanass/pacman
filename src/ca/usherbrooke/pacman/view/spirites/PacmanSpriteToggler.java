@@ -69,6 +69,7 @@ public class PacmanSpriteToggler {
         currentPacmanState = PacManState.STATE16;
         break;
       case STATE16:
+        currentPacmanState = PacManState.STATE1;
         model.setIsPacmanDead(false);
         break;
       default:

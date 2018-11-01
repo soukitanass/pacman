@@ -11,7 +11,7 @@ public class AlphabetUtilities {
   }
 
   public static int findIndexInAlphabet(final char letter) {
-    final int asciiValue = (int) letter;
+    final int asciiValue = letter;
     return asciiValue - ASCII_LOWER_CASE_LETTERS_INDEX;
   }
 
