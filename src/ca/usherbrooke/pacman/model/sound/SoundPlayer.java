@@ -93,6 +93,7 @@ public class SoundPlayer implements ISoundPlayer, LineListener {
     }
   }
 
+  @Override
   public void update(LineEvent event) {
     if (event.getType().equals(LineEvent.Type.STOP)) {
       isPlaying = false;

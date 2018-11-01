@@ -69,7 +69,7 @@ public class RenderThread implements Runnable, CloseObserver {
   private boolean isTimeToUpdate(long currentTimeMilliseconds) {
     ;
     return currentTimeMilliseconds >= lastUpdateTimeMilliseconds
-        + (long) getTargetUpdatePeriodMilliseconds();
+        + getTargetUpdatePeriodMilliseconds();
   }
 
   private int getTargetUpdatePeriodMilliseconds() {
