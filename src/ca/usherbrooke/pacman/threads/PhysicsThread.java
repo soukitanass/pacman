@@ -113,7 +113,10 @@ public class PhysicsThread extends Thread {
       return;
     }
     PacMan pacman = level.getPacMan();
-    IGameObject killedObject = pacman.isInvincible() ? collidingGhost : pacman;
+    final boolean isGhostKilled =
+        pacman.isInvincible() || level.isSuperPacgum(pacman.getPosition());
+    IGameObject killedObject = isGhostKilled ? collidingGhost : pacman;
+
     addEventToQueue(killedObject, GameEvent.PACMAN_GHOST_COLLISON, pacman.getPosition());
   }
 
