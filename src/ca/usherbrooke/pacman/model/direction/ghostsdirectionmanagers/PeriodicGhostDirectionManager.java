@@ -28,15 +28,17 @@ public class PeriodicGhostDirectionManager {
   private IGameObject ghost;
   private IGameModel gameModel;
   private int updatesCounter;
+  private IDirectionGenerator backupDirectionGenerator;
 
   public PeriodicGhostDirectionManager(IGameModel gameModel, IDirectionGenerator directionGenerator,
-      IGameObject gameObject, int period) {
+      IGameObject gameObject, int period, IDirectionGenerator backupDirectionGenerator) {
     Level level = gameModel.getCurrentLevel();
     moveValidator = new GhostMoveValidator(level, level.getPacMan());
     this.directionGenerator = directionGenerator;
     this.gameModel = gameModel;
     this.ghost = gameObject;
     this.period = period;
+    this.backupDirectionGenerator = backupDirectionGenerator;
   }
 
   public void update() {
@@ -54,13 +56,24 @@ public class PeriodicGhostDirectionManager {
         newGhostDirection = directionGenerator.get();
       }
     }
-    if (newGhostDirection != null) {
-      gameModel.setDirection(ghost, newGhostDirection);
-    }
+    newGhostDirection = getOverrideDirectionToNeverBeInvalid(newGhostDirection);
+    gameModel.setDirection(ghost, newGhostDirection);
   }
 
-  private Direction getOverrideDirectionToNeverBeInvalid(Direction newGhostDirection) {
-    return null;
+  private Direction getOverrideDirectionToNeverBeInvalid(Direction desiredDirection) {
+    final Position ghostPosition = ghost.getPosition();
+    if (desiredDirection != null && isDirectionValid(ghostPosition, desiredDirection)) {
+      return desiredDirection;
+    }
+    if (isDirectionValid(ghostPosition, ghost.getDesiredDirection())) {
+      return ghost.getDesiredDirection();
+    }
+    while (true) {
+      Direction backupDirection = backupDirectionGenerator.get();
+      if (isDirectionValid(ghostPosition, backupDirection)) {
+        return backupDirection;
+      }
+    }
   }
 
   // Return direction for escaping pacman or null if the ghost is not escaping.
