@@ -68,15 +68,15 @@ public class CollisionMocktest {
     assertTrue(model.getScore() > 200);
   }
 
-  @Test
+  @Test(timeout = 30000)
   public void simultaneousCollisionWithSuperPacGumAndGhost()
       throws AWTException, InterruptedException {
     setUp("CollisionMockTestSimultaneousCollision.json");
     assertEquals(3, model.getLives());
-    while (model.getPacman().getGhostKillsSinceInvincible() == 0) {
+    while (model.getPacman().getPosition().getX() != 8) {
+      assertFalse(model.isPacmanDead());
       Thread.sleep(50);
     }
-    assertFalse(model.isPacmanDead());
     assertEquals(3, model.getLives());
     assertTrue(model.getScore() > 200);
   }
