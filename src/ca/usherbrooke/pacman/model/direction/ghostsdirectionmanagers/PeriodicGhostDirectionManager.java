@@ -86,9 +86,7 @@ public class PeriodicGhostDirectionManager {
     }
     final Position pacmanPosition = pacman.getPosition();
     final Position ghostPosition = ghost.getPosition();
-    final Direction escapeFromPacmanDirection =
-        level.getDirectionIfInLineOfSight(pacmanPosition, ghostPosition);
-    return escapeFromPacmanDirection;
+    return level.getDirectionIfInLineOfSight(pacmanPosition, ghostPosition);
   }
 
   private Direction getOverridenDirectionToExitGhostRoom() {
@@ -96,13 +94,16 @@ public class PeriodicGhostDirectionManager {
     if (level.isGhostRoom(ghost.getPosition())) {
       final Position ghostPosition = ghost.getPosition();
       if (isUpPositionValid(ghostPosition)) {
-        return lastDirection = Direction.UP;
+        lastDirection = Direction.UP;
+        return lastDirection;
       } else if (isDirectionValid(ghostPosition, lastDirection)) {
         return lastDirection;
       } else if (isLeftPositionValid(ghostPosition)) {
-        return lastDirection = Direction.LEFT;
+        lastDirection = Direction.LEFT;
+        return lastDirection;
       } else if (isRightPositionValid(ghostPosition)) {
-        return lastDirection = Direction.RIGHT;
+        lastDirection = Direction.RIGHT;
+        return lastDirection;
       } else {
         return directionGenerator.get();
       }

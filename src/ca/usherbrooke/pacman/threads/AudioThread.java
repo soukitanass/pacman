@@ -146,11 +146,11 @@ public class AudioThread extends Thread implements CloseObserver {
   }
 
   @Override
-  public synchronized void onClosingView() {
+  public void onClosingView() {
     stopThread();
   }
 
-  public synchronized void stopThread() {
+  public void stopThread() {
     isRunning = false;
   }
 }

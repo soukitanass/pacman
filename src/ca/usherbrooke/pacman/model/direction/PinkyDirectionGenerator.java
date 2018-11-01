@@ -79,9 +79,11 @@ public class PinkyDirectionGenerator implements IDirectionGenerator {
       if (lastDirection != null && isDirectionValid(ghostPosition, lastDirection)) {
         return lastDirection;
       } else if (isDownPositionValid(ghostPosition)) {
-        return lastDirection = Direction.DOWN;
+        lastDirection = Direction.DOWN;
+        return lastDirection;
       } else if (isUpPositionValid(ghostPosition)) {
-        return lastDirection = Direction.UP;
+        lastDirection = Direction.UP;
+        return lastDirection;
       }
     }
 
@@ -90,9 +92,11 @@ public class PinkyDirectionGenerator implements IDirectionGenerator {
       if (lastDirection != null && isDirectionValid(ghostPosition, lastDirection)) {
         return lastDirection;
       } else if (isRightPositionValid(ghostPosition)) {
-        return lastDirection = Direction.RIGHT;
+        lastDirection = Direction.RIGHT;
+        return lastDirection;
       } else if (isLeftPositionValid(ghostPosition)) {
-        return lastDirection = Direction.LEFT;
+        lastDirection = Direction.LEFT;
+        return lastDirection;
       }
     }
 

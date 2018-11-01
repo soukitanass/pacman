@@ -49,7 +49,7 @@ public class PhysicsThread extends Thread {
     this.model = model;
   }
 
-  public synchronized void stopThread() {
+  public void stopThread() {
     isRunning = false;
   }
 

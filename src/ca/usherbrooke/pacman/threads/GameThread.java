@@ -35,6 +35,7 @@ public class GameThread extends Thread implements IGame, CloseObserver {
   }
 
   @Override
+  @SuppressWarnings("squid:S106")
   public void run() {
     System.out.println("START - " + this.getName());
 

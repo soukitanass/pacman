@@ -67,7 +67,6 @@ public class RenderThread implements Runnable, CloseObserver {
   }
 
   private boolean isTimeToUpdate(long currentTimeMilliseconds) {
-    ;
     return currentTimeMilliseconds >= lastUpdateTimeMilliseconds
         + getTargetUpdatePeriodMilliseconds();
   }
@@ -117,7 +116,7 @@ public class RenderThread implements Runnable, CloseObserver {
     this.isFpsEnabled.set(isFpsEnabled);
   }
 
-  public int getTargetFps() {
+  public synchronized int getTargetFps() {
     return targetFps;
   }
 

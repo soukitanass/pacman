@@ -15,7 +15,7 @@ import javax.swing.JSlider;
 import ca.usherbrooke.pacman.model.IGameModel;
 import ca.usherbrooke.pacman.threads.AudioThread;
 
-@SuppressWarnings("serial")
+@SuppressWarnings({"serial", "squid:S1948"})
 public class AudioMenuPanel extends AbstractMenuPanel {
 
   private static final double Y_OFFSET_FACTOR = 0.1;
