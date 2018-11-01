@@ -333,10 +333,10 @@ public class GameModel implements IGameModel {
 
   @Override
   public void initializeLevel() {
-    final boolean isLevelCompleted = getCurrentLevel().isCompleted();
+    final boolean isCurrentLevelCompleted = getCurrentLevel().isCompleted();
     List<List<Integer>> levelMapBeforeInitializing = getCurrentLevel().getMap();
     setCurrentLevel(new Level(getInitialLevel()));
-    if (!isLevelCompleted && !isGameOver()) {
+    if (!isCurrentLevelCompleted && !isGameOver()) {
       getCurrentLevel().setMap(levelMapBeforeInitializing);
     }
     pacman = level.getPacMan();

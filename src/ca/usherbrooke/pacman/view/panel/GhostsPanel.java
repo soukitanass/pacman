@@ -10,8 +10,7 @@ package ca.usherbrooke.pacman.view.panel;
 
 import java.awt.Graphics;
 import java.awt.Image;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.EnumMap;
 import javax.swing.JPanel;
 import ca.usherbrooke.pacman.model.IGameModel;
 import ca.usherbrooke.pacman.model.direction.Direction;
@@ -36,7 +35,7 @@ public class GhostsPanel extends JPanel {
   private int offsetY = 0;
   private GhostSpriteToggler ghostSpritePeriodicToggler;
 
-  private Map<GhostName, Color> ghostNameToColor = new HashMap<>();
+  private EnumMap<GhostName, Color> ghostNameToColor = new EnumMap<>(GhostName.class);
 
 
   public GhostsPanel(IGameModel model, int spriteTogglePeriod) {

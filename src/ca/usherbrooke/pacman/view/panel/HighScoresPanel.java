@@ -8,7 +8,7 @@ import javax.swing.JLabel;
 import ca.usherbrooke.pacman.model.IGameModel;
 import ca.usherbrooke.pacman.model.highscores.HighScore;
 
-@SuppressWarnings("serial")
+@SuppressWarnings({"serial", "squid:S1948"})
 public class HighScoresPanel extends AbstractMenuPanel {
 
   private static final double NUMBER_OF_HIGHSCORES = 5;

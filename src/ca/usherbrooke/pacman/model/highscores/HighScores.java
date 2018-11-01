@@ -83,7 +83,9 @@ public class HighScores {
     File file = new File(GameModel.class.getClassLoader().getResource(highScoresPath).getFile());
     if (!file.exists()) {
       try {
-        file.createNewFile();
+        if (!file.createNewFile()) {
+          throw new IOException();
+        }
       } catch (IOException exception) {
         WarningDialog.display("Error while creating highScores file. ", exception);
       }
