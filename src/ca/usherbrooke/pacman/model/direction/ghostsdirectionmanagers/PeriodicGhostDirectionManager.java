@@ -40,32 +40,27 @@ public class PeriodicGhostDirectionManager {
   }
 
   public void update() {
-
-    final Direction escapeFromPacmanDirection = getOverridenDirectionToEscapeInvinciblePacman();
-    if (escapeFromPacmanDirection != null) {
-      gameModel.setDirection(ghost, escapeFromPacmanDirection);
-      return;
+    Direction newGhostDirection = getOverridenDirectionToExitGhostRoom();
+    if (newGhostDirection == null) {
+      newGhostDirection = getOverridenDirectionToEscapeInvinciblePacman();
     }
-
-    final Direction exitGhostRoomDirection = getOverridenDirectionToExitGhostRoom();
-    if (exitGhostRoomDirection != null) {
-      gameModel.setDirection(ghost, exitGhostRoomDirection);
-      return;
+    if (newGhostDirection == null) {
+      newGhostDirection = directionGenerator.getOverridenDirection();
     }
-
-    final Direction overridenDirection = directionGenerator.getOverridenDirection();
-    if (overridenDirection != null) {
-      gameModel.setDirection(ghost, overridenDirection);
-      return;
-    }
-
     ++updatesCounter;
-    if (period != updatesCounter) {
-      return;
+    if (period == updatesCounter) {
+      updatesCounter = 0;
+      if (newGhostDirection == null) {
+        newGhostDirection = directionGenerator.get();
+      }
     }
-    updatesCounter = 0;
+    if (newGhostDirection != null) {
+      gameModel.setDirection(ghost, newGhostDirection);
+    }
+  }
 
-    gameModel.setDirection(ghost, directionGenerator.get());
+  private Direction getOverrideDirectionToNeverBeInvalid(Direction newGhostDirection) {
+    return null;
   }
 
   // Return direction for escaping pacman or null if the ghost is not escaping.
