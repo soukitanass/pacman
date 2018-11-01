@@ -351,4 +351,27 @@ public class MockLevelFactory {
     when(mockLevel.isGhostGate(new Position(2, 2))).thenReturn(true);
     return mockLevel;
   }
+
+  // E = Empty
+  // W = Wall
+  //
+  // W | W | W | W
+  // -------------
+  // W | E | E | W
+  // -------------
+  // W | E | E | W
+  // -------------
+  // W | W | W | W
+  public static Level getMockLevelFourByFourEmptySurroundedByWalls() {
+    List<List<Integer>> map =
+        Arrays.asList(Arrays.asList(WALL_CODE, WALL_CODE, WALL_CODE, WALL_CODE),
+            Arrays.asList(WALL_CODE, EMPTY_CODE, EMPTY_CODE, WALL_CODE),
+            Arrays.asList(WALL_CODE, EMPTY_CODE, EMPTY_CODE, WALL_CODE),
+            Arrays.asList(WALL_CODE, WALL_CODE, WALL_CODE, WALL_CODE));
+    Level level = new Level();
+    level.setWidth(4);
+    level.setHeight(4);
+    level.setMap(map);
+    return level;
+  }
 }

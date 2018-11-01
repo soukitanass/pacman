@@ -356,13 +356,17 @@ public class GameModel implements IGameModel {
           randomDirectionGenerator, level.getGhostByName(GhostName.PINKY), level);
 
       ghostDirectionManagers.add(new PeriodicGhostDirectionManager(this, blinkyDirectionGenerator,
-          level.getGhostByName(GhostName.BLINKY), GHOSTS_DIRECTION_CHANGE_PERIOD));
+          level.getGhostByName(GhostName.BLINKY), GHOSTS_DIRECTION_CHANGE_PERIOD,
+          randomDirectionGenerator));
       ghostDirectionManagers.add(new PeriodicGhostDirectionManager(this, inkyDirectionGenerator,
-          level.getGhostByName(GhostName.INKY), GHOSTS_DIRECTION_CHANGE_PERIOD));
+          level.getGhostByName(GhostName.INKY), GHOSTS_DIRECTION_CHANGE_PERIOD,
+          randomDirectionGenerator));
       ghostDirectionManagers.add(new PeriodicGhostDirectionManager(this, pinkyDirectionGenerator,
-          level.getGhostByName(GhostName.PINKY), GHOSTS_DIRECTION_CHANGE_PERIOD));
+          level.getGhostByName(GhostName.PINKY), GHOSTS_DIRECTION_CHANGE_PERIOD,
+          randomDirectionGenerator));
       ghostDirectionManagers.add(new PeriodicGhostDirectionManager(this, randomDirectionGenerator,
-          level.getGhostByName(GhostName.CLYDE), GHOSTS_DIRECTION_CHANGE_PERIOD));
+          level.getGhostByName(GhostName.CLYDE), GHOSTS_DIRECTION_CHANGE_PERIOD,
+          randomDirectionGenerator));
     } catch (Exception exception) {
       WarningDialog.display("Error getting a ghost. ", exception);
     }
