@@ -31,6 +31,7 @@ public class SoundPlayer implements ISoundPlayer, LineListener {
       clip = AudioSystem.getClip();
     } catch (LineUnavailableException ignored) {
       clip = null;
+      return;
     }
 
     try {

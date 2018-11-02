@@ -186,7 +186,7 @@ public class Level {
       return null;
     }
     final boolean isWallInbetween =
-        positionsInbetween.stream().anyMatch(position -> isWall(position));
+        positionsInbetween.stream().anyMatch(this::isWall);
     if (isWallInbetween && !canSeeThroughtWall) {
       return null;
     }
@@ -205,6 +205,7 @@ public class Level {
     return null;
   }
 
+  @SuppressWarnings("squid:S1168")
   public static Set<Position> getPositionsInbetween(final Position positionA,
       final Position positionB) {
     Set<Position> positions = new HashSet<>();
