@@ -172,7 +172,6 @@ public class Level {
     return getDirectionIfInLineOfSight(fromPosition, toPosition, false);
   }
 
-  @SuppressWarnings("squid:S1612")
   public Direction getDirectionIfInLineOfSight(final Position fromPosition,
       final Position toPosition, boolean canSeeThroughtWall) {
     final boolean isSameX = fromPosition.getX() == toPosition.getX();
@@ -187,7 +186,7 @@ public class Level {
       return null;
     }
     final boolean isWallInbetween =
-        positionsInbetween.stream().anyMatch(position -> isWall(position));
+        positionsInbetween.stream().anyMatch(this::isWall);
     if (isWallInbetween && !canSeeThroughtWall) {
       return null;
     }
