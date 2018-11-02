@@ -172,6 +172,7 @@ public class Level {
     return getDirectionIfInLineOfSight(fromPosition, toPosition, false);
   }
 
+  @SuppressWarnings("squid:S1612")
   public Direction getDirectionIfInLineOfSight(final Position fromPosition,
       final Position toPosition, boolean canSeeThroughtWall) {
     final boolean isSameX = fromPosition.getX() == toPosition.getX();
@@ -205,6 +206,7 @@ public class Level {
     return null;
   }
 
+  @SuppressWarnings("squid:S1168")
   public static Set<Position> getPositionsInbetween(final Position positionA,
       final Position positionB) {
     Set<Position> positions = new HashSet<>();

@@ -79,6 +79,12 @@ public class ImageUtilities {
       }
     }
     BufferedImage textImageNotScaled = ImageUtilities.joinImages(images);
+
+    if (textImageNotScaled == null) {
+      //Prevent to have a "NullPointerException"
+      textImageNotScaled = new BufferedImage(1, 1, BufferedImage.TYPE_INT_RGB);
+    }
+
     final int newWidth = (int) (scaleFactor * textImageNotScaled.getWidth());
     final int newHeight = (int) (scaleFactor * textImageNotScaled.getHeight());
     return ImageUtilities.resize(textImageNotScaled, newWidth, newHeight);
